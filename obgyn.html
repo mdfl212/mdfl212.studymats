@@ -9,7 +9,64 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="styles.css" />
+    <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* 🟣 LIGHT MODE PALETTE (Violet / Plum Aesthetic) */
+        :root {
+            --bg: #FAF8FC;
+            --bg2: #F3EEF8;
+            --bg3: #E6DAF0;
+            --bg4: #D8C4E6;
+            --border: rgba(128, 0, 128, 0.15);
+            --border2: rgba(128, 0, 128, 0.30);
+            --text: #4A3E56;
+            --text2: #6B4C82;
+            --text3: #9578A6;
+            --red: #7B1FA2;          /* Primary Violet Header/Badges */
+            --red2: #9C27B0;         /* Secondary Violet */
+            --gold: #008080;         /* Deep Teal accent */
+            --gold2: #00A6A6;        /* Bright Teal accent */
+            --gold-dim: rgba(0, 166, 166, 0.10);
+            --red-dim: rgba(123, 31, 162, 0.10);
+            --blue: #5B8FCF;
+            --blue-dim: rgba(91, 143, 207, 0.10);
+            --radius: 6px;
+            --radius-lg: 10px;
+            --pink-light: #E1BEE7;
+            --teal-light: #BFE7E5;
+        }
+
+        /* 🌙 SYSTEM DARK MODE OVERRIDE (Triggers automatically based on PC/Mobile dark mode) */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #120E16;       /* Deep dark violet background */
+                --bg2: #1D1624;      /* Card background */
+                --bg3: #2A1F35;      /* Elevated hover/element background */
+                --bg4: #3A2B4A;      /* Tab / Table header background */
+                --border: rgba(186, 133, 237, 0.20);
+                --border2: rgba(186, 133, 237, 0.40);
+                --text: #E6E1EC;     /* Light text for dark background */
+                --text2: #D1C4E9;
+                --text3: #B39DDB;
+                --red: #BA85ED;      /* Soft neon violet for headers in dark mode */
+                --red2: #CE93D8;
+                --gold: #00B8B8;     /* Cyan/Teal contrast */
+                --gold2: #4DD0E1;
+                --gold-dim: rgba(0, 184, 184, 0.15);
+                --red-dim: rgba(186, 133, 237, 0.15);
+                --blue: #81D4FA;
+                --blue-dim: rgba(129, 212, 250, 0.15);
+            }
+
+            /* Adjust input fields and textboxes for dark mode readability */
+            select, input {
+                background-color: #2A1F35 !important;
+                color: #E6E1EC !important;
+                border-color: rgba(186, 133, 237, 0.4) !important;
+            }
+        }
+        </style>
 </head>
 <body>
     <div class="wrapper">
