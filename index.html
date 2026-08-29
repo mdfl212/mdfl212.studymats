@@ -7,105 +7,157 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* Light Mode Palette (Default: White & Gold) */
         :root {
-            --bg: #FFF9F7;
-            --bg2: #FDE9EE;
-            --bg3: #F7D5DE;
-            --border: rgba(217, 79, 112, 0.15);
-            --border2: rgba(217, 79, 112, 0.30);
-            --text: #5F5F5F;
-            --text2: #7A4A5A;
-            --text3: #B0808A;
-            --red: #D94F70;
-            --gold: #00A6A6;
-            --radius-lg: 12px;
+            --bg: #FFFFFF;
+            --bg-card: #FAF8F5;
+            --border: #E8E2D5;
+            --border-hover: #C5A059;
+            --text-main: #2C2C2C;
+            --text-sub: #666666;
+            --gold-primary: #B8860B;
+            --gold-accent: #D4AF37;
+            --gold-light: rgba(212, 175, 55, 0.12);
+            --radius: 12px;
         }
+
+        /* System Dark Mode Override */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #121212;
+                --bg-card: #1E1E1E;
+                --border: #333333;
+                --border-hover: #D4AF37;
+                --text-main: #F0F0F0;
+                --text-sub: #A0A0A0;
+                --gold-primary: #E5C158;
+                --gold-accent: #F3E5AB;
+                --gold-light: rgba(229, 193, 88, 0.15);
+            }
+        }
+
         body {
-            background: var(--bg);
-            color: var(--text);
+            background-color: var(--bg);
+            color: var(--text-main);
             font-family: 'Source Serif 4', Georgia, serif;
             min-height: 100vh;
             padding: 0 24px 60px;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
-        .wrapper { max-width: 900px; margin: 0 auto; }
+
+        .wrapper { 
+            max-width: 960px; 
+            margin: 0 auto; 
+        }
+
         .site-header {
-            border-bottom: 2px solid var(--border2);
+            border-bottom: 2px solid var(--border);
             padding: 48px 0 36px;
             margin-bottom: 40px;
             position: relative;
         }
+
         .site-header::after {
             content: '';
             position: absolute;
             bottom: -2px;
             left: 0;
-            width: 80px;
+            width: 90px;
             height: 3px;
-            background: var(--gold);
+            background: var(--gold-primary);
         }
+
         .header-eyebrow {
             font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: var(--gold);
+            color: var(--gold-primary);
             margin-bottom: 12px;
         }
+
         .header-title {
             font-family: 'Playfair Display', serif;
             font-size: clamp(28px, 4vw, 42px);
             font-weight: 700;
-            color: var(--text);
+            color: var(--text-main);
             margin-bottom: 10px;
         }
-        .header-title em { font-style: italic; color: var(--red); }
-        .header-sub { font-size: 14px; color: var(--text2); font-style: italic; }
-        
+
+        .header-title em { 
+            font-style: italic; 
+            color: var(--gold-primary); 
+        }
+
+        .header-sub { 
+            font-size: 14px; 
+            color: var(--text-sub); 
+            font-style: italic; 
+        }
+
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
         }
+
         .subject-card {
-            background: var(--bg2);
+            background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
+            border-radius: var(--radius);
             padding: 24px;
             text-decoration: none;
             color: inherit;
-            transition: all 0.2s ease;
+            transition: all 0.25s ease;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
+
         .subject-card:hover {
-            border-color: var(--gold);
+            border-color: var(--border-hover);
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
         }
-        .card-icon { font-size: 28px; margin-bottom: 12px; }
+
+        .card-icon { 
+            font-size: 28px; 
+            margin-bottom: 12px; 
+        }
+
         .card-title {
             font-family: 'Playfair Display', serif;
             font-size: 20px;
             font-weight: 600;
-            color: var(--red);
+            color: var(--gold-primary);
             margin-bottom: 6px;
         }
-        .card-desc { font-size: 13px; color: var(--text2); line-height: 1.5; margin-bottom: 16px; }
+
+        .card-desc { 
+            font-size: 13.5px; 
+            color: var(--text-sub); 
+            line-height: 1.5; 
+            margin-bottom: 20px; 
+        }
+
         .card-meta {
             font-family: 'JetBrains Mono', monospace;
             font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            color: var(--gold);
+            color: var(--gold-primary);
+            background: var(--gold-light);
+            padding: 6px 12px;
+            border-radius: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .disabled {
-            opacity: 0.5;
-            pointer-events: none;
-            filter: grayscale(1);
+
+        .badge-pending {
+            color: var(--text-sub);
+            background: rgba(128, 128, 128, 0.15);
         }
     </style>
 </head>
@@ -114,14 +166,14 @@
         <header class="site-header">
             <div class="header-eyebrow">🇵🇭 Physician Licensure Examination</div>
             <h1 class="header-title">Study Materials <em>Hub</em></h1>
-            <p class="header-sub">Select a subject below to begin interactive practice questions and rationales.</p>
+            <p class="header-sub">Select a subject below to begin interactive question banks and rationales.</p>
         </header>
 
         <div class="grid">
-            <!-- OB-GYN Card -->
+            <!-- OB-GYN Card (Links to OB section) -->
             <a href="obgyn.html" class="subject-card">
                 <div>
-                    <div class="card-icon">💗</div>
+                    <div class="card-icon">🪻</div>
                     <div class="card-title">Obstetrics &amp; Gynecology</div>
                     <div class="card-desc">Pregnancy, Labor, Contraception, Gynecologic Oncology, and Reproductive Endocrinology.</div>
                 </div>
@@ -132,40 +184,40 @@
             </a>
 
             <!-- Pediatrics Card -->
-            <a href="pediatrics.html" class="subject-card">
+            <a href="pedia.html" class="subject-card">
                 <div>
                     <div class="card-icon">👶</div>
                     <div class="card-title">Pediatrics</div>
                     <div class="card-desc">Growth &amp; Development, Neonatology, Pediatric Infections, and Congenital Disorders.</div>
                 </div>
                 <div class="card-meta">
-                    <span>Questions Bank</span>
+                    <span>Questionnaire</span>
                     <span>Start →</span>
                 </div>
             </a>
 
-            <!-- Surgery Card -->
-            <a href="surgery.html" class="subject-card">
+            <!-- Pathology Card -->
+            <a href="patho.html" class="subject-card">
                 <div>
-                    <div class="card-icon">🩺</div>
-                    <div class="card-title">Surgery</div>
-                    <div class="card-desc">General Surgery, Trauma, Acute Abdomen, Pre- &amp; Post-op Care, and Surgical Specialties.</div>
+                    <div class="card-icon">🔬</div>
+                    <div class="card-title">Pathology</div>
+                    <div class="card-desc">General Pathology, Cellular Adaptation, Inflammation, Neoplasia, and Systemic Path.</div>
                 </div>
                 <div class="card-meta">
-                    <span>Questions Bank</span>
+                    <span>Questionnaire</span>
                     <span>Start →</span>
                 </div>
             </a>
 
-            <!-- Internal Medicine Card -->
-            <a href="im.html" class="subject-card">
+            <!-- Pharmacology Card -->
+            <a href="pharmaco.html" class="subject-card">
                 <div>
-                    <div class="card-icon">🫀</div>
-                    <div class="card-title">Internal Medicine</div>
-                    <div class="card-desc">Cardiology, Pulmonology, Nephrology, Gastroenterology, and Endocrinology.</div>
+                    <div class="card-icon">💊</div>
+                    <div class="card-title">Pharmacology</div>
+                    <div class="card-desc">Pharmacokinetics, Autonomic Drugs, Antimicrobials, Toxicology, and Chemotherapeutics.</div>
                 </div>
                 <div class="card-meta">
-                    <span>Questions Bank</span>
+                    <span>Questionnaire</span>
                     <span>Start →</span>
                 </div>
             </a>
