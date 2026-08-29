@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OB-GYN PLE Reviewer 2023 + 2019</title>
+    
+    <!-- External Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div class="wrapper">
+        <header class="site-header">
+            <div class="header-eyebrow">💗 OB-GYN PLE 2023 + 2019 · 192 Items</div>
+            <h1 class="header-title"><em>Obstetrics &amp; Gynecology</em><br />PLE Reviewer</h1>
+            <p class="header-sub">Pregnancy · Labor · Contraception · Infections · Oncology · Menopause &amp; More</p>
+        </header>
+
+        <div class="stats-bar">
+            <div class="stat-card"><span class="stat-val" id="sTotal">192</span><span class="stat-label">Questions</span></div>
+            <div class="stat-card"><span class="stat-val" id="sAnswered">0</span><span class="stat-label">Answered</span></div>
+            <div class="stat-card"><span class="stat-val" id="sCorrect">0</span><span class="stat-label">Correct</span></div>
+            <div class="stat-card"><span class="stat-val" id="sPct">—</span><span class="stat-label">Score %</span></div>
+        </div>
+
+        <div class="progress-wrap">
+            <div class="progress-meta"><span id="progLabel">0 / 192 answered</span><span id="progPct">0%</span></div>
+            <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+        </div>
+
+        <div class="mode-tabs">
+            <button class="tab active" onclick="setMode('exam')">📝 Exam Mode</button>
+            <button class="tab" onclick="setMode('review')">🔍 Review Mode</button>
+            <button class="tab" onclick="setMode('key')">🗝 Answer Key</button>
+        </div>
+
+        <div class="controls">
+            <label>Section</label>
+            <select id="themeFilter" onchange="applyFilter()">
+                <option value="all">All Sections</option>
+                <option value="1">Obstetrics</option>
+                <option value="2">Gynecology</option>
+            </select>
+
+            <label>Type</label>
+            <select id="typeFilter" onchange="applyFilter()">
+                <option value="all">All Types</option>
+                <option value="clinical">Clinical Only</option>
+                <option value="conceptual">Conceptual Only</option>
+            </select>
+
+            <label>Tag</label>
+            <select id="tagFilter" onchange="applyFilter()">
+                <option value="all">All Tags</option>
+                <option value="Preeclampsia">Preeclampsia</option>
+                <option value="Eclampsia">Eclampsia</option>
+                <option value="Contraception">Contraception</option>
+                <option value="Endometriosis">Endometriosis</option>
+                <option value="Osteoporosis">Osteoporosis</option>
+                <option value="Placenta Previa">Placenta Previa</option>
+                <option value="Abruption">Abruption</option>
+                <option value="DVT">DVT</option>
+                <option value="Diabetes">Diabetes</option>
+                <option value="GDM">GDM</option>
+                <option value="Thyroid">Thyroid</option>
+                <option value="Infertility">Infertility</option>
+                <option value="Menopause">Menopause</option>
+                <option value="Ovarian Cancer">Ovarian Cancer</option>
+                <option value="Endometrial Cancer">Endometrial Cancer</option>
+                <option value="Cervical Cancer">Cervical Cancer</option>
+                <option value="Vulvar">Vulvar</option>
+                <option value="STI">STI</option>
+                <option value="UTI">UTI</option>
+                <option value="Abortion">Abortion</option>
+                <option value="Ectopic">Ectopic</option>
+                <option value="Labor">Labor</option>
+                <option value="Postpartum">Postpartum</option>
+                <option value="Fetal">Fetal</option>
+                <option value="Genetics">Genetics</option>
+                <option value="PCOD">PCOD</option>
+                <option value="Cushing">Cushing</option>
+                <option value="PCOS">PCOS</option>
+            </select>
+
+            <label>Per Page</label>
+            <select id="perPageSel" onchange="changePerPage()">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">All</option>
+            </select>
+
+            <button class="btn primary" onclick="openScore()">Score Me</button>
+            <button class="btn danger" onclick="resetAll()">Reset</button>
+            <button class="btn table-toggle" id="tableToggleBtn" onclick="toggleTableView()">📊 Table</button>
+        </div>
+
+        <div class="table-view-wrap" id="tableViewWrap">
+            <div class="table-controls">
+                <label>🔍 Filter</label>
+                <input type="text" id="tableSearch" placeholder="Search stem or rationale..." oninput="renderTable()" />
+                <span class="table-count" id="tableCount"></span>
+            </div>
+            <div style="overflow-x:auto;max-height:600px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-lg);">
+                <table class="rationale-table" id="rationaleTable">
+                    <thead>
+                        <tr>
+                            <th style="min-width:48px;">#</th>
+                            <th style="min-width:60px;">Answer</th>
+                            <th style="min-width:120px;">Question</th>
+                            <th style="min-width:180px;">Rationale</th>
+                            <th style="min-width:80px;">Tags</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="qContainer"></div>
+
+        <div class="nav">
+            <button class="btn" onclick="prevPage()">← Previous</button>
+            <span class="page-info" id="pageInfo"></span>
+            <button class="btn" onclick="nextPage()">Next →</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="scoreModal" onclick="closeScore(event)">
+        <div class="modal">
+            <div class="modal-title">Examination Results</div>
+            <div class="modal-sub" id="modalSub">OB-GYN PLE Reviewer</div>
+            <div class="score-big" id="modalScore">—</div>
+            <div class="score-grade" id="modalGrade"></div>
+            <div class="score-detail">
+                <div class="sd-item"><span class="sd-val" id="mdAns">0</span><span class="sd-lab">Answered</span></div>
+                <div class="sd-item"><span class="sd-val" id="mdCorr">0</span><span class="sd-lab">Correct</span></div>
+                <div class="sd-item"><span class="sd-val" id="mdWrong">0</span><span class="sd-lab">Wrong</span></div>
+            </div>
+            <button class="btn primary" onclick="closeScore()">Close</button>
+        </div>
+    </div>
+
+    <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+    <!-- Question Data and Application Scripts -->
+    <script src="data/obgyn.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
