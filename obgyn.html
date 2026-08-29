@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,9 +7,9 @@
     <!-- External Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     
-    <!-- Stylesheet -->
+    <!-- Embedded Styles (Violet Palette + Automatic Dark Mode) -->
     <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         /* 🟣 LIGHT MODE PALETTE (Violet / Plum Aesthetic) */
         :root {
@@ -37,7 +36,7 @@
             --teal-light: #BFE7E5;
         }
 
-        /* 🌙 SYSTEM DARK MODE OVERRIDE (Triggers automatically based on PC/Mobile dark mode) */
+        /* 🌙 SYSTEM DARK MODE OVERRIDE (Triggers automatically based on device settings) */
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg: #120E16;       /* Deep dark violet background */
@@ -59,15 +58,26 @@
                 --blue-dim: rgba(129, 212, 250, 0.15);
             }
 
-            /* Adjust input fields and textboxes for dark mode readability */
             select, input {
                 background-color: #2A1F35 !important;
                 color: #E6E1EC !important;
                 border-color: rgba(186, 133, 237, 0.4) !important;
             }
         }
-        </style>
-</head>
+
+        /* Rest of your CSS layout rules (body, .wrapper, .q-card, etc.) go here */
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 15px;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        /* ... remaining CSS rules ... */
+    </style>
+</head></head>
 <body>
     <div class="wrapper">
         <header class="site-header">
