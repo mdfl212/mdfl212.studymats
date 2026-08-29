@@ -1,934 +1,775 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pathology PLE Reviewer 2023 + 2019</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --bg: #0d0d0f;
-            --bg2: #13131a;
-            --bg3: #1a1a24;
-            --bg4: #22222f;
-            --border: rgba(255,255,255,0.07);
-            --border2: rgba(255,255,255,0.13);
-            --text: #e8e4d8;
-            --text2: #9c9880;
-            --text3: #6b6855;
-            --gold: #c9a84c;
-            --gold2: #e8c96a;
-            --gold-dim: rgba(201,168,76,0.12);
-            --red: #c94c4c;
-            --red-dim: rgba(201,76,76,0.12);
-            --green: #4cad6e;
-            --green-dim: rgba(76,173,110,0.12);
-            --blue: #5b8fcf;
-            --blue-dim: rgba(91,143,207,0.12);
-            --teal: #4ca8a0;
-            --radius: 6px;
-            --radius-lg: 10px;
-        }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Source Serif 4', Georgia, serif;
-            font-size: 15px;
-            line-height: 1.7;
-            min-height: 100vh;
-        }
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.4;
-        }
-        .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 24px 80px; position: relative; z-index: 1; }
-        .site-header {
-            border-bottom: 2px solid var(--border2);
-            padding: 48px 0 36px;
-            margin-bottom: 40px;
-            position: relative;
-        }
-        .site-header::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 80px;
-            height: 3px;
-            background: var(--gold);
-        }
-        .header-eyebrow {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 12px;
-        }
-        .header-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(26px, 4vw, 40px);
-            font-weight: 700;
-            line-height: 1.15;
-            color: var(--text);
-            margin-bottom: 10px;
-        }
-        .header-title em { font-style: italic; color: var(--gold2); }
-        .header-sub { font-size: 13px; color: var(--text2); font-style: italic; }
-        .stats-bar {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-bottom: 28px;
-        }
-        .stat-card {
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 14px 16px;
-            text-align: center;
-        }
-        .stat-val {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--gold2);
-            display: block;
-            line-height: 1;
-            margin-bottom: 4px;
-        }
-        .stat-label {
-            font-size: 10px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--text3);
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .progress-wrap { margin-bottom: 28px; }
-        .progress-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: var(--text3);
-            font-family: 'JetBrains Mono', monospace;
-            letter-spacing: 0.08em;
-            margin-bottom: 6px;
-        }
-        .progress-track {
-            height: 3px;
-            background: var(--bg4);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--gold), var(--gold2));
-            border-radius: 2px;
-            transition: width 0.4s ease;
-            width: 0%;
-        }
-        .controls {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-            margin-bottom: 28px;
-            padding: 16px 20px;
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-        }
-        .controls label {
-            font-size: 10px;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--text3);
-            font-family: 'JetBrains Mono', monospace;
-            margin-right: 2px;
-        }
-        select {
-            background: var(--bg3);
-            border: 1px solid var(--border2);
-            color: var(--text);
-            font-family: 'Source Serif 4', serif;
-            font-size: 12px;
-            padding: 6px 10px;
-            border-radius: var(--radius);
-            cursor: pointer;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        select:hover, select:focus { border-color: var(--gold); }
-        .btn {
-            padding: 7px 16px;
-            border-radius: var(--radius);
-            border: 1px solid var(--border2);
-            background: transparent;
-            color: var(--text2);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            letter-spacing: 0.08em;
-            cursor: pointer;
-            transition: all 0.18s;
-            white-space: nowrap;
-        }
-        .btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
-        .btn.primary {
-            background: var(--gold-dim);
-            border-color: var(--gold);
-            color: var(--gold2);
-        }
-        .btn.primary:hover { background: rgba(201,168,76,0.22); }
-        .btn.danger:hover { border-color: var(--red); color: var(--red); background: var(--red-dim); }
-        .btn.table-toggle {
-            border-color: var(--blue);
-            color: var(--blue);
-        }
-        .btn.table-toggle:hover { background: var(--blue-dim); border-color: var(--blue); color: #8ab8f0; }
-        .btn.table-toggle.active { background: var(--blue-dim); border-color: var(--blue); color: #8ab8f0; }
-        .mode-tabs {
-            display: flex;
-            gap: 2px;
-            margin-bottom: 28px;
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 4px;
-        }
-        .tab {
-            flex: 1;
-            padding: 9px;
-            border-radius: 7px;
-            border: none;
-            background: transparent;
-            color: var(--text3);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-        }
-        .tab:hover { color: var(--text2); }
-        .tab.active {
-            background: var(--bg4);
-            color: var(--gold2);
-            border: 1px solid var(--border2);
-        }
-        .q-card {
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 24px 28px;
-            margin-bottom: 16px;
-            transition: border-color 0.2s;
-            animation: fadeUp 0.3s ease both;
-        }
-        .q-card:hover { border-color: var(--border2); }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .q-meta {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-        }
-        .q-num {
-            font-family: 'Playfair Display', serif;
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--gold);
-            min-width: 48px;
-        }
-        .badge {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 9px;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            padding: 3px 8px;
-            border-radius: 3px;
-        }
-        .badge-clinical {
-            background: rgba(201,76,76,0.15);
-            color: #e87070;
-            border: 1px solid rgba(201,76,76,0.3);
-        }
-        .badge-theme {
-            background: var(--bg4);
-            color: var(--text3);
-            border: 1px solid var(--border);
-        }
-        .tag-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            margin-bottom: 10px;
-        }
-        .tag {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 8px;
-            letter-spacing: 0.12em;
-            padding: 2px 8px;
-            border-radius: 3px;
-            background: rgba(201,168,76,0.12);
-            color: var(--gold);
-            border: 1px solid rgba(201,168,76,0.2);
-            text-transform: uppercase;
-        }
-        .tag-infectious { background: rgba(201,76,76,0.12); color: #e87070; border-color: rgba(201,76,76,0.2); }
-        .tag-neoplasia { background: rgba(91,143,207,0.12); color: #8ab8f0; border-color: rgba(91,143,207,0.2); }
-        .tag-genetic { background: rgba(76,173,110,0.12); color: #8ad4a8; border-color: rgba(76,173,110,0.2); }
-        .q-stem {
-            font-size: 16px;
-            line-height: 1.72;
-            color: var(--text);
-            margin-bottom: 16px;
-            border-left: 2px solid var(--border2);
-            padding-left: 16px;
-        }
-        .options { display: flex; flex-direction: column; gap: 8px; }
-        .opt {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 10px 14px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: all 0.16s;
-            font-size: 14.5px;
-            line-height: 1.6;
-            background: transparent;
-            color: var(--text2);
-            text-align: left;
-            font-family: 'Source Serif 4', serif;
-            width: 100%;
-        }
-        .opt:hover { border-color: var(--border2); background: var(--bg3); color: var(--text); }
-        .opt.selected { border-color: var(--blue); background: var(--blue-dim); color: var(--text); }
-        .opt.correct { border-color: var(--green); background: var(--green-dim); color: #a8e8c0; }
-        .opt.wrong { border-color: var(--red); background: var(--red-dim); color: #e8a0a0; }
-        .opt-letter {
-            font-family: 'Playfair Display', serif;
-            font-weight: 600;
-            font-size: 13px;
-            min-width: 20px;
-            color: var(--gold);
-            flex-shrink: 0;
-            padding-top: 1px;
-        }
-        .opt.correct .opt-letter { color: var(--green); }
-        .opt.wrong .opt-letter { color: var(--red); }
-        .opt.selected .opt-letter { color: var(--blue); }
-        .rationale {
-            margin-top: 14px;
-            padding: 12px 16px;
-            background: rgba(76,173,110,0.07);
-            border: 1px solid rgba(76,173,110,0.2);
-            border-radius: var(--radius);
-            font-size: 14px;
-            line-height: 1.65;
-            color: #9ad4b0;
-            font-style: italic;
-        }
-        .rationale strong { color: var(--green); font-style: normal; }
-        .reveal-btn {
-            margin-top: 12px;
-            padding: 6px 14px;
-            border: 1px solid var(--border2);
-            border-radius: var(--radius);
-            background: transparent;
-            color: var(--text3);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            letter-spacing: 0.1em;
-            cursor: pointer;
-            transition: all 0.18s;
-        }
-        .reveal-btn:hover { border-color: var(--teal); color: var(--teal); }
-        .nav {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 32px;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .page-info {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            color: var(--text3);
-            letter-spacing: 0.08em;
-            text-align: center;
-            flex: 1;
-        }
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.7);
-            z-index: 100;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(4px);
-        }
-        .modal-overlay.open { display: flex; }
-        .modal {
-            background: var(--bg2);
-            border: 1px solid var(--border2);
-            border-radius: 14px;
-            padding: 40px 48px;
-            max-width: 440px;
-            width: 90%;
-            text-align: center;
-            animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-        }
-        @keyframes popIn {
-            from { opacity: 0; transform: scale(0.88); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .modal-title { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--gold2); margin-bottom: 6px; }
-        .modal-sub { font-size: 12px; color: var(--text3); font-style: italic; margin-bottom: 28px; }
-        .score-big {
-            font-family: 'Playfair Display', serif;
-            font-size: 72px;
-            font-weight: 700;
-            line-height: 1;
-            margin-bottom: 4px;
-        }
-        .score-grade {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            margin-bottom: 24px;
-        }
-        .score-detail {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 28px;
-        }
-        .sd-item { background: var(--bg3); border-radius: var(--radius); padding: 12px 8px; }
-        .sd-val { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--text); display: block; }
-        .sd-lab {
-            font-size: 9px;
-            color: var(--text3);
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .scroll-top {
-            position: fixed;
-            bottom: 28px;
-            right: 28px;
-            width: 40px;
-            height: 40px;
-            background: var(--bg3);
-            border: 1px solid var(--border2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 50;
-            transition: all 0.2s;
-            color: var(--text3);
-            font-size: 16px;
-            opacity: 0;
-            pointer-events: none;
-        }
-        .scroll-top.visible { opacity: 1; pointer-events: all; }
-        .scroll-top:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
-        .theme-divider {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin: 32px 0 20px;
-        }
-        .theme-divider-line { flex: 1; height: 1px; background: var(--border); }
-        .theme-divider-label {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-size: 12px;
-            color: var(--gold);
-            white-space: nowrap;
-        }
-        .table-view-wrap { display: none; overflow-x: auto; margin-top: 20px; }
-        .table-view-wrap.open { display: block; }
-        .rationale-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-            background: var(--bg2);
-            border: 1px solid var(--border2);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-        }
-        .rationale-table th {
-            background: var(--bg4);
-            color: var(--gold2);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            padding: 10px 12px;
-            text-align: left;
-            border-bottom: 2px solid var(--border2);
-            position: sticky;
-            top: 0;
-            z-index: 2;
-        }
-        .rationale-table td {
-            padding: 10px 12px;
-            border-bottom: 1px solid var(--border);
-            color: var(--text2);
-            vertical-align: top;
-        }
-        .rationale-table tr:hover td { background: var(--bg3); }
-        .rationale-table .qnum-col { font-family: 'Playfair Display', serif; font-weight: 600; color: var(--gold); white-space: nowrap; }
-        .rationale-table .ans-col { font-weight: 600; color: var(--gold2); white-space: nowrap; text-align: center; }
-        .rationale-table .stem-col { max-width: 300px; }
-        .rationale-table .r-col { font-style: italic; color: #9ad4b0; max-width: 400px; }
-        .rationale-table .tag-col { font-size: 9px; font-family: 'JetBrains Mono', monospace; color: var(--text3); }
-        .table-controls {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 16px;
-        }
-        .table-controls label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; }
-        .table-controls input {
-            background: var(--bg3);
-            border: 1px solid var(--border2);
-            color: var(--text);
-            padding: 5px 10px;
-            border-radius: var(--radius);
-            font-family: 'Source Serif 4', serif;
-            font-size: 12px;
-            outline: none;
-            transition: border-color 0.2s;
-            width: 140px;
-        }
-        .table-controls input:focus { border-color: var(--gold); }
-        .table-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text3); margin-left: auto; }
-        @media (max-width: 600px) {
-            .stats-bar { grid-template-columns: repeat(2, 1fr); }
-            .q-card { padding: 18px 18px; }
-            .controls { gap: 8px; }
-            .modal { padding: 28px 20px; }
-            .score-big { font-size: 52px; }
-            .rationale-table th, .rationale-table td { padding: 6px 8px; font-size: 11px; }
-            .rationale-table .stem-col { max-width: 140px; }
-            .rationale-table .r-col { max-width: 160px; }
-        }
-        @media (max-width: 480px) {
-            .wrapper { padding: 0 12px 60px; }
-            .controls { flex-direction: column; align-items: stretch; }
-            .controls label { margin-top: 4px; }
-            .btn { text-align: center; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pathology PLE Reviewer – 200 Questions + Table & Tags</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d0d0f;
+      --bg2: #13131a;
+      --bg3: #1a1a24;
+      --bg4: #22222f;
+      --border: rgba(255,255,255,0.07);
+      --border2: rgba(255,255,255,0.13);
+      --text: #e8e4d8;
+      --text2: #9c9880;
+      --text3: #6b6855;
+      --gold: #c9a84c;
+      --gold2: #e8c96a;
+      --gold-dim: rgba(201,168,76,0.12);
+      --red: #c94c4c;
+      --red-dim: rgba(201,76,76,0.12);
+      --green: #4cad6e;
+      --green-dim: rgba(76,173,110,0.12);
+      --blue: #5b8fcf;
+      --blue-dim: rgba(91,143,207,0.12);
+      --teal: #4ca8a0;
+      --radius: 6px;
+      --radius-lg: 10px;
+      --purple: #b47bc9;
+      --purple-dim: rgba(180,123,201,0.12);
+      --orange: #e8a55c;
+      --orange-dim: rgba(232,165,92,0.12);
+      --yellow: #e8d65c;
+      --yellow-dim: rgba(232,214,92,0.12);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+    .wrapper { max-width: 860px; margin: 0 auto; padding: 0 24px 80px; position: relative; z-index: 1; }
+    .site-header { border-bottom: 1px solid var(--border2); padding: 48px 0 36px; margin-bottom: 40px; position: relative; }
+    .site-header::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 80px; height: 2px; background: var(--gold); }
+    .header-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+    .header-title { font-family: 'Playfair Display', serif; font-size: clamp(26px, 4vw, 40px); font-weight: 700; line-height: 1.15; color: var(--text); margin-bottom: 10px; }
+    .header-title em { font-style: italic; color: var(--gold2); }
+    .header-sub { font-size: 13px; color: var(--text2); font-style: italic; }
+    .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+    .stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px 16px; text-align: center; }
+    .stat-val { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; color: var(--gold2); display: block; line-height: 1; margin-bottom: 4px; }
+    .stat-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); font-family: 'JetBrains Mono', monospace; }
+    .progress-wrap { margin-bottom: 28px; }
+    .progress-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .progress-track { height: 3px; background: var(--bg4); border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold2)); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
+    .controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 28px; padding: 16px 20px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+    .controls label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); font-family: 'JetBrains Mono', monospace; margin-right: 2px; }
+    select { background: var(--bg3); border: 1px solid var(--border2); color: var(--text); font-family: 'Source Serif 4', serif; font-size: 12px; padding: 6px 10px; border-radius: var(--radius); cursor: pointer; outline: none; transition: border-color 0.2s; }
+    select:hover, select:focus { border-color: var(--gold); }
+    .btn { padding: 7px 16px; border-radius: var(--radius); border: 1px solid var(--border2); background: transparent; color: var(--text2); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
+    .btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+    .btn.primary { background: var(--gold-dim); border-color: var(--gold); color: var(--gold2); }
+    .btn.primary:hover { background: rgba(201,168,76,0.22); }
+    .btn.danger:hover { border-color: var(--red); color: var(--red); background: var(--red-dim); }
+    .btn.table-toggle { border-color: var(--blue); color: var(--blue); }
+    .btn.table-toggle:hover { background: var(--blue-dim); border-color: var(--blue); color: #8ab8f0; }
+    .btn.table-toggle.active { background: var(--blue-dim); border-color: var(--blue); color: #8ab8f0; }
+    .mode-tabs { display: flex; gap: 2px; margin-bottom: 28px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 4px; }
+    .tab { flex: 1; padding: 9px; border-radius: 7px; border: none; background: transparent; color: var(--text3); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-align: center; }
+    .tab:hover { color: var(--text2); }
+    .tab.active { background: var(--bg4); color: var(--gold2); border: 1px solid var(--border2); }
+    .q-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 28px; margin-bottom: 16px; transition: border-color 0.2s; animation: fadeUp 0.3s ease both; }
+    .q-card:hover { border-color: var(--border2); }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .q-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .q-num { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; color: var(--gold); min-width: 42px; }
+    .badge { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; }
+    .badge-clinical { background: rgba(201,76,76,0.15); color: #e87070; border: 1px solid rgba(201,76,76,0.3); }
+    .badge-theme { background: var(--bg4); color: var(--text3); border: 1px solid var(--border); }
+    .tag-group { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
+    .tag { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.12em; padding: 2px 8px; border-radius: 3px; text-transform: uppercase; }
+    .tag-purple { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(180,123,201,0.25); }
+    .tag-red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(201,76,76,0.25); }
+    .tag-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(76,173,110,0.25); }
+    .tag-blue { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(91,143,207,0.25); }
+    .tag-orange { background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(232,165,92,0.25); }
+    .tag-yellow { background: var(--yellow-dim); color: var(--yellow); border: 1px solid rgba(232,214,92,0.25); }
+    .q-stem { font-size: 16px; line-height: 1.72; color: var(--text); margin-bottom: 18px; border-left: 2px solid var(--border2); padding-left: 16px; }
+    .options { display: flex; flex-direction: column; gap: 8px; }
+    .opt { display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; transition: all 0.16s; font-size: 14.5px; line-height: 1.6; background: transparent; color: var(--text2); text-align: left; font-family: 'Source Serif 4', serif; width: 100%; }
+    .opt:hover { border-color: var(--border2); background: var(--bg3); color: var(--text); }
+    .opt.selected { border-color: var(--blue); background: var(--blue-dim); color: var(--text); }
+    .opt.correct { border-color: var(--green); background: var(--green-dim); color: #a8e8c0; }
+    .opt.wrong { border-color: var(--red); background: var(--red-dim); color: #e8a0a0; }
+    .opt-letter { font-family: 'Playfair Display', serif; font-weight: 600; font-size: 13px; min-width: 20px; color: var(--gold); flex-shrink: 0; padding-top: 1px; }
+    .opt.correct .opt-letter { color: var(--green); }
+    .opt.wrong .opt-letter { color: var(--red); }
+    .opt.selected .opt-letter { color: var(--blue); }
+    .rationale { margin-top: 14px; padding: 12px 16px; background: rgba(76,173,110,0.07); border: 1px solid rgba(76,173,110,0.2); border-radius: var(--radius); font-size: 14px; line-height: 1.65; color: #9ad4b0; font-style: italic; }
+    .rationale strong { color: var(--green); font-style: normal; }
+    .reveal-btn { margin-top: 12px; padding: 6px 14px; border: 1px solid var(--border2); border-radius: var(--radius); background: transparent; color: var(--text3); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; cursor: pointer; transition: all 0.18s; }
+    .reveal-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .nav { display: flex; align-items: center; justify-content: space-between; margin-top: 32px; gap: 12px; flex-wrap: wrap; }
+    .page-info { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.08em; text-align: center; flex: 1; }
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+    .modal-overlay.open { display: flex; }
+    .modal { background: var(--bg2); border: 1px solid var(--border2); border-radius: 14px; padding: 40px 48px; max-width: 440px; width: 90%; text-align: center; animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both; }
+    @keyframes popIn { from { opacity:0; transform:scale(0.88); } to { opacity:1; transform:scale(1); } }
+    .modal-title { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--gold2); margin-bottom: 6px; }
+    .modal-sub { font-size: 12px; color: var(--text3); font-style: italic; margin-bottom: 28px; }
+    .score-big { font-family: 'Playfair Display', serif; font-size: 72px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+    .score-grade { font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 24px; }
+    .score-detail { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+    .sd-item { background: var(--bg3); border-radius: var(--radius); padding: 12px 8px; }
+    .sd-val { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--text); display: block; }
+    .sd-lab { font-size: 9px; color: var(--text3); letter-spacing: 0.12em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+    .scroll-top { position: fixed; bottom: 28px; right: 28px; width: 40px; height: 40px; background: var(--bg3); border: 1px solid var(--border2); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; transition: all 0.2s; color: var(--text3); font-size: 16px; opacity: 0; pointer-events: none; }
+    .scroll-top.visible { opacity: 1; pointer-events: all; }
+    .scroll-top:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+    .theme-divider { display: flex; align-items: center; gap: 14px; margin: 32px 0 20px; }
+    .theme-divider-line { flex: 1; height: 1px; background: var(--border); }
+    .theme-divider-label { font-family: 'Playfair Display', serif; font-style: italic; font-size: 12px; color: var(--gold); white-space: nowrap; }
+    .table-view-wrap { display: none; overflow-x: auto; margin-top: 20px; }
+    .table-view-wrap.open { display: block; }
+    .rationale-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-lg); overflow: hidden; }
+    .rationale-table th { background: var(--bg4); color: var(--gold); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; padding: 10px 12px; text-align: left; border-bottom: 2px solid var(--border2); position: sticky; top: 0; z-index: 2; }
+    .rationale-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text2); vertical-align: top; }
+    .rationale-table tr:hover td { background: var(--bg3); }
+    .rationale-table .qnum-col { font-family: 'Playfair Display', serif; font-weight: 600; color: var(--gold); white-space: nowrap; }
+    .rationale-table .ans-col { font-weight: 600; color: var(--gold2); white-space: nowrap; text-align: center; }
+    .rationale-table .stem-col { max-width: 300px; }
+    .rationale-table .r-col { font-style: italic; color: #9ad4b0; max-width: 400px; }
+    .rationale-table .tag-col { font-size: 9px; font-family: 'JetBrains Mono', monospace; color: var(--text3); }
+    .table-controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+    .table-controls label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; }
+    .table-controls input { background: var(--bg3); border: 1px solid var(--border2); color: var(--text); padding: 5px 10px; border-radius: var(--radius); font-family: 'Source Serif 4', serif; font-size: 12px; outline: none; transition: border-color 0.2s; width: 140px; }
+    .table-controls input:focus { border-color: var(--gold); }
+    .table-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text3); margin-left: auto; }
+    @media (max-width: 600px) {
+      .stats-bar { grid-template-columns: repeat(2,1fr); }
+      .q-card { padding: 18px 18px; }
+      .controls { gap: 8px; }
+      .modal { padding: 28px 20px; }
+      .score-big { font-size: 52px; }
+      .rationale-table th, .rationale-table td { padding: 6px 8px; font-size: 11px; }
+      .rationale-table .stem-col { max-width: 140px; }
+      .rationale-table .r-col { max-width: 160px; }
+    }
+    @media (max-width: 480px) {
+      .wrapper { padding: 0 12px 60px; }
+      .controls { flex-direction: column; align-items: stretch; }
+      .controls label { margin-top: 4px; }
+      .btn { text-align: center; }
+    }
+  </style>
 </head>
 <body>
 <div class="wrapper">
-    <header class="site-header">
-        <div class="header-eyebrow">🔬 Pathology PLE 2023 + 2019 · 200+ Items</div>
-        <h1 class="header-title"><em>Pathology</em><br />PLE Reviewer</h1>
-        <p class="header-sub">Cell Injury · Infectious · Genetic · Neoplasia · Organ Systems · Immune · Connective Tissue</p>
-    </header>
-    <div class="stats-bar">
-        <div class="stat-card"><span class="stat-val" id="sTotal">200</span><span class="stat-label">Questions</span></div>
-        <div class="stat-card"><span class="stat-val" id="sAnswered">0</span><span class="stat-label">Answered</span></div>
-        <div class="stat-card"><span class="stat-val" id="sCorrect">0</span><span class="stat-label">Correct</span></div>
-        <div class="stat-card"><span class="stat-val" id="sPct">—</span><span class="stat-label">Score %</span></div>
-    </div>
-    <div class="progress-wrap">
-        <div class="progress-meta"><span id="progLabel">0 / 200 answered</span><span id="progPct">0%</span></div>
-        <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
-    </div>
-    <div class="mode-tabs">
-        <button class="tab active" onclick="setMode('exam')">📝 Exam Mode</button>
-        <button class="tab" onclick="setMode('review')">🔍 Review Mode</button>
-        <button class="tab" onclick="setMode('key')">🗝 Answer Key</button>
-    </div>
-    <div class="controls">
-        <label>Section</label>
-        <select id="themeFilter" onchange="applyFilter()">
-            <option value="all">All Sections</option>
-            <option value="1">Cell Pathology &amp; Inflammation</option>
-            <option value="2">Infectious Diseases</option>
-            <option value="3">Genetic &amp; Developmental</option>
-            <option value="4">Neoplasia</option>
-            <option value="5">Organ System Pathology</option>
-            <option value="6">Immune &amp; Connective Tissue</option>
-        </select>
-        <label>Type</label>
-        <select id="typeFilter" onchange="applyFilter()">
-            <option value="all">All Types</option>
-            <option value="clinical">Clinical Only</option>
-            <option value="conceptual">Conceptual Only</option>
-        </select>
-        <label>Tag</label>
-        <select id="tagFilter" onchange="applyFilter()">
-            <option value="all">All Tags</option>
-            <option value="Cell Injury">Cell Injury</option>
-            <option value="Inflammation">Inflammation</option>
-            <option value="Infectious">Infectious</option>
-            <option value="Genetic">Genetic</option>
-            <option value="Neoplasia">Neoplasia</option>
-            <option value="Organ System">Organ System</option>
-            <option value="Immune">Immune</option>
-            <option value="Connective Tissue">Connective Tissue</option>
-        </select>
-        <label>Per Page</label>
-        <select id="perPageSel" onchange="changePerPage()">
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-            <option value="200">All</option>
-        </select>
-        <button class="btn primary" onclick="openScore()">Score Me</button>
-        <button class="btn danger" onclick="resetAll()">Reset</button>
-        <button class="btn table-toggle" id="tableToggleBtn" onclick="toggleTableView()">📊 Table</button>
-    </div>
+  <header class="site-header">
+    <div class="header-eyebrow">PLE 2023 · 200 Items · Robbins &amp; Cotran Reference</div>
+    <h1 class="header-title"><em>Pathology</em><br />PLE Reviewer</h1>
+    <p class="header-sub">Cell Injury · Infectious · Genetic · Neoplasia · Organ Systems · Immune · Connective Tissue</p>
+  </header>
+  <div class="stats-bar">
+    <div class="stat-card"><span class="stat-val" id="sTotal">200</span><span class="stat-label">Questions</span></div>
+    <div class="stat-card"><span class="stat-val" id="sAnswered">0</span><span class="stat-label">Answered</span></div>
+    <div class="stat-card"><span class="stat-val" id="sCorrect">0</span><span class="stat-label">Correct</span></div>
+    <div class="stat-card"><span class="stat-val" id="sPct">—</span><span class="stat-label">Score %</span></div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-meta"><span id="progLabel">0 / 200 answered</span><span id="progPct">0%</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+  </div>
+  <div class="mode-tabs">
+    <button class="tab active" onclick="setMode('exam')">📝 Exam Mode</button>
+    <button class="tab" onclick="setMode('review')">🔍 Review Mode</button>
+    <button class="tab" onclick="setMode('key')">🗝 Answer Key</button>
+  </div>
+  <div class="controls">
+    <label>Section</label>
+    <select id="themeFilter" onchange="applyFilter()">
+      <option value="all">All Sections</option>
+      <option value="1">Cell Pathology &amp; Inflammation</option>
+      <option value="2">Infectious Diseases</option>
+      <option value="3">Genetic &amp; Developmental</option>
+      <option value="4">Neoplasia</option>
+      <option value="5">Organ System Pathology</option>
+      <option value="6">Immune &amp; Connective Tissue</option>
+    </select>
+    <label>Type</label>
+    <select id="typeFilter" onchange="applyFilter()">
+      <option value="all">All Types</option>
+      <option value="clinical">Clinical Only</option>
+      <option value="conceptual">Conceptual Only</option>
+    </select>
+    <label>Tag</label>
+    <select id="tagFilter" onchange="applyFilter()">
+      <option value="all">All Tags</option>
+    </select>
+    <label>Per Page</label>
+    <select id="perPageSel" onchange="changePerPage()">
+      <option value="10">10</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+      <option value="100">All</option>
+    </select>
+    <button class="btn primary" onclick="openScore()">Score Me</button>
+    <button class="btn danger" onclick="resetAll()">Reset</button>
+    <button class="btn table-toggle" id="tableToggleBtn" onclick="toggleTableView()">📊 Table</button>
+  </div>
 
-    <div class="table-view-wrap" id="tableViewWrap">
-        <div class="table-controls">
-            <label>🔍 Filter</label>
-            <input type="text" id="tableSearch" placeholder="Search stem or rationale..." oninput="renderTable()" />
-            <span class="table-count" id="tableCount"></span>
-        </div>
-        <div style="overflow-x:auto;max-height:600px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-lg);">
-            <table class="rationale-table" id="rationaleTable">
-                <thead><tr><th style="min-width:48px;">#</th><th style="min-width:60px;">Answer</th><th style="min-width:120px;">Question</th><th style="min-width:180px;">Rationale</th><th style="min-width:80px;">Tags</th></tr></thead>
-                <tbody id="tableBody"></tbody>
-            </table>
-        </div>
+  <div class="table-view-wrap" id="tableViewWrap">
+    <div class="table-controls">
+      <label>🔍 Filter</label>
+      <input type="text" id="tableSearch" placeholder="Search stem or rationale..." oninput="renderTable()" />
+      <span class="table-count" id="tableCount"></span>
     </div>
+    <div style="overflow-x:auto;max-height:600px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-lg);">
+      <table class="rationale-table" id="rationaleTable">
+        <thead><tr><th style="min-width:48px;">#</th><th style="min-width:60px;">Answer</th><th style="min-width:120px;">Question</th><th style="min-width:180px;">Rationale</th><th style="min-width:80px;">Tags</th></tr></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
 
-    <div id="qContainer"></div>
-    <div class="nav">
-        <button class="btn" onclick="prevPage()">← Previous</button>
-        <span class="page-info" id="pageInfo"></span>
-        <button class="btn" onclick="nextPage()">Next →</button>
-    </div>
+  <div id="qContainer"></div>
+  <div class="nav">
+    <button class="btn" onclick="prevPage()">← Previous</button>
+    <span class="page-info" id="pageInfo"></span>
+    <button class="btn" onclick="nextPage()">Next →</button>
+  </div>
 </div>
 
 <div class="modal-overlay" id="scoreModal" onclick="closeScore(event)">
-    <div class="modal">
-        <div class="modal-title">Examination Results</div>
-        <div class="modal-sub" id="modalSub">Pathology PLE Reviewer</div>
-        <div class="score-big" id="modalScore">—</div>
-        <div class="score-grade" id="modalGrade"></div>
-        <div class="score-detail">
-            <div class="sd-item"><span class="sd-val" id="mdAns">0</span><span class="sd-lab">Answered</span></div>
-            <div class="sd-item"><span class="sd-val" id="mdCorr">0</span><span class="sd-lab">Correct</span></div>
-            <div class="sd-item"><span class="sd-val" id="mdWrong">0</span><span class="sd-lab">Wrong</span></div>
-        </div>
-        <button class="btn primary" onclick="closeScore()">Close</button>
+  <div class="modal">
+    <div class="modal-title">Examination Results</div>
+    <div class="modal-sub" id="modalSub">Pathology PLE 2023 Reviewer</div>
+    <div class="score-big" id="modalScore">—</div>
+    <div class="score-grade" id="modalGrade"></div>
+    <div class="score-detail">
+      <div class="sd-item"><span class="sd-val" id="mdAns">0</span><span class="sd-lab">Answered</span></div>
+      <div class="sd-item"><span class="sd-val" id="mdCorr">0</span><span class="sd-lab">Correct</span></div>
+      <div class="sd-item"><span class="sd-val" id="mdWrong">0</span><span class="sd-lab">Wrong</span></div>
     </div>
+    <button class="btn primary" onclick="closeScore()">Close</button>
+  </div>
 </div>
 
 <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
-    const THEME_NAMES = ['', 'Cell Pathology & Inflammation', 'Infectious Diseases', 'Genetic & Developmental', 'Neoplasia', 'Organ System Pathology', 'Immune & Connective Tissue'];
-    const OPTS = ['A', 'B', 'C', 'D'];
+const THEME_NAMES = ['','Cell Pathology & Inflammation','Infectious Diseases','Genetic & Developmental','Neoplasia','Organ System Pathology','Immune & Connective Tissue'];
+const THEME_TAGS = ['','Cell & Inflammation','Infectious','Genetic','Neoplasia','Organ Systems','Immune/Connective'];
+const OPTS = ['A','B','C','D'];
 
-    // ========== 200+ PATHOLOGY QUESTIONS (combined) ==========
-    const Q = [
-        // --- First 100 from pathology_ple_reviewer.html ---
-        { id: 1, t: 2, c: true, stem: "A 30-year-old man presents with sore throat, rigors, neck pain, and swelling. Examination reveals involvement of the lateral pharyngeal space with septic thrombophlebitis of the internal jugular vein. What is the most likely causative organism of Lemierre syndrome?", opts: ["Staphylococcus aureus", "Prevotella melaninogenica", "Clostridium perfringens", "Fusobacterium necrophorum"], ans: 3, r: "Fusobacterium necrophorum is the most common causative agent of Lemierre syndrome, an infection of the lateral pharyngeal space complicated by septic thrombophlebitis of the internal jugular vein. Prevotella is a common oral anaerobe but not the primary cause. Clostridium causes abdominal abscesses, not neck infections.", tags: ["Infectious"] },
-        { id: 2, t: 2, c: false, stem: "Lemierre syndrome characteristically involves septic thrombophlebitis of which neck structure?", opts: ["Jugular vein", "Carotid artery", "Sternocleidomastoid muscle", "Vagus nerve"], ans: 0, r: "Lemierre syndrome is defined by septic thrombophlebitis of the internal jugular vein following an oropharyngeal infection. This distinguishes it from other deep neck space infections.", tags: ["Infectious"] },
-        { id: 3, t: 5, c: true, stem: "A patient has a thyroid nodule incidentally discovered on annual physical examination. Which ultrasound finding is most suggestive of a benign nodule?", opts: ["Microcalcifications", "Hypoechoic solid nodule", "Infiltrative borders", "Spongiform nodule"], ans: 3, r: "A spongiform nodule (with multiple small internal cystic areas) is a benign ultrasound feature. Malignant features include: hypoechoic solid nodule with infiltrative borders and microcalcifications. Simple cysts are also benign.", tags: ["Organ System"] },
-        { id: 4, t: 5, c: true, stem: "A 40-year-old woman has a 3-month history of enlarging abdominal girth. Ultrasound shows a right ovarian mass with ascites. Chest X-ray demonstrates right-sided hydrothorax. What is the most likely nature of the ovarian mass?", opts: ["Fibroma", "Sertoli-Leydig cell tumor", "Granulosa cell tumor", "Krukenberg tumor"], ans: 0, r: "The triad of ovarian fibroma + ascites + right hydrothorax defines Meigs syndrome. Sertoli-Leydig tumors cause masculinization. Granulosa cell tumors occur in postmenopausal women without this triad. Krukenberg tumor is bilateral metastasis from gastric carcinoma with signet-ring cells.", tags: ["Organ System", "Neoplasia"] },
-        { id: 5, t: 2, c: true, stem: "A patient diagnosed with pulmonary tuberculosis one week ago now presents with headache, confusion, and acute vomiting. A lumbar puncture is performed. Which CSF finding is NOT consistent with TB meningitis?", opts: ["Neutrophilic pleocytosis", "Mononuclear pleocytosis", "Elevated CSF protein", "Normal glucose"], ans: 0, r: "TB meningitis produces mononuclear (lymphocytic) pleocytosis or a mixture of neutrophils and mononuclear cells — NOT pure neutrophilic pleocytosis. Neutrophilic pleocytosis is characteristic of bacterial meningitis. TB meningitis also shows elevated protein and moderately reduced or normal glucose.", tags: ["Infectious"] },
-        { id: 6, t: 2, c: false, stem: "Neurosyphilis — including gummas, aortitis, and Argyll Robertson pupil — is a manifestation of which stage of syphilis?", opts: ["Primary", "Secondary", "Tertiary", "Latent"], ans: 2, r: "Tertiary syphilis includes neurosyphilis, gummas, aortitis, and the Argyll Robertson pupil. Primary syphilis: painless chancre. Secondary: maculopapular rash, condyloma lata, and hair loss.", tags: ["Infectious"] },
-        { id: 7, t: 1, c: false, stem: "Which of the following toxins causes spastic paralysis by blocking the release of GABA and glycine in the spinal cord?", opts: ["Tetanus toxin", "Botulinum toxin", "Alpha toxin", "Streptolysin O"], ans: 0, r: "Tetanospasmin (tetanus toxin) is transported retrogradely to inhibitory interneurons in the spinal cord, cleaving synaptobrevin to block GABA and glycine release → unopposed motor neuron activation → spastic paralysis. Botulinum toxin blocks ACh at the NMJ → flaccid paralysis. Alpha toxin from C. perfringens causes myonecrosis.", tags: ["Cell Injury"] },
-        { id: 8, t: 1, c: false, stem: "Which of the following is a characteristic feature of an exudate?", opts: ["Low protein concentration", "Sparse cellular debris", "Low specific gravity", "High protein concentration"], ans: 3, r: "Exudates have high protein concentration and contain cellular debris, occurring in inflammatory conditions. Transudates have low protein, minimal cellular material, and low specific gravity — resulting from hydrostatic or oncotic pressure imbalances.", tags: ["Inflammation"] },
-        { id: 9, t: 3, c: false, stem: "Which of the following is an X-linked recessive disorder?", opts: ["Hunter syndrome", "Fragile X syndrome", "Alport syndrome", "Noonan syndrome"], ans: 0, r: "Hunter syndrome (MPS II, iduronate-2-sulfatase deficiency) is X-linked recessive. Fragile X syndrome and Alport syndrome are X-linked dominant. Noonan syndrome is autosomal dominant. Other X-linked recessive diseases include Duchenne/Becker MD, G6PD deficiency, hemophilia A and B, Fabry disease, and Lesch-Nyhan syndrome.", tags: ["Genetic"] },
-        { id: 10, t: 3, c: false, stem: "Which of the following is NOT TRUE of Ehlers-Danlos syndrome?", opts: ["EDS is predominantly X-linked recessive", "Vascular EDS results from defective type 3 collagen", "Classic EDS presents with skin and joint hypermobility", "None of the above"], ans: 0, r: "EDS is predominantly autosomal dominant (types I, II, III, IV, VIIa, VIIb). EDS type VI and VIIc are autosomal recessive. It is NOT X-linked recessive. Vascular EDS (type IV) from type 3 collagen defect and classic EDS with hypermobility are both true statements.", tags: ["Genetic", "Connective Tissue"] },
-        // ... (all 200 questions from the combined file would go here) ...
-        // For brevity, I'm including a representative subset. The full file will have all 200+.
-    ];
+// --- Original question data (200) ---
+const Q_RAW = [
+  {id:1,t:2,c:true,stem:"A 30-year-old man presents with sore throat, rigors, neck pain, and swelling. Examination reveals involvement of the lateral pharyngeal space with septic thrombophlebitis of the internal jugular vein. What is the most likely causative organism of Lemierre syndrome?",opts:["Staphylococcus aureus","Prevotella melaninogenica","Clostridium perfringens","Fusobacterium necrophorum"],ans:3,r:"Fusobacterium necrophorum is the most common causative agent of Lemierre syndrome, an infection of the lateral pharyngeal space complicated by septic thrombophlebitis of the internal jugular vein. Prevotella is a common oral anaerobe but not the primary cause. Clostridium causes abdominal abscesses, not neck infections."},
+  {id:2,t:2,c:false,stem:"Lemierre syndrome characteristically involves septic thrombophlebitis of which neck structure?",opts:["Jugular vein","Carotid artery","Sternocleidomastoid muscle","Vagus nerve"],ans:0,r:"Lemierre syndrome is defined by septic thrombophlebitis of the internal jugular vein following an oropharyngeal infection. This distinguishes it from other deep neck space infections."},
+  {id:3,t:5,c:true,stem:"A patient has a thyroid nodule incidentally discovered on annual physical examination. Which ultrasound finding is most suggestive of a benign nodule?",opts:["Microcalcifications","Hypoechoic solid nodule","Infiltrative borders","Spongiform nodule"],ans:3,r:"A spongiform nodule (with multiple small internal cystic areas) is a benign ultrasound feature. Malignant features include: hypoechoic solid nodule with infiltrative borders and microcalcifications. Simple cysts are also benign."},
+  {id:4,t:5,c:true,stem:"A 40-year-old woman has a 3-month history of enlarging abdominal girth. Ultrasound shows a right ovarian mass with ascites. Chest X-ray demonstrates right-sided hydrothorax. What is the most likely nature of the ovarian mass?",opts:["Fibroma","Sertoli-Leydig cell tumor","Granulosa cell tumor","Krukenberg tumor"],ans:0,r:"The triad of ovarian fibroma + ascites + right hydrothorax defines Meigs syndrome. Sertoli-Leydig tumors cause masculinization. Granulosa cell tumors occur in postmenopausal women without this triad. Krukenberg tumor is bilateral metastasis from gastric carcinoma with signet-ring cells."},
+  {id:5,t:2,c:true,stem:"A patient diagnosed with pulmonary tuberculosis one week ago now presents with headache, confusion, and acute vomiting. A lumbar puncture is performed. Which CSF finding is NOT consistent with TB meningitis?",opts:["Neutrophilic pleocytosis","Mononuclear pleocytosis","Elevated CSF protein","Normal glucose"],ans:0,r:"TB meningitis produces mononuclear (lymphocytic) pleocytosis or a mixture of neutrophils and mononuclear cells — NOT pure neutrophilic pleocytosis. Neutrophilic pleocytosis is characteristic of bacterial meningitis. TB meningitis also shows elevated protein and moderately reduced or normal glucose."},
+  {id:6,t:2,c:false,stem:"Neurosyphilis — including gummas, aortitis, and Argyll Robertson pupil — is a manifestation of which stage of syphilis?",opts:["Primary","Secondary","Tertiary","Latent"],ans:2,r:"Tertiary syphilis includes neurosyphilis, gummas, aortitis, and the Argyll Robertson pupil. Primary syphilis: painless chancre. Secondary: maculopapular rash, condyloma lata, and hair loss."},
+  {id:7,t:1,c:false,stem:"Which of the following toxins causes spastic paralysis by blocking the release of GABA and glycine in the spinal cord?",opts:["Tetanus toxin","Botulinum toxin","Alpha toxin","Streptolysin O"],ans:0,r:"Tetanospasmin (tetanus toxin) is transported retrogradely to inhibitory interneurons in the spinal cord, cleaving synaptobrevin to block GABA and glycine release → unopposed motor neuron activation → spastic paralysis. Botulinum toxin blocks ACh at the NMJ → flaccid paralysis. Alpha toxin from C. perfringens causes myonecrosis."},
+  {id:8,t:1,c:false,stem:"Which of the following is a characteristic feature of an exudate?",opts:["Low protein concentration","Sparse cellular debris","Low specific gravity","High protein concentration"],ans:3,r:"Exudates have high protein concentration and contain cellular debris, occurring in inflammatory conditions. Transudates have low protein, minimal cellular material, and low specific gravity — resulting from hydrostatic or oncotic pressure imbalances."},
+  {id:9,t:3,c:false,stem:"Which of the following is an X-linked recessive disorder?",opts:["Hunter syndrome","Fragile X syndrome","Alport syndrome","Noonan syndrome"],ans:0,r:"Hunter syndrome (MPS II, iduronate-2-sulfatase deficiency) is X-linked recessive. Fragile X syndrome and Alport syndrome are X-linked dominant. Noonan syndrome is autosomal dominant. Other X-linked recessive diseases include Duchenne/Becker MD, G6PD deficiency, hemophilia A and B, Fabry disease, and Lesch-Nyhan syndrome."},
+  {id:10,t:3,c:false,stem:"Which of the following is NOT TRUE of Ehlers-Danlos syndrome?",opts:["EDS is predominantly X-linked recessive","Vascular EDS results from defective type 3 collagen","Classic EDS presents with skin and joint hypermobility","None of the above"],ans:0,r:"EDS is predominantly autosomal dominant (types I, II, III, IV, VIIa, VIIb). EDS type VI and VIIc are autosomal recessive. It is NOT X-linked recessive. Vascular EDS (type IV) from type 3 collagen defect and classic EDS with hypermobility are both true statements."},
+  {id:11,t:6,c:false,stem:"Mixed connective tissue disease is associated with which autoantibody?",opts:["Anti-histone antibodies","Anti-cardiolipin antibodies","Anti-U1 RNP antibodies","Rheumatoid factor"],ans:2,r:"MCTD is defined by anti-U1 RNP (ribonucleoprotein) antibodies. Anti-histone = drug-induced lupus. Anti-cardiolipin = antiphospholipid syndrome and SLE. Rheumatoid factor = rheumatoid arthritis."},
+  {id:12,t:6,c:false,stem:"Which disease is characterized by clinical features that overlap with polymyositis, systemic sclerosis, and SLE?",opts:["Polyarteritis nodosa","Mixed connective tissue disease","IgG4-related disease","Scleroderma"],ans:1,r:"Mixed connective tissue disease overlaps with SLE, polymyositis, and systemic sclerosis, and is defined by anti-U1 RNP antibodies. Polyarteritis nodosa = necrotizing inflammation of blood vessel walls. IgG4-related disease = IgG4 antibody-producing plasma cell infiltrates with fibrosis. Scleroderma = fibrosis of the skin and GIT."},
+  {id:13,t:6,c:true,stem:"A patient with systemic sclerosis undergoes upper endoscopy. Which of the following esophageal findings is most likely to be present?",opts:["Esophageal strictures","Esophageal hyperflexibility","Progressive esophageal hypertrophy","Esophageal varices"],ans:0,r:"Systemic sclerosis causes progressive atrophy and fibrous replacement of the muscularis propria, most severe in the esophagus. This leads to LES dysfunction → Barrett esophagus and strictures. The lower two-thirds may develop rubber-hose-like inflexibility, not hyperflexibility."},
+  {id:14,t:1,c:false,stem:"Barrett esophagus results from the replacement of squamous epithelium by glandular epithelium. This cellular adaptation is called:",opts:["Dysplasia","Metaplasia","Carcinoma in situ","Hyperplasia"],ans:1,r:"Metaplasia is the replacement of one differentiated cell type with another. Barrett esophagus: squamous → glandular (columnar) epithelium. Dysplasia = disordered cell growth with pleomorphism. Carcinoma in situ = full-thickness dysplasia without basement membrane invasion. Hyperplasia = increased cell number without type change."},
+  {id:15,t:4,c:false,stem:"Which of the following cancers is most strongly associated with asbestos exposure?",opts:["Hepatic angiosarcoma","Oropharyngeal carcinoma","Prostate carcinoma","Mesothelioma"],ans:3,r:"Mesothelioma (of the pleura and peritoneum) is the cancer most classically associated with asbestos exposure. Hepatic angiosarcoma = vinyl chloride. Oropharyngeal carcinoma = nickel compounds. Prostate carcinoma = cadmium. Smokers with heavy asbestos exposure have a synergistically higher risk of lung cancer."},
+  {id:16,t:3,c:false,stem:"What is the most common cause category of congenital anomalies?",opts:["Genetic causes","Environmental factors","Unknown etiology","Multifactorial causes"],ans:2,r:"The exact cause of congenital anomalies remains unknown in 40–60% of cases. Known causes are grouped into genetic, environmental, and multifactorial. This high proportion of unknown etiology is clinically significant when counseling families."},
+  {id:17,t:3,c:true,stem:"A patient presents with Wilms tumor, aniridia, genitourinary anomalies, and intellectual disability. Deletion of which gene is responsible?",opts:["WT1","WT2","WT3","WT4"],ans:0,r:"WAGR syndrome (Wilms tumor, Aniridia, Genitourinary anomalies, intellectual disability) is caused by WT1 deletion on chromosome 11p. WT2 mutation is associated with Beckwith-Wiedemann syndrome (Wilms tumor + macroglossia + organomegaly + hemihyperplasia). Denys-Drash syndrome also involves WT1."},
+  {id:18,t:3,c:false,stem:"Which of the following is the most common chromosomal disorder?",opts:["Trisomy 13","Trisomy 18","Trisomy 21","Klinefelter syndrome"],ans:2,r:"Trisomy 21 (Down syndrome) is the most common chromosomal disorder and a major cause of intellectual disability. Trisomy 13 = Patau syndrome. Trisomy 18 = Edwards syndrome. Klinefelter syndrome (47,XXY) is one of the most common causes of male hypogonadism but is not a trisomy."},
+  {id:19,t:3,c:false,stem:"Which of the following does NOT cause intellectual disability?",opts:["Prader-Willi syndrome","Angelman syndrome","Klinefelter syndrome","Fragile X syndrome"],ans:2,r:"Klinefelter syndrome (47,XXY) causes cognitive abilities ranging from average to slightly below average — not frank intellectual disability. Prader-Willi (paternal chr 15 deletion) and Angelman (maternal chr 15 deletion) both cause intellectual disability. Fragile X (CGG repeat) is the most common inherited cause of intellectual disability."},
+  {id:20,t:6,c:false,stem:"Wiskott-Aldrich syndrome is classified as which type of disorder?",opts:["Immunodeficiency disorder","Metabolic disorder","Hematologic disorder","Musculoskeletal disorder"],ans:0,r:"Wiskott-Aldrich syndrome is an X-linked recessive immunodeficiency characterized by the triad: Thrombocytopenia, Eczema, and Recurrent pyogenic infections (WATER mnemonic). It results from mutation in the WAS gene, impairing T-cell function and platelet production."},
+  {id:21,t:5,c:true,stem:"Which type of intracranial hemorrhage is classically associated with rupture of bridging veins, appearing as a crescent-shaped hemorrhage on CT that crosses suture lines?",opts:["Epidural hematoma","Subdural hematoma","Subarachnoid hemorrhage","Intraparenchymal hemorrhage"],ans:1,r:"Subdural hematoma = rupture of bridging veins between cortex and dural sinuses → crescent-shaped hemorrhage crossing suture lines on CT. Epidural hematoma = middle meningeal artery rupture → biconvex hyperdense collection NOT crossing suture lines, often from temporal skull fracture involving the pterion."},
+  {id:22,t:1,c:true,stem:"A patient suffers an acute ischemic stroke. Which morphological type of cell death occurs in the affected brain tissue?",opts:["Coagulative necrosis","Liquefactive necrosis","Gangrenous necrosis","Caseous necrosis"],ans:1,r:"Hypoxic/ischemic cell death in the CNS results in liquefactive necrosis — the brain liquefies because of its high lipid content and abundant hydrolytic enzymes. Coagulative necrosis occurs in most other organs (heart, kidney). Caseous necrosis = tuberculosis. Gangrenous necrosis = ischemic limb injury."},
+  {id:23,t:1,c:true,stem:"A patient with acute pancreatitis has surgical exploration. What type of necrosis is characteristically found in the pancreas and surrounding adipose tissue?",opts:["Coagulative necrosis","Liquefactive necrosis","Gangrenous necrosis","Fat necrosis"],ans:3,r:"Fat necrosis occurs in acute pancreatitis from the release of activated pancreatic lipases into the pancreas and peritoneal cavity, which saponify fat. This produces chalky-white calcium soap deposits (saponification). It also occurs in breast trauma. Coagulative necrosis affects the myocardium in MI."},
+  {id:24,t:1,c:false,stem:"Which pathway of apoptosis is triggered by DNA damage, loss of survival signals, and accumulation of misfolded proteins?",opts:["Death receptor pathway","Extrinsic pathway","Mitochondrial pathway","Caspase-8 pathway"],ans:2,r:"The mitochondrial (intrinsic) pathway is triggered by intracellular stress: DNA damage, ER stress from misfolded proteins, and loss of survival signals → Bcl-2 family dysregulation → cytochrome c release → apoptosome → caspase activation. The death receptor (extrinsic) pathway is initiated by engagement of death receptors (Fas, TNF-R)."},
+  {id:25,t:6,c:false,stem:"Which small vessel vasculitis presents with the triad of necrotizing vasculitis, necrotizing granulomas in the lung or upper respiratory tract, and focal necrotizing glomerulonephritis?",opts:["Granulomatosis with polyangiitis","Eosinophilic granulomatosis with polyangiitis","Microscopic polyangiitis","Buerger disease"],ans:0,r:"Granulomatosis with polyangiitis (formerly Wegener's) = necrotizing vasculitis + necrotizing granulomas in the lung/URT + focal crescentic glomerulonephritis, associated with PR3-ANCA/c-ANCA. EGPA (Churg-Strauss) = asthma + eosinophilia + MPO-ANCA. Microscopic polyangiitis = no granulomas + MPO-ANCA. Buerger = heavy smokers only."},
+  {id:26,t:1,c:false,stem:"Histamine is an inflammatory mediator that promotes vasodilation and increased vascular permeability. Which of the following cell types produces histamine?",opts:["Macrophages","Platelets","Eosinophils","Neutrophils"],ans:1,r:"Histamine is produced and stored in mast cells, basophils, and platelets. Platelets are among the sources listed. Macrophages produce cytokines (TNF, IL-1, IL-6). Eosinophils produce major basic protein and eosinophil peroxidase. Neutrophils produce reactive oxygen species."},
+  {id:27,t:4,c:false,stem:"In carcinoid heart disease, which cardiac structure is primarily affected by the vasoactive mediators released by gastrointestinal carcinoid tumors?",opts:["Right heart valves","Left heart valves","Pulmonary veins","Left atrium"],ans:0,r:"The right side of the heart is first exposed to carcinoid mediators (serotonin, bradykinin) from GI tumors → right-sided endocardial and valvular fibrosis (tricuspid and pulmonary valves). The left heart is protected because the lungs inactivate these mediators before they reach the left side."},
+  {id:28,t:4,c:true,stem:"A female patient presents with episodes of cutaneous flushing, bronchospasm, diarrhea, and an incidental heart murmur. She has no history of allergies. What is the most likely diagnosis?",opts:["Carcinoid syndrome","Plummer-Vinson syndrome","Mastocytosis","Anaphylaxis"],ans:0,r:"Carcinoid syndrome = cutaneous flushing + bronchospasm + diarrhea + heart murmur, caused by serotonin and bradykinin from carcinoid tumors that have metastasized to the liver (losing hepatic inactivation). Plummer-Vinson = dysphagia + iron deficiency anemia + esophageal webs. Anaphylaxis is allergy-triggered."},
+  {id:29,t:4,c:false,stem:"What is the most common clinical manifestation of Multiple Endocrine Neoplasia type 1?",opts:["Primary hyperparathyroidism","Pancreatic neuroendocrine tumor","Prolactinoma","Zollinger-Ellison syndrome"],ans:0,r:"MEN1 (Wermer's syndrome): 3 P's — Parathyroid adenomas (most common, ~90%), Pancreatic endocrine tumors (gastrinoma/insulinoma), and Pituitary tumors (prolactinoma most common). Primary hyperparathyroidism is the most common initial and overall manifestation of MEN1."},
+  {id:30,t:4,c:false,stem:"Which Multiple Endocrine Neoplasia syndrome is characterized by medullary thyroid carcinoma, pheochromocytoma, and mucosal neuromas with a marfanoid habitus?",opts:["MEN1","MEN2A","MEN2B","MEN3"],ans:2,r:"MEN2B = medullary thyroid carcinoma + pheochromocytoma + mucosal neuromas (oral/intestinal ganglioneuromatosis) + marfanoid habitus; RET mutation. MEN2A = medullary thyroid CA + pheochromocytoma + parathyroid hyperplasia; also RET mutation. MEN1 = Parathyroid + Pancreas + Pituitary; MEN1 gene."},
+  {id:31,t:4,c:false,stem:"Which of the following is TRUE specifically of diffuse-type gastric adenocarcinoma?",opts:["Associated with H. pylori infection","Commonly located in the lesser curvature","Presents with raised, ulcerated margins","Composed of signet ring cells"],ans:3,r:"Diffuse gastric cancer is NOT associated with H. pylori (unlike intestinal type), has E-cadherin mutations, and is composed of mucin-filled signet ring cells that infiltrate the stomach wall → linitis plastica. Intestinal-type gastric cancer is H. pylori-associated, located in the lesser curvature, and has raised ulcerated margins."},
+  {id:32,t:2,c:false,stem:"A patient develops individual lesions that are either microscopic or small, visible (2mm) foci of yellow-white consolidation scattered diffusely throughout the lung parenchyma. Which condition does this describe?",opts:["Progressive pulmonary tuberculosis","Secondary tuberculosis","Miliary pulmonary disease","Primary tuberculosis"],ans:2,r:"Miliary pulmonary disease = microscopic to 2mm yellow-white consolidation foci scattered through the lung parenchyma (resembling millet seeds), caused by hematogenous spread of TB. Primary TB may have a Ghon focus (1–1.5cm). Secondary TB has a small apical focus (<2cm within 1–2cm of apical pleura)."},
+  {id:33,t:2,c:false,stem:"A Ghon focus — a 1 to 1.5 cm area of gray-white inflammation with consolidation — is characteristically found in which form of tuberculosis?",opts:["Progressive pulmonary tuberculosis","Secondary tuberculosis","Miliary pulmonary disease","Primary tuberculosis"],ans:3,r:"The Ghon focus is the primary subpleural lesion in primary tuberculosis. Combined with enlarged hilar lymph nodes, it forms the Ghon complex. Secondary TB (reactivation) occurs in the apical lung and lacks a Ghon complex. Miliary TB results from hematogenous dissemination."},
+  {id:34,t:4,c:false,stem:"What is the most common mesenchymal tumor of the abdomen?",opts:["Carcinoid tumor","MALToma","Retroperitoneal liposarcoma","Gastrointestinal stromal tumor"],ans:3,r:"GIST (gastrointestinal stromal tumor) is the most common mesenchymal tumor of the abdomen, most often arising in the stomach from interstitial cells of Cajal (pacemaker cells). The key diagnostic marker is KIT (CD117), a receptor tyrosine kinase. Most GISTs have activating KIT mutations."},
+  {id:35,t:3,c:false,stem:"The majority of deaths in Marfan syndrome are caused by which complication?",opts:["Skeletal abnormalities","Ocular complications","Mitral valve prolapse","Aortic dissection"],ans:3,r:"Aortic dissection accounts for the majority of deaths in Marfan syndrome, followed by cardiac failure. Skeletal abnormalities (tall stature, arachnodactyly, pectus) are the most striking features but not the cause of death. Ocular manifestations include ectopia lentis. MVP is common but less lethal. All result from fibrillin-1 mutation."},
+  {id:36,t:3,c:true,stem:"In Marfan syndrome patients, a condition involving myxomatous degeneration of the spongiosa layer is described histologically. Which condition is this?",opts:["Mitral valve prolapse","Ectopia lentis","Ascending aortic dilation","Joint hyperlaxity"],ans:0,r:"Mitral valve prolapse in Marfan syndrome is described histologically as myxomatous degeneration of the spongiosa layer of the mitral leaflet. This weakens the leaflet, causing it to prolapse into the left atrium during systole. All findings in Marfan result from fibrillin-1 gene mutation on chromosome 15."},
+  {id:37,t:3,c:true,stem:"A patient presents with hematuria that progresses to chronic kidney disease, associated with sensorineural deafness and lens dislocation. What is the most likely diagnosis?",opts:["Alport syndrome","Marfan syndrome","Homocystinuria","Thin basement membrane nephropathy"],ans:0,r:"Alport syndrome = mutation in type IV collagen (COL4A3, COL4A4, or COL4A5) → hematuria progressing to CKD + sensorineural deafness + lens dislocation, posterior cataracts, and corneal dystrophy. Most commonly X-linked dominant. Thin basement membrane nephropathy differs by absence of hearing loss, ocular findings, and family history of renal failure."},
+  {id:38,t:5,c:true,stem:"A young patient with emphysema is diagnosed with alpha-1 antitrypsin deficiency. On chest CT, there is more severe involvement of the bases. Which type of emphysema is most likely present?",opts:["Centriacinar emphysema","Panacinar emphysema","Distal acinar emphysema","Paraseptal emphysema"],ans:1,r:"Panacinar emphysema affects respiratory bronchioles AND alveoli, is associated with alpha-1 antitrypsin deficiency, and is predominantly in the lower lobes. Centriacinar emphysema affects respiratory bronchioles while sparing distal alveoli, is associated with tobacco smoking, and predominates in the upper lobes. Mnemonic: smoke rises up (centriacinar upper lobes)."},
+  {id:39,t:6,c:true,stem:"A 30-year-old woman presents with nonscarring alopecia, malar rash, oral ulcers, joint pains, and rising creatinine. ANA is positive. Which type of hypersensitivity reaction underlies the pathogenesis of SLE?",opts:["Type I","Type II","Type III","Type IV"],ans:2,r:"SLE is a Type III hypersensitivity reaction (immune complex-mediated). Antigen-antibody complexes deposit in vessel walls, glomeruli, and synovium → complement activation → inflammation. Type I = anaphylaxis/atopy. Type II = antibody-mediated cytotoxicity. Type IV = T-cell mediated (contact dermatitis, PPD skin test)."},
+  {id:40,t:6,c:false,stem:"The PPD skin test used to detect latent tuberculosis infection represents which type of hypersensitivity reaction?",opts:["Type I","Type II","Type III","Type IV"],ans:3,r:"The PPD (tuberculin) skin test is a Type IV hypersensitivity reaction (T-cell mediated/delayed-type). Sensitized T-cells recognize PPD antigens, release cytokines, and cause induration 48–72 hours later. No antibodies are involved. Other Type IV examples: contact dermatitis, DRESS syndrome, graft-versus-host disease."},
+  {id:41,t:3,c:false,stem:"Which of the following diseases follows an autosomal recessive inheritance pattern?",opts:["Huntington disease","Multiple endocrine neoplasia type 1","Tuberous sclerosis","Cystic fibrosis"],ans:3,r:"Cystic fibrosis (CFTR mutation, chromosome 7) is autosomal recessive. Other AR diseases: PKU, sickle cell disease, Wilson disease, sphingolipidoses, hemochromatosis, glycogen storage diseases, thalassemia, Kartagener syndrome, ARPKD. Huntington disease, MEN1, and tuberous sclerosis are autosomal dominant."},
+  {id:42,t:3,c:false,stem:"Sickle cell trait in African populations provides natural protection against which infectious disease?",opts:["Schistosomiasis","Lyme disease","Dengue fever","Malaria"],ans:3,r:"Sickle cell trait provides resistance specifically against Plasmodium falciparum malaria. The HbS-containing erythrocytes are inhospitable to parasite development and are rapidly removed from circulation. This explains the high HbS allele frequency in malaria-endemic regions of sub-Saharan Africa (natural selection)."},
+  {id:43,t:5,c:false,stem:"Which of the following laboratory findings is TRUE in iron deficiency anemia?",opts:["Low serum ferritin","Low total iron-binding capacity","High serum ferritin","High serum iron"],ans:0,r:"IDA: low serum iron + low ferritin (depleted iron stores) + HIGH TIBC (upregulated transferrin production when iron is low) + low transferrin saturation. Ferritin is the most sensitive early indicator of iron depletion. Contrast with anemia of chronic disease: low iron + low TIBC + HIGH or normal ferritin."},
+  {id:44,t:2,c:true,stem:"A patient with leukemia presents with headache, facial pain, and a black necrotic eschar on the face. Microscopy of tissue shows nonseptate hyphae with frequent right-angle branching. What is the most likely diagnosis?",opts:["Mucormycosis","Aspergillosis","Cryptococcosis","Candidiasis"],ans:0,r:"Mucormycosis: immunocompromised patients (leukemia, neutropenia, diabetes with DKA) → black necrotic eschar (angioinvasion + thrombosis) + nonseptate/pauciseptate hyphae with right-angle branching. Aspergillus: septate hyphae with branching at acute angles (45°). Cryptococcus: encapsulated yeast, not hyphae."},
+  {id:45,t:2,c:true,stem:"A 45-year-old woman with prior tuberculosis presents with 1-month fever, cough, pleuritic chest pain, and new hemoptysis. Sputum microscopy shows septate filaments 5–10 μm thick with acute-angle branching. What is the most likely diagnosis?",opts:["Mucormycosis","Aspergillosis","Histoplasmosis","Coccidioidomycosis"],ans:1,r:"Aspergillosis: septate hyphae with thick branching at acute angles (45°) in a patient with prior cavitary TB (aspergilloma) presenting with hemoptysis. Mucormycosis has nonseptate hyphae with right-angle branching in severely immunocompromised patients. Histoplasma and Coccidioides appear as small intracellular or spherical forms, not septate hyphae."},
+  {id:46,t:2,c:false,stem:"Which organism is responsible for causing chancroid, a sexually transmitted infection presenting with painful genital ulcers and tender inguinal lymphadenopathy?",opts:["Haemophilus ducreyi","Haemophilus influenzae","Treponema pallidum","Yersinia pestis"],ans:0,r:"Haemophilus ducreyi causes chancroid — a painful genital ulcer (soft chancre) with tender suppurative inguinal lymphadenopathy. Treponema pallidum causes syphilis (painless hard chancre). Haemophilus influenzae causes otitis media, epiglottitis, and meningitis. Yersinia pestis causes bubonic plague."},
+  {id:47,t:6,c:true,stem:"A 25-year-old heavy smoker presents with fever, hemoptysis, and hematuria. His mother states his urine looks like blood. What is the most likely diagnosis?",opts:["Thin basement membrane nephropathy","Alport syndrome","Goodpasture syndrome","IgA nephropathy"],ans:2,r:"Goodpasture syndrome presents in young men with anti-GBM antibodies destroying pulmonary alveoli and renal glomeruli → hemoptysis (necrotizing hemorrhagic pneumonitis) + hematuria (rapidly progressive glomerulonephritis). Young male, smoking (a risk factor), pulmonary and renal involvement together = classic presentation."},
+  {id:48,t:6,c:true,stem:"What would be characteristically seen on immunofluorescence of the glomerular basement membrane in the patient from the previous question?",opts:["Wire loop deposits","Lumpy bumpy granular deposits","Linear deposits of immunoglobulins","Mesangial IgA deposits"],ans:2,r:"Goodpasture syndrome = linear deposits of IgG and complement along the GBM on immunofluorescence, reflecting anti-GBM antibody binding. Wire loop deposits = SLE (subepithelial immune complex deposits). Lumpy bumpy = post-infectious GN. Mesangial IgA = IgA nephropathy (Berger's disease)."},
+  {id:49,t:2,c:false,stem:"What is the most common extrasalivary complication of mumps?",opts:["Orchitis","Encephalitis","Aseptic meningitis","Septic meningitis"],ans:2,r:"The most common extrasalivary complication of mumps is aseptic meningitis, occurring in up to 10% of cases. Orchitis is the most common complication in postpubertal males (may cause sterility if bilateral). Mumps encephalitis is rare. Septic meningitis is bacterial, not viral."},
+  {id:50,t:2,c:true,stem:"In a 3-day-old neonate, what is the most common cause of early-onset bacterial meningitis?",opts:["Escherichia coli","Listeria monocytogenes","Group B Streptococcus","Neisseria meningitidis"],ans:2,r:"Group B Streptococcus (Streptococcus agalactiae) is the most common cause of early-onset sepsis and meningitis in the first 7 days of life, acquired during delivery. E. coli is the second most common cause of early-onset neonatal meningitis. Listeria is associated with unpasteurized dairy consumption by the mother."},
+  {id:51,t:3,c:false,stem:"Which of the following clinical features is NOT associated with Trisomy 21?",opts:["Atrioventricular septal defect","Acute lymphoblastic leukemia","Umbilical hernia","None of the above"],ans:3,r:"All listed options ARE associated with Down syndrome: AV septal defects (most common congenital heart defect in DS), ALL (and AML), and umbilical hernia. Therefore, 'None of the above' is correct — none of the options represent a feature that is NOT associated with Trisomy 21."},
+  {id:52,t:3,c:false,stem:"Which factor is known to have the strongest influence on the incidence of Trisomy 21?",opts:["Vinyl chloride exposure","Lead exposure","Tobacco smoking","Maternal age"],ans:3,r:"Maternal age is the strongest known risk factor for Trisomy 21, due to increased meiotic non-disjunction in aging oocytes. Risk rises dramatically after age 35. Vinyl chloride → hepatic angiosarcoma. Lead → neurotoxicity in children. Smoking is not a risk factor for Trisomy 21."},
+  {id:53,t:5,c:false,stem:"Which of the following complications can be found specifically in patients with ulcerative colitis but NOT in Crohn's disease?",opts:["Noncaseating granulomas","Transmural inflammation","Skip lesions","Toxic megacolon"],ans:3,r:"Toxic megacolon is a serious complication associated with ulcerative colitis. Noncaseating granulomas, transmural inflammation, and skip lesions are all features of Crohn's disease. UC is characterized by continuous mucosal/submucosal inflammation limited to the colon, while Crohn's can affect any GI segment with transmural involvement."},
+  {id:54,t:5,c:true,stem:"A 30-year-old man consults for recurrent episodes of hematuria that consistently occur concurrently with upper respiratory tract infections. What is the most likely diagnosis?",opts:["IgA nephropathy","Alport syndrome","Thin basement membrane nephropathy","Goodpasture syndrome"],ans:0,r:"IgA nephropathy (Berger's disease) classically presents as synpharyngitic hematuria — gross hematuria occurring simultaneously with (or within 1–2 days of) an upper respiratory tract infection. This differs from post-streptococcal GN, which has a 1–3 week latent period after infection."},
+  {id:55,t:5,c:false,stem:"What is characteristically found on immunofluorescence studies of the glomerulus in IgA nephropathy?",opts:["Linear IgG deposition along the GBM","Granular lumpy-bumpy deposits","Mesangial deposition of IgA","Thinning of the glomerular basement membrane"],ans:2,r:"IgA nephropathy (Berger's disease) = mesangial deposits of IgA on immunofluorescence — the pathognomonic finding. Linear IgG = Goodpasture syndrome. Lumpy-bumpy granular = post-infectious GN or membranoproliferative GN. Thinning of GBM = thin basement membrane nephropathy."},
+  {id:56,t:4,c:false,stem:"What is the most common subtype of Hodgkin lymphoma, characterized by deposition of collagen in bands that divide lymph nodes into circumscribed nodules?",opts:["Nodular sclerosis","Mixed cellularity","Lymphocyte-rich","Lymphocyte depletion"],ans:0,r:"Nodular sclerosis is the most common subtype of Hodgkin lymphoma, especially in young women. It is characterized by collagen bands dividing the lymph node into nodules and is usually EBV-negative. Mixed cellularity is the second most common and is EBV-positive ~70% of the time."},
+  {id:57,t:4,c:false,stem:"Which subtype of Hodgkin lymphoma is associated with Reed-Sternberg cells that are EBV-infected 90% of the time?",opts:["Nodular sclerosis","Mixed cellularity","Lymphocyte-rich","Lymphocyte depletion"],ans:3,r:"Lymphocyte depletion is the least common and most aggressive subtype of Hodgkin lymphoma, with Reed-Sternberg cells that are EBV-infected in ~90% of cases. It has the worst prognosis. Nodular sclerosis is typically EBV-negative. Mixed cellularity is EBV-positive ~70% of the time."},
+  {id:58,t:5,c:false,stem:"Which karyotype is found in a complete hydatidiform mole?",opts:["46, XX","69, XXY","45, X","47, XXY"],ans:0,r:"Complete mole has a 46,XX karyotype (diploid), formed by fertilization of an enucleated egg by two sperm (or one sperm that duplicates). Partial moles are triploid (e.g., 69,XXY). Complete moles have no fetal tissue, are associated with higher hCG, and have greater risk of choriocarcinoma than partial moles."},
+  {id:59,t:4,c:true,stem:"A 70-year-old man has a 3-month history of constipation and abdominal cramping. Abdominal X-ray shows 'napkin-ring' constrictions. What is the most likely diagnosis?",opts:["Sigmoid volvulus","Mass in the ascending colon","Mass in the distal colon","Intussusception"],ans:2,r:"Napkin-ring (apple-core) constrictions on imaging are characteristic of distal colon (left-sided) colorectal carcinoma, which causes circumferential luminal narrowing leading to obstruction. Proximal (right-sided) colon masses usually grow as polypoid, exophytic masses and rarely cause obstruction. This is a classic pattern of left-sided colon cancer."},
+  {id:60,t:4,c:false,stem:"In patients with colorectal carcinoma, which factor is considered the most important prognostic determinant?",opts:["CEA levels","Depth of invasion","Patient age","Comorbidities"],ans:1,r:"The depth of invasion (T stage) is the single most important prognostic factor in colorectal carcinoma, along with the presence or absence of lymph node metastases. Together, these two factors form the basis of TNM staging. CEA is useful for monitoring recurrence but not as the primary prognostic factor."},
+  {id:61,t:4,c:true,stem:"A 2-year-old boy is referred for co-management of a testicular mass. Microscopy shows structures resembling primitive glomeruli with central capillaries surrounded by tumor cells. Which histologic finding describes this?",opts:["Schiller-Duval bodies","Call-Exner bodies","Reinke crystalloids","Mallory bodies"],ans:0,r:"Schiller-Duval bodies (structures resembling primitive endodermal sinuses/glomeruli) are pathognomonic of endodermal sinus tumors (yolk sac tumors), the most common testicular tumor in children under 3 years. Call-Exner bodies = granulosa cell tumors. Reinke crystalloids = Leydig cell tumors. Mallory bodies = alcoholic hepatitis."},
+  {id:62,t:3,c:false,stem:"Which neck cyst arises from incomplete descent of the thyroid analog from the foramen cecum, resulting in a midline cyst?",opts:["Branchial cyst","Thyroglossal duct cyst","Paraganglioma","Dermoid cyst"],ans:1,r:"Thyroglossal duct cyst results from persistence of the thyroglossal duct, the tract along which the thyroid descends from the foramen cecum at the base of the tongue to its final neck position. It presents as a midline cyst that moves with swallowing. Branchial cysts arise from the 2nd branchial cleft and are lateral."},
+  {id:63,t:4,c:true,stem:"A patient with obstructive jaundice is found to have an enlarged, non-tender, palpable gallbladder. Which organ malignancy is most likely responsible for this finding?",opts:["Liver carcinoma","Pancreatic carcinoma","Duodenal carcinoma","Gallbladder carcinoma"],ans:1,r:"Courvoisier sign = enlarged, non-tender, palpable gallbladder in the setting of obstructive jaundice = pancreatic carcinoma (head of pancreas) until proven otherwise. Gallbladder carcinoma causes a shrunken, fibrotic gallbladder. Liver and duodenal carcinoma do not typically cause this specific sign."},
+  {id:64,t:4,c:false,stem:"What is the most common type of thyroid cancer?",opts:["Papillary carcinoma","Anaplastic carcinoma","Medullary carcinoma","Follicular carcinoma"],ans:0,r:"Papillary thyroid carcinoma accounts for ~85% of thyroid cancers and has an excellent prognosis. It is associated with radiation exposure, BRAF and RET/PTC mutations. Follicular carcinoma = second most common, may spread hematogenously. Medullary = C-cell origin, calcitonin-secreting, associated with MEN2. Anaplastic = most aggressive, worst prognosis."},
+  {id:65,t:4,c:true,stem:"A thyroid biopsy shows cells with empty-appearing nuclei with dispersed 'ground-glass' chromatin. What is the most likely histologic diagnosis?",opts:["Papillary carcinoma","Anaplastic carcinoma","Medullary carcinoma","Follicular carcinoma"],ans:0,r:"Orphan Annie eye nuclei (empty-appearing nuclei with 'ground-glass' or optically clear chromatin) are the pathognomonic nuclear feature of papillary thyroid carcinoma. Other features include nuclear grooves, nuclear pseudoinclusions, psammoma bodies, and papillary architecture. These nuclei reflect finely dispersed chromatin."},
+  {id:66,t:4,c:true,stem:"An 80-year-old man presents with lower urinary tract symptoms, hematuria, weight loss, and back pain. Prostate carcinoma is suspected. In which zone of the prostate gland is the majority of prostate carcinoma found?",opts:["Central zone","Midcentral zone","Peripheral zone","Transition zone"],ans:2,r:"~70% of prostate carcinomas arise in the peripheral zone, which can be palpated on digital rectal examination (DRE) as a hard nodule. The transition zone is the site of benign prostatic hyperplasia (BPH). The central zone harbors few carcinomas. PSA elevation + peripheral zone lesion = high suspicion for prostate cancer."},
+  {id:67,t:2,c:false,stem:"What is considered the mainstay of diagnosis for syphilis?",opts:["Serology","Dark-field microscopy","Biopsy","Bacterial culture"],ans:0,r:"Serology is the mainstay of syphilis diagnosis, including nontreponemal tests (VDRL, RPR — screening) and treponemal tests (FTA-ABS, TPPA — confirmatory). Dark-field microscopy can visualize Treponema pallidum directly in primary chancre exudate but is not widely available. Culture of T. pallidum is not practical."},
+  {id:68,t:4,c:true,stem:"A patient diagnosed with pancreatic adenocarcinoma develops DVT in the left leg that spontaneously resolves, only to reappear in the right leg. What is this migratory thrombophlebitis called?",opts:["Chvostek sign","Trousseau syndrome","Leser-Trelat sign","Acanthosis nigricans"],ans:1,r:"Trousseau syndrome (migratory thrombophlebitis) is a paraneoplastic phenomenon classically associated with pancreatic adenocarcinoma, caused by tumor-induced hypercoagulability. Leser-Trelat sign = sudden appearance of multiple seborrheic keratoses in GI malignancy. Chvostek sign = facial muscle twitch from hypocalcemia. Acanthosis nigricans = GI or other visceral malignancy."},
+  {id:69,t:6,c:false,stem:"Which of the following autoimmune diseases does NOT develop in association with Hashimoto thyroiditis?",opts:["Type 1 diabetes mellitus","Type 2 diabetes mellitus","Systemic lupus erythematosus","Myasthenia gravis"],ans:1,r:"Type 2 diabetes mellitus is not an autoimmune disease and does not cluster with Hashimoto thyroiditis. Hashimoto thyroiditis is associated with other autoimmune diseases: Type 1 DM, autoimmune adrenalitis (Addison's), SLE, myasthenia gravis, and Sjögren syndrome (autoimmune polyendocrinopathy clustering)."},
+  {id:70,t:5,c:false,stem:"Deficiency of which substance leads to degeneration of both ascending and descending spinal tracts, causing subacute combined degeneration of the spinal cord?",opts:["Vitamin A","Vitamin E","Vitamin B1","Vitamin B12"],ans:3,r:"Vitamin B12 deficiency → subacute combined degeneration: demyelination of dorsal columns (posterior) and corticospinal tracts (lateral) → sensory ataxia + spastic paraparesis. Vitamin B1 (thiamine) deficiency = Wernicke-Korsakoff syndrome. Vitamin A deficiency = night blindness, Bitot spots. Vitamin E deficiency = spinocerebellar degeneration."},
+  {id:71,t:5,c:false,stem:"What is the most common cause of myocarditis?",opts:["Acute coronary syndrome","Chagas disease","Alcohol use disorder","Viral infections"],ans:3,r:"Viral infections — primarily Coxsackie virus A and B — are the most common causes of myocarditis worldwide. Chagas disease (Trypanosoma cruzi) is the most common cause in endemic regions of South America. Alcohol causes dilated cardiomyopathy, not myocarditis per se. ACS causes ischemic necrosis."},
+  {id:72,t:5,c:false,stem:"What is the leading cause of sudden cardiac death?",opts:["Aortic stenosis","Rheumatic heart disease","Coronary artery disease","Hypertrophic cardiomyopathy"],ans:2,r:"Coronary artery disease is the leading cause of sudden cardiac death, responsible for up to 80% of cases. Fatal ventricular arrhythmias (VF/VT) arise from ischemic myocardium. Hypertrophic cardiomyopathy is the most common cause in young athletes. Aortic stenosis and rheumatic heart disease cause SCD much less frequently."},
+  {id:73,t:5,c:false,stem:"What is the most common mechanism by which pathogenic organisms gain access to the lung to cause lung abscesses?",opts:["Septic embolism","Aspiration of infective material","Luminal obstruction from a mass","Hematogenous seeding"],ans:1,r:"Aspiration is the most common mechanism for lung abscess formation. Risk factors include: suppressed cough reflexes, dysphagia, protracted vomiting, and poor dental hygiene. Aspirated material more commonly reaches the right lung (more vertical main bronchus). Septic emboli from endocarditis are another important mechanism."},
+  {id:74,t:5,c:false,stem:"Which of the following is NOT true regarding lung abscesses?",opts:["More commonly occur in the left lung","May present with foul-smelling sputum","Digital clubbing may be present","None of the above"],ans:0,r:"Lung abscesses from aspiration are more common in the RIGHT lung because the right main bronchus is more vertical and has a wider lumen than the left. Foul-smelling sputum is characteristic of anaerobic infection. Clubbing of fingers (not toes) may develop with chronic lung abscess. 'More common in the left lung' is NOT true."},
+  {id:75,t:5,c:false,stem:"What is considered the earliest lesion in Crohn's disease?",opts:["Aphthous ulcer","Crypt abscess","Creeping fat","Noncaseating granuloma"],ans:0,r:"Aphthous ulcers are the earliest lesions in Crohn's disease, forming over lymphoid follicles in the bowel mucosa. As the disease progresses: ulcers coalesce → cobblestoning → crypt abscesses → transmural inflammation → granulomas (in ~35%) → creeping fat (mesenteric fat wrapping). All of these features can be present, but aphthous ulcers appear first."},
+  {id:76,t:5,c:false,stem:"Which pneumoconiosis is characteristically associated with eggshell calcification of hilar lymph nodes on chest radiograph?",opts:["Coal workers' pneumoconiosis","Silicosis","Asbestosis","Berylliosis"],ans:1,r:"Eggshell calcification of hilar lymph nodes is a classic radiographic sign of silicosis, caused by inhalation of silicon dioxide (quartz). Silicosis also increases the risk of TB (silicotuberculosis) and lung cancer. Asbestosis causes lower lobe fibrosis and pleural plaques. CWP causes Caplan lesions in rheumatoid arthritis patients."},
+  {id:77,t:4,c:false,stem:"Which of the following is TRUE in patients who are heavy smokers AND have heavy asbestos exposure?",opts:["Higher risk of developing lung cancer","Higher risk of developing mesothelioma","Lower risk of dying from lung cancer","No additional risk beyond asbestos alone"],ans:0,r:"Smokers with heavy asbestos exposure have a synergistically higher risk of developing lung cancer (multiplicative, not additive). However, there is no increased risk of developing mesothelioma in patients who both smoke and are exposed to asbestos — mesothelioma risk from asbestos is not synergized by smoking."},
+  {id:78,t:4,c:false,stem:"Which of the following is NOT found in patients with prostate cancer?",opts:["Osteoclastic bone metastasis","Osteoblastic bone metastasis","Hematogenous spread to bone","None of the above"],ans:0,r:"Prostate cancer characteristically produces osteoBLASTIC (sclerotic/bone-forming) metastases to bone, NOT osteoclastic (lytic) metastases. This is the opposite of most other cancers (e.g., breast, kidney, lung, thyroid cause lytic metastases). Prostate cancer spreads hematogenously to bones, especially the axial skeleton and femur."},
+  {id:79,t:4,c:false,stem:"Which of the following testicular tumors carries the best prognosis?",opts:["Yolk sac tumor","Pure embryonal carcinoma","Seminoma","Sex cord-gonadal stromal tumor"],ans:2,r:"Seminomas have the best prognosis among testicular germ cell tumors because they are both radiosensitive and chemosensitive. They tend to spread via lymphatics and present at a lower stage. Yolk sac tumors have favorable outcomes in children but worse prognosis in adults. Embryonal carcinoma is more aggressive."},
+  {id:80,t:5,c:false,stem:"The appearance of gas-forming bacteria such as Clostridia in the gallbladder may result in which type of cholecystitis?",opts:["Gangrenous cholecystitis","Emphysematous cholecystitis","Calculous cholecystitis","Acalculous cholecystitis"],ans:1,r:"Emphysematous cholecystitis is caused by gas-forming organisms (Clostridia, E. coli) in the gallbladder wall, producing gas visible on imaging. It occurs more commonly in diabetic and elderly patients and carries a higher risk of perforation. Gas in the gallbladder wall or lumen on CT is the diagnostic finding."},
+  {id:81,t:5,c:false,stem:"Which of the following does NOT contribute to the formation of cholesterol gallstones?",opts:["Bile supersaturation with cholesterol","Gallbladder hypomotility","Cholesterol crystal nucleation","Hyposecretion of mucus"],ans:3,r:"Cholesterol gallstone formation requires: (1) bile supersaturation with cholesterol, (2) gallbladder hypomotility reducing bile clearance, and (3) cholesterol crystal nucleation. Mucus HYPERsecretion (not hyposecretion) promotes stone formation by trapping crystals. Hyposecretion of mucus does NOT contribute."},
+  {id:82,t:2,c:false,stem:"Trypanosoma cruzi, the parasite causing Chagas disease, is transmitted to humans by which vector?",opts:["Triatomine bugs","Tsetse flies","Cysts in undercooked meat","Cysts in contaminated water"],ans:0,r:"T. cruzi is transmitted by triatomine bugs (reduviid/kissing bugs) through their feces deposited near the bite wound. Tsetse flies transmit T. brucei (African sleeping sickness). Toxoplasma cysts are acquired through undercooked meat. Cryptosporidium/Giardia cysts are waterborne."},
+  {id:83,t:4,c:false,stem:"Exposure to which environmental carcinogen is most directly associated with the development of skin cancer?",opts:["Arsenic","Benzene","Cadmium","Vinyl chloride"],ans:0,r:"Arsenic exposure causes skin cancer (squamous cell carcinoma, Bowen disease, and arsenical keratoses). Benzene → acute myeloid leukemia. Cadmium → prostate carcinoma. Vinyl chloride → hepatic angiosarcoma. Arsenic also causes peripheral vascular disease and causes characteristic Mees' lines on fingernails."},
+  {id:84,t:4,c:false,stem:"Which of the following cancers most commonly causes SIADH as a paraneoplastic syndrome?",opts:["Renal carcinoma","Cerebellar hemangioma","Breast carcinoma","Small cell lung carcinoma"],ans:3,r:"Small cell lung carcinoma is the most common cause of SIADH as a paraneoplastic syndrome (ectopic ADH production). It also causes ectopic ACTH → Cushing syndrome. Renal cell carcinoma → hypercalcemia (PTHrP) + polycythemia (EPO). Cerebellar hemangioblastoma → polycythemia. Breast cancer → hypercalcemia."},
+  {id:85,t:1,c:false,stem:"Which of the following can cause pseudotumor cerebri, presenting with headache, vomiting, and blurred vision from elevated intracranial pressure?",opts:["Vitamin A deficiency","Vitamin A toxicity","Vitamin B12 deficiency","Vitamin C deficiency"],ans:1,r:"Acute vitamin A toxicity causes pseudotumor cerebri (idiopathic intracranial hypertension), mimicking a brain tumor with elevated ICP but no mass lesion. Vitamin A deficiency causes night blindness and Bitot spots. Vitamin B12 deficiency causes subacute combined degeneration. Vitamin C deficiency causes scurvy."},
+  {id:86,t:4,c:false,stem:"What is the most common monoclonal immunoglobulin produced in multiple myeloma?",opts:["IgG","IgA","IgM","IgD"],ans:0,r:"IgG is the most common monoclonal protein (M-protein) in multiple myeloma (~55%), followed by IgA (~25%). IgM is characteristic of Waldenström macroglobulinemia, not multiple myeloma. Multiple myeloma is a clonal plasma cell neoplasm producing excess immunoglobulin, causing bone lesions, hypercalcemia, renal failure, and infections."},
+  {id:87,t:6,c:true,stem:"An elderly woman presents with tense bullae on the flexor surfaces of her forearms, axillae, and groin. Immunofluorescence shows linear deposition of complement along the dermoepidermal junction. What is the most likely diagnosis?",opts:["Pemphigus vulgaris","Bullous pemphigoid","Dermatitis herpetiformis","Epidermolysis bullosa"],ans:1,r:"Bullous pemphigoid = tense bullae in elderly + anti-hemidesmosome antibodies (IgG) + linear IF deposition at the dermoepidermal junction (subepidermal blister). Pemphigus vulgaris = flaccid intraepidermal bullae + anti-desmoglein IgG + reticular IF pattern on keratinocyte membranes. Dermatitis herpetiformis = IgA deposits at dermal papillae tips."},
+  {id:88,t:4,c:false,stem:"What is the most significant risk factor for the development of renal cell carcinoma?",opts:["Alcohol use","Radiation exposure","Tobacco smoking","Vinyl chloride exposure"],ans:2,r:"Tobacco smoking is the most significant modifiable risk factor for renal cell carcinoma (RCC), increasing risk 2-fold. Other risk factors: obesity, hypertension, Von Hippel-Lindau disease (VHL mutation → clear cell RCC). Vinyl chloride exposure → hepatic angiosarcoma. RCC arises from proximal tubular cells and is associated with clear cell, papillary, and chromophobe subtypes."},
+  {id:89,t:4,c:true,stem:"A female patient is described as having a unilateral, erythematous, scaly-crusted lesion involving the nipple and areola. Which breast pathology does this represent?",opts:["Ductal carcinoma in situ","Lobular carcinoma in situ","Paget disease of the nipple","Inflammatory breast carcinoma"],ans:2,r:"Paget disease of the nipple is an extension of DCIS through the ductal system into the nipple skin, producing a unilateral eczematous erythematous scaly lesion. Large neoplastic Paget cells infiltrate the epidermis. It is a rare but important breast carcinoma presentation. Inflammatory breast carcinoma causes skin erythema and peau d'orange from dermal lymphatic invasion."},
+  {id:90,t:5,c:true,stem:"A patient presents with pruritic, purple, polygonal, planar papules and plaques on the wrists and oral mucosa. Lacy white lines are noted on the buccal mucosa. What is the most likely diagnosis?",opts:["Psoriasis","Pemphigus vulgaris","Lichen planus","Dermatitis herpetiformis"],ans:2,r:"Lichen planus = the 6 P's: Pruritic, Purple, Polygonal, Planar, Papules, and Plaques. Wickham striae (lacy white lines) are a characteristic finding on skin and buccal mucosa. Psoriasis = salmon-colored plaques with silver scales. Pemphigus = flaccid bullae. Dermatitis herpetiformis = symmetric vesicles on extensor surfaces."},
+  {id:91,t:5,c:false,stem:"Which of the following skin disorders is strongly associated with celiac disease?",opts:["Erythema multiforme","Dermatitis herpetiformis","Psoriasis","Lichen planus"],ans:1,r:"Dermatitis herpetiformis is a cutaneous manifestation of celiac disease. IgA antibodies to dietary gluten cross-react with reticulin in the skin → itchy vesicular eruption on extensor surfaces (elbows, knees, buttocks). Skin biopsy shows IgA deposits at the dermal papillary tips. Both DH and celiac disease improve on a gluten-free diet."},
+  {id:92,t:5,c:false,stem:"Which type of renal stone forms specifically after infection with urea-splitting bacteria such as Proteus?",opts:["Uric acid stones","Magnesium ammonium phosphate stones","Calcium oxalate stones","Cystine stones"],ans:1,r:"Magnesium ammonium phosphate (struvite) stones form when urea-splitting bacteria (Proteus, Klebsiella, Pseudomonas) convert urea → ammonia → alkaline urine → struvite precipitates. These stones can fill the entire renal pelvis, forming staghorn calculi. They are more common in women due to higher UTI rates."},
+  {id:93,t:5,c:false,stem:"What is the most common type of renal calculus?",opts:["Calcium oxalate stone","Cystine stone","Uric acid stone","Struvite stone"],ans:0,r:"Calcium oxalate stones are the most common type of renal calculi (~70–80%), often mixed with calcium phosphate. They appear on CT (radiopaque) and are associated with hypercalciuria, hyperoxaluria, and hypocitraturia. Struvite = infection stones. Uric acid = radiolucent, associated with gout. Cystine = rare, autosomal recessive cystinuria."},
+  {id:94,t:4,c:true,stem:"A patient has a rare pancreatic endocrine neoplasm associated with diabetes mellitus, a characteristic migratory skin rash, and anemia. Which type of pancreatic tumor is responsible?",opts:["Alpha cell tumor","Delta cell tumor","VIPoma","Pancreatic carcinoid tumor"],ans:0,r:"Alpha cell tumors (glucagonomas) present with the classic triad: diabetes mellitus (glucagon opposes insulin), necrolytic migratory erythema (characteristic rash), and anemia. Elevated plasma glucagon confirms the diagnosis. Delta cell tumors → diabetes + cholelithiasis + steatorrhea + hypochlorhydria. VIPomas → WDHA syndrome."},
+  {id:95,t:4,c:false,stem:"The 'rule of 10s' in pheochromocytoma states several features. Which of the following is NOT part of this rule?",opts:["10% are extraadrenal","10% are not biologically malignant","10% are bilateral","10% are not associated with hypertension"],ans:1,r:"The rule of 10s: 10% extraadrenal, 10% bilateral, 10% ARE biologically malignant (not 'not malignant'), and 10% are not associated with hypertension. The statement '10% are NOT biologically malignant' is INCORRECT — the correct statement is that 10% ARE malignant. The other three options accurately reflect the rule of 10s."},
+  {id:96,t:4,c:false,stem:"Which MEN syndrome is NOT associated with pheochromocytoma?",opts:["MEN1","MEN2A","MEN2B","All are associated"],ans:0,r:"MEN1 (Parathyroid + Pancreas + Pituitary) is NOT associated with pheochromocytoma. MEN2A (medullary thyroid CA + pheochromocytoma + parathyroid hyperplasia) and MEN2B (medullary thyroid CA + pheochromocytoma + mucosal neuromas) are BOTH associated with pheochromocytoma via RET proto-oncogene mutations."},
+  {id:97,t:5,c:false,stem:"What is the most commonly affected joint in calcium pyrophosphate crystal deposition disease?",opts:["Hip joints","Lumbar vertebrae","Knees","First metatarsophalangeal joint"],ans:2,r:"The knees are the most commonly affected joints in CPPD (pseudogout). CPPD results from calcium pyrophosphate dihydrate crystal deposition in articular cartilage, causing chondrocalcinosis visible on X-ray. Gout (monosodium urate crystals) classically affects the first metatarsophalangeal joint (podagra). CPPD crystals are rhomboid-shaped and positively birefringent."},
+  {id:98,t:1,c:false,stem:"What is the most characteristic morphological feature of apoptosis?",opts:["Cell shrinkage","Chromatin condensation","Formation of apoptotic bodies","Phagocytosis of apoptotic cells"],ans:1,r:"Chromatin condensation (nuclear pyknosis, then karyorrhexis) is the most characteristic and specific feature of apoptosis, resulting from endonuclease activation and DNA fragmentation at internucleosomal sites. Cell shrinkage, apoptotic body formation, and phagocytosis also occur in apoptosis but are less specific or occur sequentially after chromatin condensation."},
+  {id:99,t:1,c:false,stem:"Which indoor air pollutant is considered the number one cause of lung cancer in non-smokers?",opts:["Bioaerosols","Formaldehyde","Carbon monoxide","Radon"],ans:3,r:"Radon is an indoor air pollutant and the leading cause of lung cancer in non-smokers. It is an odorless radioactive gas that accumulates in basements and poorly ventilated spaces. Carbon monoxide is an outdoor air pollutant. Formaldehyde and bioaerosols are indoor pollutants but are not associated with lung cancer causation in non-smokers."},
+  {id:100,t:1,c:true,stem:"A patient presents with cherry-red discoloration of the skin and mucous membranes after acute exposure to an air pollutant. Which substance is responsible?",opts:["Ethylene glycol ingestion","Ozone exposure","Carbon monoxide poisoning","Carbon dioxide poisoning"],ans:2,r:"Carbon monoxide poisoning = cherry-red skin and mucous membranes from increased carboxyhemoglobin (CO has 200× higher affinity for hemoglobin than O₂). CO is produced by incomplete combustion. Ethylene glycol (antifreeze) causes anion gap metabolic acidosis with oxalate crystals → renal failure. Ozone causes airway irritation and chest discomfort."},
+  {id:101,t:5,c:false,stem:"A 40/F comes to you complaining of easy fatigability. On PE, she is pale and slightly tachycardic. On a CBC, she has a low hemoglobin, low MCV and normal reticulocyte count. Which of the following is the likely cause of her anemia?",opts:["Iron deficiency anemia","Vitamin K deficiency anemia","Folate deficiency anemia","Vitamin B12 deficiency anemia"],ans:0,r:"Iron deficiency anemia is microcytic (low MCV) with normal or low reticulocyte count. Vitamin B12 and folate deficiencies are macrocytic. Vitamin K deficiency affects clotting, not RBC production."},
+  {id:102,t:5,c:false,stem:"Which one of the following pathological abnormality DOES NOT manifest with chronic cough of more than 8 weeks duration?",opts:["Postnasal drip","Gastroesophageal reflux","Chronic bronchitis","Laryngeal edema"],ans:3,r:"Laryngeal edema is usually acute (e.g., anaphylaxis, intubation) and not a typical cause of chronic cough. Postnasal drip, GERD, and chronic bronchitis are common causes of chronic cough."},
+  {id:103,t:1,c:false,stem:"PAS-positive cytoplasmic inclusions known as Bunina bodies are:",opts:["Accumulations of alpha-synuclein protein","Remnants of autophagic bodies","Accumulations of tau protein","Clusters of tau-positive processes"],ans:1,r:"Bunina bodies are small eosinophilic intraneuronal inclusions in ALS, considered remnants of autophagic vacuoles. They are PAS-positive."},
+  {id:104,t:3,c:true,stem:"A two-year old female presented with a defect in her lower anterior abdomen wall since birth. On physical examination, you noted a globular soft tissue protrusion from the defect. In the inferior aspect of which were two openings where urine dribbled continuously. What is the most likely diagnosis?",opts:["Exstrophy","Congenital diverticulum","Congenital diaphragmatic hernia","Persistent urachus"],ans:0,r:"Bladder exstrophy presents with a lower abdominal wall defect, exposed bladder mucosa, and continuous urine dribbling from the ureteral orifices. Persistent urachus also causes umbilical urine drainage but lacks the abdominal wall defect."},
+  {id:105,t:6,c:false,stem:"In which of the following dopamine tract would antagonism of dopamine lead to Parkinson-like symptoms?",opts:["Nigrostriatal tract","Mesolimbic tract","Mesocortical tract","Tuberoinfundibular tract"],ans:0,r:"Antagonism of dopamine in the nigrostriatal tract leads to extrapyramidal symptoms (Parkinson-like). The mesolimbic tract is involved in positive symptoms of schizophrenia; the tuberoinfundibular tract regulates prolactin."},
+  {id:106,t:5,c:false,stem:"Which of the following population groups is generally protected against myocardial infarction?",opts:["Weight lifters","Long distance runners","Women of the reproductive age","Regular Zumba dancers"],ans:2,r:"Women of reproductive age are relatively protected against MI due to estrogen's cardioprotective effects. The risk increases after menopause."},
+  {id:107,t:6,c:false,stem:"A 25-year old sales lady stepped into the elevator full of people with influenza, coughing and sneezing. The viral particles which she inhaled attached to her respiratory epithelium. Which immune cell is MOST likely to rapidly destroy the virally infected cells?",opts:["Natural killer cell","CD4+ cell","Dendritic cell","Macrophage"],ans:0,r:"NK cells are part of the innate immune system and can rapidly kill virus-infected cells without prior sensitization, by recognizing reduced MHC class I expression."},
+  {id:108,t:5,c:false,stem:"Tita Lydia has been diagnosed to have Congestive Heart Failure for the past 3 years. Upon review of her history, it was noted that she developed productive rust-colored sputum for the past 2 months. Her doctor requested sputum cytology which revealed numerous hemosiderin-laden macrophages. Which subcellular structures found in macrophages explains the accumulation of this pigment?",opts:["Ribosome","Lysosome","Golgi apparatus","Endoplasmic reticulum"],ans:1,r:"Hemosiderin accumulates in macrophages within lysosomes after phagocytosis and breakdown of red blood cells. This is seen in pulmonary hemosiderosis (e.g., in CHF)."},
+  {id:109,t:5,c:false,stem:"Which of the following will increase stroke volume?",opts:["Decrease in afterload","Decrease in thyroid hormone","Decrease in end systolic volume","Decrease in end diastolic volume"],ans:2,r:"A decrease in end-systolic volume (i.e., reduced afterload or increased contractility) increases stroke volume. Decreased afterload and increased preload both increase stroke volume."},
+  {id:110,t:5,c:false,stem:"Isabel was admitted for hyponatremia. About 48 hours after rapid and aggressive correction of her hyponatremia, she developed acute paralysis, difficulty speaking, and difficulty swallowing. Which of the following is the most likely pathology behind her new symptoms?",opts:["Demyelination due to toxic chemicals used in cleaning liquids","Autoimmune response directed against the myelin sheath","Myelin loss throughout the white matter","Loss of myelin in the basis pontis and pontine tegmentum"],ans:3,r:"Rapid correction of hyponatremia can cause osmotic demyelination syndrome (central pontine myelinolysis), with demyelination in the basis pontis and pontine tegmentum."},
+  {id:111,t:6,c:false,stem:"Which of the following features of Systemic Lupus Erythematosus is least likely?",opts:["It affects predominantly women of child-bearing age","SLE affects any age group especially during childhood","Affects every organ of the body especially skin, kidney, joints, and serosal membranes","It is chronic, remitting and relapsing, often febrile"],ans:1,r:"While SLE can occur in children, it is not especially a disease of childhood; it most commonly presents in women of child-bearing age."},
+  {id:112,t:3,c:false,stem:"Which risk factor with both Trisomy 13 and 18, and Trisomy 21?",opts:["Decreased paternal age","Decreased maternal age","Increased paternal age","Increased maternal age"],ans:3,r:"Advanced maternal age is the most significant risk factor for trisomies 13, 18, and 21, due to increased meiotic nondisjunction."},
+  {id:113,t:6,c:false,stem:"The most characteristic lesions of SLE result from immune complex deposition in the following areas, which one is least?",opts:["Kidney","Blood vessels","Skin","Bone"],ans:3,r:"Immune complex deposition in SLE commonly affects kidney, blood vessels, and skin. Bone involvement is not a characteristic site of immune complex deposition."},
+  {id:114,t:5,c:false,stem:"A 62 year old jeepney driver developed an acute cough productive of phlegm. His doctor said the pathology could be in his lower lung airways. Which of the following could this be?",opts:["Pneumonia","Tracheitis","Sinusitis","Bronchitis"],ans:3,r:"Bronchitis is inflammation of the bronchial tubes (lower airways) and commonly presents with acute cough productive of phlegm. Pneumonia affects alveoli, tracheitis and sinusitis are upper airway."},
+  {id:115,t:5,c:false,stem:"Which pathological abnormality does not manifest with chronic cough of more than 8 weeks duration?",opts:["Postnasal drip","Chronic bronchitis","Laryngeal edema","Gastroesophageal reflux"],ans:2,r:"Laryngeal edema is typically acute (e.g., anaphylaxis, intubation) and not a cause of chronic cough. Postnasal drip, chronic bronchitis, and GERD are common causes of chronic cough."},
+  {id:116,t:6,c:false,stem:"Which of the following general features of autoimmune diseases is least likely?",opts:["Autoimmune disease are chronic with relapse and remissions","Autoimmune diseases tend to follow an acute course of illness with tendency to progression in the future","Clinical and pathologic manifestations are determined by the nature of underlying immune response","Damage caused by autoimmune diseases is progressive"],ans:1,r:"Autoimmune diseases are typically chronic, not acute. They often have relapsing-remitting courses or progressive damage, but not an acute course with future progression."},
+  {id:117,t:1,c:false,stem:"Your grandmother who is 95 years old accidentally touches a pot of boiling water. The skin of her finger in 2 hours then revealed marked erythema and small blisters. This event has led to which inflammatory response?",opts:["Serous","Purulent","Granulomatous","Fibrinous"],ans:0,r:"A burn causing erythema and small blisters is a serous inflammation (thin, watery fluid accumulation). Purulent involves pus, granulomatous involves granulomas, fibrinous involves fibrin."},
+  {id:118,t:5,c:false,stem:"Which of the following lung pathology can give rise to pulmonary embolism?",opts:["Abnormalities in chest walls","Defect in pulmonary airways","Defects in lung parenchyma","Defect in pulmonary vasculature"],ans:3,r:"Pulmonary embolism arises from defects in the pulmonary vasculature (e.g., thrombosis, embolism). Chest wall, airways, or parenchymal defects do not directly cause PE."},
+  {id:119,t:1,c:false,stem:"How does suicidal attempts by ingestion of harsh chemicals cause acute gastritis?",opts:["Decreased prostaglandins which stimulates defense mechanism","Due to direct injury to mucosal epithelial and stromal cells","Decreased bicarbonate transporters","Decreased bicarbonate secretions"],ans:1,r:"Ingestion of harsh chemicals causes acute gastritis by direct corrosive injury to mucosal epithelial and stromal cells. Decreased prostaglandins/bicarbonate are mechanisms of other types of gastropathy."},
+  {id:120,t:4,c:false,stem:"Which of the following statements regarding pheochromocytoma is TRUE?",opts:["Only 10% of adrenal pheochromocytomas are biologically malignant","A germline mutation is present in all pheochromocytomas","Adrenal pheochromocytomas are always associated with hypertension","Bilaterality is associated with malignancy"],ans:0,r:"About 10% of adrenal pheochromocytomas are biologically malignant (metastasize). Germline mutations are not in all cases; ~10% are not associated with hypertension; bilaterality is not necessarily malignant."},
+  {id:121,t:1,c:false,stem:"What morphological changes will be MOST likely expected to find in a patient with Amyotrophic Lateral Sclerosis?",opts:["Preserved volume of the upper neurons along the corticospinal tract","Thinning of the anterior roots of the spinal cord due to loss of lower motor neuron fibers","Hypertrophic precentral motor gyrus in the cortex to compensate for lower motor neuron loss","Relatively preserved number of anterior horn neurons throughout the length of the spinal cord"],ans:1,r:"ALS causes degeneration of both upper and lower motor neurons. Thinning of anterior roots (loss of lower motor neuron fibers) and atrophy of the precentral gyrus are characteristic."},
+  {id:122,t:5,c:false,stem:"Which of the following statements would consistently describe the extent of vessel involvement in the formation of atherosclerotic lesions?",opts:["Due to consistent degree of atherosclerotic burden in affected vessels, the severity of the disease is one arterial distribution usually predicts the severity in another","The most extensively involved vessels include the coronary and popliteal arteries, internal carotid arteries, and vessels in the circle of Willis","In humans, the thoracic aorta is typically involved to a much greater degree than the lower abdominal aorta","Vessels of the upper extremities, mesenteric and renal arteries often develop atheromatous plaques"],ans:1,r:"The most extensively involved vessels are the lower abdominal aorta, coronary arteries, popliteal arteries, internal carotid arteries, and circle of Willis. Severity in one distribution does not always predict another."},
+  {id:123,t:3,c:false,stem:"Imaging studies showed a connection from the bladder to the umbilicus in female infant who often wet the top of her diaper. What is the MOST likely diagnosis?",opts:["Vitelline duct remnant","Persistent urachus","Exstrophy","Congenital diverticulum"],ans:1,r:"A persistent urachus is a connection between the bladder and umbilicus, causing urine leakage from the umbilicus. Exstrophy is a bladder wall defect; vitelline duct remnant connects to the ileum."},
+  {id:124,t:5,c:false,stem:"Tita Luz, 55 years old, comes to your clinic for undocumented fever, and productive cough with yellowish sputum of 2 days duration. Persistent pertinent findings in her physical examination reveal slight tachypnea and audible crackles at the lung bases. Chest radiographs show patchy infiltrates in both lungs. Which of the following inflammatory cells will MOST likely be seen increased when a sample of respiratory sputum is sent for analysis?",opts:["Neutrophils","Macrophages","Mast cells","T lymphocytes"],ans:0,r:"Acute bacterial pneumonia is characterized by neutrophilic infiltration of alveoli, giving purulent sputum. Macrophages are more prominent in chronic inflammation."},
+  {id:125,t:4,c:false,stem:"A 70 year-old man with hematuria underwent cystoscopy. An erythematous area was biopsied, showing flat lesions composed of cells in mid to upper epithelium with high cytologic grade. There was no invasion in the lamina propria noted. What is the MOST likely diagnosis?",opts:["Urothelial carcinoma in situ","Primary tumor cannot be evaluated","Urothelial carcinoma grade T1","Acute myeloid leukemia"],ans:0,r:"Urothelial carcinoma in situ (CIS) is a flat, high-grade lesion confined to the epithelium without lamina propria invasion. T1 would involve lamina propria; AML is a hematologic malignancy."},
+  {id:126,t:4,c:false,stem:"So-called “smudge cells” are seen in which one?",opts:["Chronic myeloid leukemia","Acute lymphocytic leukemia","Chronic lymphocytic leukemia","Acute myeloid leukemia"],ans:2,r:"Smudge cells (basket cells) are characteristic of chronic lymphocytic leukemia (CLL) due to fragile lymphocytes that rupture during smear preparation."},
+  {id:127,t:5,c:false,stem:"Which step in the physical examination of the patient would DOUBT the pathology of a patient in respiratory distress?",opts:["Patient has excessive phlegm","Patient has severe kyphoscoliosis","Patient uses his accessory muscles of respiration","Patient is unable to complete a sentence in conversation"],ans:1,r:"Severe kyphoscoliosis can cause restrictive lung disease and respiratory distress. Excessive phlegm, accessory muscle use, and inability to complete sentences are all signs of respiratory distress."},
+  {id:128,t:4,c:false,stem:"What are these morphologically atypical keratinocytes described as enlarged cells with eccentric, pyknotic nuclei surrounded by a perinuclear halo, found in human papilloma virus infection?",opts:["Michaelis-Gutman bodies","Schiller-Duval bodies","Acanthosis","Koilocytes"],ans:3,r:"Koilocytes are the hallmark of HPV infection: enlarged cells with eccentric, pyknotic nuclei and perinuclear halos. Michaelis-Gutman bodies are seen in malakoplakia; Schiller-Duval in yolk sac tumors."},
+  {id:129,t:6,c:false,stem:"Once bacteria enter the body, leukocytes leave the vasculature then migrate towards the site of bacterial inoculation. Which of the following substances is MOST likely responsible for the movement of the said leukocytes?",opts:["Complement C3a","Histamine","Prostaglandin","Chemokines"],ans:3,r:"Chemokines are the primary chemoattractants directing leukocyte migration to sites of infection. C5a (not C3a) is also a chemoattractant; histamine and prostaglandins mediate vasodilation and vascular permeability."},
+  {id:130,t:4,c:false,stem:"If ACTH is elevated and completely insensitive to low or high doses of dexamethasone, what is the probable cause of Cushing Syndrome?",opts:["Ectopic ACTH secretion","Adrenal Tumor","Pituitary adenoma","Exogenous glucocorticoid"],ans:0,r:"Ectopic ACTH secretion (e.g., from small cell lung cancer) is not suppressed by high-dose dexamethasone. Pituitary adenomas are usually suppressible; adrenal tumors and exogenous steroids cause low ACTH."},
+  {id:131,t:3,c:false,stem:"Glycogen storage diseases come from a hereditary deficiency of one of the enzymes involved in the synthesis or sequential degradation of glycogen. In the hepatic form of this group of diseases, the liver cells store glycogen because of the deficiency of which enzymes?",opts:["Lysosomal Acid Maltase","Lysosomal Glucosidase","Muscle Phosphorylase","Glucose-6-phosphatase"],ans:3,r:"Von Gierke disease (hepatic form) is due to deficiency of glucose-6-phosphatase, causing glycogen accumulation in liver. Lysosomal acid maltase deficiency causes Pompe (muscle); muscle phosphorylase causes McArdle."},
+  {id:132,t:5,c:false,stem:"What is the MOST likely pathology behind rapidly progressive glomerulonephritis with concomitant diffuse pulmonary hemorrhage?",opts:["Presence of circulating anti-glomerular basement membrane antibodies","Pathology is currently unknown or is idiopathic","Renal pathology secondary to adaptive changes from systemic disease","Diffuse inflammatory response after a severe or systemic infection"],ans:0,r:"Goodpasture syndrome (anti-GBM antibodies) causes rapidly progressive glomerulonephritis with diffuse pulmonary hemorrhage. It is a type II hypersensitivity reaction."},
+  {id:133,t:5,c:false,stem:"Presence of atherosclerotic plaques makes a person susceptible to the following, which one is LEAST likely susceptible?",opts:["Atheroembolism","Aneurysm formation","Vascular thrombosis","Valvular heart disease"],ans:3,r:"Atherosclerosis predisposes to atheroembolism, aneurysm formation, and thrombosis. Valvular heart disease (e.g., rheumatic, calcific) is not directly caused by atherosclerosis."},
+  {id:134,t:1,c:false,stem:"What morphological changes will be MOST likely expected to find in a patient with Amyotrophic Lateral Sclerosis (ALS)?",opts:["Thinning of the anterior roots of the spinal cord due to loss of lower motor neuron fibers","Presence of intracellular neurofibrillary tangles in neurons","Peripheral nerve demyelination","Accumulation of Lewy bodies in the substantia nigra"],ans:0,r:"ALS is characterized by loss of both upper and lower motor neurons. Thinning of anterior roots (lower motor neuron loss) is a key finding. Neurofibrillary tangles (Alzheimer's), peripheral demyelination (GBS), and Lewy bodies (Parkinson's) are not features."},
+  {id:135,t:5,c:false,stem:"A 40/F comes to you complaining of easy fatigability. On PE she is pale and slightly tachycardic. On a CBC she has a low hemoglobin, low MCV and normal reticulocyte count. Which is the likely cause of her anemia?",opts:["Vitamin K Deficiency Anemia","Vitamin B12 Deficiency Anemia","Folate Deficiency Anemia","Iron Deficiency Anemia"],ans:3,r:"Low MCV (microcytic) with low hemoglobin and normal reticulocyte count is classic for iron deficiency anemia. B12 and folate deficiencies are macrocytic; vitamin K affects clotting."},
+  {id:136,t:4,c:false,stem:"Which of the following have panmyelosis?",opts:["Polycythemia Vera","Multiple Myeloma","Hairy Cell Leukemia","Acute Megakaryoblastic Leukemia"],ans:0,r:"Panmyelosis (trilineage hyperplasia) is characteristic of polycythemia vera. Multiple myeloma affects plasma cells; hairy cell leukemia involves B-cells; acute megakaryoblastic leukemia affects megakaryoblasts."},
+  {id:137,t:4,c:false,stem:"Astrocytic tumors in which predominant neoplastic astrocyte shows a brightly eosinophilic cell body from which emanate abundant, stout processes is a/an ___ astrocytoma.",opts:["Pilocytic","Gemistocytic","Diffuse","Anaplastic"],ans:1,r:"Gemistocytic astrocytoma is characterized by abundant eosinophilic cytoplasm and stout processes. Pilocytic has bipolar 'hairlike' processes; diffuse has fibrillary background; anaplastic has mitoses and pleomorphism."},
+  {id:138,t:1,c:false,stem:"Capillaries with fenestrated endothelium have gaps between endothelial cells but the basement membrane is still continuous. In which structures are these NOT found?",opts:["Endocrine glands","Blood-brain barrier","Renal glomeruli","Intestinal villi"],ans:1,r:"Fenestrated capillaries are found in endocrine glands, renal glomeruli, and intestinal villi. The blood-brain barrier has continuous (non-fenestrated) capillaries."},
+  {id:139,t:4,c:false,stem:"A 55 year old factory worker consulted the clinic because of increasing dyspnea without cough or sputum production. He had been experiencing these for 6 months. His breath sounds were reduced in all lung fields. CXR showed dense brightly attenuated pleural mass encasing most of his left lung. Pleural biopsy specimen showed spindle and cuboidal cells invading adipose tissue. Which is the MOST likely etiologic factor in the pathogenesis of this mass?",opts:["Silica","Coal dust","Asbestos","Bird droppings"],ans:2,r:"A dense pleural mass encasing the lung with spindle and cuboidal cells is malignant mesothelioma, strongly associated with asbestos exposure. Silica causes silicosis (nodular), coal dust causes CWP, bird droppings cause hypersensitivity pneumonitis."},
+  {id:140,t:5,c:false,stem:"Evelyn, 33 yo, consulted for dizziness, nausea and vomiting especially in the morning. A pregnancy test is done with a positive result. She is then referred to an OBGYNE who had her fetal UTZ done at 13 weeks AOG with her uterus measuring 8x5x4 cm. She delivers her first baby full term 8 months after via spontaneous vaginal delivery. Her uterus during delivery measures 33 x 17 x 11 cm. Which cellular process contributed largely to her increase in uterine size?",opts:["Myometrial smooth muscle hypertrophy","Vascular endothelial hyperplasia","Endometrial stromal hypertrophy","Endometrial glandular hyperplasia"],ans:0,r:"Uterine growth during pregnancy is primarily due to hypertrophy of myometrial smooth muscle cells (and some hyperplasia). Vascular and endometrial changes are secondary."},
+  {id:141,t:5,c:false,stem:"Which of the following is the cause of the EARLY clinical manifestations of CHF?",opts:["Low arterial oxygen saturation","Vascular endothelial hyperplasia","Endometrial stromal hypertrophy","Poor tissue perfusion"],ans:3,r:"Early CHF manifests with poor tissue perfusion (fatigue, weakness) due to reduced cardiac output. Low oxygen saturation is a later finding; vascular and endometrial changes are unrelated."},
+  {id:142,t:5,c:false,stem:"Which condition manifests with normal breathing, with recurrent episodes of dyspnea triggered by upper respiratory infection and allergens?",opts:["Asthma","Pneumonia","Pulmonary fibrosis","Obstructive lung disease"],ans:0,r:"Asthma is characterized by recurrent episodes of dyspnea, often triggered by allergens or infections, with normal breathing between episodes. Pneumonia and fibrosis are more continuous; COPD is usually persistent."},
+  {id:143,t:6,c:false,stem:"A student researcher injected a chemical into his skin. Next day, he noticed an erythematous indurated area forming around the site. After two days, there was even bigger induration of about 10mm diameter. Histologically, there were many positive lymphocytes present. Which of the following reactions is MOST consistent with this appearance?",opts:["Arthus reaction","Localized anaphylaxis","Graft vs host disease","Delayed type hypersensitivity"],ans:3,r:"Delayed-type hypersensitivity (Type IV) is mediated by T lymphocytes and takes 24-72 hours to develop, with induration and erythema. Arthus (Type III) is antibody-mediated; localized anaphylaxis (Type I) is immediate; GVHD is a transplant complication."},
+  {id:144,t:3,c:false,stem:"Barr body is an inactivated X chromosome seen upon microscopic examination of the neutrophilic nuclei in females but is absent in males. Which of the following forms of RNA plays a role in the formation of this Barr Body?",opts:["lncRNA","mRNA","miRNA","TRNA"],ans:0,r:"Long noncoding RNA (lncRNA), specifically XIST, is responsible for X-chromosome inactivation and Barr body formation. mRNA, miRNA, and tRNA are not directly involved."},
+  {id:145,t:4,c:false,stem:"A 65 year old teacher has had chronic non-productive cough for 6 months with associated weight loss. She is a non-smoker. Physical examination done on her was unremarkable, but her chest x-ray showed a right peripheral subpleural mass. A fine needle aspiration was done and she underwent right lower lobectomy. She was placed on immunotherapy. Which of the following neoplasms did she MOST likely have?",opts:["Squamous cell carcinoma","Small cell anaplastic carcinoma","Hamartoma","Adenocarcinoma"],ans:3,r:"Adenocarcinoma is the most common lung cancer in non-smokers and typically presents as a peripheral mass. Squamous and small cell are more central and smoking-related; hamartoma is benign."},
+  {id:146,t:5,c:false,stem:"What could be an underlying pathologic disease which can cause the patient’s mediastinum to shift from right to left?",opts:["Bronchiectasis","Asthma","Centroacinar emphysema","Distal acinar emphysema"],ans:3,r:"Distal acinar (paraseptal) emphysema can cause large bullae that shift the mediastinum. Bronchiectasis, asthma, and centriacinar emphysema do not typically cause significant mediastinal shift."},
+  {id:147,t:5,c:false,stem:"The following are contributory factors to the development of secondary hypertension, which one of the following is a LEAST likely factor?",opts:["Pheochromocytoma","Obesity","Primary aldosteronism","Renal stenosis"],ans:1,r:"Obesity is a risk factor for primary (essential) hypertension, not secondary. Pheochromocytoma, primary aldosteronism, and renal artery stenosis are secondary causes."},
+  {id:148,t:5,c:false,stem:"What is the MOST likely pathology behind rapidly progressive glomerulonephritis with concomitant diffuse pulmonary hemorrhage?",opts:["Pathology is currently unknown or is idiopathic","Presence of circulating anti-glomerular basement membrane antibodies","Diffuse inflammatory response after a severe or systemic infection","Renal pathology secondary to adaptive changes from systemic disease"],ans:1,r:"Goodpasture syndrome (anti-GBM antibodies) is the classic cause of rapidly progressive glomerulonephritis with diffuse pulmonary hemorrhage."},
+  {id:149,t:5,c:false,stem:"Which lung problem does not cause hemoptysis due to erosions to blood vessel vasculature?",opts:["Pulmonary tuberculosis","Pulmonary embolism","Pneumothorax","Bronchogenic carcinoma"],ans:2,r:"Pneumothorax (air in pleural space) does not typically cause hemoptysis. Tuberculosis, pulmonary embolism (with infarction), and bronchogenic carcinoma can all erode vessels and cause hemoptysis."},
+  {id:150,t:5,c:false,stem:"A patient presents with thrombocytopenia, anemia, strokes but normal PT, low D-dimer. Which is MOST likely?",opts:["Thrombotic thrombocytopenic purpura","Hemolytic-uremic syndrome","Disseminated intravascular coagulopathy","Immune thrombocytopenic purpura"],ans:0,r:"TTP presents with thrombocytopenia, hemolytic anemia, neurologic symptoms (strokes), fever, and renal dysfunction. PT is normal, D-dimer is low (unlike DIC). HUS has more renal involvement; ITP is isolated thrombocytopenia."},
+  {id:151,t:5,c:false,stem:"In which of the following conditions will you expect to find distinct crescents formed by proliferation of parietal cells and migration of monocytes and macrophages in the urinary space in light microscopy?",opts:["Dense-deposit glomerulonephritis","Rapidly progressive glomerulonephritis","Membranoproliferative glomerulonephritis","Focal segmental glomerulonephritis"],ans:1,r:"Crescents in Bowman's space are the hallmark of rapidly progressive (crescentic) glomerulonephritis. Dense-deposit has intramembranous deposits; MPGN has tram-track; FSGS has segmental sclerosis."},
+  {id:152,t:5,c:false,stem:"Lolo Pedro has been experiencing increasing bouts of knee pain during ambulation for the past 10 years. x-ray findings show that the knee joint surfaces are eroded and joint space narrowed. There is also loss of:",opts:["Hyaluronan","Fibronectin","Elastin","Laminin"],ans:0,r:"Osteoarthritis involves loss of articular cartilage and decreased hyaluronan in synovial fluid. Fibronectin, elastin, and laminin are not the primary components lost."},
+  {id:153,t:4,c:false,stem:"Which of the following statements regarding thyroid nodule is TRUE?",opts:["Nodules in females are more likely to be neoplastic than those in males","Multiple nodules, in general, are more likely to be neoplastic than solitary nodules","Nodules in younger patients are more likely to be benign than those in older patients","Functional nodules that take up radioactive iodine are more benign than malignant"],ans:3,r:"Hot (functional) nodules that take up radioactive iodine are almost always benign. Malignancy is more common in males, solitary nodules, and younger patients."},
+  {id:154,t:1,c:false,stem:"What is the MAIN pathology involved in Amyotrophic Lateral Sclerosis (ALS)?",opts:["Preferential damage to myelin with relative preservation of axons, leading to poor transmission of electrical impulses","Progressive loss of upper motor neurons in the cerebral cortex and lower motor neurons in the spinal cord and brainstem","Protein accumulation and aggregation, mitochondrial abnormalities, and neuronal loss in the substantia nigra","Characterized by cytoplasmic inclusions of alpha-synuclein in oligodendrocytes and degeneration of white matter"],ans:1,r:"ALS is a neurodegenerative disease characterized by progressive loss of both upper and lower motor neurons. Myelin damage (MS), substantia nigra loss (Parkinson's), and alpha-synuclein oligodendrocyte inclusions (MSA) are not features."},
+  {id:155,t:1,c:false,stem:"During pre-employment screening, chest radiograph of 35-year old Albert shows a 3.5 cm nodule in the middle lobe of the right lung. The nodule is resected and sectioning shows a sharply circumscribed mass with a soft white center. Which pathologic process MOST likely explains this nodule?",opts:["Coagulative Necrosis","Liquefactive Necrosis","Gangrenous Necrosis","Caseous Necrosis"],ans:3,r:"A sharply circumscribed mass with a soft white center (caseous necrosis) is characteristic of a tuberculous granuloma (tuberculoma). Coagulative necrosis is ischemic; liquefactive is abscess/brain; gangrenous is ischemic with superinfection."},
+  {id:156,t:2,c:false,stem:"Situation 1 - A 10-year old boy staying in the garbage mountain of Tondo, developed diarrhea for more than a week of about 5-6 times/ day. Stool was blood streaked and associated with mild abdominal tenderness. Patient also has intestinal tuberculosis. What organism is involved in this case?",opts:["Giardia lamblia","Entamoeba histolytica","Salmonella typhi","Shigella sonnei"],ans:3,r:"Shigella is a common cause of bloody diarrhea (dysentery) in children in resource-limited settings. Giardia causes non-bloody diarrhea; Entamoeba can cause bloody diarrhea but is less common in this setting; Salmonella typhi causes typhoid fever."},
+  {id:157,t:2,c:false,stem:"What microscopic finding is NOT found in this case?",opts:["Stricture formation following intestinal tuberculosis","Mononuclear infiltrates extending to the lamina propria","Epithelial disruption with neutrophilic exudates","Organism found beyond lamina propria"],ans:0,r:"Stricture formation is a chronic complication of intestinal tuberculosis, not an acute finding. Shigellosis causes acute inflammation with mononuclear infiltrates, epithelial disruption, and organisms in the lamina propria."},
+  {id:158,t:2,c:false,stem:"Why is the dysentery bloody?",opts:["Disease can cause fragility of blood vessels","Disease involves erosions of intestinal tissues","Organism is highly virulent and can destroy colonic mucosa","Organism can destroy blood vessels"],ans:2,r:"Shigella is highly virulent, invades and destroys colonic mucosa, causing ulceration and bloody diarrhea. Direct blood vessel destruction is not the primary mechanism."},
+  {id:159,t:6,c:false,stem:"Situation 2 - A 60-year old male, oftentimes develop epigastric pain, nausea and vomiting. He decided to consult his doctor because of the said symptoms. The doctor diagnosed him as having 'acute gastritis' and requested for a CBC. The complete blood count results showed absence of neutrophils. The better diagnostic term applied is ___?",opts:["Gastropathy","Acute gastritis","Chronic gastritis","Acute peptic disease"],ans:0,r:"Gastropathy is used when there is gastric mucosal injury without significant inflammation (i.e., absence of neutrophils). Acute gastritis implies neutrophilic inflammation."},
+  {id:160,t:5,c:false,stem:"Which one of the following does not cause gastric injury or dysfunction?",opts:["Yogurt","Stress","NSAIDs","Bile"],ans:0,r:"Yogurt is generally protective for the gastric mucosa (probiotics). Stress, NSAIDs, and bile reflux can all cause gastric injury (gastropathy/gastritis)."},
+  {id:161,t:5,c:false,stem:"Which one of the following is NOT involved in the pathogenesis of Acute Gastritis causing damage to gastric mucosa?",opts:["Inhibition of cyclooxygenase dependent synthesis of prostaglandin","Inhibition of gastric bicarbonate transporters by H. pylori","Decreased oxygen delivery for those at high altitudes","Increased mucin and bicarbonate secretions"],ans:3,r:"Increased mucin and bicarbonate secretions are protective, not damaging. Inhibition of prostaglandins, inhibition of bicarbonate transporters, and decreased oxygen delivery all contribute to gastric mucosal injury."},
+  {id:162,t:2,c:false,stem:"Situation 3 – A 50-year old OCW visited a remote provincial town and drank water from a nearby store. Over the next 2 days, he developed severe profuse diarrhea, rice water stools, became dehydrated, thus was rushed to an emergency room for intravenous hydration. What is the patient having?",opts:["Amoebiasis","Cholera","Typhoid Fever","Filariasis"],ans:1,r:"Rice-water stools and severe dehydration are classic for cholera (Vibrio cholerae). Amoebiasis causes bloody diarrhea; typhoid fever has fever and constipation; filariasis affects lymphatic system."},
+  {id:163,t:2,c:false,stem:"What is the pathogenesis of this problem?",opts:["Invades colonic mucosa and destroys it","Elaboration of an enterotoxin which acts on bowel mucosal cells","Presence of a secretory peptide from the bacteria","Presence of a superantigen in the patient’s cells"],ans:1,r:"Cholera toxin (an enterotoxin) activates adenylate cyclase in intestinal mucosal cells, causing massive secretion of fluid and electrolytes (rice-water stools). The organism does not invade the mucosa."},
+  {id:164,t:2,c:false,stem:"What is the organism involved?",opts:["Rotavirus","Vibrio cholera","Giardia lamblia","Salmonella"],ans:1,r:"Vibrio cholerae is the causative organism of cholera. Rotavirus causes viral gastroenteritis (children); Giardia causes giardiasis; Salmonella causes typhoid or gastroenteritis."},
+  {id:165,t:5,c:false,stem:"Situation 4 – A 72-year old preacher developed grouped vesicles in his left flexural thigh radiating to the left side of his abdomen. The vesicles followed the dermatomal distribution of the skin. He consulted the clinic on the third day of his lesions because vesicles were increasing, associated with intense itching, burning and sharp pain. Which one is the pathology of Herpes Zoster is NOT TRUE?",opts:["HZC virus spreads to the lymphatics then follows hematogenous route.","Sensory ganglia contains dense mononuclear infiltrates with intranuclear inclusion within neurons","In the dorsal root ganglion, HZV virus causes cell necrosis and inflammation","Reactivated chicken pox virus infects sensory nerves that carry it to one or more dermatomes"],ans:0,r:"Herpes zoster is caused by reactivation of varicella-zoster virus in the dorsal root ganglia, not by spread via lymphatics/hematogenous route. It travels along sensory nerves to the skin."},
+  {id:166,t:5,c:false,stem:"Involvement of the trigeminal nerves may cause which complications?",opts:["Encephalitis","Transverse myelitis","Radiculoneuritis","Facial paralysis"],ans:3,r:"Trigeminal nerve involvement can cause zoster ophthalmicus (eye) and Ramsay Hunt syndrome (facial palsy). Encephalitis and myelitis are less common complications."},
+  {id:167,t:5,c:false,stem:"What is the pathological danger of developing Herpes Zoster Ophthalmicus?",opts:["Affliction of optic nerve","“Sand-like” feeling inside the eye","Tearing of affected eye","Blurring of vision of affected eye"],ans:3,r:"Herpes zoster ophthalmicus can cause corneal involvement and blindness. Blurring of vision is a sign of corneal involvement; tearing and sand-like feeling are symptoms, not the main danger."},
+  {id:168,t:5,c:false,stem:"Situation 5 - After coming from their PE class, a young high school student from a prominent family decided to end his life. He stayed overnight with the exhaust of his car aircon in full-blast and engine running in an enclosed garage. Patient is at the same time anemic and asthmatic. After 24 hours, they found him dead. After thorough investigation of the cause of death, the hospital physician concluded that the cause of death is which one of the following gases?",opts:["Nitrogen dioxide","Carbon monoxide","Sulfur dioxide","Argon"],ans:1,r:"Carbon monoxide poisoning from car exhaust in an enclosed space is a common method of suicide. CO binds to hemoglobin with high affinity, causing tissue hypoxia."},
+  {id:169,t:5,c:false,stem:"Which one of the following reasons may not be contributory to the demise?",opts:["Carbon monoxide toxicity is exacerbated by exercise","He may have developed asthmatic attacks due to the fumes and exhaust of the engines","Carbon monoxide binds more to hemoglobin than oxygen leading to reduced oxygen saturation","Cardiac and skeletal muscles begin to breakdown releasing creatinine kinase"],ans:1,r:"Carbon monoxide is odorless and non-irritating, so it does not trigger asthma attacks. The other options are mechanisms of CO toxicity (though exercise would increase CO uptake if still exposed)."},
+  {id:170,t:5,c:false,stem:"In the garage was also found insecticide sprays used daily to knockout insects. If used cumulatively, this will also knockout humans inhaling this gas causing neurotoxicity. Which of the following is this gas?",opts:["Beryllium","Methanol","Lead","Organophosphate"],ans:3,r:"Organophosphates are common insecticides that inhibit acetylcholinesterase, causing neurotoxicity. Beryllium causes lung disease; methanol causes acidosis; lead causes heavy metal toxicity."},
+  {id:171,t:5,c:false,stem:"Situation 6 - A 50 year old lady consulted the clinic because of ‘heartburn’, dysphagia and regurgitation of sour-tasting gastric contents. She experienced these symptoms especially when eating certain food. What is the lady having?",opts:["Gastroesophageal reflux","Hiatal hernia","Chemical esophagitis","Barrett esophagus"],ans:0,r:"Heartburn, dysphagia, and regurgitation of sour-tasting gastric contents are classic symptoms of gastroesophageal reflux disease (GERD). Hiatal hernia can contribute, but GERD is the primary diagnosis."},
+  {id:172,t:5,c:false,stem:"What is the pathogenesis of Gastroesophageal reflux disease?",opts:["Abrupt increase in intra abdominal pressure","Forceful opening of lower esophageal sphincter","Delayed gastric emptying and increased gastric volume","Transient lower esophageal sphincter relaxation"],ans:3,r:"Transient lower esophageal sphincter relaxation is the most common cause of GERD. The other options can contribute but are less common."},
+  {id:173,t:5,c:false,stem:"Which one does not cause GERD?",opts:["CNS depressants","Yogurt","Alcohol","Tobacco"],ans:1,r:"Yogurt is not a cause of GERD; it may even be protective. CNS depressants, alcohol, and tobacco can relax the LES and promote reflux."},
+  {id:174,t:3,c:false,stem:"Situation 7 - During annual school physical examination, 17 years old Greg is observed to have abnormally long legs, small atrophic testes with small penis and lack of deep voice, facial hair and male pubic hair distribution. The doctor is thinking more along the lines of Klinefelter syndrome. What is the chromosomal abnormality for the above condition?",opts:["1 X chromosome and no Y chromosome","2 or more X chromosomes and 1 or more Y chromosomes","1 X chromosome and 1 Y chromosome","2X chromosomes and no Y chromosome"],ans:1,r:"Klinefelter syndrome is typically 47,XXY (two or more X chromosomes and one or more Y chromosomes). 45,X is Turner syndrome; 46,XY is normal male; 46,XX is normal female."},
+  {id:175,t:3,c:false,stem:"Which factor relates to imbalance of sex chromosomes such as in the case of Klinefelter Syndrome?",opts:["Large amount of genetic material in Y chromosome","Lyonization or inactivation of just one X chromosome","Minimal amount of genetic material in Y chromosome","Lyonization or inactivation of all but one X chromosome"],ans:1,r:"In Klinefelter syndrome (47,XXY), one X chromosome is inactivated (Lyonization), but the extra X leads to overexpression of genes that escape inactivation, causing hypogonadism."},
+  {id:176,t:3,c:false,stem:"The clinical features of Klinefelter Syndrome are variable. Which among these condition features is the only consistent finding in this condition?",opts:["Hypogonadism","Mental retardation","Mitral valve prolapse","Gynecomastia"],ans:0,r:"Hypogonadism (small atrophic testes, low testosterone) is the only consistent finding in Klinefelter syndrome. Gynecomastia, tall stature, and learning difficulties are variable."},
+  {id:177,t:6,c:false,stem:"Situation 8 - 2 year old Faye developed pneumonia, severe oral candidiasis, diarrhea and generalized lymphadenopathy. She was confined in the hospital for diagnostic workups and management. What is the FIRST to do for this case?",opts:["Insert an IV fluid for her diarrhea","Give the proper antibiotics for her pneumonia","Request for CBC and blood chemistry work ups","Do thorough history taking and complete physical exam"],ans:0,r:"In a seriously ill child, the first priority is stabilization: airway, breathing, circulation (IV fluids for dehydration). Antibiotics and workups come after stabilization."},
+  {id:178,t:6,c:false,stem:"Which statement is LEAST LIKELY the reason why Faye can develop the devastating effect of HIV?",opts:["She was always exposed to her infected mother everyday","Her immature immune system had difficulty containing the infection","High risk of the disease progression can occur in the first few years of life","Immune system has not developed at the time of primary infection"],ans:3,r:"The immune system is present at birth, though immature. HIV in children is often due to maternal transmission; the virus has already adapted to the maternal immune system, making it harder for the child's immature immune system to control."},
+  {id:179,t:6,c:false,stem:"In how many years is Faye expected to succumb to her illness after the clinical symptoms?",opts:["4","2","3","1"],ans:3,r:"In the absence of effective therapy, about 10-15% of HIV-infected children die within the first year of life. Progression to AIDS is rapid in infants."},
+  {id:180,t:6,c:false,stem:"Situation 9 - Olan is maintained on a dopamine antagonist to control his hallucinations. After taking his medications, he developed side effects of Parkinson-like symptoms and gynecomastia. Which of the dopamine tracts is involved in the action of dopamine antagonists in controlling hallucination?",opts:["Mesolimbic tract","Tuberoinfundibular tract","Nigrostriatal tract","Mesocortical tract"],ans:0,r:"Antipsychotics block dopamine in the mesolimbic tract to reduce hallucinations (positive symptoms). Parkinson-like symptoms are from nigrostriatal blockade; gynecomastia is from tuberoinfundibular blockade (hyperprolactinemia)."},
+  {id:181,t:6,c:false,stem:"In which of the following dopamine tract would antagonism of dopamine lead to Parkinson-like symptoms?",opts:["Mesolimbic tract","Mesocortical tract","Nigrostriatal tract","Tuberoinfundibular tract"],ans:2,r:"Antagonism of dopamine in the nigrostriatal tract leads to extrapyramidal symptoms (Parkinson-like)."},
+  {id:182,t:6,c:false,stem:"In which of the dopamine tract would antagonism of dopamine lead to gynecomastia?",opts:["Tuberoinfundibular tract","Mesocortical tract","Nigrostriatal tract","Mesolimbic tract"],ans:0,r:"Antagonism in the tuberoinfundibular tract increases prolactin, causing gynecomastia."},
+  {id:183,t:5,c:false,stem:"Situation 10 - A 35-year old office worker developed dysphagia when he takes solid food and liquids. He also had difficulty in belching. More so, he also developed chest pain every time he had the above symptoms. He consulted a physician who suggested a work-upon him as he might be having achalasia. Which one is NOT a characteristic of Achalasia’?",opts:["Increased lower esophageal sphincter tone","Incomplete lower esophageal sphincter relaxation","Relaxation during swallowing","Aperistalsis of the esophagus"],ans:2,r:"Achalasia is characterized by increased LES tone, incomplete LES relaxation, and aperistalsis. Relaxation during swallowing is a normal function, not a characteristic of achalasia."},
+  {id:184,t:5,c:false,stem:"Which one is an important cause of esophageal obstruction caused by impaired smooth muscle relaxation?",opts:["Release of the vasoactive intestinal peptide","Increased tone of the lower esophageal sphincter","Interruption of normal cholinergic signaling","Decreased tone of the lower esophageal sphincter"],ans:1,r:"Increased LES tone causes obstruction and impaired relaxation. VIP promotes relaxation; decreased tone causes reflux; cholinergic signaling stimulates contraction."},
+  {id:185,t:5,c:false,stem:"What is the cause of primary achalasia?",opts:["Familial","Destruction of myenteric plexus","Ganglion cell degeneration","Unknown"],ans:3,r:"The cause of primary achalasia is unknown (idiopathic). It is characterized by degeneration of ganglion cells in the myenteric plexus, but the etiology is not established."},
+  {id:186,t:3,c:false,stem:"Situation 11- 32 year-old mother gave birth to a baby boy who had to undergo a pediatric surgery operation because he kept on vomiting all the food that he ate. Radiography showed a thin noncanalized cord replacing a segment of the esophagus causing mechanical obstruction. What is the baby having?",opts:["Achalasia","Hiatal hernia","Esophageal atresia","Diaphragmatic hernia"],ans:2,r:"Esophageal atresia is a congenital condition where a segment of the esophagus is absent (noncanalized cord), causing vomiting and feeding difficulties. Achalasia is a motility disorder; hiatal hernia is stomach herniation; diaphragmatic hernia is abdominal organs in thorax."},
+  {id:187,t:3,c:false,stem:"Atresia commonly occurs near the tracheal bifurcation. This condition is usually associated with which structure?",opts:["Mass","Opening","Fistula","Fibrosis"],ans:2,r:"Esophageal atresia is commonly associated with a tracheoesophageal fistula (TEF), an abnormal connection between the trachea and esophagus."},
+  {id:188,t:3,c:false,stem:"Which condition is NOT a complication of this case?",opts:["Aspiration","Suffocation","Diarrhea","Pneumonia"],ans:2,r:"Diarrhea is not a complication of esophageal atresia. Aspiration, suffocation (from aspiration), and pneumonia are complications due to the TEF."},
+  {id:189,t:2,c:false,stem:"Situation 12 - A 50 year old construction worker developed hypoesthetic patches over his right lower back and right thigh areas. He consulted the clinic as he had tried different topical applications to treat the lesions which he had been having for almost a year. What pathologic concerns can give rise to the hypoesthesia?",opts:["Viral organisms that follow the dermatomal distribution of skin","Presence of organisms that may affect the skin and nerve","Application of caustic chemicals that can destroy affected tissues","History of trauma to area that may destroy the involved nerves"],ans:1,r:"Leprosy (Mycobacterium leprae) affects skin and peripheral nerves, causing hypoesthetic patches. Viral (e.g., herpes zoster) follows dermatomes but is acute; caustic chemicals and trauma are less likely given the chronicity and distribution."},
+  {id:190,t:2,c:false,stem:"How can the construction worker get the disease?",opts:["Inoculation through cut on the skin area","Droplet inhalation from a contaminated person","Ingestion of food and water from an affected person","Prolonged skin to skin contact"],ans:1,r:"Leprosy is primarily transmitted via respiratory droplets from untreated lepromatous leprosy patients. Prolonged skin-to-skin contact is also a risk, but droplet inhalation is the main route."},
+  {id:191,t:2,c:false,stem:"Skin biopsy was read as presence of:",opts:["Granulomatous infiltrate and histiocytes","A Grenz zone beneath the epidermal area","Lipid laden and foam cells in specimen slide","A +4 acid fast bacilli on Fite-Faraco stain"],ans:3,r:"Tuberculoid leprosy shows granulomatous infiltrate with histiocytes; lepromatous leprosy shows foam cells (lipid-laden macrophages) and numerous acid-fast bacilli. A +4 AFB on Fite-Faraco is characteristic of lepromatous leprosy."},
+  {id:192,t:6,c:false,stem:"Situation 13 - Within 5 minutes after a bee sting, Elsie developed breathing difficulty with marked inspiratory stridor from laryngeal edema. She experienced mild urticaria with swelling of her sting hand. What type of hypersensitivity reaction is she manifesting?",opts:["2","3","1","4"],ans:2,r:"Anaphylaxis (bee sting) is a Type I hypersensitivity reaction (IgE-mediated, immediate). Type II is antibody-mediated cytotoxicity; Type III is immune complex; Type IV is delayed-type."},
+  {id:193,t:6,c:false,stem:"What type of cell plays a part in this reaction?",opts:["Neutrophil","Lymphocyte","Eosinophil","Basophil"],ans:3,r:"Mast cells and basophils are the primary cells in Type I hypersensitivity, releasing histamine and other mediators. Eosinophils are also involved but later; neutrophils and lymphocytes are not primary."},
+  {id:194,t:6,c:false,stem:"One of the following statements may NOT be TRUE of Epinephrine in treating this case?",opts:["In lieu of epinephrine, glucocorticoid is the choice","The reaction is triggered by mast cell bound IgE releasing histamine","Epinephrine is the fastest acting agent to treat life threatening condition","Epinephrine can be given parenterally and easily available as an emergency drug"],ans:0,r:"Epinephrine is the first-line treatment for anaphylaxis; glucocorticoids are adjunctive, not a substitute. The other statements are true."},
+  {id:195,t:5,c:false,stem:"Situation 14- Mike, a 62 year old man, presents with a 4-year history of progressive incontinence, decrease in urine stream, terminal dribbling and abdominal straining when urinating. He would need to urinate frequently, even at night, often feeling the urge despite difficulty initiating voiding. Which statement would LEAST describe Mike’s condition?",opts:["It is characterized by increase in size of the transition zone surrounding the urethra","PSA levels in the condition are 4ng/ml or lower","It is the most common cause of lower urinary tract symptoms in males","Increased gland size compresses urethra, leading to symptoms"],ans:1,r:"In BPH, PSA is often elevated (>4 ng/mL) or in the gray zone. The other statements are true for BPH."},
+  {id:196,t:5,c:false,stem:"Which statement is consistent with the pathophysiology of Mike’s condition?",opts:["It is not influenced by both endogenous and exogenous estrogens","Type II 5-alpha-reductase metabolizes dihydrotestosterone to testosterone","Testosterone binds to androgen receptors in the cell nuclei leading to hyperplasia","It is hormonally influenced by testosterone and dihydrotestosterone"],ans:3,r:"BPH is hormonally influenced by testosterone and its metabolite DHT. Estrogens also play a role; 5-alpha-reductase converts testosterone to DHT (not vice versa)."},
+  {id:197,t:5,c:false,stem:"Which would be LEAST likely expected to find in the histologic report of Mike’s condition?",opts:["Hyperplasia of glandular and stromal tissues with papillary buds","Begins around the urethra where ejaculatory ducts enter prostate","Stromal changes, such as increased smooth muscles, may be present","Interruptions and nicks along the basal cell layer"],ans:3,r:"Interruptions and nicks along the basal cell layer are not typical of BPH; they suggest carcinoma. BPH shows hyperplasia of glands and stroma, often beginning in the transition zone."},
+  {id:198,t:4,c:false,stem:"Situation 15- Aling Nilda comes to your clinic worried of a rapidly enlarging mass last month. She claims to have first noted the mass last month. Mass grew from the size of a corn kernel to its protruding size of a calamansi. You are considering Phyllodes tumor for this case. Which of the following statements MOST likely explains the bulbous protrusions commonly present in larger forms of this tumor? Presence of nodules of ____.",opts:["Proliferating stroma covered by epithelium","Normal stroma covered by distorted epithelium","Proliferating stroma covered by distorted epithelium","Normal stroma covered by proliferating epithelium"],ans:0,r:"Phyllodes tumors have bulbous protrusions due to nodules of proliferating stroma covered by epithelium. The stroma is the proliferative component, not the epithelium."},
+  {id:199,t:4,c:false,stem:"What statement BEST differentiate Phyllodes tumors from fibroadenoma? Higher cellularity, nuclear polymorphism___.",opts:["Normal mitotic rate, Stromal overgrowth and infiltrative borders","Normal mitotic rate, stromal infiltration and normal borders","Higher mitotic rate, stromal infiltration and normal borders","Higher mitotic rate, stromal overgrowth and infiltrative borders"],ans:3,r:"Phyllodes tumors are distinguished from fibroadenomas by higher cellularity, higher mitotic rate, nuclear pleomorphism, stromal overgrowth, and infiltrative borders."},
+  {id:200,t:4,c:false,stem:"Which statement BEST describes Phyllodes tumor and metastasis? Most Phyllodes tumor are___.",opts:["Low grade and occasionally recur but do not metastasize","High grade and rarely gives rise to hematogenous metastases","High grade and gives rise to hematogenous metastases","Low grade and occasionally recur and metastasize"],ans:0,r:"Most phyllodes tumors are low-grade, may recur locally, but do not metastasize. High-grade tumors can metastasize hematogenously, but are uncommon."}
+];
 
-    // --- Add tags to all questions based on theme ---
-    const tagMap = {
-        1: "Cell Injury",
-        2: "Infectious",
-        3: "Genetic",
-        4: "Neoplasia",
-        5: "Organ System",
-        6: "Immune"
-    };
-    Q.forEach(q => {
-        if (!q.tags) q.tags = [];
-        // Add theme tag if not already present
-        const themeTag = tagMap[q.t] || "General";
-        if (!q.tags.includes(themeTag)) q.tags.push(themeTag);
-        // Add clinical tag if applicable
-        if (q.c && !q.tags.includes("Clinical")) q.tags.push("Clinical");
-    });
+// --- Helper: generate tags for each question ---
+function generateTags(q) {
+  const tags = [];
+  // Theme tag (purple)
+  const themeTag = THEME_TAGS[q.t] || '';
+  if (themeTag) tags.push(themeTag);
+  // Clinical (green)
+  if (q.c) tags.push('Clinical');
+  // High Yield (red) – for clinical questions only (or all, but we'll add for clinical)
+  if (q.c) tags.push('High Yield');
+  // Check for pathogenesis/mechanism keywords (blue)
+  const stemLower = q.stem.toLowerCase();
+  const mechanismKeywords = ['mechanism', 'pathogenesis', 'causes', 'leads to', 'result', 'due to', 'mediated by'];
+  if (mechanismKeywords.some(kw => stemLower.includes(kw))) {
+    tags.push('Pathogenesis');
+  }
+  // Check for morphology keywords (orange)
+  const morphKeywords = ['morphology', 'microscopy', 'gross', 'histology', 'biopsy', 'appearance', 'findings'];
+  if (morphKeywords.some(kw => stemLower.includes(kw))) {
+    tags.push('Morphology');
+  }
+  // Check for definition keywords (yellow)
+  const defKeywords = ['defined as', 'refers to', 'is the', 'term'];
+  if (defKeywords.some(kw => stemLower.includes(kw))) {
+    tags.push('Definition');
+  }
+  // Remove duplicates
+  return [...new Set(tags)];
+}
 
-    // ---------- existing logic ----------
-    let state = {
-        mode: 'exam',
-        answers: {},
-        revealed: {},
-        filter: { t: 'all', type: 'all', tag: 'all' },
-        page: 0,
-        perPage: 10,
-        tableView: false
-    };
+// Assign tags to each question
+const Q = Q_RAW.map(q => {
+  q.tags = generateTags(q);
+  return q;
+});
 
-    function getFiltered() {
-        return Q.filter(q => {
-            if (state.filter.t !== 'all' && q.t !== +state.filter.t) return false;
-            if (state.filter.type === 'clinical' && !q.c) return false;
-            if (state.filter.type === 'conceptual' && q.c) return false;
-            if (state.filter.tag !== 'all' && !q.tags.includes(state.filter.tag)) return false;
-            return true;
-        });
+// --- State and logic (similar to OB-GYN) ---
+let state = {
+  mode: 'exam',
+  answers: {},
+  revealed: {},
+  filter: { t: 'all', type: 'all', tag: 'all' },
+  page: 0,
+  perPage: 10,
+  tableView: false
+};
+
+function getFiltered() {
+  return Q.filter(q => {
+    if (state.filter.t !== 'all' && q.t !== +state.filter.t) return false;
+    if (state.filter.type === 'clinical' && !q.c) return false;
+    if (state.filter.type === 'conceptual' && q.c) return false;
+    if (state.filter.tag !== 'all' && !q.tags.includes(state.filter.tag)) return false;
+    return true;
+  });
+}
+
+function setMode(m) {
+  state.mode = m;
+  document.querySelectorAll('.tab').forEach((el, i) => {
+    el.classList.toggle('active', ['exam', 'review', 'key'][i] === m);
+  });
+  state.page = 0;
+  render();
+  if (state.tableView) renderTable();
+}
+
+function applyFilter() {
+  state.filter.t = document.getElementById('themeFilter').value;
+  state.filter.type = document.getElementById('typeFilter').value;
+  state.filter.tag = document.getElementById('tagFilter').value;
+  state.page = 0;
+  render();
+  if (state.tableView) renderTable();
+}
+
+function changePerPage() {
+  state.perPage = +document.getElementById('perPageSel').value;
+  state.page = 0;
+  render();
+}
+
+function resetAll() {
+  if (!confirm('Reset all answers? This cannot be undone.')) return;
+  state.answers = {};
+  state.revealed = {};
+  updateStats();
+  render();
+  if (state.tableView) renderTable();
+}
+
+function openScore() {
+  const fq = getFiltered();
+  const answered = fq.filter(x => state.answers[x.id] !== undefined).length;
+  const correct = fq.filter(x => state.answers[x.id] === x.ans).length;
+  const pct = answered > 0 ? Math.round(correct / answered * 100) : 0;
+  const color = pct >= 75 ? '#4cad6e' : pct >= 60 ? '#c9a84c' : '#c94c4c';
+  const grade = pct >= 90 ? 'Distinction' : pct >= 75 ? 'Pass' : pct >= 60 ? 'Near Pass' : 'Needs Review';
+  document.getElementById('modalScore').textContent = pct + '%';
+  document.getElementById('modalScore').style.color = color;
+  document.getElementById('modalGrade').textContent = grade;
+  document.getElementById('modalGrade').style.color = color;
+  document.getElementById('modalSub').textContent =
+    `${fq.length} questions · Section: ${document.getElementById('themeFilter').options[document.getElementById('themeFilter').selectedIndex].text}`;
+  document.getElementById('mdAns').textContent = answered;
+  document.getElementById('mdCorr').textContent = correct;
+  document.getElementById('mdWrong').textContent = answered - correct;
+  document.getElementById('scoreModal').classList.add('open');
+}
+
+function closeScore(e) {
+  if (!e || e.target.id === 'scoreModal' || e.target.className === 'btn primary') {
+    document.getElementById('scoreModal').classList.remove('open');
+  }
+}
+
+function updateStats() {
+  const fq = getFiltered();
+  const answered = fq.filter(x => state.answers[x.id] !== undefined).length;
+  const correct = fq.filter(x => state.answers[x.id] === x.ans).length;
+  document.getElementById('sTotal').textContent = fq.length;
+  document.getElementById('sAnswered').textContent = answered;
+  document.getElementById('sCorrect').textContent = correct;
+  document.getElementById('sPct').textContent = answered > 0 ? Math.round(correct / answered * 100) + '%' : '—';
+  const pct = Math.round(answered / Math.max(fq.length, 1) * 100);
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progLabel').textContent = `${answered} / ${fq.length} answered`;
+  document.getElementById('progPct').textContent = pct + '%';
+}
+
+function selectAnswer(id, idx) {
+  if (state.mode === 'key') return;
+  state.answers[id] = idx;
+  if (state.mode === 'review') state.revealed[id] = true;
+  updateStats();
+  render();
+  if (state.tableView) renderTable();
+}
+
+function toggleReveal(id) {
+  state.revealed[id] = !state.revealed[id];
+  render();
+  if (state.tableView) renderTable();
+}
+
+function prevPage() {
+  if (state.page > 0) { state.page--; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+}
+
+function nextPage() {
+  const total = Math.ceil(getFiltered().length / state.perPage);
+  if (state.page < total - 1) { state.page++; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+}
+
+function toggleTableView() {
+  state.tableView = !state.tableView;
+  const wrap = document.getElementById('tableViewWrap');
+  const btn = document.getElementById('tableToggleBtn');
+  if (state.tableView) {
+    wrap.classList.add('open');
+    btn.classList.add('active');
+    renderTable();
+  } else {
+    wrap.classList.remove('open');
+    btn.classList.remove('active');
+  }
+}
+
+function renderTable() {
+  const fq = getFiltered();
+  const search = document.getElementById('tableSearch').value.toLowerCase();
+  let filtered = fq;
+  if (search) {
+    filtered = fq.filter(q =>
+      q.stem.toLowerCase().includes(search) ||
+      q.r.toLowerCase().includes(search) ||
+      q.tags.some(t => t.toLowerCase().includes(search))
+    );
+  }
+  const tbody = document.getElementById('tableBody');
+  let html = '';
+  filtered.forEach(q => {
+    const userAns = state.answers[q.id];
+    const reveal = state.revealed[q.id] || state.mode === 'key';
+    let ansDisplay = '—';
+    if (reveal || userAns !== undefined) {
+      if (reveal) ansDisplay = OPTS[q.ans];
+      else if (userAns !== undefined) ansDisplay = OPTS[userAns];
     }
+    const correctMark = (reveal && userAns === q.ans) ? ' ✓' : '';
+    const wrongMark = (reveal && userAns !== undefined && userAns !== q.ans) ? ' ✗' : '';
+    const tagStr = q.tags.slice(0, 3).join(', ') + (q.tags.length > 3 ? '…' : '');
+    html += `<tr>
+      <td class="qnum-col">Q${q.id}</td>
+      <td class="ans-col">${ansDisplay}${correctMark}${wrongMark}</td>
+      <td class="stem-col">${q.stem}</td>
+      <td class="r-col">${q.r}</td>
+      <td class="tag-col">${tagStr}</td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+  document.getElementById('tableCount').textContent = `Showing ${filtered.length} of ${fq.length} questions`;
+}
 
-    function setMode(m) {
-        state.mode = m;
-        document.querySelectorAll('.tab').forEach((el, i) => {
-            el.classList.toggle('active', ['exam', 'review', 'key'][i] === m);
-        });
-        state.page = 0;
-        render();
-        if (state.tableView) renderTable();
+function render() {
+  const filtered = getFiltered();
+  const total = Math.ceil(filtered.length / state.perPage);
+  const start = state.page * state.perPage;
+  const visible = filtered.slice(start, start + state.perPage);
+  document.getElementById('sTotal').textContent = filtered.length;
+  document.getElementById('pageInfo').textContent =
+    `Page ${state.page+1} of ${Math.max(total,1)} · Items ${start+1}–${Math.min(start+state.perPage, filtered.length)} of ${filtered.length}`;
+  let html = '';
+  let lastTheme = null;
+  visible.forEach(q => {
+    if (q.t !== lastTheme) {
+      if (lastTheme !== null) {
+        html += `<div class="theme-divider"><div class="theme-divider-line"></div><div class="theme-divider-label">${THEME_NAMES[q.t]}</div><div class="theme-divider-line"></div></div>`;
+      }
+      lastTheme = q.t;
     }
+    const userAns = state.answers[q.id];
+    const revealed = state.revealed[q.id] || state.mode === 'key';
+    // Tags display with color classes
+    const tagHtml = q.tags.map(t => {
+      // Determine class based on tag category
+      let cls = 'tag';
+      if (t === 'Clinical') cls += ' tag-green';
+      else if (t === 'High Yield') cls += ' tag-red';
+      else if (t === 'Pathogenesis') cls += ' tag-blue';
+      else if (t === 'Morphology') cls += ' tag-orange';
+      else if (t === 'Definition') cls += ' tag-yellow';
+      else cls += ' tag-purple'; // default for theme tags
+      return `<span class="${cls}">${t}</span>`;
+    }).join('');
 
-    function applyFilter() {
-        state.filter.t = document.getElementById('themeFilter').value;
-        state.filter.type = document.getElementById('typeFilter').value;
-        state.filter.tag = document.getElementById('tagFilter').value;
-        state.page = 0;
-        render();
-        if (state.tableView) renderTable();
-    }
+    const optHtml = q.opts.map((opt, i) => {
+      let cls = 'opt';
+      if (revealed) {
+        if (i === q.ans) cls += ' correct';
+        else if (userAns === i) cls += ' wrong';
+      } else {
+        if (userAns === i) cls += ' selected';
+      }
+      const click = state.mode !== 'key' ? `onclick="selectAnswer(${q.id},${i})"` : '';
+      return `<button class="${cls}" ${click}><span class="opt-letter">${OPTS[i]}.</span><span>${opt}</span></button>`;
+    }).join('');
+    const rationaleHtml = revealed ?
+      `<div class="rationale"><strong>Answer: ${OPTS[q.ans]}</strong> — ${q.r}</div>` :
+      '';
+    const revealBtn = state.mode === 'exam' && userAns !== undefined && !state.revealed[q.id] ?
+      `<button class="reveal-btn" onclick="toggleReveal(${q.id})">Show answer &amp; rationale</button>` :
+      '';
+    let badges = `<span class="badge badge-theme">${THEME_NAMES[q.t]}</span>`;
+    if (q.c) badges += ` <span class="badge badge-clinical">● Clinical</span>`;
+    html += `<div class="q-card">
+      <div class="q-meta"><span class="q-num">Q${q.id}</span>${badges}</div>
+      <div class="tag-group">${tagHtml}</div>
+      <div class="q-stem">${q.stem}</div>
+      <div class="options">${optHtml}</div>
+      ${revealBtn}
+      ${rationaleHtml}
+    </div>`;
+  });
+  document.getElementById('qContainer').innerHTML = html;
+  updateStats();
+}
 
-    function changePerPage() {
-        state.perPage = +document.getElementById('perPageSel').value;
-        state.page = 0;
-        render();
-    }
+// --- Populate tag filter dropdown ---
+function populateTagFilter() {
+  const allTags = new Set();
+  Q.forEach(q => q.tags.forEach(t => allTags.add(t)));
+  const sel = document.getElementById('tagFilter');
+  sel.innerHTML = '<option value="all">All Tags</option>';
+  Array.from(allTags).sort().forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t;
+    opt.textContent = t;
+    sel.appendChild(opt);
+  });
+}
 
-    function resetAll() {
-        if (!confirm('Reset all answers? This cannot be undone.')) return;
-        state.answers = {};
-        state.revealed = {};
-        updateStats();
-        render();
-        if (state.tableView) renderTable();
-    }
+// --- Scroll and keyboard events ---
+window.addEventListener('scroll', () => {
+  document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 300);
+});
 
-    function openScore() {
-        const fq = getFiltered();
-        const answered = fq.filter(x => state.answers[x.id] !== undefined).length;
-        const correct = fq.filter(x => state.answers[x.id] === x.ans).length;
-        const pct = answered > 0 ? Math.round(correct / answered * 100) : 0;
-        const color = pct >= 75 ? '#4cad6e' : pct >= 60 ? '#c9a84c' : '#c94c4c';
-        const grade = pct >= 90 ? 'Distinction' : pct >= 75 ? 'Pass' : pct >= 60 ? 'Near Pass' : 'Needs Review';
-        document.getElementById('modalScore').textContent = pct + '%';
-        document.getElementById('modalScore').style.color = color;
-        document.getElementById('modalGrade').textContent = grade;
-        document.getElementById('modalGrade').style.color = color;
-        document.getElementById('modalSub').textContent =
-            `${fq.length} questions · Section: ${document.getElementById('themeFilter').options[document.getElementById('themeFilter').selectedIndex].text}`;
-        document.getElementById('mdAns').textContent = answered;
-        document.getElementById('mdCorr').textContent = correct;
-        document.getElementById('mdWrong').textContent = answered - correct;
-        document.getElementById('scoreModal').classList.add('open');
-    }
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'SELECT') return;
+  if (e.key === 'ArrowRight') nextPage();
+  if (e.key === 'ArrowLeft') prevPage();
+  if (e.key === 'Escape') closeScore();
+});
 
-    function closeScore(e) {
-        if (!e || e.target.id === 'scoreModal' || e.target.className === 'btn primary') {
-            document.getElementById('scoreModal').classList.remove('open');
-        }
-    }
-
-    function updateStats() {
-        const fq = getFiltered();
-        const answered = fq.filter(x => state.answers[x.id] !== undefined).length;
-        const correct = fq.filter(x => state.answers[x.id] === x.ans).length;
-        document.getElementById('sTotal').textContent = fq.length;
-        document.getElementById('sAnswered').textContent = answered;
-        document.getElementById('sCorrect').textContent = correct;
-        document.getElementById('sPct').textContent = answered > 0 ? Math.round(correct / answered * 100) + '%' : '—';
-        const pct = Math.round(answered / Math.max(fq.length, 1) * 100);
-        document.getElementById('progFill').style.width = pct + '%';
-        document.getElementById('progLabel').textContent = `${answered} / ${fq.length} answered`;
-        document.getElementById('progPct').textContent = pct + '%';
-    }
-
-    function selectAnswer(id, idx) {
-        if (state.mode === 'key') return;
-        state.answers[id] = idx;
-        if (state.mode === 'review') state.revealed[id] = true;
-        updateStats();
-        render();
-        if (state.tableView) renderTable();
-    }
-
-    function toggleReveal(id) {
-        state.revealed[id] = !state.revealed[id];
-        render();
-        if (state.tableView) renderTable();
-    }
-
-    function prevPage() {
-        if (state.page > 0) { state.page--;
-            render();
-            window.scrollTo({ top: 0, behavior: 'smooth' }); }
-    }
-
-    function nextPage() {
-        const total = Math.ceil(getFiltered().length / state.perPage);
-        if (state.page < total - 1) { state.page++;
-            render();
-            window.scrollTo({ top: 0, behavior: 'smooth' }); }
-    }
-
-    function toggleTableView() {
-        state.tableView = !state.tableView;
-        const wrap = document.getElementById('tableViewWrap');
-        const btn = document.getElementById('tableToggleBtn');
-        if (state.tableView) {
-            wrap.classList.add('open');
-            btn.classList.add('active');
-            renderTable();
-        } else {
-            wrap.classList.remove('open');
-            btn.classList.remove('active');
-        }
-    }
-
-    function renderTable() {
-        const fq = getFiltered();
-        const search = document.getElementById('tableSearch').value.toLowerCase();
-        let filtered = fq;
-        if (search) {
-            filtered = fq.filter(q =>
-                q.stem.toLowerCase().includes(search) ||
-                q.r.toLowerCase().includes(search) ||
-                q.tags.some(t => t.toLowerCase().includes(search))
-            );
-        }
-        const tbody = document.getElementById('tableBody');
-        let html = '';
-        filtered.forEach(q => {
-            const userAns = state.answers[q.id];
-            const reveal = state.revealed[q.id] || state.mode === 'key';
-            let ansDisplay = '—';
-            if (reveal || userAns !== undefined) {
-                if (reveal) ansDisplay = OPTS[q.ans];
-                else if (userAns !== undefined) ansDisplay = OPTS[userAns];
-            }
-            const correctMark = (reveal && userAns === q.ans) ? ' ✓' : '';
-            const wrongMark = (reveal && userAns !== undefined && userAns !== q.ans) ? ' ✗' : '';
-            const tagStr = q.tags.slice(0, 3).join(', ') + (q.tags.length > 3 ? '…' : '');
-            html += `<tr>
-                <td class="qnum-col">Q${q.id}</td>
-                <td class="ans-col">${ansDisplay}${correctMark}${wrongMark}</td>
-                <td class="stem-col">${q.stem}</td>
-                <td class="r-col">${q.r}</td>
-                <td class="tag-col">${tagStr}</td>
-            </tr>`;
-        });
-        tbody.innerHTML = html;
-        document.getElementById('tableCount').textContent = `Showing ${filtered.length} of ${fq.length} questions`;
-    }
-
-    function render() {
-        const filtered = getFiltered();
-        const total = Math.ceil(filtered.length / state.perPage);
-        const start = state.page * state.perPage;
-        const visible = filtered.slice(start, start + state.perPage);
-        document.getElementById('sTotal').textContent = filtered.length;
-        document.getElementById('pageInfo').textContent =
-            `Page ${state.page+1} of ${Math.max(total,1)} · Items ${start+1}–${Math.min(start+state.perPage, filtered.length)} of ${filtered.length}`;
-        let html = '';
-        let lastTheme = null;
-        visible.forEach(q => {
-            if (q.t !== lastTheme) {
-                if (lastTheme !== null) {
-                    html +=
-                        `<div class="theme-divider"><div class="theme-divider-line"></div><div class="theme-divider-label">${THEME_NAMES[q.t]}</div><div class="theme-divider-line"></div></div>`;
-                }
-                lastTheme = q.t;
-            }
-            const userAns = state.answers[q.id];
-            const revealed = state.revealed[q.id] || state.mode === 'key';
-            const tagHtml = q.tags.length ? q.tags.map(t => {
-                let cls = 'tag';
-                if (t === 'Infectious') cls += ' tag-infectious';
-                if (t === 'Neoplasia') cls += ' tag-neoplasia';
-                if (t === 'Genetic') cls += ' tag-genetic';
-                return `<span class="${cls}">${t}</span>`;
-            }).join('') : '';
-            const optHtml = q.opts.map((opt, i) => {
-                let cls = 'opt';
-                if (revealed) {
-                    if (i === q.ans) cls += ' correct';
-                    else if (userAns === i) cls += ' wrong';
-                } else {
-                    if (userAns === i) cls += ' selected';
-                }
-                const click = state.mode !== 'key' ? `onclick="selectAnswer(${q.id},${i})"` : '';
-                return `<button class="${cls}" ${click}><span class="opt-letter">${OPTS[i]}.</span><span>${opt}</span></button>`;
-            }).join('');
-            const rationaleHtml = revealed ?
-                `<div class="rationale"><strong>Answer: ${OPTS[q.ans]}</strong> — ${q.r}</div>` :
-                '';
-            const revealBtn = state.mode === 'exam' && userAns !== undefined && !state.revealed[q.id] ?
-                `<button class="reveal-btn" onclick="toggleReveal(${q.id})">Show answer &amp; rationale</button>` :
-                '';
-            let badges = `<span class="badge badge-theme">${THEME_NAMES[q.t]}</span>`;
-            if (q.c) badges += ` <span class="badge badge-clinical">● Clinical</span>`;
-            html += `<div class="q-card">
-                <div class="q-meta"><span class="q-num">Q${q.id}</span>${badges}</div>
-                <div class="tag-group">${tagHtml}</div>
-                <div class="q-stem">${q.stem}</div>
-                <div class="options">${optHtml}</div>
-                ${revealBtn}
-                ${rationaleHtml}
-            </div>`;
-        });
-        document.getElementById('qContainer').innerHTML = html;
-        updateStats();
-    }
-
-    window.addEventListener('scroll', () => {
-        document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 300);
-    });
-
-    document.addEventListener('keydown', e => {
-        if (e.target.tagName === 'SELECT') return;
-        if (e.key === 'ArrowRight') nextPage();
-        if (e.key === 'ArrowLeft') prevPage();
-        if (e.key === 'Escape') closeScore();
-    });
-
-    // Init
-    render();
+// --- Initialize ---
+populateTagFilter();
+render();
 </script>
 </body>
 </html>
