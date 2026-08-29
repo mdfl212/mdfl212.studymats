@@ -1,0 +1,2581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IM PLE Reviewer 2023 · Harrison's Style</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg: #F5F8FA;
+            --bg2: #FFFFFF;
+            --bg3: #EBF3F8;
+            --bg4: #D4E6F2;
+            --border: rgba(42, 117, 181, 0.18);
+            --border2: rgba(42, 117, 181, 0.35);
+            --text: #2C3E50;
+            --text2: #3A5A78;
+            --text3: #7A9BB5;
+            --blue: #2A75B5;
+            --blue2: #4A95D5;
+            --blue3: #6BB5E8;
+            --orange: #E8843A;
+            --orange2: #F5A86A;
+            --orange3: #FCC89A;
+            --gold: #D4A84A;
+            --gold2: #E8C86A;
+            --gold-dim: rgba(232, 132, 58, 0.12);
+            --blue-dim: rgba(42, 117, 181, 0.10);
+            --orange-dim: rgba(232, 132, 58, 0.15);
+            --red-dim: rgba(200, 70, 70, 0.12);
+            --mint: #8ABF9A;
+            --mint2: #C8E6D5;
+            --radius: 6px;
+            --radius-lg: 10px;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 15px;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
+        }
+        .wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+            position: relative;
+            z-index: 1;
+        }
+        .site-header {
+            border-bottom: 2px solid var(--border2);
+            padding: 44px 0 32px;
+            margin-bottom: 36px;
+            position: relative;
+        }
+        .site-header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 90px;
+            height: 3px;
+            background: var(--orange);
+        }
+        .header-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--blue2);
+            margin-bottom: 10px;
+        }
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 4.5vw, 44px);
+            font-weight: 700;
+            line-height: 1.12;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+        .header-title em {
+            font-style: italic;
+            color: var(--orange);
+        }
+        .header-sub {
+            font-size: 13px;
+            color: var(--text2);
+            font-style: italic;
+        }
+        .header-sub strong {
+            color: var(--blue);
+            font-style: normal;
+        }
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 14px 16px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+        .stat-val {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 600;
+            color: var(--blue);
+            display: block;
+            line-height: 1;
+            margin-bottom: 2px;
+        }
+        .stat-label {
+            font-size: 9px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text3);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .progress-wrap {
+            margin-bottom: 24px;
+        }
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text3);
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.06em;
+            margin-bottom: 6px;
+        }
+        .progress-track {
+            height: 4px;
+            background: var(--bg4);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--blue), var(--orange));
+            border-radius: 3px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 14px 18px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+        }
+        .controls label {
+            font-size: 9px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--text3);
+            font-family: 'JetBrains Mono', monospace;
+            margin-right: 2px;
+        }
+        select {
+            background: white;
+            border: 1px solid var(--border2);
+            color: var(--text);
+            font-family: 'Source Serif 4', serif;
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        select:hover,
+        select:focus {
+            border-color: var(--orange);
+        }
+        .btn {
+            padding: 6px 16px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border2);
+            background: transparent;
+            color: var(--text2);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.18s;
+            white-space: nowrap;
+        }
+        .btn:hover {
+            border-color: var(--orange);
+            color: var(--blue);
+            background: var(--orange-dim);
+        }
+        .btn.primary {
+            background: var(--orange-dim);
+            border-color: var(--orange);
+            color: var(--orange);
+        }
+        .btn.primary:hover {
+            background: rgba(232, 132, 58, 0.22);
+        }
+        .btn.danger:hover {
+            border-color: #C84A4A;
+            color: #C84A4A;
+            background: var(--red-dim);
+        }
+        .btn.table-toggle {
+            border-color: var(--mint);
+            color: var(--mint);
+        }
+        .btn.table-toggle:hover {
+            background: var(--mint2);
+            border-color: var(--mint);
+            color: #4A7A5A;
+        }
+        .btn.table-toggle.active {
+            background: var(--mint2);
+            border-color: var(--mint);
+            color: #4A7A5A;
+        }
+        .mode-tabs {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 24px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 4px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+        .tab {
+            flex: 1;
+            padding: 9px;
+            border-radius: 7px;
+            border: none;
+            background: transparent;
+            color: var(--text3);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .tab:hover {
+            color: var(--text2);
+        }
+        .tab.active {
+            background: var(--bg4);
+            color: var(--blue);
+            border: 1px solid var(--border2);
+        }
+        .q-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px 28px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            animation: fadeUp 0.3s ease both;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+        }
+        .q-card:hover {
+            border-color: var(--border2);
+            box-shadow: 0 4px 16px rgba(42, 117, 181, 0.06);
+        }
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .q-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .q-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--blue);
+            min-width: 48px;
+        }
+        .badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            padding: 3px 9px;
+            border-radius: 3px;
+        }
+        .badge-clinical {
+            background: rgba(232, 132, 58, 0.12);
+            color: var(--orange);
+            border: 1px solid rgba(232, 132, 58, 0.2);
+        }
+        .badge-theme {
+            background: var(--blue-dim);
+            color: var(--blue);
+            border: 1px solid rgba(42, 117, 181, 0.2);
+        }
+        .badge-source {
+            background: var(--gold-dim);
+            color: var(--gold);
+            border: 1px solid rgba(212, 168, 74, 0.3);
+        }
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+        .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8px;
+            letter-spacing: 0.12em;
+            padding: 2px 8px;
+            border-radius: 3px;
+            background: var(--blue-dim);
+            color: var(--blue2);
+            border: 1px solid rgba(42, 117, 181, 0.15);
+            text-transform: uppercase;
+        }
+        .tag-cardiology {
+            background: rgba(232, 132, 58, 0.10);
+            color: var(--orange);
+            border-color: rgba(232, 132, 58, 0.2);
+        }
+        .tag-infectious {
+            background: rgba(200, 70, 70, 0.08);
+            color: #B84A4A;
+            border-color: rgba(200, 70, 70, 0.15);
+        }
+        .tag-endocrinology {
+            background: rgba(42, 117, 181, 0.12);
+            color: var(--blue);
+            border-color: rgba(42, 117, 181, 0.2);
+        }
+        .tag-nephrology {
+            background: rgba(74, 149, 213, 0.10);
+            color: #3A7AAA;
+            border-color: rgba(74, 149, 213, 0.18);
+        }
+        .tag-rheumatology {
+            background: rgba(212, 168, 74, 0.12);
+            color: #B8903A;
+            border-color: rgba(212, 168, 74, 0.2);
+        }
+        .tag-gastroenterology {
+            background: rgba(138, 191, 154, 0.15);
+            color: #4A8A5A;
+            border-color: rgba(138, 191, 154, 0.25);
+        }
+        .tag-hematology {
+            background: rgba(200, 70, 70, 0.06);
+            color: #A84A4A;
+            border-color: rgba(200, 70, 70, 0.12);
+        }
+        .tag-pulmonology {
+            background: rgba(74, 149, 213, 0.08);
+            color: #3A7AAA;
+            border-color: rgba(74, 149, 213, 0.15);
+        }
+        .tag-neurology {
+            background: rgba(138, 191, 154, 0.10);
+            color: #4A7A5A;
+            border-color: rgba(138, 191, 154, 0.18);
+        }
+        .tag-oncology {
+            background: rgba(200, 70, 70, 0.08);
+            color: #8A3A3A;
+            border-color: rgba(200, 70, 70, 0.15);
+        }
+        .q-stem {
+            font-size: 16px;
+            line-height: 1.72;
+            color: var(--text);
+            margin-bottom: 16px;
+            border-left: 2px solid var(--border2);
+            padding-left: 16px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+        .opt {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.16s;
+            font-size: 14.5px;
+            line-height: 1.6;
+            background: transparent;
+            color: var(--text2);
+            text-align: left;
+            font-family: 'Source Serif 4', serif;
+            width: 100%;
+        }
+        .opt:hover {
+            border-color: var(--border2);
+            background: var(--bg3);
+            color: var(--text);
+        }
+        .opt.selected {
+            border-color: var(--blue);
+            background: var(--blue-dim);
+            color: var(--text);
+        }
+        .opt.correct {
+            border-color: var(--orange);
+            background: var(--orange-dim);
+            color: #7A4A1A;
+        }
+        .opt.wrong {
+            border-color: #C84A4A;
+            background: var(--red-dim);
+            color: #8A3A3A;
+        }
+        .opt-letter {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 13px;
+            min-width: 20px;
+            color: var(--blue2);
+            flex-shrink: 0;
+            padding-top: 1px;
+        }
+        .opt.correct .opt-letter {
+            color: var(--orange);
+        }
+        .opt.wrong .opt-letter {
+            color: #C84A4A;
+        }
+        .opt.selected .opt-letter {
+            color: var(--blue);
+        }
+        .rationale {
+            margin-top: 14px;
+            padding: 14px 18px;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text2);
+        }
+        .rationale strong {
+            color: var(--blue);
+            font-weight: 600;
+        }
+        .rationale .answer-highlight {
+            display: inline-block;
+            background: var(--orange-dim);
+            color: var(--orange);
+            font-weight: 600;
+            padding: 0 8px;
+            border-radius: 3px;
+            font-family: 'Playfair Display', serif;
+        }
+        .reveal-btn {
+            margin-top: 12px;
+            padding: 6px 16px;
+            border: 1px solid var(--border2);
+            border-radius: var(--radius);
+            background: transparent;
+            color: var(--text3);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.18s;
+        }
+        .reveal-btn:hover {
+            border-color: var(--orange);
+            color: var(--orange);
+            background: var(--orange-dim);
+        }
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 32px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .page-info {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text3);
+            letter-spacing: 0.06em;
+            text-align: center;
+            flex: 1;
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+        .modal-overlay.open {
+            display: flex;
+        }
+        .modal {
+            background: var(--bg2);
+            border: 1px solid var(--border2);
+            border-radius: 14px;
+            padding: 40px 48px;
+            max-width: 440px;
+            width: 90%;
+            text-align: center;
+            animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.88);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: var(--blue);
+            margin-bottom: 4px;
+        }
+        .modal-sub {
+            font-size: 12px;
+            color: var(--text3);
+            font-style: italic;
+            margin-bottom: 24px;
+        }
+        .score-big {
+            font-family: 'Playfair Display', serif;
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 2px;
+        }
+        .score-grade {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        .score-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .sd-item {
+            background: var(--bg3);
+            border-radius: var(--radius);
+            padding: 12px 8px;
+        }
+        .sd-val {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: var(--text);
+            display: block;
+        }
+        .sd-lab {
+            font-size: 9px;
+            color: var(--text3);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .scroll-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 40px;
+            height: 40px;
+            background: var(--bg2);
+            border: 1px solid var(--border2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 50;
+            transition: all 0.2s;
+            color: var(--text3);
+            font-size: 16px;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .scroll-top:hover {
+            border-color: var(--orange);
+            color: var(--orange);
+            background: var(--orange-dim);
+        }
+        .theme-divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 28px 0 18px;
+        }
+        .theme-divider-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+        .theme-divider-label {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 12px;
+            color: var(--blue2);
+            white-space: nowrap;
+        }
+        .table-view-wrap {
+            display: none;
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        .table-view-wrap.open {
+            display: block;
+        }
+        .rationale-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            background: var(--bg2);
+            border: 1px solid var(--border2);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+        .rationale-table th {
+            background: var(--bg4);
+            color: var(--blue);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 2px solid var(--border2);
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+        .rationale-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text2);
+            vertical-align: top;
+        }
+        .rationale-table tr:hover td {
+            background: var(--bg3);
+        }
+        .rationale-table .qnum-col {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: var(--blue);
+            white-space: nowrap;
+        }
+        .rationale-table .ans-col {
+            font-weight: 600;
+            color: var(--orange);
+            white-space: nowrap;
+            text-align: center;
+        }
+        .rationale-table .stem-col {
+            max-width: 300px;
+        }
+        .rationale-table .r-col {
+            color: var(--text2);
+            max-width: 400px;
+            font-size: 12.5px;
+        }
+        .rationale-table .tag-col {
+            font-size: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text3);
+        }
+        .table-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .table-controls label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            color: var(--text3);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .table-controls input {
+            background: white;
+            border: 1px solid var(--border2);
+            color: var(--text);
+            padding: 5px 10px;
+            border-radius: var(--radius);
+            font-family: 'Source Serif 4', serif;
+            font-size: 12px;
+            outline: none;
+            transition: border-color 0.2s;
+            width: 140px;
+        }
+        .table-controls input:focus {
+            border-color: var(--orange);
+        }
+        .table-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text3);
+            margin-left: auto;
+        }
+        @media (max-width: 600px) {
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .q-card {
+                padding: 18px 16px;
+            }
+            .controls {
+                gap: 8px;
+            }
+            .modal {
+                padding: 28px 20px;
+            }
+            .score-big {
+                font-size: 52px;
+            }
+            .rationale-table th,
+            .rationale-table td {
+                padding: 6px 8px;
+                font-size: 11px;
+            }
+            .rationale-table .stem-col {
+                max-width: 120px;
+            }
+            .rationale-table .r-col {
+                max-width: 140px;
+            }
+        }
+        @media (max-width: 480px) {
+            .wrapper {
+                padding: 0 12px 60px;
+            }
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .controls label {
+                margin-top: 4px;
+            }
+            .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <header class="site-header">
+            <div class="header-eyebrow">📖 Internal Medicine · PLE 2023 · 100 Items</div>
+            <h1 class="header-title"><em>Harrison's</em><br />Internal Medicine Reviewer</h1>
+            <p class="header-sub">Cardiology · Endocrinology · Rheumatology · Gastroenterology · Nephrology · Pulmonology · Neurology · Hematology · Oncology · Infectious Disease</p>
+        </header>
+        <div class="stats-bar">
+            <div class="stat-card"><span class="stat-val" id="sTotal">100</span><span class="stat-label">Questions</span></div>
+            <div class="stat-card"><span class="stat-val" id="sAnswered">0</span><span class="stat-label">Answered</span></div>
+            <div class="stat-card"><span class="stat-val" id="sCorrect">0</span><span class="stat-label">Correct</span></div>
+            <div class="stat-card"><span class="stat-val" id="sPct">—</span><span class="stat-label">Score %</span></div>
+        </div>
+        <div class="progress-wrap">
+            <div class="progress-meta"><span id="progLabel">0 / 100 answered</span><span id="progPct">0%</span></div>
+            <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+        </div>
+        <div class="mode-tabs">
+            <button class="tab active" onclick="setMode('exam')">📝 Exam Mode</button>
+            <button class="tab" onclick="setMode('review')">🔍 Review Mode</button>
+            <button class="tab" onclick="setMode('key')">🗝 Answer Key</button>
+        </div>
+        <div class="controls">
+            <label>Section</label>
+            <select id="themeFilter" onchange="applyFilter()">
+                <option value="all">All Sections</option>
+                <option value="1">Cardiology</option>
+                <option value="2">Endocrinology</option>
+                <option value="3">Rheumatology</option>
+                <option value="4">Gastroenterology</option>
+                <option value="5">Nephrology</option>
+                <option value="6">Pulmonology</option>
+                <option value="7">Neurology</option>
+                <option value="8">Hematology</option>
+                <option value="9">Oncology</option>
+                <option value="10">Infectious Disease</option>
+            </select>
+            <label>Type</label>
+            <select id="typeFilter" onchange="applyFilter()">
+                <option value="all">All Types</option>
+                <option value="clinical">Clinical Only</option>
+                <option value="conceptual">Conceptual Only</option>
+            </select>
+            <label>Tag</label>
+            <select id="tagFilter" onchange="applyFilter()">
+                <option value="all">All Tags</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Endocrinology">Endocrinology</option>
+                <option value="Rheumatology">Rheumatology</option>
+                <option value="Gastroenterology">Gastroenterology</option>
+                <option value="Nephrology">Nephrology</option>
+                <option value="Pulmonology">Pulmonology</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Hematology">Hematology</option>
+                <option value="Oncology">Oncology</option>
+                <option value="Infectious Disease">Infectious Disease</option>
+            </select>
+            <label>Per Page</label>
+            <select id="perPageSel" onchange="changePerPage()">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">All</option>
+            </select>
+            <button class="btn primary" onclick="openScore()">📊 Score</button>
+            <button class="btn danger" onclick="resetAll()">↺ Reset</button>
+            <button class="btn table-toggle" id="tableToggleBtn" onclick="toggleTableView()">📋 Table</button>
+        </div>
+
+        <div class="table-view-wrap" id="tableViewWrap">
+            <div class="table-controls">
+                <label>🔍 Filter</label>
+                <input type="text" id="tableSearch" placeholder="Search stem or rationale..." oninput="renderTable()" />
+                <span class="table-count" id="tableCount"></span>
+            </div>
+            <div style="overflow-x:auto;max-height:600px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-lg);">
+                <table class="rationale-table" id="rationaleTable">
+                    <thead><tr><th style="min-width:48px;">#</th><th style="min-width:60px;">Answer</th><th style="min-width:120px;">Question</th><th style="min-width:180px;">Rationale</th><th style="min-width:80px;">Tags</th></tr></thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="qContainer"></div>
+        <div class="nav">
+            <button class="btn" onclick="prevPage()">← Previous</button>
+            <span class="page-info" id="pageInfo"></span>
+            <button class="btn" onclick="nextPage()">Next →</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="scoreModal" onclick="closeScore(event)">
+        <div class="modal">
+            <div class="modal-title">Examination Results</div>
+            <div class="modal-sub" id="modalSub">Internal Medicine PLE 2023 Reviewer</div>
+            <div class="score-big" id="modalScore">—</div>
+            <div class="score-grade" id="modalGrade"></div>
+            <div class="score-detail">
+                <div class="sd-item"><span class="sd-val" id="mdAns">0</span><span class="sd-lab">Answered</span></div>
+                <div class="sd-item"><span class="sd-val" id="mdCorr">0</span><span class="sd-lab">Correct</span></div>
+                <div class="sd-item"><span class="sd-val" id="mdWrong">0</span><span class="sd-lab">Wrong</span></div>
+            </div>
+            <button class="btn primary" onclick="closeScore()">Close</button>
+        </div>
+    </div>
+
+    <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+    <script>
+        const THEME_NAMES = ['', 'Cardiology', 'Endocrinology', 'Rheumatology', 'Gastroenterology', 'Nephrology', 'Pulmonology',
+            'Neurology', 'Hematology', 'Oncology', 'Infectious Disease'
+        ];
+        const OPTS = ['A', 'B', 'C', 'D'];
+
+        // ====== 100 Internal Medicine Questions (PLE 2023) ======
+        const Q = [{
+            id: 1,
+            t: 1,
+            c: true,
+            stem: "An 80-year-old man presents to the OPD complaining of heavy and squeezing chest pain with radiation to the right arm. It is sometimes exacerbated by changes in position. ECG revealed ST elevation in leads V1-V2. Which symptom is NOT consistent with the most likely diagnosis?",
+            opts: [
+                "Squeezing chest pain",
+                "Radiation to the right arm",
+                "Chest pain described as heaviness",
+                "Exacerbated by position changes"
+            ],
+            ans: 3,
+            r: "Chest pain caused by myocardial ischemia can be characterized as aching, heavy, squeezing, crushing or constricting. The location is retrosternal. Radiation usually occurs to the ulnar surface of the left arm, neck, jaw, shoulders, and even the right arm. Chest pain exacerbated by changes in position is usually associated with pleuritic pain of pericarditis.",
+            tags: ["Cardiology"]
+        }, {
+            id: 2,
+            t: 1,
+            c: true,
+            stem: "An 80-year-old man presents to the OPD complaining of heavy and squeezing chest pain with radiation to the right arm. BP: 70/50 mmHg. ECG: ST-segment depression in leads V1-V2. Troponin I was positive. What is the most appropriate diagnosis?",
+            opts: [
+                "Chronic coronary syndrome",
+                "Unstable angina",
+                "NSTEMI",
+                "STEMI"
+            ],
+            ans: 2,
+            r: "To diagnose NSTEMI: (1) Characteristic ischemic chest pain, (2) ECG with NO ST elevations (e.g., ST depression), (3) Troponin I elevation. All 3 are present. STEMI would show ST elevation. Unstable angina would show no Troponin I elevation.",
+            tags: ["Cardiology"]
+        }, {
+            id: 3,
+            t: 1,
+            c: true,
+            stem: "An 80-year-old man with diabetes and hypertension presents with heavy and squeezing chest pain radiating to the right arm. BP: 70/50 mmHg. ECG: ST depression in V1-V2. Troponin I positive. Early risk assessment shows 'high risk'. What is the most appropriate treatment?",
+            opts: [
+                "Refer to Cardio for invasive strategy (coronary arteriography ± PCI/CABG)",
+                "Give nitrates",
+                "Give oxygen",
+                "All of the above"
+            ],
+            ans: 0,
+            r: "In NSTEMI patients classified as high-risk, an invasive strategy (coronary arteriography followed by PCI or CABG) is indicated. Nitrates are contraindicated in patients with hypotension. Oxygen is not the most appropriate management in a patient with hypotension.",
+            tags: ["Cardiology"]
+        }, {
+            id: 4,
+            t: 4,
+            c: true,
+            stem: "A patient with uncontrolled GERD with peptic strictures needs bisphosphonates for osteoporosis. Which bisphosphonate can be given?",
+            opts: [
+                "Zoledronic acid",
+                "Alendronate",
+                "Ibandronate",
+                "Risedronate"
+            ],
+            ans: 0,
+            r: "Of all the listed bisphosphonates, only Zoledronic acid can be given in IV form. The rest run the risk of esophageal irritation and are therefore contraindicated in patients with esophageal strictures.",
+            tags: ["Gastroenterology", "Endocrinology"]
+        }, {
+            id: 5,
+            t: 1,
+            c: true,
+            stem: "The following chest pain characteristics are associated with a high probability of having acute MI, EXCEPT:",
+            opts: [
+                "Described as pressure",
+                "Associated with diaphoresis",
+                "Radiation to both arms",
+                "Described as sharp"
+            ],
+            ans: 3,
+            r: "Sharp pain is associated with a decreased likelihood of AMI. The other choices are associated with an increased likelihood of AMI.",
+            tags: ["Cardiology"]
+        }, {
+            id: 6,
+            t: 1,
+            c: true,
+            stem: "An 80-year-old man with diabetes and hypertension presents with heavy and squeezing chest pain radiating to the right arm. BP: 70/50 mmHg. ECG: ST depression in V1-V2. Troponin I positive. Which beta-blocker is appropriate?",
+            opts: [
+                "Metoprolol",
+                "Atenolol",
+                "Propranolol",
+                "Esmolol"
+            ],
+            ans: 0,
+            r: "Metoprolol is the beta-blocker of choice in acute coronary syndrome. The presence of hypotension and a history of diabetes/hypertension requires careful selection. Metoprolol is cardioselective and has a favorable safety profile.",
+            tags: ["Cardiology"]
+        }, {
+            id: 7,
+            t: 1,
+            c: false,
+            stem: "Which of the following is the most common cause of out-of-hospital deaths in patients with STEMI?",
+            opts: [
+                "Arrhythmias",
+                "Acute heart failure",
+                "Atrial fibrillation",
+                "Ventricular fibrillation"
+            ],
+            ans: 3,
+            r: "Ventricular fibrillation (VFib) is the most common cause of out-of-hospital deaths in STEMI. Most deaths from VFib happen in the first 24 hours from onset of symptoms, with half occurring in the first hour. Pump failure is the main cause of in-hospital deaths.",
+            tags: ["Cardiology"]
+        }, {
+            id: 8,
+            t: 1,
+            c: false,
+            stem: "According to the NYHA classification, patients who have symptoms that result in slight limitation of physical activity are classified as:",
+            opts: [
+                "Class I",
+                "Class II",
+                "Class III",
+                "Class IV"
+            ],
+            ans: 1,
+            r: "NYHA Class II: Slight limitation of physical activity. Comfortable at rest. Ordinary physical activity results in fatigue, palpitation, or dyspnea. Class I: No limitation. Class III: Marked limitation. Class IV: Inability to carry out physical activity without discomfort.",
+            tags: ["Cardiology"]
+        }, {
+            id: 9,
+            t: 3,
+            c: false,
+            stem: "What joints are usually spared in osteoarthritis?",
+            opts: [
+                "Ankle",
+                "Fingers",
+                "Knees",
+                "Cervical spine"
+            ],
+            ans: 0,
+            r: "Joints usually spared in OA: Ankle, Wrist, Elbow. Mnemonic: 'AWE' – Ankle, Wrist, Elbow. The other joints mentioned (fingers, knees, cervical spine) are usually involved in OA.",
+            tags: ["Rheumatology"]
+        }, {
+            id: 10,
+            t: 3,
+            c: false,
+            stem: "In patients with RA, which set of joints are the earliest to be affected?",
+            opts: [
+                "Small joints of hands and feet",
+                "Shoulders",
+                "Ankles",
+                "Knees"
+            ],
+            ans: 0,
+            r: "Small joints of hands and feet are usually the earliest involved in RA. Knees (weight-bearing joints) are usually involved in OA, not RA.",
+            tags: ["Rheumatology"]
+        }, {
+            id: 11,
+            t: 1,
+            c: false,
+            stem: "Dyspnea that occurs in patients with heart failure that results from the redistribution of fluid from the lower body into the chest leading to increased work of breathing is called:",
+            opts: [
+                "Orthopnea",
+                "Paroxysmal nocturnal dyspnea",
+                "Cheyne-Stokes respiration",
+                "Fatigue"
+            ],
+            ans: 0,
+            r: "Orthopnea occurs when patients are in the recumbent position and results from redistribution of fluid from the lower body into the chest leading to dyspnea. PND occurs during recumbency and results from airway compression due to increased bronchial arterial pressure.",
+            tags: ["Cardiology"]
+        }, {
+            id: 12,
+            t: 2,
+            c: false,
+            stem: "Which of the following medications used in T2DM can lead to hypoglycemia?",
+            opts: [
+                "Repaglinide",
+                "Acarbose",
+                "Pioglitazone",
+                "Canagliflozin"
+            ],
+            ans: 0,
+            r: "Hypoglycemia usually happens in patients being given insulin or insulin secretagogues (e.g., SUs or meglitinides). Repaglinide is a meglitinide. Acarbose causes GI flatulence. Pioglitazone causes peripheral edema, HF, weight gain. Canagliflozin causes urinary/genital infections, polyuria, dehydration.",
+            tags: ["Endocrinology"]
+        }, {
+            id: 13,
+            t: 3,
+            c: true,
+            stem: "A 50-year-old female with known RA visits the OPD with complaints of dry eyes and dry mouth for 3 months. No other meds except Methotrexate. What is the most likely diagnosis?",
+            opts: [
+                "Felty syndrome",
+                "Dermatomyositis",
+                "Sjogren syndrome",
+                "Hodgkin lymphoma"
+            ],
+            ans: 2,
+            r: "Secondary Sjogren syndrome occurs in association with a connective tissue disease such as RA. Symptoms include dry eyes (keratoconjunctivitis sicca) and dry mouth (xerostomia).",
+            tags: ["Rheumatology"]
+        }, {
+            id: 14,
+            t: 2,
+            c: false,
+            stem: "Which of the following satisfies the criteria for diagnosis of T2DM?",
+            opts: [
+                "FBS: 155 mg/dL after 7 hours of no caloric intake",
+                "2-hour plasma glucose of 250 mg/dL during a 100g OGTT",
+                "RBS of 250 mg/dL with polyuria, polydipsia, and weight loss",
+                "HbA1c of 4%"
+            ],
+            ans: 2,
+            r: "RBS ≥200 mg/dL with classic symptoms of hyperglycemia satisfies criteria. Fasting should be at least 8 hours. OGTT should use 75g glucose. HbA1c should be ≥6.5%.",
+            tags: ["Endocrinology"]
+        }, {
+            id: 15,
+            t: 4,
+            c: false,
+            stem: "Stress ulceration that happens in patients who suffered from head trauma is called:",
+            opts: [
+                "Cushing ulcer",
+                "Curling ulcer",
+                "Peptic ulcer",
+                "Dieulafoy lesion"
+            ],
+            ans: 0,
+            r: "Cushing's ulcer – Stress ulceration that occurs in patients after head trauma. Curling ulcer occurs in patients after severe burns. Mnemonic: 'Burned by the CURLing iron, CUSHion the brain.'",
+            tags: ["Gastroenterology"]
+        }, {
+            id: 16,
+            t: 4,
+            c: true,
+            stem: "A 50-year-old male was rushed to the ER for hematochezia. DRE revealed fresh blood. He was hemodynamically stable. What is the correct management?",
+            opts: [
+                "Upper endoscopy",
+                "Sigmoidoscopy",
+                "Colonoscopy",
+                "Angiography"
+            ],
+            ans: 2,
+            r: "For LGIB, if hemodynamically stable, ask for age. If ≥40 years, do colonoscopy. If <40 years, may do sigmoidoscopy or colonoscopy. If hemodynamically unstable, first step is upper endoscopy.",
+            tags: ["Gastroenterology"]
+        }, {
+            id: 17,
+            t: 3,
+            c: false,
+            stem: "Which of the following is the first choice DMARD for the treatment of early RA?",
+            opts: [
+                "Prednisone",
+                "Methotrexate",
+                "Abatacept",
+                "Sulfasalazine"
+            ],
+            ans: 1,
+            r: "Methotrexate is the first choice DMARD for the treatment of early RA. Other meds are not the first choice.",
+            tags: ["Rheumatology"]
+        }, {
+            id: 18,
+            t: 4,
+            c: true,
+            stem: "A 30-year-old female consults for a 3-month history of epigastric pain relieved by food intake. Sometimes pain awakens her at night. Rapid urease test positive for H. pylori. What is the most appropriate treatment?",
+            opts: [
+                "Omeprazole + clarithromycin for 7 days",
+                "Amoxicillin + clarithromycin for 10 days",
+                "Omeprazole + clarithromycin + amoxicillin for 14 days",
+                "Omeprazole + amoxicillin for 7 days"
+            ],
+            ans: 2,
+            r: "A 14-day combination therapy provides the greatest efficacy for the treatment of H. pylori. Therapy with only 2 drugs is not recommended due to low eradication rates.",
+            tags: ["Gastroenterology"]
+        }, {
+            id: 19,
+            t: 5,
+            c: false,
+            stem: "What is the first indication of portal hypertension in patients with cirrhosis?",
+            opts: [
+                "Congestive splenomegaly",
+                "Ascites",
+                "Encephalopathy",
+                "Jaundice"
+            ],
+            ans: 0,
+            r: "Congestive splenomegaly with hypersplenism is usually the first indication of the presence of portal hypertension. The other options are complications of cirrhosis but are not the first indication.",
+            tags: ["Gastroenterology", "Nephrology"]
+        }, {
+            id: 20,
+            t: 3,
+            c: false,
+            stem: "Which of the following is considered a conventional DMARD?",
+            opts: [
+                "Tocilizumab",
+                "Infliximab",
+                "Abatacept",
+                "Methotrexate"
+            ],
+            ans: 3,
+            r: "Conventional DMARDs: Hydroxychloroquine, Methotrexate, Sulfasalazine, Leflunomide. The rest are biological DMARDs.",
+            tags: ["Rheumatology"]
+        }, {
+            id: 21,
+            t: 5,
+            c: false,
+            stem: "Which of the following is classified as an etiology of posthepatic portal hypertension?",
+            opts: [
+                "Budd-Chiari syndrome",
+                "Portal vein thrombosis",
+                "Banti's syndrome",
+                "Schistosomiasis"
+            ],
+            ans: 0,
+            r: "Budd-Chiari syndrome is posthepatic. Portal vein thrombosis and Banti's syndrome are prehepatic. Schistosomiasis is hepatic, presinusoidal.",
+            tags: ["Gastroenterology", "Nephrology"]
+        }, {
+            id: 22,
+            t: 3,
+            c: true,
+            stem: "A 35-year-old female consults for a 3-month history of a rash on both cheeks worsened by sun exposure. Which criteria are met?",
+            opts: [
+                "2 clinical, 1 immunologic",
+                "1 clinical, 2 immunologic",
+                "3 clinical, 0 immunologic",
+                "0 clinical, 3 immunologic"
+            ],
+            ans: 0,
+            r: "The malar rash is a clinical criterion for SLE. The patient needs 4 of 11 criteria for diagnosis; this presentation suggests a clinical criterion is met.",
+            tags: ["Rheumatology"]
+        }, {
+            id: 23,
+            t: 5,
+            c: false,
+            stem: "What is considered the most common cause of CKD worldwide?",
+            opts: [
+                "Diabetic nephropathy",
+                "Hypertension",
+                "HIV-associated nephropathy (HIVAN)",
+                "ADPKD"
+            ],
+            ans: 0,
+            r: "Diabetic nephropathy is the most common cause of CKD worldwide and in the US.",
+            tags: ["Nephrology", "Endocrinology"]
+        }, {
+            id: 24,
+            t: 4,
+            c: false,
+            stem: "Which of the following is NOT included in the diagnosis of acute pancreatitis?",
+            opts: [
+                "Epigastric pain radiating to the back",
+                "2x elevation of serum lipase",
+                "Abdominal CT showing pancreatitis",
+                "None of the above"
+            ],
+            ans: 1,
+            r: "Diagnosis of acute pancreatitis requires 2 of 3: (1) Abdominal pain radiating to the back, (2) 3x or greater elevation in serum lipase and/or amylase, (3) Confirmatory findings on cross-sectional abdominal imaging. 2x elevation is not sufficient.",
+            tags: ["Gastroenterology"]
+        }, {
+            id: 25,
+            t: 3,
+            c: false,
+            stem: "Which biological DMARD used in RA has the mechanism of action of inhibiting the co-stimulation of T cells by blocking CD28-CD80/86 interactions?",
+            opts: [
+                "Sulfasalazine",
+                "Abatacept",
+                "Anakinra",
+                "Rituximab"
+            ],
+            ans: 1,
+            r: "Abatacept is a biological DMARD that inhibits the co-stimulation of T cells by blocking CD28-CD80/86 interactions. Sulfasalazine is conventional. Anakinra is an IL-1 receptor antagonist. Rituximab is a chimeric monoclonal antibody against CD20.",
+            tags: ["Rheumatology"]
+        }, {
+            id: 26,
+            t: 2,
+            c: false,
+            stem: "The following drugs can induce drug-induced lupus, EXCEPT:",
+            opts: [
+                "Minocycline",
+                "Methyldopa",
+                "Isoniazid",
+                "Prednisone"
+            ],
+            ans: 3,
+            r: "Mnemonic: 'Lupus Makes My HIPS Extremely Painful' – Methyldopa, Minocycline, Hydralazine, Isoniazid, Phenytoin, Sulfa drugs, Etanercept, Procainamide. Prednisone is not a cause of drug-induced lupus.",
+            tags: ["Rheumatology"]
+        }, {
+            id: 27,
+            t: 1,
+            c: false,
+            stem: "Administering IV adenosine to patients with paroxysmal SVT should be done with caution if the patient has a history of:",
+            opts: [
+                "Symptomatic tachycardia",
+                "First-degree AV block",
+                "Asthma",
+                "Any of the above"
+            ],
+            ans: 2,
+            r: "Adenosine can precipitate bronchospasm, theoretically, so it should be used with caution in patients with asthma.",
+            tags: ["Cardiology"]
+        }, {
+            id: 28,
+            t: 6,
+            c: false,
+            stem: "Reversibility in asthma is defined as:",
+            opts: [
+                "≥12% increase in FEV1 and absolute increase ≥200 mL at least 60 min after β2-agonist",
+                "≥12% increase in FEV1 and absolute increase ≥200 mL at least 15 min after β2-agonist",
+                "≥15% increase in FEV1 and absolute increase ≥500 mL after several weeks of steroids",
+                "Any of the above"
+            ],
+            ans: 1,
+            r: "Reversibility in asthma is defined as ≥12% increase in FEV1 and an absolute increase of ≥200 mL at least 15 minutes after administration of a β2-agonist.",
+            tags: ["Pulmonology"]
+        }, {
+            id: 29,
+            t: 4,
+            c: false,
+            stem: "Which of the following has an established association with GERD?",
+            opts: [
+                "COPD",
+                "T2DM",
+                "Esophageal malignancy",
+                "Asthma"
+            ],
+            ans: 3,
+            r: "Aside from asthma, other extraesophageal syndromes with established association with GERD: chronic cough, laryngitis, dental erosions.",
+            tags: ["Gastroenterology", "Pulmonology"]
+        }, {
+            id: 30,
+            t: 2,
+            c: false,
+            stem: "Which drugs are commonly used in the treatment of hypercalcemia of malignancy in adults?",
+            opts: [
+                "Dialysis",
+                "Risedronate",
+                "Zoledronic acid",
+                "Hydration"
+            ],
+            ans: 2,
+            r: "Bisphosphonates, such as zoledronic acid and pamidronate, are commonly used for management of hypercalcemia of malignancy. Hydration (4-6L IV saline in first 24h) is used in initial therapy.",
+            tags: ["Endocrinology", "Oncology"]
+        }, {
+            id: 31,
+            t: 3,
+            c: false,
+            stem: "What is the classical initial radiographic finding in patients with RA?",
+            opts: [
+                "Subchondral erosions",
+                "Bone spurs",
+                "Osteophytes",
+                "Periarticular osteopenia"
+            ],
+            ans: 3,
+            r: "Periarticular osteopenia is the classical initial radiographic finding in RA. Subchondral erosions can also be found in RA. Bone spurs and osteophytes are found in OA.",
+            tags: ["Rheumatology"]
+        }, {
+            id: 32,
+            t: 3,
+            c: false,
+            stem: "RA flares occurring during pregnancy are treated with which of the following?",
+            opts: [
+                "Prednisone",
+                "Methotrexate",
+                "Leflunomide",
+                "All of the above"
+            ],
+            ans: 0,
+            r: "Low doses of prednisone are used to treat RA flares during pregnancy. Methotrexate and leflunomide are teratogenic and not used in pregnancy. Safest DMARDs in pregnancy are sulfasalazine and hydroxychloroquine.",
+            tags: ["Rheumatology"]
+        }, {
+            id: 33,
+            t: 2,
+            c: false,
+            stem: "In patients with clinical hypothyroidism, the etiology is determined by requesting for which lab test?",
+            opts: [
+                "Thyroid FNAB",
+                "Thyroid ultrasound",
+                "TPO antibodies",
+                "TSH"
+            ],
+            ans: 2,
+            r: "After confirming the diagnosis of clinical or subclinical hypothyroidism, the etiology is determined by requesting TPO and Tg antibodies. If (+), then it's most likely autoimmune hypothyroidism.",
+            tags: ["Endocrinology"]
+        }, {
+            id: 34,
+            t: 2,
+            c: false,
+            stem: "TSH: Elevated. Free T4: Normal. What is the diagnosis?",
+            opts: [
+                "Lab error",
+                "Mild hypothyroidism",
+                "Primary hypothyroidism",
+                "Pituitary disease"
+            ],
+            ans: 1,
+            r: "If TSH high, FT4 normal → Mild hypothyroidism. If TSH high, FT4 low → Primary hypothyroidism. If TSH normal, FT4 low → Rule out drug effects, sick euthyroid syndrome, evaluate anterior pituitary function.",
+            tags: ["Endocrinology"]
+        }, {
+            id: 35,
+            t: 2,
+            c: false,
+            stem: "Requirements for thyroid hormone during pregnancy in hypothyroid women:",
+            opts: [
+                "Increase",
+                "Decrease",
+                "No change",
+                "Variable"
+            ],
+            ans: 0,
+            r: "The requirements for thyroid hormone increase in hypothyroid women during pregnancy.",
+            tags: ["Endocrinology"]
+        }, {
+            id: 36,
+            t: 2,
+            c: false,
+            stem: "What is the starting dose of LT4 for elderly patients with known coronary artery disease?",
+            opts: [
+                "12.5-25 µg/d",
+                "25-50 µg/d",
+                "50-100 µg/d",
+                "100-200 µg/d"
+            ],
+            ans: 0,
+            r: "Starting dose for elderly patients with known CAD is 12.5-25 µg/d. For adults <60 years with no known heart disease, starting dose is usually 50-100 µg/day.",
+            tags: ["Endocrinology", "Cardiology"]
+        }, {
+            id: 37,
+            t: 2,
+            c: false,
+            stem: "The following are possible causes of increased LT4 requirements, EXCEPT:",
+            opts: [
+                "Celiac disease",
+                "H. pylori-related gastritis",
+                "Ingestion with iron",
+                "NOTA"
+            ],
+            ans: 3,
+            r: "All listed conditions (celiac disease, H. pylori-related gastritis, ingestion with iron) are causes of increased LT4 requirements. Also: malabsorption, oral estrogen, ingestion with meal, and various drugs.",
+            tags: ["Endocrinology"]
+        }, {
+            id: 38,
+            t: 7,
+            c: true,
+            stem: "A 70-year-old male was rushed to the ER with sudden-onset paralysis on one side of his body (involving the upper limb) associated with aphasia. Which cerebral artery is most likely involved?",
+            opts: [
+                "ACA",
+                "MCA, nondominant hemisphere",
+                "MCA, dominant hemisphere",
+                "Vertebrobasilar artery"
+            ],
+            ans: 2,
+            r: "Sudden-onset paralysis and loss of sensation on one side involving the upper limb with aphasia are usually associated with MCA stroke. ACA stroke involves lower limb with urinary incontinence.",
+            tags: ["Neurology"]
+        }, {
+            id: 39,
+            t: 10,
+            c: false,
+            stem: "What COVID-19 treatment is considered to have the strongest evidence for mortality benefit based on clinical trials?",
+            opts: [
+                "Piperacillin-tazobactam",
+                "Dexamethasone",
+                "Hydroxychloroquine",
+                "Lianhua Qingwen"
+            ],
+            ans: 1,
+            r: "Dexamethasone has the strongest evidence for mortality benefit in COVID-19. Other drugs with evidence: Remdesivir (with/without baricitinib), Tocilizumab, SARS-CoV-2 specific human monoclonal antibodies.",
+            tags: ["Infectious Disease"]
+        }, {
+            id: 40,
+            t: 10,
+            c: false,
+            stem: "Which of the following is considered the principal risk factor for severe illness from COVID-19?",
+            opts: [
+                "Pregnancy",
+                "Asthma",
+                "Advanced age",
+                "COPD"
+            ],
+            ans: 2,
+            r: "Advanced age is the principal risk factor for severe illness from COVID-19, associated with need for hospitalization, intensive care, and mechanical ventilation.",
+            tags: ["Infectious Disease"]
+        }, {
+            id: 41,
+            t: 1,
+            c: false,
+            stem: "Which of the following is considered a contraindication to the use of fibrinolytic agents?",
+            opts: [
+                "Menses",
+                "Nonhemorrhagic stroke 10 years ago",
+                "Marked hypertension 160/100",
+                "Cerebrovascular hemorrhage at any time"
+            ],
+            ans: 3,
+            r: "Cerebrovascular hemorrhage at any time is a contraindication. Menses is not a contraindication. Nonhemorrhagic stroke within the past year (not 10 years) is a contraindication. Marked hypertension: SBP >180 or DBP >110.",
+            tags: ["Cardiology"]
+        }, {
+            id: 42,
+            t: 1,
+            c: false,
+            stem: "What is the most serious complication of fibrinolytic therapy?",
+            opts: [
+                "Anaphylactic reaction",
+                "Perforated peptic ulcer disease",
+                "Hypotension",
+                "Hemorrhage"
+            ],
+            ans: 3,
+            r: "The most frequent and potentially the most serious complication of fibrinolytic therapy is hemorrhage.",
+            tags: ["Cardiology"]
+        }, {
+            id: 43,
+            t: 2,
+            c: false,
+            stem: "Chvostek sign is associated with which of the following?",
+            opts: [
+                "Hypomagnesemia",
+                "Hypercalcemia",
+                "Hyponatremia",
+                "All of the above"
+            ],
+            ans: 0,
+            r: "Hypomagnesemia may manifest with neuromuscular excitability leading to tetany and positive Trousseau and Chvostek signs. Hypocalcemia may also be present in these patients.",
+            tags: ["Endocrinology"]
+        }, {
+            id: 44,
+            t: 6,
+            c: false,
+            stem: "Which of the following is NOT included among the 3 interventions that improve the survival of COPD patients?",
+            opts: [
+                "Smoking cessation",
+                "Oxygen therapy",
+                "Lung volume reduction surgery",
+                "None of the above"
+            ],
+            ans: 3,
+            r: "All three interventions improve survival of COPD patients: Smoking cessation, Oxygen therapy in chronically hypoxemic patients, LVRS in selected patients with emphysema.",
+            tags: ["Pulmonology"]
+        }, {
+            id: 45,
+            t: 5,
+            c: false,
+            stem: "The following are indications for initiation of renal replacement therapy in patients with CKD, EXCEPT:",
+            opts: [
+                "Refractory hyperkalemia",
+                "Anorexia attributable to functional dyspepsia",
+                "Refractory ECFV overload",
+                "NOTA"
+            ],
+            ans: 1,
+            r: "Anorexia and nausea should not be attributable to reversible causes such as PUD for it to be a clear indication for starting RRT. Other indications: refractory hyperkalemia, refractory ECFV overload, malnutrition, fluid or electrolyte abnormalities.",
+            tags: ["Nephrology"]
+        }, {
+            id: 46,
+            t: 10,
+            c: true,
+            stem: "A 55-year-old female was brought to the ER with severe knee pain. Septic arthritis was considered. Synovial fluid analysis: (+) Gram-negative bacilli. What drug should be given for empiric therapy?",
+            opts: [
+                "Cefuroxime",
+                "Nafcillin",
+                "Ceftriaxone",
+                "Vancomycin"
+            ],
+            ans: 2,
+            r: "An IV 3rd generation cephalosporin (such as ceftriaxone and cefotaxime) should be given as empiric therapy for patients whose synovial fluid Gram stain shows gram-negative bacilli. If gram-positive cocci appear, IV Vancomycin should be empirically started.",
+            tags: ["Infectious Disease", "Rheumatology"]
+        }, {
+            id: 47,
+            t: 10,
+            c: false,
+            stem: "Which of the following is a monoclonal antibody against the IL-6 receptor?",
+            opts: [
+                "Tocilizumab",
+                "Anakinra",
+                "Baricitinib",
+                "Dexamethasone"
+            ],
+            ans: 0,
+            r: "Tocilizumab is a monoclonal antibody against the IL-6 receptor. Anakinra is an IL-1 receptor antagonist. Baricitinib is a Janus kinase 1 and 2 inhibitor. Dexamethasone is an anti-inflammatory glucocorticoid.",
+            tags: ["Infectious Disease", "Rheumatology"]
+        }, {
+            id: 48,
+            t: 5,
+            c: false,
+            stem: "The most common form of AKI is:",
+            opts: [
+                "Prerenal",
+                "Intrinsic",
+                "Postrenal",
+                "Any of the above"
+            ],
+            ans: 0,
+            r: "The most common form of AKI is prerenal azotemia. Ischemia, sepsis, and nephrotoxins are causes of intrinsic AKI.",
+            tags: ["Nephrology"]
+        }, {
+            id: 49,
+            t: 5,
+            c: false,
+            stem: "Nephrotoxins cause what type of AKI?",
+            opts: [
+                "Prerenal",
+                "Intrinsic",
+                "Postrenal",
+                "All of the above"
+            ],
+            ans: 1,
+            r: "Ischemia, sepsis, and nephrotoxins are causes of intrinsic AKI. Prerenal AKI is caused by hypovolemia, heart failure, liver failure, NSAIDs, ACEIs, ARBs, cyclosporine.",
+            tags: ["Nephrology"]
+        }, {
+            id: 50,
+            t: 2,
+            c: false,
+            stem: "What is the preferred initial pharmacologic agent for T2DM?",
+            opts: [
+                "Gliclazide",
+                "Acarbose",
+                "Metformin",
+                "Nateglinide"
+            ],
+            ans: 2,
+            r: "According to several treatment algorithms by professional societies, metformin is suggested as the initial therapy for T2DM.",
+            tags: ["Endocrinology"]
+        }, {
+            id: 51,
+            t: 2,
+            c: false,
+            stem: "What is the overall most common cause of Cushing syndrome?",
+            opts: [
+                "Medical use of glucocorticoids",
+                "Pituitary adenoma",
+                "ACTH-producing lung tumor",
+                "Carcinoid tumor"
+            ],
+            ans: 0,
+            r: "Overall, the most common cause of Cushing syndrome is the medical use of glucocorticoids. Cushing's syndrome caused by a pituitary corticotroph adenoma is called Cushing's disease.",
+            tags: ["Endocrinology"]
+        }, {
+            id: 52,
+            t: 2,
+            c: false,
+            stem: "Which of the following is NOT present in the PE of patients with Cushing syndrome?",
+            opts: [
+                "Distal myopathy",
+                "Thin, brittle skin",
+                "Buffalo hump",
+                "Increased susceptibility to infections"
+            ],
+            ans: 0,
+            r: "In Cushing syndrome, proximal myopathy is present, instead of distal myopathy. The rest of the options are present in patients with Cushing's syndrome.",
+            tags: ["Endocrinology"]
+        }, {
+            id: 53,
+            t: 2,
+            c: false,
+            stem: "Which describes the basal ACTH level that can be seen in patients with ACTH-secreting small cell lung cancer?",
+            opts: [
+                "Undetectable to low",
+                "Normal to mildly elevated",
+                "Very high",
+                "Low"
+            ],
+            ans: 2,
+            r: "In ectopic ACTH secretion (e.g., small cell lung cancer), basal ACTH levels are very high. In ACTH-secreting pituitary tumors, ACTH is inappropriately high but not as high.",
+            tags: ["Endocrinology", "Oncology"]
+        }, {
+            id: 54,
+            t: 4,
+            c: false,
+            stem: "What test is usually used to assess the success of treatment in patients with PUD with (+) H. pylori?",
+            opts: [
+                "CBC",
+                "Urinalysis",
+                "Urea breath test",
+                "Fecalysis"
+            ],
+            ans: 2,
+            r: "Urea breath test, stool antigen test, and biopsy-based tests can be used to assess treatment success in patients with H. pylori. These tests may yield false-negative results if done <4 weeks after treatment.",
+            tags: ["Gastroenterology"]
+        }, {
+            id: 55,
+            t: 9,
+            c: false,
+            stem: "What is the most common type of melanoma?",
+            opts: [
+                "Superficial spreading melanoma",
+                "Acral lentiginous melanoma",
+                "Nodular melanoma",
+                "Lentigo maligna melanoma"
+            ],
+            ans: 0,
+            r: "Superficial spreading melanoma is the most common type. May appear at any site on the body. Lesions have asymmetry, border irregularity, and color variegation.",
+            tags: ["Oncology"]
+        }, {
+            id: 56,
+            t: 7,
+            c: false,
+            stem: "A 44-year-old female complains of a 2-month history of dysphagia and regurgitation. Barium swallow shows tapering at the LES with a 'beak-like appearance'. What is the most likely diagnosis?",
+            opts: [
+                "Achalasia",
+                "Volvulus",
+                "GERD",
+                "Esophageal cancer"
+            ],
+            ans: 0,
+            r: "Tapering at the LES with a beak-like appearance after barium swallow is consistent with a diagnosis of Achalasia. Volvulus would show a 'coffee bean'-shaped appearance on x-ray.",
+            tags: ["Gastroenterology"]
+        }, {
+            id: 57,
+            t: 1,
+            c: true,
+            stem: "A 30-year-old man was rushed to the ER due to severe, crushing chest pain that occurred an hour ago. ECG shows ischemic changes in leads II, III, and aVF. Which wall is most likely involved?",
+            opts: [
+                "Anterior wall",
+                "Septal wall",
+                "Inferior wall",
+                "High lateral wall"
+            ],
+            ans: 2,
+            r: "Ischemic changes in leads II, III, and aVF reflect inferior wall infarct. Anteroseptal: V1-V2. Anteroapical: V3-V4. Anterolateral: V5-V6. Lateral: I, aVL.",
+            tags: ["Cardiology"]
+        }, {
+            id: 58,
+            t: 6,
+            c: false,
+            stem: "Clubbing of the digits may occur in the following diseases, EXCEPT:",
+            opts: [
+                "Bronchiectasis",
+                "Infective endocarditis",
+                "COPD",
+                "Inflammatory bowel disease"
+            ],
+            ans: 2,
+            r: "COPD is not associated with clubbing of the digits. If clubbing is found in COPD patients, this should prompt investigation for possible causes such as lung cancer (same risk factor).",
+            tags: ["Pulmonology"]
+        }, {
+            id: 59,
+            t: 6,
+            c: true,
+            stem: "A 50-year-old male admitted to ICU with COVID, critical. Intubated, mechanical ventilation, FiO2 100%. ABG: pH 7.35, pCO2 35, PaO2 50, HCO3 22. This indicates:",
+            opts: [
+                "Mild ARDS",
+                "Moderate ARDS",
+                "Severe ARDS",
+                "No ARDS"
+            ],
+            ans: 2,
+            r: "PaO2/FiO2 (PF) ratio: 50/100 × 100 = 50. Severe ARDS: PF ≤100. Mild: ≤300. Moderate: ≤200.",
+            tags: ["Pulmonology"]
+        }, {
+            id: 60,
+            t: 7,
+            c: false,
+            stem: "In patients likely suffering from acute ischemic stroke, IV rtPA can be given within how many hours from stroke onset?",
+            opts: [
+                "≤3 hours",
+                "≤8 hours",
+                "≤9 hours",
+                "≤12 hours"
+            ],
+            ans: 0,
+            r: "IV rtPA for acute ischemic stroke can be given within 0-3 hours of stroke onset. Stroke onset is defined as the time the patient was last seen normal or when symptoms began.",
+            tags: ["Neurology"]
+        }, {
+            id: 61,
+            t: 10,
+            c: true,
+            stem: "A 30-year-old male presents with a 4-week history of fever, chills, abdominal pain. Faint, salmon-colored, blanching rashes on trunk at end of first week which resolved spontaneously. T: 40°C, HR: 45. What life-threatening complication is most likely to occur during this time?",
+            opts: [
+                "Meningitis",
+                "GBS",
+                "Pancreatitis",
+                "Intestinal perforation"
+            ],
+            ans: 3,
+            r: "On the 3rd and 4th week of illness in patients with Typhoid fever, life-threatening complications such as GI bleeding and Intestinal perforation may occur. Meningitis and GBS may also occur as neurologic manifestations.",
+            tags: ["Infectious Disease"]
+        }, {
+            id: 62,
+            t: 9,
+            c: false,
+            stem: "The myeloid neoplasm known as APL: t(15;17) can be treated with which of the following?",
+            opts: [
+                "Imatinib",
+                "All-trans retinoic acid (ATRA)",
+                "Vitamin C",
+                "Vitamin B complex"
+            ],
+            ans: 1,
+            r: "ATRA is an oral drug that induces the differentiation of promyelocytes. Imatinib is the treatment for CML.",
+            tags: ["Oncology", "Hematology"]
+        }, {
+            id: 63,
+            t: 10,
+            c: false,
+            stem: "A TB patient was given ethambutol for treatment. On follow-up, a diagnosis of optic neuritis was noted. What should be done next?",
+            opts: [
+                "Hold the drug for 1 week, then resume",
+                "Hold until eyesight is back to normal, then resume",
+                "Stop the drug",
+                "Hold for 1 month, then may resume in increments"
+            ],
+            ans: 2,
+            r: "The development of optic neuritis in patients taking ethambutol should prompt permanent discontinuation of the drug.",
+            tags: ["Infectious Disease"]
+        }, {
+            id: 64,
+            t: 10,
+            c: false,
+            stem: "A TB patient was being given rifampin for treatment. After 3 weeks, he developed petechial rashes. What is the next step?",
+            opts: [
+                "Hold the drug until platelet count is normal, then resume",
+                "Stop the drug and refer to a specialist",
+                "Hold for 1 month, then may resume in increments",
+                "Continue rifampin and add steroids"
+            ],
+            ans: 1,
+            r: "The development of autoimmune thrombocytopenia in patients taking rifampin should be an indication to stop the drug and refer to a specialist for proper guidance.",
+            tags: ["Infectious Disease"]
+        }, {
+            id: 65,
+            t: 10,
+            c: false,
+            stem: "Test used for Hepatitis A that can be detected during acute illness:",
+            opts: [
+                "IgM anti-HAV",
+                "IgG anti-HAV",
+                "Fecal HAV",
+                "Serum HAV"
+            ],
+            ans: 0,
+            r: "IgM anti-HAV is used to diagnose Hepatitis A during acute illness because fecal or serum HAV is not available routinely.",
+            tags: ["Infectious Disease"]
+        }, {
+            id: 66,
+            t: 6,
+            c: false,
+            stem: "Asthma involves airway obstruction from decreased airway diameter. Which of the following is usually seen in this disease?",
+            opts: [
+                "Increased residual volume",
+                "Decreased functional residual capacity",
+                "Reduced total lung capacity",
+                "NOTA"
+            ],
+            ans: 0,
+            r: "Increased residual volume is often seen in asthma from the exaggerated closure of airways at low lung volumes. FRC may be dynamically elevated. TLC is usually normal in asthma patients.",
+            tags: ["Pulmonology"]
+        }, {
+            id: 67,
+            t: 7,
+            c: false,
+            stem: "Migraine triggers include the following, EXCEPT:",
+            opts: [
+                "Bright lights",
+                "Lack of sleep",
+                "Excess sleep",
+                "Satiety"
+            ],
+            ans: 3,
+            r: "Hunger is one of the triggers of migraines, not satiety. Other triggers: bright lights, lack of or excess sleep, let-down from stress, hormonal fluctuations, alcohol, nitrates.",
+            tags: ["Neurology"]
+        }, {
+            id: 68,
+            t: 8,
+            c: false,
+            stem: "The following conditions are sufficiently severe enough to cause megaloblastic anemia, EXCEPT:",
+            opts: [
+                "Pernicious anemia",
+                "Total gastrectomy",
+                "Crohn disease",
+                "Use of proton pump inhibitors"
+            ],
+            ans: 3,
+            r: "Malabsorption of cobalamin may occur when using PPIs but is not sufficiently severe to cause megaloblastic anemia. Other conditions: pernicious anemia, congenital absence of IF, total/partial gastrectomy, intestinal stagnant loop, ileal resection, Crohn's, tropical sprue.",
+            tags: ["Hematology"]
+        }, {
+            id: 69,
+            t: 10,
+            c: false,
+            stem: "False-negative tuberculin skin testing (TST) reaction is common in which set of patients?",
+            opts: [
+                "Nontuberculous mycobacteria infection",
+                "BCG vaccination",
+                "Overwhelming TB infection",
+                "All of the above"
+            ],
+            ans: 2,
+            r: "False-negative reactions: Immunosuppression, Overwhelming TB. False-positive reactions: Infection with nontuberculous mycobacteria, BCG vaccination.",
+            tags: ["Infectious Disease"]
+        }, {
+            id: 70,
+            t: 5,
+            c: false,
+            stem: "Which of the following is considered to be a cause of prerenal AKI?",
+            opts: [
+                "NSAID use",
+                "Infection",
+                "Sepsis",
+                "Ischemia"
+            ],
+            ans: 0,
+            r: "Prerenal AKI causes: hypovolemia, heart failure, liver failure, NSAIDs, ACEIs, ARBs, cyclosporine. Intrinsic AKI: sepsis, infection, ischemia, nephrotoxins.",
+            tags: ["Nephrology"]
+        }, {
+            id: 71,
+            t: 1,
+            c: false,
+            stem: "What is the most common clinical feature of patients with Infective Endocarditis?",
+            opts: [
+                "Chills and sweats",
+                "Fever",
+                "Heart murmur",
+                "Splenomegaly"
+            ],
+            ans: 1,
+            r: "Fever is the most common clinical feature of patients with IE (80-90%). Heart murmur: 80-85%.",
+            tags: ["Cardiology", "Infectious Disease"]
+        }, {
+            id: 72,
+            t: 1,
+            c: false,
+            stem: "Which of the following is considered a major criterion for diagnosis of Infective endocarditis?",
+            opts: [
+                "Positive echocardiogram",
+                "Fever ≥38°C",
+                "Osler nodes",
+                "Janeway lesions"
+            ],
+            ans: 0,
+            r: "Positive echocardiogram is a major criterion. Fever, Osler nodes, and Janeway lesions are minor criteria.",
+            tags: ["Cardiology", "Infectious Disease"]
+        }, {
+            id: 73,
+            t: 5,
+            c: false,
+            stem: "Which glomerulonephritis is commonly associated with renal vein thrombosis?",
+            opts: [
+                "Membranous nephropathy",
+                "Rapid progressive GN",
+                "APSGN",
+                "FSGS"
+            ],
+            ans: 0,
+            r: "Membranous nephropathy is associated with renal vein thrombosis due to hypercoagulability from proteinuria.",
+            tags: ["Nephrology"]
+        }, {
+            id: 74,
+            t: 5,
+            c: false,
+            stem: "What is the most common infectious cause of nephrotic syndrome worldwide?",
+            opts: [
+                "Hepatitis B",
+                "Syphilis",
+                "Malaria",
+                "Typhoid fever"
+            ],
+            ans: 2,
+            r: "Malaria is the most common infectious cause of nephrotic syndrome globally (especially in endemic areas).",
+            tags: ["Nephrology", "Infectious Disease"]
+        }, {
+            id: 75,
+            t: 3,
+            c: false,
+            stem: "Which is NOT included in the classic tetrad of Henoch-Schonlein purpura (HSP) nephritis?",
+            opts: [
+                "Arthralgia",
+                "Non-palpable petechial rash",
+                "Abdominal pain",
+                "Renal disease"
+            ],
+            ans: 1,
+            r: "HSP tetrad includes palpable purpura (not non-palpable), arthritis, abdominal pain, and renal involvement.",
+            tags: ["Rheumatology", "Nephrology"]
+        }, {
+            id: 76,
+            t: 3,
+            c: false,
+            stem: "HSP nephritis shares the same renal histology with which glomerular disease?",
+            opts: [
+                "Membranous nephropathy",
+                "IgA nephropathy",
+                "Membranoproliferative GN",
+                "FSGS"
+            ],
+            ans: 1,
+            r: "Both IgA nephropathy and HSP nephritis show IgA deposition in the mesangium and share pathogenesis.",
+            tags: ["Rheumatology", "Nephrology"]
+        }, {
+            id: 77,
+            t: 3,
+            c: false,
+            stem: "HSP is most commonly preceded by which of the following?",
+            opts: [
+                "Acute gastroenteritis",
+                "UTI",
+                "Upper respiratory tract infection",
+                "Tick bite"
+            ],
+            ans: 2,
+            r: "Approximately 50% of HSP cases are preceded by an upper respiratory tract infection.",
+            tags: ["Rheumatology", "Infectious Disease"]
+        }, {
+            id: 78,
+            t: 10,
+            c: false,
+            stem: "Which is the most common route of transmission of Shiga-toxin-producing E. coli (STEC) in children?",
+            opts: [
+                "Person-to-person",
+                "Ingestion of undercooked meat",
+                "Contaminated water",
+                "Airborne"
+            ],
+            ans: 1,
+            r: "STEC is commonly transmitted by undercooked ground beef, unpasteurized milk, and apple cider.",
+            tags: ["Infectious Disease"]
+        }, {
+            id: 79,
+            t: 5,
+            c: false,
+            stem: "The following are clinical manifestations of nephrotic syndrome, EXCEPT:",
+            opts: [
+                "Proteinuria",
+                "Hypercholesterolemia",
+                "Thromboembolism",
+                "All of the above"
+            ],
+            ans: 3,
+            r: "All options are clinical manifestations of nephrotic syndrome (proteinuria, hyperlipidemia, hypercoagulability).",
+            tags: ["Nephrology"]
+        }, {
+            id: 80,
+            t: 5,
+            c: false,
+            stem: "What is the mainstay treatment for minimal change nephrotic syndrome?",
+            opts: [
+                "Antibiotics",
+                "Corticosteroids",
+                "Calcineurin inhibitors",
+                "None"
+            ],
+            ans: 1,
+            r: "Corticosteroids (prednisone) are the mainstay of therapy for minimal change nephrotic syndrome.",
+            tags: ["Nephrology"]
+        }, {
+            id: 81,
+            t: 5,
+            c: false,
+            stem: "All of the following are causes of transient proteinuria in children, EXCEPT:",
+            opts: [
+                "Temperature >38.3°C",
+                "Exercise",
+                "Overhydration",
+                "Cold exposure"
+            ],
+            ans: 2,
+            r: "Dehydration (not overhydration) is a cause of transient proteinuria, along with fever, exercise, and cold exposure.",
+            tags: ["Nephrology"]
+        }, {
+            id: 82,
+            t: 1,
+            c: false,
+            stem: "What is the leading causative agent for endocarditis in pediatric patients?",
+            opts: [
+                "Staphylococcus aureus",
+                "Pseudomonas aeruginosa",
+                "Haemophilus influenzae",
+                "Coxsackievirus A16"
+            ],
+            ans: 0,
+            r: "Staphylococcus aureus and viridans group streptococci are the leading causes of infective endocarditis in children.",
+            tags: ["Cardiology", "Infectious Disease"]
+        }, {
+            id: 83,
+            t: 1,
+            c: false,
+            stem: "In TOF, what determines the timing of onset of symptoms and severity of cyanosis?",
+            opts: [
+                "Degree of RV outflow obstruction",
+                "Size of VSD",
+                "Degree of overriding aorta",
+                "Degree of RVH"
+            ],
+            ans: 0,
+            r: "The degree of right ventricular outflow obstruction determines the severity of cyanosis and symptom onset in Tetralogy of Fallot.",
+            tags: ["Cardiology"]
+        }, {
+            id: 84,
+            t: 9,
+            c: false,
+            stem: "The single most important prognostic factor in ALL is:",
+            opts: [
+                "Presence of genetic abnormalities",
+                "Age",
+                "Comorbidities",
+                "Effective treatment"
+            ],
+            ans: 3,
+            r: "Without effective treatment, ALL is fatal; thus, effective treatment is the most important prognostic factor.",
+            tags: ["Oncology", "Hematology"]
+        }, {
+            id: 85,
+            t: 5,
+            c: false,
+            stem: "Which should be avoided in HUS caused by STEC?",
+            opts: [
+                "Red cell transfusions",
+                "Early recognition",
+                "Control of hypertension",
+                "Antibiotics"
+            ],
+            ans: 3,
+            r: "Antibiotics may increase Shiga toxin release and worsen HUS; they are generally avoided.",
+            tags: ["Nephrology", "Infectious Disease"]
+        }, {
+            id: 86,
+            t: 6,
+            c: false,
+            stem: "Therapy of childhood asthma can be stepped down after good control for at least how many months?",
+            opts: [
+                "3 weeks",
+                "1 month",
+                "3 months",
+                "6 months"
+            ],
+            ans: 2,
+            r: "Stepping down therapy should be considered after achieving good asthma control for at least 3 months.",
+            tags: ["Pulmonology"]
+        }, {
+            id: 87,
+            t: 8,
+            c: false,
+            stem: "What is the hallmark of hemophilic bleeding?",
+            opts: [
+                "Hemarthrosis",
+                "Epistaxis",
+                "Gum bleeding",
+                "Petechial rashes"
+            ],
+            ans: 0,
+            r: "Hemarthrosis (bleeding into joints) is the hallmark of hemophilia, differentiating it from platelet disorders.",
+            tags: ["Hematology"]
+        }, {
+            id: 88,
+            t: 8,
+            c: false,
+            stem: "What is the most common inherited bleeding disorder?",
+            opts: [
+                "Hemophilia A",
+                "Hemophilia B",
+                "Von Willebrand disease",
+                "Platelet function disorder"
+            ],
+            ans: 2,
+            r: "Von Willebrand disease is the most common inherited bleeding disorder, affecting up to 1% of the population.",
+            tags: ["Hematology"]
+        }, {
+            id: 89,
+            t: 8,
+            c: false,
+            stem: "Which drug can increase circulating von Willebrand factor from storage?",
+            opts: [
+                "Demeclocycline",
+                "Desmopressin",
+                "Plasmapheresis",
+                "Antifibrinolytic"
+            ],
+            ans: 1,
+            r: "Desmopressin (DDAVP) releases vWF from endothelial stores and is used in mild von Willebrand disease.",
+            tags: ["Hematology"]
+        }, {
+            id: 90,
+            t: 7,
+            c: false,
+            stem: "Among patients with febrile seizure, lumbar puncture should be done in all EXCEPT:",
+            opts: [
+                "3-year-old with fever and cough",
+                "Ill-appearing child",
+                "5-month-old with fever and seizure",
+                "None of the above"
+            ],
+            ans: 0,
+            r: "LP is indicated in infants <6 months, ill-appearing children, or those with meningeal signs; a 3-year-old with cough and fever is not an indication.",
+            tags: ["Neurology"]
+        }, {
+            id: 91,
+            t: 7,
+            c: false,
+            stem: "Which is a risk factor for recurrence of febrile seizures?",
+            opts: [
+                "Male gender",
+                "Higher serum sodium at presentation",
+                "Simple febrile seizure",
+                "None"
+            ],
+            ans: 0,
+            r: "Risk factors for recurrence: male gender, daycare, family history, lower age at onset, and lower fever at presentation.",
+            tags: ["Neurology"]
+        }, {
+            id: 92,
+            t: 4,
+            c: false,
+            stem: "Repeated vomiting in pyloric stenosis leads to which acid-base disturbance?",
+            opts: [
+                "Hypochloremic metabolic acidosis",
+                "Hypochloremic metabolic alkalosis",
+                "Hyperchloremic metabolic acidosis",
+                "Hyperchloremic metabolic alkalosis"
+            ],
+            ans: 1,
+            r: "Loss of H+ and Cl- from gastric vomiting causes hypochloremic metabolic alkalosis.",
+            tags: ["Gastroenterology"]
+        }, {
+            id: 93,
+            t: 10,
+            c: false,
+            stem: "Which anti-TB drug should be used in children old enough to distinguish colors?",
+            opts: [
+                "Streptomycin",
+                "Ethambutol",
+                "Isoniazid",
+                "Rifampicin"
+            ],
+            ans: 1,
+            r: "Ethambutol can cause optic neuritis; visual acuity and color discrimination must be monitored.",
+            tags: ["Infectious Disease"]
+        }, {
+            id: 94,
+            t: 10,
+            c: false,
+            stem: "What is the most common form of extrapulmonary TB in children?",
+            opts: [
+                "Scrofula",
+                "TB meningitis",
+                "Miliary TB",
+                "Pericardial TB"
+            ],
+            ans: 0,
+            r: "Scrofula (tuberculous lymphadenitis, usually cervical) is the most common extrapulmonary TB in children.",
+            tags: ["Infectious Disease"]
+        }, {
+            id: 95,
+            t: 10,
+            c: false,
+            stem: "A child with 2-week history of fever, sore throat, difficulty swallowing, and drooling; appears toxic, leaning forward, with muffled voice. Laryngoscopy would show:",
+            opts: [
+                "Cherry-red swollen epiglottis",
+                "Subglottic narrowing",
+                "Swollen tonsils",
+                "Any of the above"
+            ],
+            ans: 0,
+            r: "Acute epiglottitis (usually Hib) presents with cherry-red swollen epiglottis and is a medical emergency.",
+            tags: ["Infectious Disease", "Pulmonology"]
+        }, {
+            id: 96,
+            t: 5,
+            c: false,
+            stem: "Post-streptococcal glomerulonephritis is classified as what type of hypersensitivity?",
+            opts: [
+                "Type I",
+                "Type II",
+                "Type III",
+                "Type IV"
+            ],
+            ans: 2,
+            r: "PSGN is a type III hypersensitivity reaction with immune complex deposition.",
+            tags: ["Nephrology", "Immunology"]
+        }, {
+            id: 97,
+            t: 10,
+            c: false,
+            stem: "A child with incessant coughing: multiple coughs on a single exhalation followed by a whoop. Which stage of pertussis?",
+            opts: [
+                "Catarrhal",
+                "Paroxysmal",
+                "Posttussive",
+                "None"
+            ],
+            ans: 1,
+            r: "The paroxysmal stage is characterized by coughing paroxysms followed by a whoop on inspiration.",
+            tags: ["Infectious Disease"]
+        }, {
+            id: 98,
+            t: 3,
+            c: false,
+            stem: "Which of the following is NOT a clinical criterion for Kawasaki disease?",
+            opts: [
+                "Bilateral conjunctival injection",
+                "Strawberry tongue",
+                "Erythema of extremities",
+                "Generalized lymphadenopathy >1.5 cm"
+            ],
+            ans: 3,
+            r: "Kawasaki disease requires unilateral cervical lymphadenopathy (not generalized) >1.5 cm.",
+            tags: ["Rheumatology", "Cardiology"]
+        }, {
+            id: 99,
+            t: 3,
+            c: false,
+            stem: "What is the most common cause of morbidity and mortality in Kawasaki disease?",
+            opts: [
+                "Large carotid artery aneurysm",
+                "Large coronary artery aneurysm",
+                "Large cranial artery aneurysm",
+                "All of the above"
+            ],
+            ans: 1,
+            r: "Coronary artery aneurysms (especially giant) are the major complication, leading to myocardial infarction.",
+            tags: ["Cardiology", "Rheumatology"]
+        }, {
+            id: 100,
+            t: 10,
+            c: false,
+            stem: "A child with acute otitis media is treated with amoxicillin. After 48 hours, symptoms worsen. What is the most likely organism?",
+            opts: [
+                "Streptococcus pneumoniae",
+                "Haemophilus influenzae",
+                "Moraxella catarrhalis",
+                "Group A Streptococcus"
+            ],
+            ans: 2,
+            r: "Beta-lactamase-producing Moraxella catarrhalis is a common cause of amoxicillin failure in AOM.",
+            tags: ["Infectious Disease"]
+        }];
+
+        // Add missing tags where needed
+        Q.forEach(q => { if (!q.tags) q.tags = []; });
+
+        let state = {
+            mode: 'exam',
+            answers: {},
+            revealed: {},
+            filter: { t: 'all', type: 'all', tag: 'all' },
+            page: 0,
+            perPage: 10,
+            tableView: false
+        };
+
+        function getFiltered() {
+            return Q.filter(q => {
+                if (state.filter.t !== 'all' && q.t !== +state.filter.t) return false;
+                if (state.filter.type === 'clinical' && !q.c) return false;
+                if (state.filter.type === 'conceptual' && q.c) return false;
+                if (state.filter.tag !== 'all' && !q.tags.includes(state.filter.tag)) return false;
+                return true;
+            });
+        }
+
+        function setMode(m) {
+            state.mode = m;
+            document.querySelectorAll('.tab').forEach((el, i) => {
+                el.classList.toggle('active', ['exam', 'review', 'key'][i] === m);
+            });
+            state.page = 0;
+            render();
+            if (state.tableView) renderTable();
+        }
+
+        function applyFilter() {
+            state.filter.t = document.getElementById('themeFilter').value;
+            state.filter.type = document.getElementById('typeFilter').value;
+            state.filter.tag = document.getElementById('tagFilter').value;
+            state.page = 0;
+            render();
+            if (state.tableView) renderTable();
+        }
+
+        function changePerPage() {
+            state.perPage = +document.getElementById('perPageSel').value;
+            state.page = 0;
+            render();
+        }
+
+        function resetAll() {
+            if (!confirm('Reset all answers?')) return;
+            state.answers = {};
+            state.revealed = {};
+            updateStats();
+            render();
+            if (state.tableView) renderTable();
+        }
+
+        function openScore() {
+            const fq = getFiltered();
+            const answered = fq.filter(x => state.answers[x.id] !== undefined).length;
+            const correct = fq.filter(x => state.answers[x.id] === x.ans).length;
+            const pct = answered > 0 ? Math.round(correct / answered * 100) : 0;
+            const color = pct >= 75 ? '#2A75B5' : pct >= 60 ? '#E8843A' : '#C84A4A';
+            const grade = pct >= 90 ? 'Distinction' : pct >= 75 ? 'Pass' : pct >= 60 ? 'Near Pass' : 'Needs Review';
+            document.getElementById('modalScore').textContent = pct + '%';
+            document.getElementById('modalScore').style.color = color;
+            document.getElementById('modalGrade').textContent = grade;
+            document.getElementById('modalGrade').style.color = color;
+            document.getElementById('modalSub').textContent =
+                `${fq.length} questions · ${document.getElementById('themeFilter').options[document.getElementById('themeFilter').selectedIndex].text}`;
+            document.getElementById('mdAns').textContent = answered;
+            document.getElementById('mdCorr').textContent = correct;
+            document.getElementById('mdWrong').textContent = answered - correct;
+            document.getElementById('scoreModal').classList.add('open');
+        }
+
+        function closeScore(e) {
+            if (!e || e.target.id === 'scoreModal' || e.target.className === 'btn primary') {
+                document.getElementById('scoreModal').classList.remove('open');
+            }
+        }
+
+        function updateStats() {
+            const fq = getFiltered();
+            const answered = fq.filter(x => state.answers[x.id] !== undefined).length;
+            const correct = fq.filter(x => state.answers[x.id] === x.ans).length;
+            document.getElementById('sTotal').textContent = fq.length;
+            document.getElementById('sAnswered').textContent = answered;
+            document.getElementById('sCorrect').textContent = correct;
+            document.getElementById('sPct').textContent = answered > 0 ? Math.round(correct / answered * 100) + '%' : '—';
+            const pct = Math.round(answered / Math.max(fq.length, 1) * 100);
+            document.getElementById('progFill').style.width = pct + '%';
+            document.getElementById('progLabel').textContent = `${answered} / ${fq.length} answered`;
+            document.getElementById('progPct').textContent = pct + '%';
+        }
+
+        function selectAnswer(id, idx) {
+            if (state.mode === 'key') return;
+            state.answers[id] = idx;
+            if (state.mode === 'review') state.revealed[id] = true;
+            updateStats();
+            render();
+            if (state.tableView) renderTable();
+        }
+
+        function toggleReveal(id) {
+            state.revealed[id] = !state.revealed[id];
+            render();
+            if (state.tableView) renderTable();
+        }
+
+        function prevPage() {
+            if (state.page > 0) { state.page--;
+                render();
+                window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        }
+
+        function nextPage() {
+            const total = Math.ceil(getFiltered().length / state.perPage);
+            if (state.page < total - 1) { state.page++;
+                render();
+                window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        }
+
+        function toggleTableView() {
+            state.tableView = !state.tableView;
+            const wrap = document.getElementById('tableViewWrap');
+            const btn = document.getElementById('tableToggleBtn');
+            if (state.tableView) {
+                wrap.classList.add('open');
+                btn.classList.add('active');
+                renderTable();
+            } else {
+                wrap.classList.remove('open');
+                btn.classList.remove('active');
+            }
+        }
+
+        function renderTable() {
+            const fq = getFiltered();
+            const search = document.getElementById('tableSearch').value.toLowerCase();
+            let filtered = fq;
+            if (search) {
+                filtered = fq.filter(q =>
+                    q.stem.toLowerCase().includes(search) ||
+                    q.r.toLowerCase().includes(search) ||
+                    q.tags.some(t => t.toLowerCase().includes(search))
+                );
+            }
+            const tbody = document.getElementById('tableBody');
+            let html = '';
+            filtered.forEach(q => {
+                const userAns = state.answers[q.id];
+                const reveal = state.revealed[q.id] || state.mode === 'key';
+                let ansDisplay = '—';
+                if (reveal || userAns !== undefined) {
+                    if (reveal) ansDisplay = OPTS[q.ans];
+                    else if (userAns !== undefined) ansDisplay = OPTS[userAns];
+                }
+                const correctMark = (reveal && userAns === q.ans) ? ' ✓' : '';
+                const wrongMark = (reveal && userAns !== undefined && userAns !== q.ans) ? ' ✗' : '';
+                const tagStr = q.tags.slice(0, 3).join(', ') + (q.tags.length > 3 ? '…' : '');
+                html += `<tr>
+                        <td class="qnum-col">Q${q.id}</td>
+                        <td class="ans-col">${ansDisplay}${correctMark}${wrongMark}</td>
+                        <td class="stem-col">${q.stem}</td>
+                        <td class="r-col">${q.r}</td>
+                        <td class="tag-col">${tagStr}</td>
+                    </tr>`;
+            });
+            tbody.innerHTML = html;
+            document.getElementById('tableCount').textContent = `Showing ${filtered.length} of ${fq.length} questions`;
+        }
+
+        function render() {
+            const filtered = getFiltered();
+            const total = Math.ceil(filtered.length / state.perPage);
+            const start = state.page * state.perPage;
+            const visible = filtered.slice(start, start + state.perPage);
+            document.getElementById('sTotal').textContent = filtered.length;
+            document.getElementById('pageInfo').textContent =
+                `Page ${state.page+1} of ${Math.max(total,1)} · Items ${start+1}–${Math.min(start+state.perPage, filtered.length)} of ${filtered.length}`;
+            let html = '';
+            let lastTheme = null;
+            visible.forEach(q => {
+                if (q.t !== lastTheme) {
+                    if (lastTheme !== null) {
+                        html +=
+                            `<div class="theme-divider"><div class="theme-divider-line"></div><div class="theme-divider-label">${THEME_NAMES[q.t]}</div><div class="theme-divider-line"></div></div>`;
+                    }
+                    lastTheme = q.t;
+                }
+                const userAns = state.answers[q.id];
+                const revealed = state.revealed[q.id] || state.mode === 'key';
+                const tagHtml = q.tags.length ? q.tags.map(t => {
+                    let cls = 'tag';
+                    if (['Cardiology'].includes(t)) cls += ' tag-cardiology';
+                    if (['Infectious Disease'].includes(t)) cls += ' tag-infectious';
+                    if (['Endocrinology'].includes(t)) cls += ' tag-endocrinology';
+                    if (['Nephrology'].includes(t)) cls += ' tag-nephrology';
+                    if (['Rheumatology'].includes(t)) cls += ' tag-rheumatology';
+                    if (['Gastroenterology'].includes(t)) cls += ' tag-gastroenterology';
+                    if (['Hematology'].includes(t)) cls += ' tag-hematology';
+                    if (['Pulmonology'].includes(t)) cls += ' tag-pulmonology';
+                    if (['Neurology'].includes(t)) cls += ' tag-neurology';
+                    if (['Oncology'].includes(t)) cls += ' tag-oncology';
+                    return `<span class="${cls}">${t}</span>`;
+                }).join('') : '';
+                const optHtml = q.opts.map((opt, i) => {
+                    let cls = 'opt';
+                    if (revealed) {
+                        if (i === q.ans) cls += ' correct';
+                        else if (userAns === i) cls += ' wrong';
+                    } else {
+                        if (userAns === i) cls += ' selected';
+                    }
+                    const click = state.mode !== 'key' ? `onclick="selectAnswer(${q.id},${i})"` : '';
+                    return `<button class="${cls}" ${click}><span class="opt-letter">${OPTS[i]}.</span><span>${opt}</span></button>`;
+                }).join('');
+                const rationaleHtml = revealed ?
+                    `<div class="rationale"><strong>Answer: <span class="answer-highlight">${OPTS[q.ans]}</span></strong> — ${q.r}</div>` :
+                    '';
+                const revealBtn = state.mode === 'exam' && userAns !== undefined && !state.revealed[q.id] ?
+                    `<button class="reveal-btn" onclick="toggleReveal(${q.id})">Show answer &amp; rationale</button>` :
+                    '';
+                let badges = `<span class="badge badge-theme">${THEME_NAMES[q.t]}</span>`;
+                if (q.c) badges += ` <span class="badge badge-clinical">● Clinical</span>`;
+                html += `<div class="q-card">
+                        <div class="q-meta"><span class="q-num">Q${q.id}</span>${badges}</div>
+                        <div class="tag-group">${tagHtml}</div>
+                        <div class="q-stem">${q.stem}</div>
+                        <div class="options">${optHtml}</div>
+                        ${revealBtn}
+                        ${rationaleHtml}
+                    </div>`;
+            });
+            document.getElementById('qContainer').innerHTML = html;
+            updateStats();
+        }
+
+        window.addEventListener('scroll', () => {
+            document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 300);
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.target.tagName === 'SELECT' || e.target.tagName === 'INPUT') return;
+            if (e.key === 'ArrowRight') nextPage();
+            if (e.key === 'ArrowLeft') prevPage();
+            if (e.key === 'Escape') closeScore();
+        });
+
+        // Init
+        render();
+    </script>
+</body>
+</html>
