@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MHT → HTML</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#10151B;
+    --panel:#171F27;
+    --panel-2:#1D2733;
+    --border:#2A3542;
+    --text:#E4EAF0;
+    --muted:#7C8A99;
+    --amber:#E3A857;
+    --amber-dim:#8A6B3C;
+    --teal:#5FB89C;
+    --error:#E0685A;
+    --mono:'IBM Plex Mono', ui-monospace, monospace;
+    --sans:'IBM Plex Sans', system-ui, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(227,168,87,0.06), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(95,184,156,0.05), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    min-height:100vh;
+    padding:40px 20px 80px;
+  }
+  .wrap{max-width:760px;margin:0 auto;}
+
+  .masthead{margin-bottom:32px;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--amber);
+    display:flex;align-items:center;gap:10px;
+    margin-bottom:10px;
+  }
+  .eyebrow::before{content:"";width:18px;height:1px;background:var(--amber-dim);}
+  h1{
+    font-size:28px;
+    font-weight:600;
+    margin:0 0 8px;
+    letter-spacing:-0.01em;
+  }
+  .sub{color:var(--muted);font-size:14.5px;line-height:1.55;max-width:56ch;}
+  .sub code{font-family:var(--mono);background:var(--panel-2);padding:1px 5px;border-radius:3px;font-size:0.92em;color:#C9D3DC;}
+
+  .drop{
+    border:1px dashed var(--border);
+    border-radius:10px;
+    background:var(--panel);
+    padding:36px 24px;
+    text-align:center;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+    margin-bottom:22px;
+  }
+  .drop:hover, .drop.drag{
+    border-color:var(--amber-dim);
+    background:var(--panel-2);
+  }
+  .drop .icon{
+    width:34px;height:34px;margin:0 auto 14px;
+    color:var(--amber);
+  }
+  .drop .primary{font-size:15px;font-weight:500;margin-bottom:4px;}
+  .drop .secondary{font-size:12.5px;color:var(--muted);font-family:var(--mono);}
+  input[type=file]{display:none;}
+
+  .error-box{
+    display:none;
+    border:1px solid rgba(224,104,90,0.35);
+    background:rgba(224,104,90,0.08);
+    color:#F0A99E;
+    font-family:var(--mono);
+    font-size:12.5px;
+    padding:12px 14px;
+    border-radius:8px;
+    margin-bottom:20px;
+    line-height:1.5;
+  }
+
+  .manifest{
+    display:none;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--panel);
+    overflow:hidden;
+    margin-bottom:20px;
+  }
+  .manifest-head{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding:14px 18px;
+    border-bottom:1px solid var(--border);
+    font-family:var(--mono);
+  }
+  .manifest-head .title{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+  .manifest-head .count{font-size:12px;color:var(--amber);}
+  .rows{max-height:280px;overflow-y:auto;}
+  .row{
+    display:grid;
+    grid-template-columns:34px 1fr auto auto;
+    gap:14px;
+    align-items:center;
+    padding:9px 18px;
+    font-family:var(--mono);
+    font-size:12px;
+    border-bottom:1px solid rgba(42,53,66,0.55);
+  }
+  .row:last-child{border-bottom:none;}
+  .row .idx{color:var(--amber-dim);}
+  .row .loc{
+    color:#C9D3DC;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .row .type{color:var(--muted);}
+  .row .status{
+    justify-self:end;
+    display:flex;align-items:center;gap:5px;
+    color:var(--teal);
+    font-size:11px;
+  }
+  .row .status.main{color:var(--amber);}
+  .dot{width:5px;height:5px;border-radius:50%;background:currentColor;}
+
+  .actions{display:none;gap:10px;margin-bottom:28px;}
+  button{
+    font-family:var(--sans);
+    font-weight:500;
+    font-size:14px;
+    border-radius:8px;
+    padding:11px 18px;
+    border:1px solid transparent;
+    cursor:pointer;
+    transition:transform .1s ease, opacity .15s ease;
+  }
+  button:active{transform:scale(0.98);}
+  .btn-primary{background:var(--amber);color:#1A140B;}
+  .btn-primary:hover{opacity:0.92;}
+  .btn-secondary{background:transparent;color:var(--text);border-color:var(--border);}
+  .btn-secondary:hover{border-color:var(--amber-dim);}
+
+  .preview-wrap{display:none;}
+  .preview-label{
+    font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:8px;
+  }
+  iframe{
+    width:100%;height:420px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:#fff;
+  }
+
+  ::-webkit-scrollbar{width:8px;}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="eyebrow">Archive Unpacker</div>
+    <h1>.mht → .html</h1>
+    <p class="sub">Drop a saved web archive (<code>.mht</code> / <code>.mhtml</code>). Everything runs in your browser — the MIME parts are split apart, decoded, and the linked images and styles get embedded back into one self-contained HTML file.</p>
+  </div>
+
+  <div class="drop" id="drop">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M12 3v12m0 0l-4-4m4 4l4-4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div class="primary">Drop your .mht file here, or click to browse</div>
+    <div class="secondary">MHTML / MHT — parsed locally, nothing uploaded</div>
+    <input type="file" id="file" accept=".mht,.mhtml">
+  </div>
+
+  <div class="error-box" id="errorBox"></div>
+
+  <div class="manifest" id="manifest">
+    <div class="manifest-head">
+      <span class="title">Manifest</span>
+      <span class="count" id="manifestCount"></span>
+    </div>
+    <div class="rows" id="rows"></div>
+  </div>
+
+  <div class="actions" id="actions">
+    <button class="btn-primary" id="downloadBtn">Download .html</button>
+    <button class="btn-secondary" id="resetBtn">Convert another file</button>
+  </div>
+
+  <div class="preview-wrap" id="previewWrap">
+    <div class="preview-label">Preview</div>
+    <iframe id="preview" sandbox="allow-same-origin"></iframe>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  const drop = document.getElementById('drop');
+  const fileInput = document.getElementById('file');
+  const errorBox = document.getElementById('errorBox');
+  const manifest = document.getElementById('manifest');
+  const rows = document.getElementById('rows');
+  const manifestCount = document.getElementById('manifestCount');
+  const actions = document.getElementById('actions');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const previewWrap = document.getElementById('previewWrap');
+  const preview = document.getElementById('preview');
+
+  let outputBlobUrl = null;
+  let outputFilename = 'converted.html';
+
+  drop.addEventListener('click', () => fileInput.click());
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('drag'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('drag'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault();
+    drop.classList.remove('drag');
+    if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+  });
+  fileInput.addEventListener('change', e => {
+    if (e.target.files.length) handleFile(e.target.files[0]);
+  });
+
+  resetBtn.addEventListener('click', () => {
+    manifest.style.display = 'none';
+    actions.style.display = 'none';
+    previewWrap.style.display = 'none';
+    errorBox.style.display = 'none';
+    rows.innerHTML = '';
+    fileInput.value = '';
+    if (outputBlobUrl) { URL.revokeObjectURL(outputBlobUrl); outputBlobUrl = null; }
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    if (!outputBlobUrl) return;
+    const a = document.createElement('a');
+    a.href = outputBlobUrl;
+    a.download = outputFilename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  });
+
+  function showError(msg){
+    errorBox.textContent = msg;
+    errorBox.style.display = 'block';
+  }
+
+  function handleFile(file){
+    errorBox.style.display = 'none';
+    manifest.style.display = 'none';
+    actions.style.display = 'none';
+    previewWrap.style.display = 'none';
+    rows.innerHTML = '';
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const result = convertMht(reader.result);
+        renderManifest(result.parts, result.mainIndex);
+        finalize(result.html, file.name);
+      } catch (err) {
+        console.error(err);
+        showError('Could not parse this file as MHTML: ' + err.message);
+      }
+    };
+    reader.onerror = () => showError('Could not read the file.');
+    reader.readAsText(file);
+  }
+
+  // ---------- MHTML parsing ----------
+
+  function decodeQuotedPrintable(str){
+    str = str.replace(/=\r\n/g, '').replace(/=\n/g, '').replace(/=\r/g, '');
+    const bytes = [];
+    for (let i = 0; i < str.length; i++){
+      if (str[i] === '=' && /[0-9A-Fa-f]{2}/.test(str.substr(i+1, 2))){
+        bytes.push(parseInt(str.substr(i+1, 2), 16));
+        i += 2;
+      } else {
+        bytes.push(str.charCodeAt(i) & 0xff);
+      }
+    }
+    return new TextDecoder('utf-8').decode(new Uint8Array(bytes));
+  }
+
+  function parseHeaderBlock(block){
+    const unfolded = block.replace(/\r?\n[ \t]+/g, ' ');
+    const headers = {};
+    unfolded.split(/\r?\n/).forEach(line => {
+      const idx = line.indexOf(':');
+      if (idx === -1) return;
+      const name = line.slice(0, idx).trim().toLowerCase();
+      const value = line.slice(idx + 1).trim();
+      headers[name] = value;
+    });
+    return headers;
+  }
+
+  function headerParam(headerValue, param){
+    if (!headerValue) return null;
+    const re = new RegExp(param + '\\s*=\\s*"?([^";]+)"?', 'i');
+    const m = headerValue.match(re);
+    return m ? m[1].trim() : null;
+  }
+
+  function convertMht(raw){
+    const topSplit = raw.match(/\r?\n\r?\n/);
+    if (!topSplit) throw new Error('no MIME header block found');
+    const topHeaderBlock = raw.slice(0, topSplit.index);
+    const topHeaders = parseHeaderBlock(topHeaderBlock);
+    const contentType = topHeaders['content-type'] || '';
+    const boundary = headerParam(contentType, 'boundary');
+    if (!boundary) throw new Error('no MIME boundary declared');
+
+    const segments = raw.split('--' + boundary);
+    const parts = [];
+
+    for (const seg of segments){
+      const trimmed = seg.replace(/^\r?\n/, '');
+      if (!trimmed || trimmed.trim() === '' || trimmed.trim() === '--') continue;
+      if (trimmed.trim().startsWith('--')) continue;
+
+      const sep = trimmed.match(/\r?\n\r?\n/);
+      if (!sep) continue;
+      const headerBlock = trimmed.slice(0, sep.index);
+      let body = trimmed.slice(sep.index + sep[0].length);
+      body = body.replace(/\r?\n--$/, '').replace(/\r?\n$/, '');
+
+      const headers = parseHeaderBlock(headerBlock);
+      const ct = headers['content-type'] || 'text/plain';
+      const cte = (headers['content-transfer-encoding'] || '8bit').toLowerCase();
+      const location = headers['content-location'] || null;
+      let cid = headers['content-id'] || null;
+      if (cid) cid = cid.replace(/^</, '').replace(/>$/, '');
+
+      let decodedText = null;
+      let base64Data = null;
+
+      if (cte === 'quoted-printable'){
+        decodedText = decodeQuotedPrintable(body);
+      } else if (cte === 'base64'){
+        base64Data = body.replace(/[\r\n\s]/g, '');
+      } else {
+        decodedText = body;
+      }
+
+      parts.push({ contentType: ct.split(';')[0].trim(), encoding: cte, location, cid, decodedText, base64Data });
+    }
+
+    if (!parts.length) throw new Error('no MIME parts found');
+
+    let mainIndex = parts.findIndex(p => p.contentType === 'text/html');
+    if (mainIndex === -1) throw new Error('no text/html part found in archive');
+
+    // resource map: location / cid -> data URI
+    const resourceMap = {};
+    parts.forEach((p, i) => {
+      if (i === mainIndex) return;
+      let dataUri;
+      if (p.base64Data){
+        dataUri = 'data:' + p.contentType + ';base64,' + p.base64Data;
+      } else if (p.decodedText != null){
+        dataUri = 'data:' + p.contentType + ';base64,' + btoa(unescape(encodeURIComponent(p.decodedText)));
+      }
+      if (!dataUri) return;
+      if (p.location) resourceMap[p.location] = dataUri;
+      if (p.cid) resourceMap[p.cid] = dataUri;
+    });
+
+    let html = parts[mainIndex].decodedText || '';
+
+    // replace cid: references
+    html = html.replace(/cid:([^\s"')]+)/g, (m, id) => resourceMap[id] || m);
+
+    // replace exact Content-Location URLs referenced in the markup
+    Object.keys(resourceMap).forEach(key => {
+      if (key.startsWith('cid:') || !/^https?:\/\//i.test(key)) return;
+      if (html.indexOf(key) !== -1){
+        html = html.split(key).join(resourceMap[key]);
+      }
+    });
+
+    if (!/<meta[^>]+charset/i.test(html)){
+      html = html.replace(/<head([^>]*)>/i, '<head$1>\n<meta charset="UTF-8">');
+    }
+
+    return { html, parts, mainIndex };
+  }
+
+  // ---------- UI ----------
+
+  function renderManifest(parts, mainIndex){
+    rows.innerHTML = '';
+    parts.forEach((p, i) => {
+      const row = document.createElement('div');
+      row.className = 'row';
+      const label = p.location || p.cid || '(inline)';
+      const isMain = i === mainIndex;
+      row.innerHTML = `
+        <span class="idx">${String(i+1).padStart(3,'0')}</span>
+        <span class="loc" title="${escapeHtml(label)}">${escapeHtml(shorten(label))}</span>
+        <span class="type">${escapeHtml(p.contentType)}</span>
+        <span class="status ${isMain ? 'main' : ''}"><span class="dot"></span>${isMain ? 'root document' : 'embedded'}</span>
+      `;
+      rows.appendChild(row);
+    });
+    manifestCount.textContent = parts.length + ' part' + (parts.length === 1 ? '' : 's');
+    manifest.style.display = 'block';
+  }
+
+  function shorten(str){
+    if (str.length <= 58) return str;
+    return str.slice(0, 30) + '…' + str.slice(-24);
+  }
+
+  function escapeHtml(str){
+    return str.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function finalize(html, originalName){
+    if (outputBlobUrl) URL.revokeObjectURL(outputBlobUrl);
+    const blob = new Blob([html], { type: 'text/html' });
+    outputBlobUrl = URL.createObjectURL(blob);
+    outputFilename = originalName.replace(/\.(mht|mhtml)$/i, '') + '.html';
+
+    preview.srcdoc = html;
+    previewWrap.style.display = 'block';
+    actions.style.display = 'flex';
+  }
+})();
+</script>
+</body>
+</html>
