@@ -1,1 +1,6 @@
-
+# GitHub Pages & Site Configuration
+title: "PLE Interactive Reviewer"
+description: "A lightweight, interactive review tool for Philippine Medical Board Examinations."
+theme: jekyll-theme-primer
+show_downloads: false
+google_analytics: "" # Add tracking ID if needed
