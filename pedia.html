@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pediatrics PLE Reviewer 2023 (200 Items)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #FFF9F7;
+            --bg2: #F7F9FA;
+            --bg3: #E8F4F8;
+            --bg4: #D0EAF5;
+            --border: rgba(168, 216, 234, 0.30);
+            --border2: rgba(168, 216, 234, 0.55);
+            --text: #4A5C6A;
+            --text2: #5A7A8A;
+            --text3: #8AA8B8;
+            --sky: #6BC2E8;
+            --sky2: #A8D8EA;
+            --yellow: #F9D56E;
+            --yellow2: #FDE8B0;
+            --pink: #F7A8B8;
+            --pink2: #FCC8D4;
+            --mint: #B5EAD7;
+            --mint2: #D5F5E8;
+            --gold-dim: rgba(249, 213, 110, 0.15);
+            --red-dim: rgba(247, 168, 184, 0.15);
+            --blue-dim: rgba(107, 194, 232, 0.15);
+            --radius: 6px;
+            --radius-lg: 10px;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 15px;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+        .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 24px 80px; position: relative; z-index: 1; }
+        .site-header {
+            border-bottom: 2px solid var(--border2);
+            padding: 48px 0 36px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .site-header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background: var(--yellow);
+        }
+        .header-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--sky);
+            margin-bottom: 12px;
+        }
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(26px, 4vw, 40px);
+            font-weight: 700;
+            line-height: 1.15;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+        .header-title em { font-style: italic; color: var(--pink); }
+        .header-sub { font-size: 13px; color: var(--text2); font-style: italic; }
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .stat-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 14px 16px;
+            text-align: center;
+        }
+        .stat-val {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--sky);
+            display: block;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text3);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .progress-wrap { margin-bottom: 28px; }
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text3);
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.08em;
+            margin-bottom: 6px;
+        }
+        .progress-track {
+            height: 3px;
+            background: var(--bg4);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--sky), var(--yellow));
+            border-radius: 2px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 28px;
+            padding: 16px 20px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+        }
+        .controls label {
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text3);
+            font-family: 'JetBrains Mono', monospace;
+            margin-right: 2px;
+        }
+        select {
+            background: white;
+            border: 1px solid var(--border2);
+            color: var(--text);
+            font-family: 'Source Serif 4', serif;
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        select:hover, select:focus { border-color: var(--yellow); }
+        .btn {
+            padding: 7px 16px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border2);
+            background: transparent;
+            color: var(--text2);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.18s;
+            white-space: nowrap;
+        }
+        .btn:hover { border-color: var(--yellow); color: var(--sky); background: var(--gold-dim); }
+        .btn.primary {
+            background: var(--gold-dim);
+            border-color: var(--yellow);
+            color: var(--yellow);
+        }
+        .btn.primary:hover { background: rgba(249,213,110,0.25); }
+        .btn.danger:hover { border-color: var(--pink); color: var(--pink); background: var(--red-dim); }
+        .btn.table-toggle {
+            border-color: var(--mint);
+            color: var(--mint);
+        }
+        .btn.table-toggle:hover { background: var(--mint2); border-color: var(--mint); color: #5C9E7A; }
+        .btn.table-toggle.active { background: var(--mint2); border-color: var(--mint); color: #5C9E7A; }
+        .mode-tabs {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 28px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 4px;
+        }
+        .tab {
+            flex: 1;
+            padding: 9px;
+            border-radius: 7px;
+            border: none;
+            background: transparent;
+            color: var(--text3);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .tab:hover { color: var(--text2); }
+        .tab.active {
+            background: var(--bg4);
+            color: var(--sky);
+            border: 1px solid var(--border2);
+        }
+        .q-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px 28px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+            animation: fadeUp 0.3s ease both;
+        }
+        .q-card:hover { border-color: var(--border2); }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .q-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+        .q-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--sky);
+            min-width: 48px;
+        }
+        .badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 3px;
+        }
+        .badge-clinical {
+            background: rgba(247,168,184,0.15);
+            color: var(--pink);
+            border: 1px solid rgba(247,168,184,0.25);
+        }
+        .badge-theme {
+            background: var(--mint2);
+            color: #4A8A6A;
+            border: 1px solid rgba(181,234,215,0.4);
+        }
+        .badge-source {
+            background: var(--gold-dim);
+            color: var(--yellow);
+            border: 1px solid rgba(249,213,110,0.3);
+        }
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+        .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8px;
+            letter-spacing: 0.12em;
+            padding: 2px 8px;
+            border-radius: 3px;
+            background: rgba(107,194,232,0.10);
+            color: var(--sky);
+            border: 1px solid rgba(107,194,232,0.2);
+            text-transform: uppercase;
+        }
+        .tag-infectious { background: rgba(247,168,184,0.15); color: var(--pink); border-color: rgba(247,168,184,0.25); }
+        .tag-cardiology { background: rgba(249,213,110,0.15); color: #C9A84A; border-color: rgba(249,213,110,0.25); }
+        .tag-genetics { background: rgba(181,234,215,0.2); color: #4A8A6A; border-color: rgba(181,234,215,0.3); }
+        .tag-nephrology { background: rgba(107,194,232,0.2); color: #3A8AAA; border-color: rgba(107,194,232,0.3); }
+        .q-stem {
+            font-size: 16px;
+            line-height: 1.72;
+            color: var(--text);
+            margin-bottom: 16px;
+            border-left: 2px solid var(--border2);
+            padding-left: 16px;
+        }
+        .options { display: flex; flex-direction: column; gap: 8px; }
+        .opt {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.16s;
+            font-size: 14.5px;
+            line-height: 1.6;
+            background: transparent;
+            color: var(--text2);
+            text-align: left;
+            font-family: 'Source Serif 4', serif;
+            width: 100%;
+        }
+        .opt:hover { border-color: var(--border2); background: var(--bg3); color: var(--text); }
+        .opt.selected { border-color: var(--sky); background: var(--blue-dim); color: var(--text); }
+        .opt.correct { border-color: var(--yellow); background: var(--gold-dim); color: #9A7A2A; }
+        .opt.wrong { border-color: var(--pink); background: var(--red-dim); color: #B05A6A; }
+        .opt-letter {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 13px;
+            min-width: 20px;
+            color: var(--sky);
+            flex-shrink: 0;
+            padding-top: 1px;
+        }
+        .opt.correct .opt-letter { color: var(--yellow); }
+        .opt.wrong .opt-letter { color: var(--pink); }
+        .opt.selected .opt-letter { color: var(--sky); }
+        .rationale {
+            margin-top: 14px;
+            padding: 12px 16px;
+            background: rgba(181,234,215,0.10);
+            border: 1px solid rgba(181,234,215,0.25);
+            border-radius: var(--radius);
+            font-size: 14px;
+            line-height: 1.65;
+            color: #3A6A5A;
+            font-style: italic;
+        }
+        .rationale strong { color: var(--sky); font-style: normal; }
+        .reveal-btn {
+            margin-top: 12px;
+            padding: 6px 14px;
+            border: 1px solid var(--border2);
+            border-radius: var(--radius);
+            background: transparent;
+            color: var(--text3);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.18s;
+        }
+        .reveal-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 32px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .page-info {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text3);
+            letter-spacing: 0.08em;
+            text-align: center;
+            flex: 1;
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: var(--bg2);
+            border: 1px solid var(--border2);
+            border-radius: 14px;
+            padding: 40px 48px;
+            max-width: 440px;
+            width: 90%;
+            text-align: center;
+            animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.88); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-title { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--sky); margin-bottom: 6px; }
+        .modal-sub { font-size: 12px; color: var(--text3); font-style: italic; margin-bottom: 28px; }
+        .score-big {
+            font-family: 'Playfair Display', serif;
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .score-grade {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        .score-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .sd-item { background: var(--bg3); border-radius: var(--radius); padding: 12px 8px; }
+        .sd-val { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--text); display: block; }
+        .sd-lab {
+            font-size: 9px;
+            color: var(--text3);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .scroll-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 40px;
+            height: 40px;
+            background: var(--bg3);
+            border: 1px solid var(--border2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 50;
+            transition: all 0.2s;
+            color: var(--text3);
+            font-size: 16px;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .scroll-top.visible { opacity: 1; pointer-events: all; }
+        .scroll-top:hover { border-color: var(--yellow); color: var(--yellow); background: var(--gold-dim); }
+        .theme-divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 32px 0 20px;
+        }
+        .theme-divider-line { flex: 1; height: 1px; background: var(--border); }
+        .theme-divider-label {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 12px;
+            color: var(--yellow);
+            white-space: nowrap;
+        }
+        .table-view-wrap { display: none; overflow-x: auto; margin-top: 20px; }
+        .table-view-wrap.open { display: block; }
+        .rationale-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            background: var(--bg2);
+            border: 1px solid var(--border2);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+        .rationale-table th {
+            background: var(--bg4);
+            color: var(--sky);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 2px solid var(--border2);
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+        .rationale-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text2);
+            vertical-align: top;
+        }
+        .rationale-table tr:hover td { background: var(--bg3); }
+        .rationale-table .qnum-col { font-family: 'Playfair Display', serif; font-weight: 600; color: var(--sky); white-space: nowrap; }
+        .rationale-table .ans-col { font-weight: 600; color: var(--yellow); white-space: nowrap; text-align: center; }
+        .rationale-table .stem-col { max-width: 300px; }
+        .rationale-table .r-col { font-style: italic; color: #3A6A5A; max-width: 400px; }
+        .rationale-table .tag-col { font-size: 9px; font-family: 'JetBrains Mono', monospace; color: var(--text3); }
+        .table-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .table-controls label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; }
+        .table-controls input {
+            background: white;
+            border: 1px solid var(--border2);
+            color: var(--text);
+            padding: 5px 10px;
+            border-radius: var(--radius);
+            font-family: 'Source Serif 4', serif;
+            font-size: 12px;
+            outline: none;
+            transition: border-color 0.2s;
+            width: 140px;
+        }
+        .table-controls input:focus { border-color: var(--yellow); }
+        .table-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text3); margin-left: auto; }
+        @media (max-width: 600px) {
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .q-card { padding: 18px 18px; }
+            .controls { gap: 8px; }
+            .modal { padding: 28px 20px; }
+            .score-big { font-size: 52px; }
+            .rationale-table th, .rationale-table td { padding: 6px 8px; font-size: 11px; }
+            .rationale-table .stem-col { max-width: 140px; }
+            .rationale-table .r-col { max-width: 160px; }
+        }
+        @media (max-width: 480px) {
+            .wrapper { padding: 0 12px 60px; }
+            .controls { flex-direction: column; align-items: stretch; }
+            .controls label { margin-top: 4px; }
+            .btn { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <header class="site-header">
+            <div class="header-eyebrow">🧸 PLE 2023 · Pediatrics · 200 Items · Nelson &amp; First Aid</div>
+            <h1 class="header-title"><em>Pediatrics</em><br />PLE Reviewer</h1>
+            <p class="header-sub">Cardiology · Infectious Disease · Genetics · Nephrology · Pulmonology · Growth &amp; Development</p>
+        </header>
+        <div class="stats-bar">
+            <div class="stat-card"><span class="stat-val" id="sTotal">200</span><span class="stat-label">Questions</span></div>
+            <div class="stat-card"><span class="stat-val" id="sAnswered">0</span><span class="stat-label">Answered</span></div>
+            <div class="stat-card"><span class="stat-val" id="sCorrect">0</span><span class="stat-label">Correct</span></div>
+            <div class="stat-card"><span class="stat-val" id="sPct">—</span><span class="stat-label">Score %</span></div>
+        </div>
+        <div class="progress-wrap">
+            <div class="progress-meta"><span id="progLabel">0 / 200 answered</span><span id="progPct">0%</span></div>
+            <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+        </div>
+        <div class="mode-tabs">
+            <button class="tab active" onclick="setMode('exam')">📝 Exam Mode</button>
+            <button class="tab" onclick="setMode('review')">🔍 Review Mode</button>
+            <button class="tab" onclick="setMode('key')">🗝 Answer Key</button>
+        </div>
+        <div class="controls">
+            <label>Section</label>
+            <select id="themeFilter" onchange="applyFilter()">
+                <option value="all">All Sections</option>
+                <option value="1">General Pediatrics</option>
+            </select>
+            <label>Type</label>
+            <select id="typeFilter" onchange="applyFilter()">
+                <option value="all">All Types</option>
+                <option value="clinical">Clinical Only</option>
+                <option value="conceptual">Conceptual Only</option>
+            </select>
+            <label>Tag</label>
+            <select id="tagFilter" onchange="applyFilter()">
+                <option value="all">All Tags</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Infectious Disease">Infectious Disease</option>
+                <option value="Immunology">Immunology</option>
+                <option value="Genetics">Genetics</option>
+                <option value="Nephrology">Nephrology</option>
+                <option value="Pulmonology">Pulmonology</option>
+                <option value="Gastroenterology">Gastroenterology</option>
+                <option value="Hematology">Hematology</option>
+                <option value="Oncology">Oncology</option>
+                <option value="Endocrinology">Endocrinology</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Growth">Growth</option>
+                <option value="Vaccines">Vaccines</option>
+                <option value="Nutrition">Nutrition</option>
+                <option value="Rheumatology">Rheumatology</option>
+                <option value="Gynecology">Gynecology</option>
+            </select>
+            <label>Per Page</label>
+            <select id="perPageSel" onchange="changePerPage()">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">All</option>
+            </select>
+            <button class="btn primary" onclick="openScore()">Score Me</button>
+            <button class="btn danger" onclick="resetAll()">Reset</button>
+            <button class="btn table-toggle" id="tableToggleBtn" onclick="toggleTableView()">📊 Table</button>
+        </div>
+
+        <div class="table-view-wrap" id="tableViewWrap">
+            <div class="table-controls">
+                <label>🔍 Filter</label>
+                <input type="text" id="tableSearch" placeholder="Search stem or rationale..." oninput="renderTable()" />
+                <span class="table-count" id="tableCount"></span>
+            </div>
+            <div style="overflow-x:auto;max-height:600px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-lg);">
+                <table class="rationale-table" id="rationaleTable">
+                    <thead><tr><th style="min-width:48px;">#</th><th style="min-width:60px;">Answer</th><th style="min-width:120px;">Question</th><th style="min-width:180px;">Rationale</th><th style="min-width:80px;">Tags</th></tr></thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="qContainer"></div>
+        <div class="nav">
+            <button class="btn" onclick="prevPage()">← Previous</button>
+            <span class="page-info" id="pageInfo"></span>
+            <button class="btn" onclick="nextPage()">Next →</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="scoreModal" onclick="closeScore(event)">
+        <div class="modal">
+            <div class="modal-title">Examination Results</div>
+            <div class="modal-sub" id="modalSub">Pediatrics PLE 2023 Reviewer</div>
+            <div class="score-big" id="modalScore">—</div>
+            <div class="score-grade" id="modalGrade"></div>
+            <div class="score-detail">
+                <div class="sd-item"><span class="sd-val" id="mdAns">0</span><span class="sd-lab">Answered</span></div>
+                <div class="sd-item"><span class="sd-val" id="mdCorr">0</span><span class="sd-lab">Correct</span></div>
+                <div class="sd-item"><span class="sd-val" id="mdWrong">0</span><span class="sd-lab">Wrong</span></div>
+            </div>
+            <button class="btn primary" onclick="closeScore()">Close</button>
+        </div>
+    </div>
+
+    <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+    <script>
+        const THEME_NAMES = ['', 'General Pediatrics'];
+        const OPTS = ['A', 'B', 'C', 'D'];
+
+        // ========== 200 PEDIATRICS QUESTIONS (Combined) ==========
+        const Q = [
+            // --- Questions 1-100 from the first reviewer (Original 100 items) ---
+            { id: 1, t: 1, c: false, stem: "Which heart sound is best heard using the bell of the stethoscope?",
+                opts: ["Mitral regurgitation", "Aortic regurgitation", "S3", "High-pitched murmur"], ans: 2,
+                r: "S3 is a low-pitched sound best heard with the bell of the stethoscope at the apex in mid-diastole. Mitral and aortic regurgitation are high-pitched murmurs best heard with the diaphragm.",
+                tags: ["Cardiology"] },
+            { id: 2, t: 1, c: false, stem: "Which of the following findings is associated with Vitamin D deficiency?",
+                opts: ["Craniosynostosis", "Caput succedaneum", "Craniotabes", "Aplasia cutis congenita"], ans: 2,
+                r: "Craniotabes is a softening of the cranial bones, felt as a 'ping-pong ball' sensation, seen in vitamin D deficiency, osteogenesis imperfecta, and syphilis.",
+                tags: ["Nutrition", "Endocrinology"] },
+            { id: 3, t: 1, c: false, stem: "A 1-year-old male with recurrent P. aeruginosa pneumonia, E. coli UTI, candidal infection, and persistent S. aureus skin abscess. Most likely diagnosis:",
+                opts: ["Wiskott-Aldrich syndrome", "Chronic granulomatous disease", "Job Syndrome", "Leukocyte adhesion deficiency"], ans: 1,
+                r: "Recurrent infections with catalase-positive organisms (Pseudomonas, E. coli, Candida, Staphylococcus) suggest Chronic Granulomatous Disease (CGD) due to defective NADPH oxidase.",
+                tags: ["Immunology", "Infectious Disease"] },
+            { id: 4, t: 1, c: false, stem: "Based on the patient above, what is the diagnostic test of choice for CGD?",
+                opts: ["Flow cytometry", "Serum IgM levels", "Nitroblue tetrazolium dye test", "Serum IgE levels"], ans: 0,
+                r: "Flow cytometry using dihydrorhodamine (DHR) is the current standard for diagnosing CGD. NBT test is older and rarely used.",
+                tags: ["Immunology"] },
+            { id: 5, t: 1, c: false, stem: "Based on the diagnosis of CGD, what is its only known cure?",
+                opts: ["Antibiotics", "Immunoglobulin", "Stem cell transplant", "Observation"], ans: 2,
+                r: "Hematopoietic stem cell transplantation (HSCT) is the only curative therapy for CGD. Prophylactic antibiotics help reduce infections.",
+                tags: ["Immunology"] },
+            { id: 6, t: 1, c: false, stem: "The following findings are seen in patients with primary aldosteronism, EXCEPT:",
+                opts: ["Hypertension", "Hyperkalemia", "High aldosterone:renin ratio", "Metabolic alkalosis"], ans: 1,
+                r: "Primary aldosteronism causes hypertension, hypokalemia (not hyperkalemia), high aldosterone:renin ratio, and metabolic alkalosis.",
+                tags: ["Endocrinology"] },
+            { id: 7, t: 1, c: false, stem: "Which developmental milestone would you expect in an average 6-month-old child?",
+                opts: ["Thumb-finger grasp", "Monosyllabic babble", "Follow 1 step command with gesture", "Bangs 2 cubes"], ans: 1,
+                r: "At 6 months, infants typically produce monosyllabic babble. Thumb-finger grasp and banging cubes appear around 8-9 months; following a command with gesture at 7 months.",
+                tags: ["Growth"] },
+            { id: 8, t: 1, c: false, stem: "A child with sickle cell anemia is at risk of aplastic crisis when infected with which virus?",
+                opts: ["Coxsackievirus type A", "Echovirus", "Human herpesvirus 6", "Parvovirus B19"], ans: 3,
+                r: "Parvovirus B19 infects erythroid progenitor cells, causing transient aplastic crisis in patients with hemolytic anemias like sickle cell disease.",
+                tags: ["Hematology", "Infectious Disease"] },
+            { id: 9, t: 1, c: false, stem: "The following are found in congenital varicella syndrome, EXCEPT:",
+                opts: ["Cicatricial skin scarring", "Microcephaly", "Cataracts", "None of the above"], ans: 3,
+                r: "All options are manifestations of congenital varicella syndrome (also limb hypoplasia, chorioretinitis, hydronephrosis, etc.).",
+                tags: ["Infectious Disease", "Genetics"] },
+            { id: 10, t: 1, c: false, stem: "The following congenital heart diseases produce a holosystolic murmur, EXCEPT:",
+                opts: ["Mitral regurgitation", "Ventricular Septal Defect", "Aortic regurgitation", "Tricuspid Regurgitation"], ans: 2,
+                r: "Aortic regurgitation produces an early diastolic blowing murmur. MR, VSD, and TR are holosystolic.",
+                tags: ["Cardiology"] },
+            { id: 11, t: 1, c: false, stem: "A 5-year-old boy with waddling gait and uses his upper extremities to stand up (Gowers' sign). Most probable diagnosis:",
+                opts: ["Cerebral palsy", "Duchenne muscular dystrophy", "Spinal cord injury", "Talipes equinovarus"], ans: 1,
+                r: "Duchenne muscular dystrophy is an X-linked recessive disorder presenting before age 5 with Gowers' sign and waddling gait.",
+                tags: ["Neurology", "Genetics"] },
+            { id: 12, t: 1, c: false, stem: "Dextrocardia may be found in which of the following syndromes?",
+                opts: ["Cystic fibrosis", "Kartagener Syndrome", "Marfan Syndrome", "Down Syndrome"], ans: 1,
+                r: "Kartagener syndrome (primary ciliary dyskinesia) is associated with dextrocardia, situs inversus, and chronic sinusitis/bronchiectasis.",
+                tags: ["Cardiology", "Genetics"] },
+            { id: 13, t: 1, c: false, stem: "In which condition would you expect a narrowly split S2?",
+                opts: ["Pulmonary hypertension", "RBBB", "Atrial septal defect", "LBBB"], ans: 0,
+                r: "Pulmonary hypertension causes a narrowly split and loud S2. RBBB gives wide splitting, ASD fixed splitting, LBBB paradoxical splitting.",
+                tags: ["Cardiology"] },
+            { id: 14, t: 1, c: false, stem: "Which is the most common causative agent of infective endocarditis in IV drug users?",
+                opts: ["HACEK organisms", "S. aureus", "Viridans group streptococci", "Coagulase-negative staphylococci"], ans: 1,
+                r: "In IV drug users, Staphylococcus aureus is the most common cause, along with Pseudomonas aeruginosa and Serratia marcescens.",
+                tags: ["Cardiology", "Infectious Disease"] },
+            { id: 15, t: 1, c: false, stem: "Which is the major risk factor for infective endocarditis in the newborn infant?",
+                opts: ["Central IV line", "Respiratory infections", "Severe diarrhea", "Early discharge"], ans: 0,
+                r: "Central venous lines are the major risk factor for infective endocarditis in neonates due to catheter-related bacteremia.",
+                tags: ["Cardiology", "Infectious Disease"] },
+            { id: 16, t: 1, c: false, stem: "Which component of Tetralogy of Fallot is responsible for the boot-shaped heart on X-ray?",
+                opts: ["Pulmonary stenosis", "Right ventricular hypertrophy", "Overriding aorta", "Ventricular septal defect"], ans: 1,
+                r: "Right ventricular hypertrophy causes the cardiac apex to be uptilted, giving the characteristic boot-shaped silhouette.",
+                tags: ["Cardiology"] },
+            { id: 17, t: 1, c: false, stem: "A preterm baby delivered via CS has HR 125, good respiratory effort, some flexion of extremities, sneezes to catheter, body pink with blue extremities. APGAR score:",
+                opts: ["7", "8", "9", "10"], ans: 1,
+                r: "APGAR: HR 2, Resp 2, Tone 1, Reflex 2, Color 1 = 8. Color is 1 (pink body, blue extremities).",
+                tags: ["Growth"] },
+            { id: 18, t: 1, c: false, stem: "Which of the following is NOT true about the Apgar score?",
+                opts: ["Used to determine need for resuscitation", "Done every 5-20 min if 5-min score <7", "Reflects response to resuscitation", "None of the above"], ans: 0,
+                r: "Apgar score is NOT used to determine the need for resuscitation or guide resuscitation steps; it assesses the infant's condition and response.",
+                tags: ["Growth"] },
+            { id: 19, t: 1, c: false, stem: "A 34-week infant born to a diabetic, hypertensive mother via CS develops tachypnea, alar flaring, retractions. Most likely diagnosis:",
+                opts: ["Meconium aspiration syndrome", "Neonatal Pneumonia", "Hyaline membrane disease", "Transient tachypnea of the newborn"], ans: 2,
+                r: "Respiratory distress syndrome (RDS) is common in premature infants, especially with maternal diabetes and cesarean delivery, due to surfactant deficiency.",
+                tags: ["Pulmonology"] },
+            { id: 20, t: 1, c: false, stem: "In a patient with RDS, the chest X-ray would show:",
+                opts: ["Ground-glass appearance", "Coarse streaking", "Perihilar vascular markings", "Hyperinflation"], ans: 0,
+                r: "RDS shows fine reticular granularity (ground-glass) with air bronchograms and low lung volumes.",
+                tags: ["Pulmonology"] },
+            { id: 21, t: 1, c: false, stem: "Which could have prevented RDS in the above case?",
+                opts: ["Good hygiene", "Intravenous antibiotics", "Rapid identification of fetal distress", "Maternal steroids"], ans: 3,
+                r: "Antenatal corticosteroids given before 37 weeks reduce the incidence of RDS and neonatal mortality.",
+                tags: ["Pulmonology"] },
+            { id: 22, t: 1, c: false, stem: "The following are live attenuated vaccines, EXCEPT:",
+                opts: ["Smallpox vaccine", "Rabies vaccine", "Rotavirus vaccine", "BCG"], ans: 1,
+                r: "Rabies vaccine is inactivated. Live attenuated vaccines include MMR, varicella, rotavirus, BCG, oral polio, and yellow fever.",
+                tags: ["Vaccines"] },
+            { id: 23, t: 1, c: false, stem: "Which vaccine is administered subcutaneously?",
+                opts: ["Meningococcal, polysaccharide", "Typhoid fever vaccine (polysaccharide Vi)", "Japanese encephalitis virus vaccine", "All of the above"], ans: 0,
+                r: "Meningococcal polysaccharide vaccine is given SC. The other options are administered IM.",
+                tags: ["Vaccines"] },
+            { id: 24, t: 1, c: false, stem: "Which would LEAST likely show microcytic anemia on CBC?",
+                opts: ["Thalassemia", "Lead poisoning", "Sideroblastic anemia", "G6PD deficiency"], ans: 3,
+                r: "G6PD deficiency causes normocytic anemia. Microcytic anemias include iron deficiency, thalassemia, lead poisoning, and sideroblastic anemia.",
+                tags: ["Hematology"] },
+            { id: 25, t: 1, c: false, stem: "Interpretation of serologic tests: + HBsAg, - Anti-HBs, + Anti-HBc IgM, + HBeAg:",
+                opts: ["Immunized", "Acute infection", "Recovered", "Chronic active infection"], ans: 1,
+                r: "This pattern indicates acute hepatitis B infection (high infectivity).",
+                tags: ["Infectious Disease"] },
+            { id: 26, t: 1, c: false, stem: "A 3-year-old with cough, coryza, conjunctivitis, maculopapular rash starting on head, and Koplik spots. Most likely diagnosis:",
+                opts: ["Rubella", "Rubeola (Measles)", "Roseola", "Hand-foot-and-mouth disease"], ans: 1,
+                r: "Measles (rubeola) presents with cough, coryza, conjunctivitis, Koplik spots, and a maculopapular rash starting on the face.",
+                tags: ["Infectious Disease"] },
+            { id: 27, t: 1, c: false, stem: "What is the most common cause of death in measles?",
+                opts: ["Otitis media", "Stroke", "Encephalitis", "Pneumonia"], ans: 3,
+                r: "Pneumonia (giant cell or secondary bacterial) is the most common cause of measles-related death.",
+                tags: ["Infectious Disease"] },
+            { id: 28, t: 1, c: false, stem: "Which of the following is NOT associated with Down Syndrome?",
+                opts: ["Pyloric stenosis", "Ventricular septal defect", "Alzheimer disease", "Acute leukemia"], ans: 0,
+                r: "Down syndrome is associated with duodenal atresia, Hirschsprung, AVSD, leukemia, and early Alzheimer's, but NOT pyloric stenosis.",
+                tags: ["Genetics"] },
+            { id: 29, t: 1, c: false, stem: "The universal finding in rheumatic carditis is:",
+                opts: ["Pericarditis alone", "Myocarditis alone", "Endocarditis alone", "Endocarditis, myocarditis, and pericarditis"], ans: 2,
+                r: "Endocarditis (valvulitis) is a universal finding in rheumatic carditis; myocarditis and pericarditis are variable.",
+                tags: ["Cardiology", "Rheumatology"] },
+            { id: 30, t: 1, c: false, stem: "A 15-year-old with rheumatic fever with carditis but no valvular involvement. Duration of secondary prophylaxis:",
+                opts: ["5 years or until 21", "10 years or until 21", "15 years or until 21", "10 years or until 40"], ans: 1,
+                r: "For rheumatic fever with carditis but no residual heart disease, prophylaxis is recommended for 10 years or until age 21, whichever is longer.",
+                tags: ["Cardiology", "Rheumatology"] },
+            { id: 31, t: 1, c: false, stem: "Zinc supplementation can be given in which of the following diseases?",
+                opts: ["Pneumonia", "Acrodermatitis enteropathica", "Cholera", "All of the above"], ans: 3,
+                r: "Zinc is used in acrodermatitis enteropathica, reduces severity of pneumonia, and shortens cholera diarrhea.",
+                tags: ["Nutrition", "Infectious Disease"] },
+            { id: 32, t: 1, c: false, stem: "Which is included in the management of measles?",
+                opts: ["Vitamin A", "Vitamin C", "Vitamin D", "Zinc"], ans: 0,
+                r: "Vitamin A therapy reduces morbidity and mortality in measles; recommended for all patients.",
+                tags: ["Infectious Disease", "Nutrition"] },
+            { id: 33, t: 1, c: false, stem: "What is the most common intraocular tumor in children?",
+                opts: ["Coloboma", "Cataract", "Hyperplastic primary vitreous", "Retinoblastoma"], ans: 3,
+                r: "Retinoblastoma is the most common intraocular malignancy in children, typically presenting with leukocoria.",
+                tags: ["Oncology"] },
+            { id: 34, t: 1, c: false, stem: "What is the most common cause of congenital hypothyroidism?",
+                opts: ["Dyshormonogenesis", "Maternal hypothyroidism", "Iodine deficiency", "Dysgenesis"], ans: 3,
+                r: "Thyroid dysgenesis (abnormal formation) is the most common cause of congenital hypothyroidism.",
+                tags: ["Endocrinology", "Genetics"] },
+            { id: 35, t: 1, c: false, stem: "The following are findings in congenital hypothyroidism, EXCEPT:",
+                opts: ["Wide fontanels", "Constipation", "Prolonged direct hyperbilirubinemia", "Macrocytic anemia"], ans: 2,
+                r: "Congenital hypothyroidism causes prolonged indirect (not direct) hyperbilirubinemia due to delayed conjugation.",
+                tags: ["Endocrinology"] },
+            { id: 36, t: 1, c: false, stem: "Deficiency of which nutrient causes poor wound healing, hair loss, diarrhea, and acral/periorificial rash?",
+                opts: ["Zinc", "Vitamin A", "Copper", "Vitamin B3"], ans: 0,
+                r: "These are features of acrodermatitis enteropathica (severe zinc deficiency).",
+                tags: ["Nutrition"] },
+            { id: 37, t: 1, c: false, stem: "Which is NOT TRUE about malnutrition?",
+                opts: ["Prone to hypoglycemia", "Response to infection is usually absent", "Sodium builds up inside cells leading to edema", "They are more vulnerable to hyperthermia"], ans: 3,
+                r: "Malnourished children are prone to hypothermia (not hyperthermia) due to reduced heat production.",
+                tags: ["Nutrition"] },
+            { id: 38, t: 1, c: false, stem: "Obesity is defined by CDC as BMI for age and sex:",
+                opts: ["≥99th percentile", "≥95th percentile", "≥90th percentile", "≥85th percentile"], ans: 1,
+                r: "Obesity: BMI ≥95th percentile. Overweight: 85th to <95th percentile.",
+                tags: ["Nutrition"] },
+            { id: 39, t: 1, c: false, stem: "Which is FALSE about vaccination?",
+                opts: ["Defer vaccine for moderate to severe acute illness", "Flu vaccine should not be given to those who developed hives after egg exposure", "MMR components are grown in chick embryos", "None of the above"], ans: 1,
+                r: "Patients with only hives after egg exposure can receive flu vaccine with appropriate precautions; it is not a contraindication.",
+                tags: ["Vaccines"] },
+            { id: 40, t: 1, c: false, stem: "What is the most commonly involved segment in intussusception?",
+                opts: ["Cecum", "Rectosigmoid area", "Ileocolic region", "Jejunoleal segment"], ans: 2,
+                r: "Intussusception is most commonly ileocolic, where the ileum invaginates into the colon.",
+                tags: ["Gastroenterology"] },
+            { id: 41, t: 1, c: false, stem: "Which is NOT TRUE about Meckel diverticulum?",
+                opts: ["Persistence of the omphalomesenteric duct", "Most common congenital anomaly of the GI tract", "Diagnosis made with Tc-pertechnetate", "None of the above"], ans: 3,
+                r: "All statements are true. Meckel diverticulum is the most common GI congenital anomaly and is diagnosed with Tc-99m pertechnetate scan.",
+                tags: ["Gastroenterology"] },
+            { id: 42, t: 1, c: false, stem: "Which vaccine was previously linked to increased risk of intussusception?",
+                opts: ["Hepatitis A vaccine", "Rotavirus vaccine", "Polio vaccine", "Hepatitis B vaccine"], ans: 1,
+                r: "A previous rotavirus vaccine (RotaShield) was associated with intussusception; current vaccines have lower risk.",
+                tags: ["Vaccines"] },
+            { id: 43, t: 1, c: false, stem: "Acute lymphocytic leukemia (ALL) may spread to which organ?",
+                opts: ["Breast", "Prostate", "Testes", "Liver"], ans: 2,
+                r: "ALL can spread to the testes and CNS; testicular involvement is a common site of extramedullary relapse.",
+                tags: ["Oncology"] },
+            { id: 44, t: 1, c: false, stem: "Which of the following is NOT true about Wilms tumor?",
+                opts: ["Associated with WAGR complex", "Most common renal malignancy of early childhood", "Usually asymptomatic flank mass", "None of the above"], ans: 3,
+                r: "All options are true. Wilms tumor is associated with WT1/WT2 mutations, WAGR complex, and presents as a flank mass. No option is false.",
+                tags: ["Oncology", "Nephrology"] },
+            { id: 45, t: 1, c: false, stem: "Which results in osmotic type of diarrhea?",
+                opts: ["Amebiasis", "Laxative abuse", "Pseudoobstruction", "Cholera"], ans: 1,
+                r: "Laxative abuse causes osmotic diarrhea. Amebiasis is mucosal invasion, pseudoobstruction is motility, cholera is secretory.",
+                tags: ["Gastroenterology"] },
+            { id: 46, t: 1, c: false, stem: "What is the gold standard for diagnosing Hirschsprung disease?",
+                opts: ["Barium enema", "Anorectal manometry", "Explosive expulsion after digital exam", "Rectal suction biopsy"], ans: 3,
+                r: "Rectal suction biopsy showing absence of ganglion cells is the gold standard.",
+                tags: ["Gastroenterology"] },
+            { id: 47, t: 1, c: false, stem: "What is the most common cause of acute gastroenteritis among children worldwide?",
+                opts: ["Amoebiasis", "Norovirus", "E. coli", "Rotavirus"], ans: 3,
+                r: "Rotavirus is the most common cause of acute gastroenteritis in children globally.",
+                tags: ["Infectious Disease", "Gastroenterology"] },
+            { id: 48, t: 1, c: false, stem: "A 1-year-old with vomiting followed by watery non-bloody diarrhea and low-grade fever. Most likely:",
+                opts: ["Shigella", "Campylobacter", "Rotavirus", "E. histolytica"], ans: 2,
+                r: "Rotavirus typically presents with vomiting followed by watery diarrhea and fever; stools are non-bloody.",
+                tags: ["Infectious Disease", "Gastroenterology"] },
+            { id: 49, t: 1, c: false, stem: "Which of the following is found in biliary atresia?",
+                opts: ["Diffuse hepatocellular disease", "Presence of bile plugs", "Distortion of lobular architecture", "Inflammatory cell infiltration"], ans: 1,
+                r: "Biliary atresia shows bile plugs and bile duct proliferation; neonatal hepatitis shows diffuse hepatocellular disease and inflammation.",
+                tags: ["Gastroenterology"] },
+            { id: 50, t: 1, c: false, stem: "The following are characteristic findings in APSGN, EXCEPT:",
+                opts: ["Lumpy bumpy deposits on immunofluorescence", "Humps on epithelial side of GBM", "Enlarged glomeruli", "Normal C3 serum levels"], ans: 3,
+                r: "In APSGN, C3 is significantly reduced (not normal). C3 differentiates it from IgA nephropathy.",
+                tags: ["Nephrology"] },
+            { id: 51, t: 1, c: false, stem: "Hereditary nephritis, anterior lenticonus, and sensorineural hearing loss are characteristic of:",
+                opts: ["IgA nephropathy", "SLE Nephropathy", "Alport Syndrome", "Goodpasture Syndrome"], ans: 2,
+                r: "Alport syndrome (X-linked) presents with hematuria, progressive hearing loss, and ocular abnormalities (anterior lenticonus).",
+                tags: ["Nephrology", "Genetics"] },
+            { id: 52, t: 1, c: false, stem: "Which glomerulonephritis is commonly associated with renal vein thrombosis?",
+                opts: ["Membranous nephropathy", "Rapid progressive GN", "APSGN", "FSGS"], ans: 0,
+                r: "Membranous nephropathy is associated with renal vein thrombosis due to hypercoagulability from proteinuria.",
+                tags: ["Nephrology"] },
+            { id: 53, t: 1, c: false, stem: "What is the most common infectious cause of nephrotic syndrome worldwide?",
+                opts: ["Hepatitis B", "Syphilis", "Malaria", "Typhoid fever"], ans: 2,
+                r: "Malaria is the most common infectious cause of nephrotic syndrome globally (especially in endemic areas).",
+                tags: ["Nephrology", "Infectious Disease"] },
+            { id: 54, t: 1, c: false, stem: "Which is NOT included in the classic tetrad of Henoch-Schonlein purpura (HSP) nephritis?",
+                opts: ["Arthralgia", "Non-palpable petechial rash", "Abdominal pain", "Renal disease"], ans: 1,
+                r: "HSP tetrad includes palpable purpura (not non-palpable), arthritis, abdominal pain, and renal involvement.",
+                tags: ["Nephrology", "Rheumatology"] },
+            { id: 55, t: 1, c: false, stem: "HSP nephritis shares the same renal histology with which glomerular disease?",
+                opts: ["Membranous nephropathy", "IgA nephropathy", "Membranoproliferative GN", "FSGS"], ans: 1,
+                r: "Both IgA nephropathy and HSP nephritis show IgA deposition in the mesangium and share pathogenesis.",
+                tags: ["Nephrology", "Rheumatology"] },
+            { id: 56, t: 1, c: false, stem: "HSP is most commonly preceded by which of the following?",
+                opts: ["Acute gastroenteritis", "UTI", "Upper respiratory tract infection", "Tick bite"], ans: 2,
+                r: "Approximately 50% of HSP cases are preceded by an upper respiratory tract infection.",
+                tags: ["Rheumatology", "Infectious Disease"] },
+            { id: 57, t: 1, c: false, stem: "Which is the most common route of transmission of Shiga-toxin-producing E. coli (STEC) in children?",
+                opts: ["Person-to-person", "Ingestion of undercooked meat", "Contaminated water", "Airborne"], ans: 1,
+                r: "STEC is commonly transmitted by undercooked ground beef, unpasteurized milk, and apple cider.",
+                tags: ["Infectious Disease"] },
+            { id: 58, t: 1, c: false, stem: "The following are clinical manifestations of nephrotic syndrome, EXCEPT:",
+                opts: ["Proteinuria", "Hypercholesterolemia", "Thromboembolism", "All of the above"], ans: 3,
+                r: "All options are clinical manifestations of nephrotic syndrome (proteinuria, hyperlipidemia, hypercoagulability).",
+                tags: ["Nephrology"] },
+            { id: 59, t: 1, c: false, stem: "What is the mainstay treatment for minimal change nephrotic syndrome?",
+                opts: ["Antibiotics", "Corticosteroids", "Calcineurin inhibitors", "None"], ans: 1,
+                r: "Corticosteroids (prednisone) are the mainstay of therapy for minimal change nephrotic syndrome.",
+                tags: ["Nephrology"] },
+            { id: 60, t: 1, c: false, stem: "All of the following are causes of transient proteinuria in children, EXCEPT:",
+                opts: ["Temperature >38.3°C", "Exercise", "Overhydration", "Cold exposure"], ans: 2,
+                r: "Dehydration (not overhydration) is a cause of transient proteinuria, along with fever, exercise, and cold exposure.",
+                tags: ["Nephrology"] },
+            { id: 61, t: 1, c: false, stem: "What is the leading causative agent for endocarditis in pediatric patients?",
+                opts: ["Staphylococcus aureus", "Pseudomonas aeruginosa", "Haemophilus influenzae", "Coxsackievirus A16"], ans: 0,
+                r: "Staphylococcus aureus and viridans group streptococci are the leading causes of infective endocarditis in children.",
+                tags: ["Cardiology", "Infectious Disease"] },
+            { id: 62, t: 1, c: false, stem: "In TOF, what determines the timing of onset of symptoms and severity of cyanosis?",
+                opts: ["Degree of RV outflow obstruction", "Size of VSD", "Degree of overriding aorta", "Degree of RVH"], ans: 0,
+                r: "The degree of right ventricular outflow obstruction determines the severity of cyanosis and symptom onset in Tetralogy of Fallot.",
+                tags: ["Cardiology"] },
+            { id: 63, t: 1, c: false, stem: "The single most important prognostic factor in ALL is:",
+                opts: ["Presence of genetic abnormalities", "Age", "Comorbidities", "Effective treatment"], ans: 3,
+                r: "Without effective treatment, ALL is fatal; thus, effective treatment is the most important prognostic factor.",
+                tags: ["Oncology"] },
+            { id: 64, t: 1, c: false, stem: "The following factors portend a poorer outcome in ALL, EXCEPT:",
+                opts: ["Hypodiploidy", "Philadelphia chromosome", "Chromosomal abnormalities", "Presence of trisomy 10"], ans: 3,
+                r: "Trisomy 10 is a favorable feature; poor prognostic factors include hypodiploidy, Philadelphia chromosome, and MLL rearrangements.",
+                tags: ["Oncology"] },
+            { id: 65, t: 1, c: false, stem: "Which should be avoided in HUS caused by STEC?",
+                opts: ["Red cell transfusions", "Early recognition", "Control of hypertension", "Antibiotics"], ans: 3,
+                r: "Antibiotics may increase Shiga toxin release and worsen HUS; they are generally avoided.",
+                tags: ["Nephrology", "Infectious Disease"] },
+            { id: 66, t: 1, c: false, stem: "The diagnosis of HUS is made by combination of findings, EXCEPT:",
+                opts: ["Microangiopathic hemolytic anemia", "Thrombocytosis", "Kidney failure", "Presence of schistocytes"], ans: 1,
+                r: "HUS is characterized by microangiopathic hemolytic anemia, thrombocytopenia (not thrombocytosis), and acute kidney injury.",
+                tags: ["Nephrology", "Hematology"] },
+            { id: 67, t: 1, c: false, stem: "What is the most common chronic symptom of childhood asthma?",
+                opts: ["Intermittent dry coughing", "Chest tightness", "Nonfocal chest pain", "All of the above"], ans: 0,
+                r: "Intermittent dry cough and expiratory wheezing are the most common chronic symptoms of asthma.",
+                tags: ["Pulmonology"] },
+            { id: 68, t: 1, c: false, stem: "Therapy of childhood asthma can be stepped down after good control for at least how many months?",
+                opts: ["3 weeks", "1 month", "3 months", "6 months"], ans: 2,
+                r: "Stepping down therapy should be considered after achieving good asthma control for at least 3 months.",
+                tags: ["Pulmonology"] },
+            { id: 69, t: 1, c: false, stem: "The preferred therapy for all patients with persistent asthma is:",
+                opts: ["SABA", "LABA", "Inhaled corticosteroid", "Leukotriene antagonist"], ans: 2,
+                r: "Low-dose inhaled corticosteroids are the preferred therapy for persistent asthma (Step 2).",
+                tags: ["Pulmonology"] },
+            { id: 70, t: 1, c: false, stem: "Discharge medications for hospitalized asthma exacerbation include oral corticosteroids for how many days?",
+                opts: ["1-3 days", "3-7 days", "7-14 days", "14-21 days"], ans: 1,
+                r: "After hospitalization, patients are typically discharged with a 3-7 day course of oral corticosteroids.",
+                tags: ["Pulmonology"] },
+            { id: 71, t: 1, c: false, stem: "What is the hallmark of hemophilic bleeding?",
+                opts: ["Hemarthrosis", "Epistaxis", "Gum bleeding", "Petechial rashes"], ans: 0,
+                r: "Hemarthrosis (bleeding into joints) is the hallmark of hemophilia, differentiating it from platelet disorders.",
+                tags: ["Hematology"] },
+            { id: 72, t: 1, c: false, stem: "What percentage of clotting factor activity is present in severe hemophilia?",
+                opts: ["<1%", "1-5%", ">5%", ">15%"], ans: 0,
+                r: "Severe hemophilia: <1% factor activity; moderate: 1-5%; mild: >5%.",
+                tags: ["Hematology"] },
+            { id: 73, t: 1, c: false, stem: "What is the most common inherited bleeding disorder?",
+                opts: ["Hemophilia A", "Hemophilia B", "Von Willebrand disease", "Platelet function disorder"], ans: 2,
+                r: "Von Willebrand disease is the most common inherited bleeding disorder, affecting up to 1% of the population.",
+                tags: ["Hematology"] },
+            { id: 74, t: 1, c: false, stem: "Which drug can increase circulating von Willebrand factor from storage?",
+                opts: ["Demeclocycline", "Desmopressin", "Plasmapheresis", "Antifibrinolytic"], ans: 1,
+                r: "Desmopressin (DDAVP) releases vWF from endothelial stores and is used in mild von Willebrand disease.",
+                tags: ["Hematology"] },
+            { id: 75, t: 1, c: false, stem: "Among patients with febrile seizure, lumbar puncture should be done in all EXCEPT:",
+                opts: ["3-year-old with fever and cough", "Ill-appearing child", "5-month-old with fever and seizure", "None of the above"], ans: 0,
+                r: "LP is indicated in infants <6 months, ill-appearing children, or those with meningeal signs; a 3-year-old with cough and fever is not an indication.",
+                tags: ["Neurology"] },
+            { id: 76, t: 1, c: false, stem: "Which is a risk factor for recurrence of febrile seizures?",
+                opts: ["Male gender", "Higher serum sodium at presentation", "Simple febrile seizure", "None"], ans: 0,
+                r: "Risk factors for recurrence: male gender, daycare, family history, lower age at onset, and lower fever at presentation.",
+                tags: ["Neurology"] },
+            { id: 77, t: 1, c: false, stem: "Which is FALSE about intussusception?",
+                opts: ["More common in males", "Associated with erythromycin use", "Nonbillious vomiting is the initial symptom", "None of the above"], ans: 3,
+                r: "All statements are true: intussusception is more common in males, associated with erythromycin, and nonbilious vomiting is an early sign.",
+                tags: ["Gastroenterology"] },
+            { id: 78, t: 1, c: false, stem: "Repeated vomiting in pyloric stenosis leads to which acid-base disturbance?",
+                opts: ["Hypochloremic metabolic acidosis", "Hypochloremic metabolic alkalosis", "Hyperchloremic metabolic acidosis", "Hyperchloremic metabolic alkalosis"], ans: 1,
+                r: "Loss of H+ and Cl- from gastric vomiting causes hypochloremic metabolic alkalosis.",
+                tags: ["Gastroenterology"] },
+            { id: 79, t: 1, c: false, stem: "Which is the most effective therapy for allergic rhinitis that may also treat conjunctivitis?",
+                opts: ["Intranasal corticosteroids", "Leukotriene antagonists", "Oxymetazoline", "Second-generation antihistamines"], ans: 0,
+                r: "Intranasal corticosteroids are the most effective for allergic rhinitis and also improve conjunctivitis symptoms.",
+                tags: ["Pulmonology"] },
+            { id: 80, t: 1, c: false, stem: "One of the cardinal features of atopic dermatitis is:",
+                opts: ["Dry skin", "Pruritus", "Fissured skin", "Excoriations"], ans: 1,
+                r: "Intense pruritus is the cardinal feature of atopic dermatitis, often worse at night.",
+                tags: ["Dermatology"] },
+            { id: 81, t: 1, c: false, stem: "What is the first-line therapy for atopic dermatitis?",
+                opts: ["Topical steroids", "Moisturizers", "Topical antibiotics", "All of the above"], ans: 1,
+                r: "Moisturizers (emollients) are the first-line therapy; topical corticosteroids are for acute flares.",
+                tags: ["Dermatology"] },
+            { id: 82, t: 1, c: false, stem: "Which anti-TB drug should be used in children old enough to distinguish colors?",
+                opts: ["Streptomycin", "Ethambutol", "Isoniazid", "Rifampicin"], ans: 1,
+                r: "Ethambutol can cause optic neuritis; visual acuity and color discrimination must be monitored.",
+                tags: ["Infectious Disease"] },
+            { id: 83, t: 1, c: false, stem: "What is the most common form of extrapulmonary TB in children?",
+                opts: ["Scrofula", "TB meningitis", "Miliary TB", "Pericardial TB"], ans: 0,
+                r: "Scrofula (tuberculous lymphadenitis, usually cervical) is the most common extrapulmonary TB in children.",
+                tags: ["Infectious Disease"] },
+            { id: 84, t: 1, c: false, stem: "Brain CT/MRI in tuberculous meningitis presents with all EXCEPT:",
+                opts: ["Basilar enhancement", "Noncommunicating hydrocephalus", "Early focal ischemia", "Communicating hydrocephalus"], ans: 1,
+                r: "Tuberculous meningitis typically causes communicating hydrocephalus (not noncommunicating).",
+                tags: ["Infectious Disease", "Neurology"] },
+            { id: 85, t: 1, c: false, stem: "A child with 2-week history of fever, sore throat, difficulty swallowing, and drooling; appears toxic, leaning forward, with muffled voice. Laryngoscopy would show:",
+                opts: ["Cherry-red swollen epiglottis", "Subglottic narrowing", "Swollen tonsils", "Any of the above"], ans: 0,
+                r: "Acute epiglottitis (usually Hib) presents with cherry-red swollen epiglottis and is a medical emergency.",
+                tags: ["Infectious Disease", "Pulmonology"] },
+            { id: 86, t: 1, c: false, stem: "Post-streptococcal glomerulonephritis is classified as what type of hypersensitivity?",
+                opts: ["Type I", "Type II", "Type III", "Type IV"], ans: 2,
+                r: "PSGN is a type III hypersensitivity reaction with immune complex deposition.",
+                tags: ["Nephrology", "Immunology"] },
+            { id: 87, t: 1, c: false, stem: "A child with incessant coughing: multiple coughs on a single exhalation followed by a whoop. Which stage of pertussis?",
+                opts: ["Catarrhal", "Paroxysmal", "Posttussive", "None"], ans: 1,
+                r: "The paroxysmal stage is characterized by coughing paroxysms followed by a whoop on inspiration.",
+                tags: ["Infectious Disease"] },
+            { id: 88, t: 1, c: false, stem: "Which of the following is NOT a clinical criterion for Kawasaki disease?",
+                opts: ["Bilateral conjunctival injection", "Strawberry tongue", "Erythema of extremities", "Generalized lymphadenopathy >1.5 cm"], ans: 3,
+                r: "Kawasaki disease requires unilateral cervical lymphadenopathy (not generalized) >1.5 cm.",
+                tags: ["Rheumatology", "Cardiology"] },
+            { id: 89, t: 1, c: false, stem: "The following drugs are used in the treatment of Kawasaki disease, EXCEPT:",
+                opts: ["IVIG", "Aspirin", "Broad-spectrum antibiotics", "Corticosteroids"], ans: 2,
+                r: "Kawasaki treatment includes IVIG, aspirin, and sometimes corticosteroids; antibiotics are not used.",
+                tags: ["Rheumatology", "Cardiology"] },
+            { id: 90, t: 1, c: false, stem: "What is the most common cause of morbidity and mortality in Kawasaki disease?",
+                opts: ["Large carotid artery aneurysm", "Large coronary artery aneurysm", "Large cranial artery aneurysm", "All of the above"], ans: 1,
+                r: "Coronary artery aneurysms (especially giant) are the major complication, leading to myocardial infarction.",
+                tags: ["Cardiology", "Rheumatology"] },
+            { id: 91, t: 1, c: false, stem: "Primary adrenal insufficiency in meningococcemia is called:",
+                opts: ["Nelson syndrome", "Conn syndrome", "Waterhouse-Friderichsen syndrome", "Cushing syndrome"], ans: 2,
+                r: "Waterhouse-Friderichsen syndrome is adrenal hemorrhage due to fulminant meningococcal sepsis.",
+                tags: ["Infectious Disease", "Endocrinology"] },
+            { id: 92, t: 1, c: false, stem: "Which posterior fossa malformation involves downward displacement of cerebellum and medulla through foramen magnum, leading to noncommunicating hydrocephalus?",
+                opts: ["Chiari I malformation", "Chiari II malformation", "Dandy-Walker malformation", "Syringomyelia"], ans: 1,
+                r: "Chiari II malformation includes downward displacement of the cerebellar tonsils and medulla, associated with myelomeningocele and hydrocephalus.",
+                tags: ["Neurology", "Genetics"] },
+            { id: 93, t: 1, c: false, stem: "In a child with HIV, a positive tuberculin skin test is defined as induration of how many mm?",
+                opts: ["≥5", "≥10", "≥15", "≥20"], ans: 0,
+                r: "In immunosuppressed children (including HIV), ≥5 mm is considered positive.",
+                tags: ["Infectious Disease"] },
+            { id: 94, t: 1, c: false, stem: "In APSGN, microscopic hematuria can persist for how long?",
+                opts: ["4-6 weeks", "6-8 weeks", "1-2 years", "2-4 years"], ans: 2,
+                r: "Microscopic hematuria may persist for 1-2 years after the acute episode, though proteinuria resolves within weeks.",
+                tags: ["Nephrology"] },
+            { id: 95, t: 1, c: false, stem: "Which of the following is a clinical criterion for Kawasaki disease?",
+                opts: ["Bilateral conjunctival injection without exudate", "Strawberry tongue with oral erythema", "Erythema and edema of extremities", "All of the above"], ans: 3,
+                r: "All are classic clinical criteria for Kawasaki disease (fever + 4 of 5 criteria).",
+                tags: ["Rheumatology", "Cardiology"] },
+            { id: 96, t: 1, c: false, stem: "The universal finding in rheumatic carditis is endocarditis, which is also known as:",
+                opts: ["Myocarditis", "Pericarditis", "Valvulitis", "Pancarditis"], ans: 2,
+                r: "Endocarditis in rheumatic carditis refers to valvulitis, which is universal.",
+                tags: ["Cardiology", "Rheumatology"] },
+            { id: 97, t: 1, c: false, stem: "Which of the following is a live attenuated vaccine?",
+                opts: ["Hepatitis A vaccine", "Inactivated polio vaccine", "MMR", "Rabies vaccine"], ans: 2,
+                r: "MMR is a live attenuated vaccine. Hepatitis A and IPV are inactivated; rabies is inactivated.",
+                tags: ["Vaccines"] },
+            { id: 98, t: 1, c: false, stem: "A child with Down syndrome is at increased risk for which cardiac defect?",
+                opts: ["Ventricular septal defect", "Atrioventricular septal defect", "Tetralogy of Fallot", "Coarctation of the aorta"], ans: 1,
+                r: "AVSD (endocardial cushion defect) is the most common congenital heart defect in Down syndrome.",
+                tags: ["Cardiology", "Genetics"] },
+            { id: 99, t: 1, c: false, stem: "Which of the following is a risk factor for neonatal sepsis?",
+                opts: ["Maternal GBS colonization", "Prematurity", "Prolonged rupture of membranes", "All of the above"], ans: 3,
+                r: "All are risk factors for early-onset neonatal sepsis.",
+                tags: ["Infectious Disease"] },
+            { id: 100, t: 1, c: false, stem: "A child with acute otitis media is treated with amoxicillin. After 48 hours, symptoms worsen. What is the most likely organism?",
+                opts: ["Streptococcus pneumoniae", "Haemophilus influenzae", "Moraxella catarrhalis", "Group A Streptococcus"], ans: 2,
+                r: "Beta-lactamase-producing Moraxella catarrhalis is a common cause of amoxicillin failure in AOM.",
+                tags: ["Infectious Disease"] },
+
+            // --- Questions 101-200 from the second file (Practice Test September 2019) ---
+            { id: 101, t: 1, c: false, stem: "How can infant’s perception and cognition be demonstrated during the first months of life? Demonstrated by:",
+                opts: ["Crying when hungry or sleepy", "Eye gazing, head turning and sucking", "Smiling when approached by mom or dad", "Waking up during feeding period"], ans: 1,
+                r: "Infants often communicate their basic needs, such as hunger or sleepiness, through crying. This behavior reflects their ability to perceive discomfort and respond to it.",
+                tags: ["Growth"] },
+            { id: 102, t: 1, c: false, stem: "During early childhood, children should sleep for how long without interruption?",
+                opts: ["12-16 hours", "11-13 hours", "8-10 hours", "5-7 hours"], ans: 1,
+                r: "This is the correct answer for toddlers and preschoolers during early childhood. It reflects the recommended sleep duration to support their physical and cognitive development. Sleep patterns tend to consolidate during this stage, with a more structured nighttime sleep and a daytime nap.",
+                tags: ["Growth"] },
+            { id: 103, t: 1, c: false, stem: "Baby Nicole already knows how to play peek-a-boo. She copies sounds and movements of others and points at things. She is able to stand with support, crawl and get into sitting position without support, and pulls to stand. She has met the milestones of what age?",
+                opts: ["4 months", "9 months", "6 months", "12 months"], ans: 1,
+                r: "This the correct answer. By 9 months, infants commonly exhibit the described milestones. They engage in social games like peek-a-boo, imitate sounds and movements, stand with support, crawl, and can pull themselves to a standing position. These are indicative of age-appropriate motor and cognitive development.",
+                tags: ["Growth"] },
+            { id: 104, t: 1, c: false, stem: "The 9th month physical examination of an infant is difficult to do. Which endeavor is the LEAST likely way to get the child’s cooperation?",
+                opts: ["Talk to parent avoiding direct eye contact with child", "Examine the child while on parent’s lap", "Talk to the child with direct eye contact", "Introduce the child to a small washable toy"], ans: 2,
+                r: "Directly engaging with the child through eye contact and conversation can help build rapport and establish a connection. However, for some infants, direct eye contact may be perceived as intimidating, leading to resistance during the examination.",
+                tags: ["Growth"] },
+            { id: 105, t: 1, c: false, stem: "What is/are the cause/causes of digital clubbing?",
+                opts: ["Chronic cardiac failure", "Acute respiratory insufficiency", "Defective heart valves", "Chronic hypoxia and chronic lung disease"], ans: 3,
+                r: "This is the correct answer. Digital clubbing is most commonly linked to chronic hypoxia and chronic lung diseases such as chronic obstructive pulmonary disease (COPD), interstitial lung disease, and cystic fibrosis. Prolonged hypoxia leads to changes in the nail bed and soft tissues, resulting in the characteristic clubbing.",
+                tags: ["Cardiology", "Pulmonology"] },
+            { id: 106, t: 1, c: false, stem: "Which statement is FALSE with regards to the origin of chronic coughs?",
+                opts: ["Lower respiratory stimuli include excessive secretions, aspirated foreign material, inhaled dust/gases.", "Origin of coughs can also be a response to infectious agents or cigarette smoke.", "Nighttime cough suggests upper airway disease such as sinusitis.", "The receptors of chronic coughs are mostly located in the lower respiratory tract."], ans: 3,
+                r: "This statement is FALSE. The receptors for chronic cough are primarily located in the upper respiratory tract. Conditions affecting the upper airway, like postnasal drip, sinusitis, or irritants in the throat, can trigger chronic cough reflexes.",
+                tags: ["Pulmonology"] },
+            { id: 107, t: 1, c: false, stem: "Which one occurs during normal cardiac development?",
+                opts: ["The aortic sac gives rise to the right and left 1st aortic arches.", "The 1st and 2nd arches form the common and internal carotid arteries.", "The paired dorsal aorta will fuse to form the descending aorta.", "The 5th arch persists in the mature circulation as a segment of the aortic arch."], ans: 2,
+                r: "This is correct. The fusion of the paired dorsal aortae contributes to the formation of the descending aorta.",
+                tags: ["Cardiology"] },
+            { id: 108, t: 1, c: false, stem: "Prostaglandin may be administered to patient with patent ductus arteriosus in which situation?",
+                opts: ["Patients who cannot undergo surgical management of ventricular septal defect.", "Patient waiting for surgical management of transposition of great arteries.", "Ductus arteriosus of a full term baby which has not closed a week after birth.", "Ductus arteriosus persists in a child who is already 3 years old."], ans: 1,
+                r: "Prostaglandin administration is appropriate in this situation. Prostaglandins help maintain the patency of the ductus arteriosus in conditions like transposition of the great arteries, where it serves as a vital shunt allowing mixing of oxygenated and deoxygenated blood until surgical correction can be performed.",
+                tags: ["Cardiology"] },
+            { id: 109, t: 1, c: false, stem: "Which of the following statements is true regarding cyanosis in the pediatric age group?",
+                opts: ["Acrocyanosis is a symptom of worsening cardiac functions in a newborn", "Turning blue around the lips after crying vigorously is a definitive sign of heart disease", "Cyanosis at rest is often overlooked due to variations in skin color of children", "Mucous membranes are spared or not involved in true cyanosis in newborns"], ans: 2,
+                r: "This statement is true. Cyanosis at rest can be challenging to detect in children due to variations in skin color. It may be more apparent in individuals with darker skin tones, and healthcare professionals need to be vigilant in assessing for subtle signs of cyanosis.",
+                tags: ["Cardiology"] },
+            { id: 110, t: 1, c: false, stem: "What are heart murmurs?",
+                opts: ["They are signs of leaflet prolapse radiating anteriorly", "They are results of audible vibrations caused by increased turbulence timed within the cardiac cycle", "They are the differences between two cardiac chambers, ventricles and arteries", "They are progressive attenuations of left ventricle to left atrial pressure gradient"], ans: 1,
+                r: "This statement is accurate. Heart murmurs are abnormal sounds heard during the cardiac cycle, and they result from turbulent blood flow. Turbulence can occur due to structural abnormalities (e.g., valve defects) or functional issues (e.g., high blood flow).",
+                tags: ["Cardiology"] },
+            { id: 111, t: 1, c: false, stem: "Which congenital malformation syndrome is least associated with the development of ventricular septal defect?",
+                opts: ["Trisomy 13", "Fetal alcohol syndrome", "Down’s syndrome", "Congenital rubella"], ans: 3,
+                r: "Congenital rubella may also present with VSD. However, the most common congenital heart defect associated is PDA.",
+                tags: ["Cardiology", "Genetics"] },
+            { id: 112, t: 1, c: false, stem: "A patient presents with VSD in which blood is shunted from right to left secondary to the development of pulmonary vascular disease. This condition is known as:",
+                opts: ["Pulmonary arteriovenous fistula", "Eisenmenger syndrome", "Ectopia cordis", "Ebstein anomaly"], ans: 1,
+                r: "Eisenmenger syndrome is the correct answer. It occurs when a large, unrepaired ventricular septal defect (VSD) or other congenital heart defect allows blood to shunt from the left side of the heart to the right side, leading to increased pulmonary blood flow. Over time, this increased blood flow causes pulmonary vascular disease, and the shunt can reverse, causing deoxygenated blood to be pumped into the systemic circulation. This results in cyanosis and is known as Eisenmenger syndrome.",
+                tags: ["Cardiology"] },
+            { id: 113, t: 1, c: false, stem: "The boot shaped sign seen in the radiographs of patients with Tetralogy of Fallot is from:",
+                opts: ["The convergence behind the heart of the pulmonary vein, instead of draining into the left atrium", "The shortening of the left ventricular inflow tract and elongation of the left ventricular outflow tract", "The contour of the aorta deformed by both pre and post stenotic dilation, and dilation of the subclavian artery", "The upturning of the cardiac apex"], ans: 3,
+                r: "The boot-shaped heart sign is a conventional radiographic finding in patients with TOF. The toe of the boot is formed by the upward pointing cardiac apex, which makes an acute angle with the diaphragm. The upturned cardiac apex is ascribed to right ventricular hypertrophy and occurs in 65% of patients with TOF.",
+                tags: ["Cardiology"] },
+            { id: 114, t: 1, c: false, stem: "This type of total anomalous pulmonary venous return involves pulmonary venous connection at the cardiac level. The pulmonary veins join either the coronary sinus or the right atrium. What type is this?",
+                opts: ["Type IV TAPVR", "Type I TAPVR", "Type II TAPVR", "Type III TAPVR"], ans: 2,
+                r: "Type II: Cardiac. This is the second most common type, accounting for approximately 30% of cases. In Type II, the pulmonary venous connection occurs at the cardiac level. The drainage is into the coronary sinus, and then into the right atrium.",
+                tags: ["Cardiology"] },
+            { id: 115, t: 1, c: false, stem: "The most common major congenital heart lesion is:",
+                opts: ["TOF", "VSD", "PDA", "ASD"], ans: 1,
+                r: "Ventricular septal defect is one of the most common congenital heart lesions. It involves an abnormal opening in the septum (wall) between the heart's ventricles, allowing blood to flow from the left ventricle to the right ventricle. VSDs vary in size and severity, and many can close on their own or require surgical intervention.",
+                tags: ["Cardiology"] },
+            { id: 116, t: 1, c: false, stem: "Which is not a component of the four main defects in Tetralogy of Fallot?",
+                opts: ["VSD", "LVH", "Overriding aorta", "Pulmonary stenosis"], ans: 1,
+                r: "Left ventricular hypertrophy is not traditionally considered one of the four main defects in Tetralogy of Fallot. The main components are pulmonary stenosis, VSD, overriding aorta, and right ventricular hypertrophy.",
+                tags: ["Cardiology"] },
+            { id: 117, t: 1, c: false, stem: "Which of the following correctly describes the flow of CSF in children?",
+                opts: ["Choroid plexus → lateral ventricle → aqueduct of Sylvius → third ventricle → foramen of Monro → fourth ventricle", "Choroid plexus → lateral ventricle → foramen of Magendie → third ventricle → aqueduct of Sylvius → fourth ventricle", "Choroid plexus → lateral ventricle → foramen of Monro → third ventricle → aqueduct of Sylvius → fourth ventricle", "Choroid plexus → lateral ventricle → foramen of Luschka → third ventricle → foramen of Magendie → fourth ventricle"], ans: 2,
+                r: "This is the correct sequence. CSF flows from the lateral ventricles through the foramina of Monro to the third ventricle, then through the aqueduct of Sylvius to reach the fourth ventricle. From there, it can exit through the foramina of Magendie and Luschka.",
+                tags: ["Neurology"] },
+            { id: 118, t: 1, c: false, stem: "Which of the following should a 1 year old child be able to do?",
+                opts: ["Go up the stairs one step at a time", "Can say two-word phrases", "Throw objects", "Makes a tower of two blocks"], ans: 2,
+                r: "By the age of 1, children are often developing the ability to throw objects, although the accuracy and coordination may vary. They are exploring their motor skills and may enjoy activities that involve throwing and dropping objects.",
+                tags: ["Growth"] },
+            { id: 119, t: 1, c: false, stem: "A 5 year old child comes into your clinic due to fever from a respiratory tract infection. While doing your exam, he develops a 10-second episode of generalized seizure. Which of the following is the MOST likely diagnosis?",
+                opts: ["Benign Rolandic epilepsy", "Infantile spasms", "Febrile seizure", "Lennox-Gestaut syndrome"], ans: 2,
+                r: "Febrile seizures are the most likely diagnosis in this case. Febrile seizures are seizures that occur in association with a fever, often due to a common childhood illness like a respiratory tract infection. They are common in children aged 6 months to 5 years and are usually brief, lasting less than 15 minutes.",
+                tags: ["Neurology"] },
+            { id: 120, t: 1, c: false, stem: "The sleep-wake pattern is well developed at term. Alertness of the neonate depends on the following factors. Which of the following is LEAST contributory?",
+                opts: ["Gestational age", "Presence of television", "Time of last feeding", "Room temperature"], ans: 1,
+                r: "The presence of television or other external stimuli can influence neonatal alertness. However, it is essential to provide a suitable and safe environment for the neonate. Excessive exposure to stimulating factors, such as television, may disrupt sleep patterns and contribute to overstimulation.",
+                tags: ["Growth"] },
+            { id: 121, t: 1, c: false, stem: "A child presents with café au lait spots, axillary freckling, ‘ballotable’ nodules, and elevated lumps in the skin. Which does this child MOST likely have?",
+                opts: ["Von-Hippel-Lindau disease", "Neurofibromatosis I", "Neurofibromatosis II", "Sturge-Weber Disease"], ans: 1,
+                r: "Neurofibromatosis type I (NF1), also known as von Recklinghausen disease, is the most likely diagnosis based on the described features. Café au lait spots, axillary freckling (Crowe sign), and 'ballotable' nodules (neurofibromas) are characteristic features of NF1.",
+                tags: ["Genetics"] },
+            { id: 122, t: 1, c: false, stem: "Which of the following statements may NOT be true?",
+                opts: ["A large head is associated with a large brain", "Flattening of the skull will need extensive investigation", "If the brain is not growing, the skull will not grow", "Head size may be increased secondary to hydrocephalus"], ans: 1,
+                r: "This statement may not always be true. Skull flattening, especially in infants, can occur due to external factors such as positioning during sleep (plagiocephaly) or pressure on the back of the head. While persistent skull flattening may warrant evaluation and intervention, not all cases require extensive investigation.",
+                tags: ["Growth"] },
+            { id: 123, t: 1, c: false, stem: "During examination of a 3 month old infant, you test his CNS by stroking the lateral surface of the sole. His big toe then dorsiflexes and the other toes fan out. This demonstrates which reflex?",
+                opts: ["Startle", "Rooting", "Moro", "Babinski"], ans: 3,
+                r: "The Babinski reflex is elicited by stroking the lateral surface of the sole of the foot. In infants up to around 1 year of age, a normal response involves dorsiflexion (curling up) of the big toe and fanning out of the other toes.",
+                tags: ["Neurology"] },
+            { id: 124, t: 1, c: false, stem: "Which will NOT give a positive GUAIAC test in stools?",
+                opts: ["Nasal/oropharyngeal bleeding", "Red dyes in food or drinks", "Blood loss from GI tract", "Maternal blood ingested"], ans: 0,
+                r: "Nasal or oropharyngeal bleeding is not expected to give a positive guaiac test in stools. The guaiac test (or fecal occult blood test) detects the presence of blood in the gastrointestinal (GI) tract, and bleeding from the nose or mouth does not typically contribute to positive results.",
+                tags: ["Gastroenterology"] },
+            { id: 125, t: 1, c: false, stem: "Where is the location of our hunger and satiety centers?",
+                opts: ["Medulla", "Hypothalamus", "Cerebral cortex", "Amygdala"], ans: 1,
+                r: "The hypothalamus plays a crucial role in the regulation of hunger and satiety. It contains specific nuclei, such as the arcuate nucleus and the ventromedial nucleus, that are involved in appetite control. The hypothalamus integrates signals related to energy balance and coordinates responses to maintain homeostasis.",
+                tags: ["Endocrinology"] },
+            { id: 126, t: 1, c: false, stem: "Why do infants need to be “burped” after feeding?",
+                opts: ["Infants feel full after feeding, burp to prevent vomiting", "Infants feel comfortable after burping especially if they had full feeding", "Infants swallow air during feeding, burp to prevent abdominal distention", "Have to place infants upright position to prevent food regurgitation"], ans: 2,
+                r: "This statement is correct. Infants can swallow air while feeding, and if this air is not expelled, it can lead to abdominal distention and discomfort. Burping helps release the trapped air and prevents excessive gas in the digestive system.",
+                tags: ["Gastroenterology"] },
+            { id: 127, t: 1, c: false, stem: "Which is considered the MOST important risk factor for type 2 diabetes mellitus?",
+                opts: ["High caloric intake", "Obesity", "Family History", "Sedentary lifestyle"], ans: 1,
+                r: "Obesity is considered one of the most important risk factors for type 2 diabetes mellitus. Excess adipose tissue, particularly around the abdomen, is associated with insulin resistance and an increased risk of developing diabetes.",
+                tags: ["Endocrinology"] },
+            { id: 128, t: 1, c: false, stem: "What is the cause of diabetes insipidus?",
+                opts: ["Impaired renin-angiotensin aldosterone system", "Low serum sodium", "Abnormal atrial natriuretic peptide", "Vasopressin deficiency"], ans: 3,
+                r: "The most common cause of diabetes insipidus is vasopressin deficiency or the impaired response of the kidneys to vasopressin. Vasopressin, also known as antidiuretic hormone (ADH), regulates water reabsorption in the kidneys. Lack of vasopressin leads to the excretion of large volumes of dilute urine.",
+                tags: ["Endocrinology"] },
+            { id: 129, t: 1, c: false, stem: "A population of patients manifests as unresponsiveness of tissues to thyroid hormone and may be misdiagnosed as the above disease. What distinguishes the thyroid unresponsive variant for the above disease?",
+                opts: ["Tachycardia", "Presence of goiter", "Fractional elevation of T4", "Non-suppression of thyroid-stimulating hormone level"], ans: 3,
+                r: "One distinguishing feature of the thyroid unresponsive variant is the failure of thyroid-stimulating hormone (TSH) levels to suppress in response to elevated thyroid hormone levels. In classic hyperthyroidism, TSH levels are usually suppressed due to the negative feedback loop.",
+                tags: ["Endocrinology"] },
+            { id: 130, t: 1, c: false, stem: "Which is considered satisfactory when monitoring adequacy of glucocorticoid replacement?",
+                opts: ["A normal serum and urine electrolytes", "Morning ACTH levels 2-3x the normal", "Normal level of serum cortisol", "ACTH level within normal range"], ans: 1,
+                r: "Normalizing ACTH levels is unnecessary and can require excessive doses of hydrocortisone; generally morning ACTH levels high in the normal range to 3-4 times normal are satisfactory.",
+                tags: ["Endocrinology"] },
+            { id: 131, t: 1, c: false, stem: "Which factor establishes the diagnosis of Grave disease?",
+                opts: ["Preferential T3 elevation", "Thyrotropin receptor-stimulating antibody (TRSAB)", "Presence of Goiter", "Accompanying exophthalmos"], ans: 1,
+                r: "The presence of thyrotropin receptor-stimulating antibodies (TRSABs) is a hallmark of Graves' disease. These antibodies stimulate the thyroid gland to produce excess thyroid hormones, leading to hyperthyroidism. Testing for TRSABs, such as thyroid-stimulating immunoglobulins (TSIs), is a crucial diagnostic marker.",
+                tags: ["Endocrinology"] },
+            { id: 132, t: 1, c: false, stem: "Which one is increased in Anemia of Chronic Disease?",
+                opts: ["Red Blood Cells", "Hemoglobin", "Serum Ferritin", "Mean Corpuscular Volume"], ans: 2,
+                r: "Serum ferritin levels are often increased in Anemia of Chronic Disease. Ferritin is an acute-phase reactant, and its levels rise in response to inflammation. Despite the increased ferritin levels, iron is often sequestered within cells, leading to functional iron deficiency and impaired erythropoiesis.",
+                tags: ["Hematology"] },
+            { id: 133, t: 1, c: false, stem: "In a regular checkup by his pediatrician, a 2 year-old boy was noted to have a white pupillary reflex rather than a normal red reflection from incident light noted in his right eye. This child should be investigated for which condition?",
+                opts: ["Neuroblastoma", "Congenital cataract", "Retinoblastoma", "Increased intracranial pressure"], ans: 2,
+                r: "Retinoblastoma is a malignant tumor of the retina that primarily affects young children. The most common sign is leukocoria, where the pupil appears white instead of the normal red reflex. Retinoblastoma is a serious condition that requires prompt evaluation and intervention.",
+                tags: ["Oncology"] },
+            { id: 134, t: 1, c: false, stem: "What is the MOST COMMON cancer in adolescents accounting for 25% of newly diagnosed cancers in persons 15-19 years old?",
+                opts: ["Chronic Lymphocytic Leukemia", "Acute Myelogenous Leukemia", "Acute Lymphoblastic Leukemia", "Hodgkin Lymphoma"], ans: 1,
+                r: "Acute Myelogenous Leukemia accounts for 11% of the cases of childhood leukemia. In the United States, it is diagnosed in approximately 370 children annually. The relative frequency of AML increases in adolescence, representing 36% of cases of leukemia in 15-19 years olds.",
+                tags: ["Oncology", "Hematology"] },
+            { id: 135, t: 1, c: false, stem: "An 18-year old boy consulted the clinic because of a supraclavicular adenopathy and signs of superior vena cava syndrome. He has unexplained shortness of breath, chronic coughs, and feeling of having asthma. These symptoms suggest an anterior mediastinal mass, what is your diagnosis?",
+                opts: ["Pulmonary mass", "Tuberculoma", "Sarcoidosis", "Thymoma"], ans: 3,
+                r: "Thymoma is a neoplasm originating from the thymic epithelial cells located in the anterior mediastinum. It can present with symptoms related to compression of nearby structures, including the SVC. Symptoms may include cough, shortness of breath, and SVC syndrome, which can manifest as facial swelling, distended neck veins, and difficulty breathing.",
+                tags: ["Oncology"] },
+            { id: 136, t: 1, c: false, stem: "If the bone marrow is compromised by malignancy, which signs and symptoms is LEAST likely noted?",
+                opts: ["Pallor from Anemia", "Bleeding from Thrombocytopenia", "Localized infection from Leukopenia", "Multiple Lymphadenopathy"], ans: 3,
+                r: "Multiple lymphadenopathy is typically associated with conditions affecting the lymphatic system, such as lymphomas, rather than direct bone marrow compromise. Lymphomas often involve lymph nodes and may lead to generalized lymphadenopathy.",
+                tags: ["Oncology", "Hematology"] },
+            { id: 137, t: 1, c: false, stem: "What is the MOST common bone tumor for children and adolescents beyond 10 years of age?",
+                opts: ["Rhabdomyosarcoma", "Osteosarcoma", "Neuroblastoma", "Ewing sarcoma"], ans: 1,
+                r: "Osteosarcoma is the MOST common primary malignant bone tumor in children and adolescents beyond 10 years of age. It typically arises in the metaphysis of long bones, such as the distal femur, proximal tibia, and proximal humerus. Osteosarcoma is characterized by the production of osteoid by malignant osteoblasts.",
+                tags: ["Oncology"] },
+            { id: 138, t: 1, c: false, stem: "Infants feel more secure when their urgent needs are met. This implies reciprocal maternal bonding. Which of the following statements may NOT be true?",
+                opts: ["Infants who are constantly picked up and held in response to stress cry less at one year.", "Infants held in response to stress show less aggressive behavior at 2 years.", "Crying normally peaks at 4 weeks of age.", "Babies carried close to mom cry less in societies."], ans: 2,
+                r: "This is generally false. On average, babies cry 2 hours per day, peaking at 6 weeks of age. Premature infants will have peak crying age at 6 weeks corrected age.",
+                tags: ["Growth"] },
+            { id: 139, t: 1, c: false, stem: "Which condition may be LEAST likely associated whether cause or effect with crying and fussiness persisting longer than 3-5 months?",
+                opts: ["Postnatal depression", "Child abuse", "Child’s nutrition", "Behavioral problems"], ans: 2,
+                r: "While the child's nutrition is crucial for overall well-being, persistent crying and fussiness may not be directly related to nutritional issues after the first few months of life. In cases of prolonged crying, it's essential to consider other factors, such as developmental stages, sleep patterns, or potential medical concerns.",
+                tags: ["Growth"] },
+            { id: 140, t: 1, c: false, stem: "Some researchers believe that persistent crying is said to be an early manifestation of which one?",
+                opts: ["Lactose intolerance", "Migraine", "Esophageal reflux", "Cows milk allergy"], ans: 1,
+                r: "A meta-analysis indicated that colic may be a form of migraine headache rather than, as has been proposed, a GI condition. The analysis utilized 3 studies, one of which indicated that there is a greater likelihood of colic in infants whose mothers have migraine headaches and the other two of which indicated that infants with colic are more likely to experience migraine in childhood and adolescence.",
+                tags: ["Neurology"] },
+            { id: 141, t: 1, c: false, stem: "At 6-12 months, infant shows skeletal maturation and bone age, advance in cognitive understanding and communications. New tensions develop and parents find these challenging to manage. Where do the initial tooth eruption occur? Starting with ____.",
+                opts: ["Lower front teeth", "Two front teeth", "Lower incisors", "Mandibular central incisors"], ans: 3,
+                r: "Mandibular central incisors specifically refer to the lower central incisors. These are the first two teeth to erupt in the lower jaw during the teething process in infants, usually at 5-7 months of age.",
+                tags: ["Growth"] },
+            { id: 142, t: 1, c: false, stem: "Peek-a-boo at 9 months shows that object permanence is achieved. What do we mean by this?",
+                opts: ["Objects remain in specific assigned places", "One has to close eyes to see things better", "Objects continue to exist even when not seen", "Type of toy objects remain the same"], ans: 2,
+                r: "This is the correct definition of object permanence. At around 9 months of age, infants develop the cognitive ability to understand that objects and people continue to exist even when they are not currently being perceived. This milestone is often demonstrated through games like peek-a-boo.",
+                tags: ["Growth"] },
+            { id: 143, t: 1, c: false, stem: "At about this time, the infant clings to her mom when someone tries to take her away from mom. What type of the infant’s characteristic is being demonstrated?",
+                opts: ["Separation anxiety", "Stranger anxiety", "Transient substitution", "Communication gap"], ans: 1,
+                r: "Stranger anxiety is manifested by crying when an unfamiliar person approaches. It is normal when it starts at about 8 to 9 months and usually abates by age 2 years. Stranger anxiety is linked with the infant's developmental task of distinguishing the familiar from the unfamiliar.",
+                tags: ["Growth"] },
+            { id: 144, t: 1, c: false, stem: "A 3 year old boy was brought to the clinic because of multiple dome shaped umbilicated pearly nodules noted on his chin, chest, arms and a few scattered over his body. The lesions kept on multiplying though they had been there since two months ago. What type of organism is involved in this case?",
+                opts: ["Papilloma virus", "Pox virus", "No organism", "Varicella virus"], ans: 1,
+                r: "Poxviruses, specifically Molluscum contagiosum, are known to cause dome-shaped, umbilicated lesions. Molluscum contagiosum is a viral skin infection that results in small, flesh-colored to pearly, dome-shaped bumps. The lesions may have a central dimple or umbilication.",
+                tags: ["Infectious Disease"] },
+            { id: 145, t: 1, c: false, stem: "How will one get the lesions?",
+                opts: ["Airborne/aerosol", "Contact inoculation", "Wading in floods", "Hereditary/familial"], ans: 1,
+                r: "This is the correct answer. Molluscum contagiosum is highly contagious and is mainly transmitted through direct skin contact. The virus can be spread by touching the lesions on an infected person and then touching another part of the body or another person.",
+                tags: ["Infectious Disease"] },
+            { id: 146, t: 1, c: false, stem: "What is this child having?",
+                opts: ["Impetigo", "Larva migrans", "Molluscum", "Contact dermatitis"], ans: 2,
+                r: "This is the correct answer. Molluscum contagiosum is a viral skin infection caused by the poxvirus. It typically presents with dome-shaped, pearly nodules on the skin. The lesions often have a central dimple and can be multiple.",
+                tags: ["Infectious Disease"] },
+            { id: 147, t: 1, c: false, stem: "6 year old girl was brought to the clinic because of the appearance of itchy macerated scaly plaques between her 4th and 5th small toes and in between her 2nd and big toes of both feet. These had been present since a month ago. The girl has sweaty feet and would wear closed shoes when going to school. At home, she liked to borrow her older sister’s slippers especially when she cannot find her own. Her older sister also has similar problems on her feet. Which problem does this girl have?",
+                opts: ["Dyshidrotic eczema", "Tinea pedis", "Acrodermatitis continua", "Contact dermatitis to slippers"], ans: 1,
+                r: "This is the correct answer. Tinea pedis, or athlete's foot, is a fungal infection that commonly affects the skin between the toes. It can cause maceration, itching, and scaly plaques. The warm and moist environment created by sweaty feet and closed shoes is conducive to fungal growth.",
+                tags: ["Infectious Disease"] },
+            { id: 148, t: 1, c: false, stem: "What diagnostic tool can be requested to document the impression?",
+                opts: ["Culture/Sensitivity", "Tzanck smear", "10% potassium hydroxide mount", "Gram stain"], ans: 2,
+                r: "This is the correct answer. A 10% KOH mount is used to examine skin scrapings for fungal elements. In the case of tinea pedis (athlete's foot), microscopic examination of skin scrapings treated with KOH may reveal fungal hyphae, aiding in the diagnosis.",
+                tags: ["Infectious Disease"] },
+            { id: 149, t: 1, c: false, stem: "What advice can be given to patients to manage the problem?",
+                opts: ["Aerate the feet and apply gentian violet", "Wear socks after bathing so as not to infect lesions", "Soak in saline water for 15 mins then keep aerated", "Wear open sandals and apply antifungal cream"], ans: 3,
+                r: "This is the correct advice. Wearing open sandals promotes aeration and reduces moisture, hindering fungal growth. Additionally, applying antifungal cream directly addresses the fungal infection.",
+                tags: ["Infectious Disease"] },
+            { id: 150, t: 1, c: false, stem: "An 18-year old student worker from a nearby town was brought to the emergency room because of painful abdominal muscle cramps, diarrhea, and dehydration. The attending physician said he has cholera. His diagnosis of cholera was due to the history of eating shellfish and characteristic of patient’s stool which was _____",
+                opts: ["Mucoid stools", "Bloody stools", "Rice water stools", "Bulky white stools"], ans: 2,
+                r: "This is the correct choice. Cholera is characterized by profuse watery diarrhea often described as 'rice water stools.' The stools have a pale, milky appearance resembling water in which rice has been rinsed.",
+                tags: ["Infectious Disease"] },
+            { id: 151, t: 1, c: false, stem: "Which statement is NOT TRUE of Vibrio cholera ?",
+                opts: ["Produces enterotoxins, the end result increases cyclic AMP.", "Adheres to the brush border of small intestinal enterocytes", "Produces bacterial toxins which destroy intestinal mucosal cells", "Must be ingested orally to cause disease"], ans: 2,
+                r: "This statement is not entirely accurate. Cholera toxin primarily acts by stimulating the secretion of water and electrolytes rather than directly destroying intestinal mucosal cells.",
+                tags: ["Infectious Disease"] },
+            { id: 152, t: 1, c: false, stem: "The mainstay for a more effective treatment of cholera is which one?",
+                opts: ["Reduced osmolarity/reduced salt ORS", "Anti peristaltic agent", "Oral rehydration solution (ORS) with rice/cereals", "Oral rehydration solution (ORS) with glucose based solution"], ans: 2,
+                r: "Rehydration is the mainstay of therapy. Children with mild or moderate dehydration may be treated with oral rehydration solution (ORS) unless the patient is in shock, is obtunded, or has intestinal ileus. Vomiting is not a contraindication to ORS. Severely dehydrated patients require intravenous fluid, ideally with lactated Ringer solution. When available, rice-based ORS should be used during rehydration, because this fluid has been shown to be superior to standard ORS in children and adults with cholera.",
+                tags: ["Infectious Disease"] },
+            { id: 153, t: 1, c: false, stem: "18-year old Anna consulted the clinic because of headache, nasal congestion, nasal discharge, halitosis, maxillary tooth discomfort and afternoon fever. Her doctor diagnosed her to have bacterial sinusitis. How is bacterial sinusitis differentiated from viral sinusitis? From history, bacterial sinusitis manifests with",
+                opts: ["Purulent to greenish nasal discharge, chronic fever, chronic cough, tender maxillary area", "Clear, non purulent nasal discharge, chronic cough, high fever for more than 10 days", "Fever about 39C, afternoon cough longer than 10 days, purulent nasal discharge for 3-4 consecutive days", "Headache, facial pain, bad breath, pain bending forward"], ans: 2,
+                r: "The clinical diagnosis of acute bacterial sinusitis is based on history. Persistent symptoms of upper respiratory tract infection, including nasal discharge and cough, for longer than 10 days without improvement, or severe respiratory symptoms, including temperature of at least 39°C (102°F) and purulent nasal discharge for 3-4 consecutive days, suggest a complicating acute bacterial sinusitis.",
+                tags: ["Infectious Disease"] },
+            { id: 154, t: 1, c: false, stem: "For uncomplicated mild to moderate bacterial sinusitis, which of the following antibiotics can be given?",
+                opts: ["Trimethoprim", "Cefixime", "Azithromycin", "Amoxicillin"], ans: 3,
+                r: "Amoxicillin is often considered the first-line antibiotic for uncomplicated bacterial sinusitis. It is a broad-spectrum penicillin derivative and is effective against many common bacterial pathogens associated with sinus infections. Amoxicillin is generally well-tolerated and has a good safety profile.",
+                tags: ["Infectious Disease"] },
+            { id: 155, t: 1, c: false, stem: "If Anna becomes an untreated case of bacterial sinusitis, she may develop proptosis, chemosis, decreased visual acuity, double vision, impaired extraocular movements and eye pain. Having these symptoms, which is she manifesting?",
+                opts: ["Epidural abscess", "Increased intracranial pressure", "Periorbital cellulitis", "Orbital cellulitis"], ans: 3,
+                r: "Orbital cellulitis is a severe infection involving the tissues within the eye socket. It can lead to proptosis, chemosis, decreased visual acuity, double vision, impaired extraocular movements, and eye pain. This condition requires prompt medical attention and may result from the spread of sinusitis.",
+                tags: ["Infectious Disease"] },
+            { id: 156, t: 1, c: false, stem: "A 4-year old boy was brought to the clinic with mom because of hoarseness, ‘barking’ coughs, low grade fever and respiratory distress. Symptoms are worse during night. What is the child having?",
+                opts: ["Pharyngitis", "Epiglottitis", "Croup", "Foreign body obstruction"], ans: 2,
+                r: "Croup is a common childhood condition characterized by a 'barking' cough, hoarseness, and inspiratory stridor. It is often caused by viral infections affecting the upper airway, particularly the larynx. Symptoms can worsen at night, and respiratory distress may occur.",
+                tags: ["Pulmonology"] },
+            { id: 157, t: 1, c: false, stem: "Which virus is associated with the severity of this problem?",
+                opts: ["Adenovirus", "Mycoplasma", "Parainfluenza A", "Measles Virus"], ans: 2,
+                r: "Parainfluenza viruses, especially type 1, are a common cause of croup. Parainfluenza A is known to be associated with the severity of croup symptoms, contributing to the characteristic cough and respiratory distress seen in affected children.",
+                tags: ["Pulmonology"] },
+            { id: 158, t: 1, c: false, stem: "When are the symptoms expected to resolve completely?",
+                opts: ["A month", "In two weeks time", "3 days", "Within a week"], ans: 3,
+                r: "This is a more accurate timeframe for the resolution of typical croup symptoms. Most cases of croup show significant improvement within a week, with the 'barking' cough and respiratory distress gradually diminishing.",
+                tags: ["Pulmonology"] },
+            { id: 159, t: 1, c: false, stem: "Melanie 19/F has been experiencing cough and difficulty breathing for the past week since the rainy season started. She noted that cough and difficulty breathing was worse during night time and in the early morning. What is expected to be reduced in the lung function test for an asthmatic individual?",
+                opts: ["FEV1/FVC ratio and PEF", "FEV1, FEV1/FVC ratio, PEF", "FEV1 and FEV1/FVC ratio", "FEV1 and PEF"], ans: 1,
+                r: "This choice includes all the parameters relevant to asthma. The FEV1 is reduced in asthma, and the FEV1/FVC ratio is often decreased due to the difficulty in exhaling air rapidly. PEF is a valuable measure of how fast a person can exhale.",
+                tags: ["Pulmonology"] },
+            { id: 160, t: 1, c: false, stem: "What is TRUE regarding the diagnosis of Asthma?",
+                opts: ["Allergen challenge is necessary and should be undertaken by a specialist.", "Total serum IgE and specific IgE to inhaled allergen must be measured", "The diagnosis of asthma must be confirmed by objective measurements of lung function", "Chest roentgenography is often abnormal showing hyperinflation even in mild cases."], ans: 2,
+                r: "This statement is accurate. Objective measurements of lung function, such as spirometry, are crucial for confirming the diagnosis of asthma. These tests assess airflow limitation, bronchial hyperresponsiveness, and reversibility of airway obstruction, providing objective evidence of asthma.",
+                tags: ["Pulmonology"] },
+            { id: 161, t: 1, c: false, stem: "What is TRUE regarding the treatment of asthma?",
+                opts: ["Bronchodilators gives rapid relief of symptoms and also effective on the inflammatory process.", "Bronchodilators are sufficient to control asthma in patients with persistent symptoms", "Bronchodilators act primarily on the smooth muscles and reverse the bronchoconstriction of asthma", "Bronchodilators act primarily on the smooth muscles and reverse the bronchodilation of asthma"], ans: 2,
+                r: "This statement is correct. Bronchodilators primarily act on smooth muscles in the airways, causing relaxation and reversing bronchoconstriction. This helps in relieving symptoms such as wheezing and shortness of breath.",
+                tags: ["Pulmonology"] },
+            { id: 162, t: 1, c: false, stem: "14 year-old Mar is always absent from school because of frequent attacks of headaches, sometimes moderate, sometimes severe, with throbbing quality. His headache is associated with nausea and vomiting. He also becomes sensitive to light and sounds. Why is it important to treat patients especially those occurring for more than 15 days? Because it is important to __.",
+                opts: ["Prevent further school absences", "Prevent restrictions on social activities", "Block transformation to chronic daily headaches", "Prevent limitation of home activities"], ans: 2,
+                r: "This is the correct statement. Treating frequent headaches is crucial to prevent their transformation into chronic daily headaches. Chronic migraine, defined as headaches occurring on 15 or more days per month for at least three months, can significantly impact a patient's life. Timely intervention can help avoid this transformation and improve outcomes.",
+                tags: ["Neurology"] },
+            { id: 163, t: 1, c: false, stem: "Migraine can have associated aura, the typical ones include which symptoms?",
+                opts: ["Tinnitus", "Abdominal", "Photopsia", "Motion sickness"], ans: 2,
+                r: "Photopsia is a classic symptom associated with migraine aura. It refers to the perception of flashes of light or flickering lights. This visual disturbance is one of the characteristic features of migraine aura.",
+                tags: ["Neurology"] },
+            { id: 164, t: 1, c: false, stem: "How long should the aura associated with migraine last?",
+                opts: ["Less than 60 minutes but should not be more", "Longer than 5 minutes but less than 60 minutes", "15 minutes at least", "More than 60 minutes"], ans: 1,
+                r: "This option is a reasonable representation of the typical duration of a migraine aura. Most auras last between 5 and 60 minutes.",
+                tags: ["Neurology"] },
+            { id: 165, t: 1, c: false, stem: "Eight hours after eating in a town fiesta, 18-year old Anna developed nausea and vomiting, headache, profuse diarrhea and low grade fever. Blood culture was negative for growth but the stool culture was positive. Repeated blood culture remained negative while stool culture was positive even 2 weeks after the initial examination. What was the MOST PROBABLE 'growth' – in the stool culture?",
+                opts: ["Shigella", "V. cholera", "Salmonella T.", "E. coli"], ans: 0,
+                r: "This is the correct answer. Shigella infections are almost always limited to the gastrointestinal tract; bloodstream invasion is quite rare. A patient can pass Shigella in their stool for up to four weeks (possibly longer in asymptomatic people).",
+                tags: ["Infectious Disease"] },
+            { id: 166, t: 1, c: false, stem: "One may NOT be true with regards to the usual pathogenesis of diarrhea?",
+                opts: ["Pathogenesis can be explained by secretory, osmotic or motility abnormalities", "Type of bacteria would determine the consistency of the secretions", "Water movement is determined by both active and passive fluxes of solutes : sodium, potassium, glucose", "There is disturbed intestinal water solutes and transport."], ans: 1,
+                r: "This is generally false. While different types of bacteria can cause diarrhea, attributing the consistency of the stool solely to the type of bacteria may oversimplify the complex mechanisms involved in diarrhea. Factors such as the mode of action of toxins, invasiveness, and host response also play crucial roles in determining the characteristics of diarrhea.",
+                tags: ["Gastroenterology"] },
+            { id: 167, t: 1, c: false, stem: "In Typhoid fever, where is the site of multiplication of the bacteria?",
+                opts: ["Intestinal tract", "Blood vessels", "Liver", "Lymphoid tissue"], ans: 3,
+                r: "The 'Enteric Fevers' (Typhoid fever): The ingested salmonellae reach the small intestine, from which they enter the lymphatics (Peyer’s patches) and then the bloodstream. They are carried by the blood to many organs, including the intestine. The organisms multiply in intestinal lymphoid tissue and are excreted in stools.",
+                tags: ["Infectious Disease"] },
+            { id: 168, t: 1, c: false, stem: "Six (6) boys attended a fiesta in a remote barrio where along with the food, were served water from a local spring. The following day, all 6 boys almost simultaneously developed abdominal pain, nausea, vomiting, and profuse watery diarrhea, described as rice water stool. They were all rushed to the hospital where fluid replacement therapy was instituted and their conditions stabilized. Which bacteria could have caused the patients’ diarrhea?",
+                opts: ["Eschericia coli", "Shigella dysenteriae", "Vibrio cholera", "Salmonella typhi"], ans: 2,
+                r: "Vibrio cholera is a leading cause of 'rice water' diarrhea. The symptoms described, especially profuse watery diarrhea after attending a fiesta, align well with cholera caused by V. cholera. Cholera toxins lead to massive fluid and electrolyte loss, resulting in the characteristic watery stools.",
+                tags: ["Infectious Disease"] },
+            { id: 169, t: 1, c: false, stem: "Which characteristics distinguish this bacteria from the rest of other bacteria?",
+                opts: ["Motility", "Oxidase positive", "Gram-negative bacilli", "Lactose fermenter"], ans: 1,
+                r: "Vibrio cholera is oxidase positive. This means that the bacterium produces the enzyme oxidase, which can be detected using an oxidase test. The oxidase test is commonly used to differentiate between bacterial genera, and a positive result indicates the presence of certain respiratory enzymes. Among the notable bacteria that cause diarrhea, Vibrio is the only oxidase positive bacteria.",
+                tags: ["Infectious Disease"] },
+            { id: 170, t: 1, c: false, stem: "Which statement may NOT be true of this type of diarrhea called a secretory diarrhea?",
+                opts: ["It is caused by a secretagogue binding to a receptor on the surface epithelium of the bowel stimulating colonic mucosal secretion", "It gives out a large volume of secretions persisting even with fasting", "Secretions/diarrhea stops when fasting is observed", "This occurs when the intestinal epithelial cell solute transport system is in active stage"], ans: 2,
+                r: "This statement is incorrect. Secretory diarrhea typically does not stop with fasting. Unlike osmotic diarrhea, which may improve with fasting as the undigested substances are not entering the intestines, secretory diarrhea continues because it is driven by active secretion of fluids and electrolytes.",
+                tags: ["Gastroenterology"] },
+            { id: 171, t: 1, c: false, stem: "Danica, 14/F, came into the clinic for lower abdominal pain. She says it often occurs during her first and second day of menses. She is just concerned that this episode is more severe compared to her usual ones. She denies sexual activity. Abdominal and pelvic examination is normal. What is the pathology in primary dysmenorrhea?",
+                opts: ["Endometrial tissue is found on ectopic locations", "Underlying structural abnormality of the cervix", "Presence of foreign body in the uterine cavity", "Prostaglandin stimulates vasoconstriction and contractions"], ans: 3,
+                r: "This is the correct explanation for primary dysmenorrhea. The primary cause of pain in primary dysmenorrhea is an excessive production of prostaglandins in the uterus. Prostaglandins stimulate vasoconstriction of blood vessels in the uterus and cause increased uterine contractions, leading to pain.",
+                tags: ["Gynecology"] },
+            { id: 172, t: 1, c: false, stem: "What is NOT TRUE regarding physical examination for this case?",
+                opts: ["External genital examination is done routinely", "Internal pelvic examination is done routinely", "Abdominal examination is done routinely", "Internal pelvic examination is done for sexually active girls"], ans: 1,
+                r: "Routine internal pelvic examination is not typically necessary for the diagnosis of primary dysmenorrhea, especially in young, sexually inactive girls. It may be considered if there are specific indications or if the patient is sexually active and there are concerns about other gynecological issues.",
+                tags: ["Gynecology"] },
+            { id: 173, t: 1, c: false, stem: "What is TRUE regarding medications of dysmenorrhea?",
+                opts: ["Medication is needed before the first day of menses", "Medication is needed until the last day of menstruation", "Medication is needed beyond the last day of menstruation", "Medication is rarely needed beyond the first day of menses"], ans: 0,
+                r: "Treatment for primary dysmenorrhea is aimed at decreasing levels of prostaglandins, preferably before they are produced. Thus, the mainstay treatment is with prostaglandin synthetase inhibition by either nonsteroidal anti-inflammatory drugs, hormonal contraception, or a gonadotropin-releasing hormone agonist beginning at, or preferably the day prior to, menstruation. The high doses of around the clock treatment are rarely needed for more than the first 2 days.",
+                tags: ["Gynecology"] },
+            { id: 174, t: 1, c: false, stem: "A 3 years old boy was admitted to the Pediatric Emergency room for abdominal enlargement. Physical examination also revealed facial and bipedal edema. Immediately a urinalysis was ordered revealing proteinuria of 3+ and microscopic hematuria. What is NOT indicated in the triad of clinical findings for Nephrotic Syndrome?",
+                opts: ["Hyperlipidemia", "Hypoalbuminemia", "Hypertension", "Edema"], ans: 2,
+                r: "Hypertension is not typically a part of the classic presentation of nephrotic syndrome. However, it's essential to monitor blood pressure regularly in pediatric patients with nephrotic syndrome as secondary hypertension can occur, possibly due to renal parenchymal disease or the use of corticosteroids.",
+                tags: ["Nephrology"] },
+            { id: 175, t: 1, c: false, stem: "What is the MOST common cause of childhood Nephrotic Syndrome for this child belonging to the less 6 age group?",
+                opts: ["Diffuse Mesangial Sclerosis", "Minimal Change Disease", "Focal Segmental Glomerulosclerosis", "Membranous Nephropathy"], ans: 1,
+                r: "Minimal change nephrotic syndrome (MCNS) is the most common histologic form of primary NS in children. More than 80% of children less than 7 years of age with NS have MCNS.",
+                tags: ["Nephrology"] },
+            { id: 176, t: 1, c: false, stem: "What treatment may be initiated for a child 1-8 years with onset of uncomplicated nephrotic even without diagnostic renal biopsy?",
+                opts: ["Fluid restriction", "Steroid therapy", "Sodium restriction", "Loop diuretics"], ans: 1,
+                r: "In the case of uncomplicated nephrotic syndrome in children aged 1-8 years, the first-line treatment is often initiated without the need for a diagnostic renal biopsy. Steroid therapy, specifically with corticosteroids such as prednisone, is the mainstay of treatment. The response to steroids in Minimal Change Disease, the most common cause in this age group, is often excellent.",
+                tags: ["Nephrology"] },
+            { id: 177, t: 1, c: false, stem: "Mike who is 4 months of age was brought in the Pediatric Emergency Room for fever and irritability. Septic work up revealed a Urinary Tract Infection. Diagnosis was confirmed with a positive urine culture result. Empirical antibiotic were started immediately. For children with their first episode of febrile UTI, What is the initial recommended imaging study for evaluation of kidney and bladder anatomy?",
+                opts: ["Dimercaptosuccinic acid (DMSA) Renal Scan", "Voiding Cystourethrogram (VCUG)", "Kidney and Urinary Bladder ultrasound", "Abdominal and Pelvic MRI"], ans: 2,
+                r: "For children with their first episode of febrile urinary tract infection (UTI), the initial recommended imaging study for the evaluation of kidney and bladder anatomy is a Kidney and Urinary Bladder ultrasound. This non-invasive imaging modality allows visualization of the kidneys and bladder without exposing the child to ionizing radiation. It is particularly useful for detecting structural abnormalities such as hydronephrosis, vesicoureteral reflux (VUR), or any other anatomical anomalies.",
+                tags: ["Nephrology"] },
+            { id: 178, t: 1, c: false, stem: "What imaging modality shows either acute pyelonephritis or renal scarring when positive?",
+                opts: ["Abdominal and Pelvic MRI", "Dimercaptosuccinic acid (DMSA) Renal Scan", "Kidney and Urinary Bladder Ultrasound", "Voiding Cystourethrogram (VCUG)"], ans: 1,
+                r: "DMSA Renal Scan is a nuclear medicine imaging modality that is particularly useful for assessing both acute pyelonephritis and renal scarring. In cases of acute pyelonephritis, DMSA can detect areas of the kidneys that are inflamed or infected. Additionally, it is commonly used to identify renal scarring, a potential consequence of recurrent or severe urinary tract infections, especially in children.",
+                tags: ["Nephrology"] },
+            { id: 179, t: 1, c: false, stem: "Once imaging studies have identified to the child to have Pyelonephritis, What is the next step?",
+                opts: ["Abdominal and Pelvic MRI", "Voiding Cystourethrogram (VCUG)", "Kidney and Urinary Bladder Ultrasound", "Dimercaptosuccinic acid (DMSA) Renal Scan"], ans: 1,
+                r: "VCUG remains the diagnostic test of choice for the detection of VUR and its use is widespread in clinical practice. VUR is detected in 25% to 40% of children presenting with a first episode of pyelonephritis. Multiple studies have shown no significant difference in the rate of detection of VUR with a VCUG performed early (within one week) or late (2-3 weeks) after an episode of acute pyelonephritis.",
+                tags: ["Nephrology"] },
+            { id: 180, t: 1, c: false, stem: "Amelita, 16 years old, came to the clinic for delayed menarche. She had no other subjective complaints. The rest of her history was unremarkable. Her breast and pubic hair development were both Tanner stage 4. The rest of her physical examination findings were normal. What is TRUE regarding the definition Primary Amenorrhea? No menstrual flow _____.",
+                opts: ["For more than 3 months", "By age of 14 years", "By age of 16 years", "For more than 1 month"], ans: 1,
+                r: "Primary amenorrhea is defined as the failure of initiation of menses by age 14 in the absence of secondary sexual characteristics or the absence of menarche by age 16 regardless of the presence of normal growth and development of secondary sexual characteristics.",
+                tags: ["Endocrinology"] },
+            { id: 181, t: 1, c: false, stem: "What laboratory finding would suggest primary gonadal failure?",
+                opts: ["Decreased level of Prolactin", "Elevated levels of Follicle Stimulating Hormone", "Decreased level of luteinizing hormone", "Elevated level of thyroid stimulating hormone"], ans: 1,
+                r: "Elevated levels of FSH can suggest primary gonadal failure. In conditions where the ovaries or testes are not functioning properly, the pituitary gland increases the production of FSH in an attempt to stimulate the gonads. Elevated FSH levels are indicative of reduced feedback inhibition from the gonads.",
+                tags: ["Endocrinology"] },
+            { id: 182, t: 1, c: false, stem: "In the approach to clinical evaluation of amenorrhea , what KEY laboratory test should be performed first regardless of history or sexual activity?",
+                opts: ["FSH measurement", "LH measurement", "Pregnancy test", "Pelvic ultrasound"], ans: 2,
+                r: "Regardless of the patient's history or sexual activity, a pregnancy test is crucial in the evaluation of amenorrhea. Pregnancy is a common cause of missed menstrual periods, and ruling out pregnancy is a fundamental step in the assessment. This is because other diagnostic and management steps may differ based on the pregnancy status.",
+                tags: ["Endocrinology"] },
+            { id: 183, t: 1, c: false, stem: "Becky, 6 year-old, came in to the OPD for breast development. Mother said that she noted breast enlargement at the start of the year but its continuous rapid development had her really worried. During further evaluation, you noted her to have breast and pubic hair development at Tanner Stage 3. What is the MOST common brain lesion that causes central precocious puberty?",
+                opts: ["Optic Tract Tumor", "Hypothalamic hamartomas", "Astrocytomas", "Ependymomas"], ans: 1,
+                r: "Hypothalamic hamartomas are non-neoplastic lesions that can disrupt the normal functioning of the hypothalamus, leading to the early onset of puberty. These hamartomas may cause an overactivation of the GnRH (gonadotropin-releasing hormone) secretion, resulting in premature activation of the reproductive axis and early development of secondary sexual characteristics.",
+                tags: ["Endocrinology"] },
+            { id: 184, t: 1, c: false, stem: "What is the BEST imaging modality that will aid in the diagnosis of Precocious puberty from organic brain lesion?",
+                opts: ["Cranial radiography", "Cranial MRI", "Cranial CT-scan", "Cranial Ultrasound"], ans: 1,
+                r: "Cranial MRI (Magnetic Resonance Imaging) is considered the best imaging modality for evaluating precocious puberty associated with organic brain lesions. It provides detailed images of the brain structures and allows for the visualization of abnormalities in the hypothalamus, pituitary gland, or other brain regions that may be causing the early onset of puberty.",
+                tags: ["Endocrinology"] },
+            { id: 185, t: 1, c: false, stem: "What presentation increases the likelihood of hypothalamic hamartoma?",
+                opts: ["Presence of sexual precocity in school-aged children", "Rapidly progressive sexual precocity in very young children", "Rapidly progressive sexual precocity in school-aged children", "Presence of sexual precocity in young children"], ans: 1,
+                r: "Hypothalamic hamartomas are often associated with rapidly progressive sexual precocity, especially in very young children. These hamartomas are non-cancerous malformations of the hypothalamus and can cause the premature activation of the hypothalamic-pituitary-gonadal axis, leading to early onset of puberty.",
+                tags: ["Endocrinology"] },
+            { id: 186, t: 1, c: false, stem: "John noticed that every time he took a walk through their rice fields or visit their animal barn he felt swelling, erythema of his eyelids and developed attacks of rhinitis. It took several years before he developed this sensitivity and his doctor was suggesting that he undergo desensitization. What is sensitization?",
+                opts: ["It is the induction of allergic disease predisposing individuals to specific allergens", "It is the activation of specific B cells that can prevent allergens", "It is the swelling of the secretory granules of the human mast cells.", "It is the binding of the IgE to human mast cells and basophils for antigen specific activation"], ans: 3,
+                r: "Sensitization involves the binding of allergen-specific IgE antibodies to the surface of mast cells and basophils, which, upon re-exposure to the allergen, triggers the release of inflammatory mediators.",
+                tags: ["Immunology"] },
+            { id: 187, t: 1, c: false, stem: "Why would animal dander and rice stalks pollens cause rhinitis rather than respiratory tract infections?",
+                opts: ["Sticky mucosal secretions and protrusion of mucosal turbinates", "Large size of the allergens retained within the nose", "Presence of variable number of eosinophils", "Entrapment of pollens and digestion of outer core by enzyme"], ans: 0,
+                r: "Rhinitis caused by allergens like animal dander and pollen is due to an allergic reaction. In the nasal passages, allergens can lead to the release of histamine and other inflammatory mediators, causing increased mucus production and swelling of the mucosal turbinates. This can result in symptoms such as nasal congestion, runny nose, and sneezing. Eosinophils are often present as part of the immune response.",
+                tags: ["Immunology"] },
+            { id: 188, t: 1, c: false, stem: "That night, John sprayed insecticides across his and on his bed to avoid being bitten by the farm insects and bugs. However upon waking up, he developed generalized wheals/hives and pending angioedema. What will happen if NOT treated immediately?",
+                opts: ["It may lead to obstruction in epiglottis ad larynx", "It may lead to intractable bronchospasm ending with death", "There is presence of vascular collapse", "Hypopharynx and trachea may also be obstructed"], ans: 0,
+                r: "Laryngeal edema, the most feared complication of HAE, can cause complete respiratory obstruction. Although life-threatening attacks are infrequent, more than half of patients with HAE experience laryngeal involvement at some time during their lives.",
+                tags: ["Immunology"] },
+            { id: 189, t: 1, c: false, stem: "Rodney consulted the clinic because of development of generalized wheals and hives the day prior to consultation. He remembered eating shrimps wrapped in lumpia wrappers the day before. He had history of similar occurrences a year ago when they attended a birthday party of his aunt whose lunch menu were mostly seafood. What is Rodney having?",
+                opts: ["Contact urticaria", "Food hypersensitivity reaction", "Acute urticaria", "Chronic urticaria"], ans: 2,
+                r: "Rodney's symptoms align with acute urticaria. Acute urticaria refers to the sudden onset of hives and can be triggered by various factors, including food allergies. It typically resolves within a short period, but the symptoms can be severe.",
+                tags: ["Immunology"] },
+            { id: 190, t: 1, c: false, stem: "Which food DOES NOT cause wheals/hives?",
+                opts: ["Low fat milk", "Four season juice", "Fresh buko juice", "Tang orange juice"], ans: 3,
+                r: "Tang orange juice, has been marketed as 'Allergen-free', it uses artificial orange juice flavor and is Dairy Free, Gluten Free, Gelatine Free, Celery Free, and Wheat Free.",
+                tags: ["Immunology"] },
+            { id: 191, t: 1, c: false, stem: "Which antihistamine SHOULD NOT be given if reviewing for an exam?",
+                opts: ["Loratadine", "Levocetirizine", "Hydroxyzine", "Fexofenadine"], ans: 2,
+                r: "Hydroxyzine is a first-generation antihistamine that has sedating effects and can cause drowsiness. It may impair cognitive function and is not ideal for use when studying or reviewing for an exam. It is more commonly used for its sedative effects in conditions such as anxiety or insomnia.",
+                tags: ["Immunology"] },
+            { id: 192, t: 1, c: false, stem: "8 year old Anna was playing in the garden while Mom was preparing the flowers for festival in Baguio. The next day, upon waking up, she noted development of wheals and hives all over his legs, face an arms. What could be the predisposing factors of her wheals/hives?",
+                opts: ["Hemiptera venom (wasps/bees)", "Drugs (Non steroidal medications)", "Food (peanuts, milk, eggs)", "Pollen extracts (flowers, grass, trees)"], ans: 3,
+                r: "Exposure to pollen extracts, such as those from flowers, grass, or trees, can trigger allergic reactions, including the formation of wheals and hives. Individuals with pollen allergies may experience these skin symptoms upon exposure. Considering the scenario of Anna playing in the garden with flowers for the festival in Baguio, pollen extracts are the most likely cause of Anna’s urticaria.",
+                tags: ["Immunology"] },
+            { id: 193, t: 1, c: false, stem: "Anna also expressed a ‘lump’ on her throat. What could be the cause of this?",
+                opts: ["Bronchial constriction", "Laryngeal edema", "Bronchial asthma", "Bronchial obstruction"], ans: 1,
+                r: "Laryngeal edema involves swelling of the larynx, which can lead to a feeling of a 'lump' in the throat. This condition can occur in allergic reactions, such as anaphylaxis, where there is generalized swelling, including the laryngeal area.",
+                tags: ["Immunology"] },
+            { id: 194, t: 1, c: false, stem: "Which statement MAY NOT be TRUE of urticarial symptoms?",
+                opts: ["Eruptions are intensely pruritic", "If scratched and rubbed, lesions tend to coalesce to giant hives", "A non pitting deeper edematous angioedema may be present", "Eruptions persist even beyond 48 hours."], ans: 3,
+                r: "This statement is generally false. Urticarial eruptions are typically transient and often resolve within 24 hours. Persistence beyond 48 hours is less characteristic of acute urticaria, which is often triggered by allergens, infections, or other factors.",
+                tags: ["Immunology"] },
+            { id: 195, t: 1, c: false, stem: "5 yo boy with down syndrome was diagnosed with acute lymphoblastic leukemia (ALL) by his doctor. Genetic modification are required for disease expression. What would be the initial presentation of a patient with acute lymphocytic leukemia in peripheral blood studies?",
+                opts: ["Presence of leukemia cells", "Presence of atypical lymphocytes", "Anemia and thrombocytopenia", "Total leucocyte count <10,000/ul"], ans: 2,
+                r: "Anemia and thrombocytopenia are common findings in ALL. Leukemia cells replace normal cells in the bone marrow, leading to a decrease in the production of red blood cells and platelets, causing anemia and thrombocytopenia, respectively.",
+                tags: ["Oncology"] },
+            { id: 196, t: 1, c: false, stem: "What signs and symptoms would reflect bone marrow failure?",
+                opts: ["Increased intracranial pressure, papilledema, retinal hemorrhages", "Pallor, pruritic/petechial skin lesions, mucous membrane hemorrhage", "Easy bruisability, fever, mediastinal distress", "Bone or joint pain, tenderness over the bone, joint swelling and effusion"], ans: 1,
+                r: "This set of symptoms is more indicative of bone marrow failure. Pallor can result from anemia due to decreased red blood cell production. Pruritic/petechial skin lesions and mucous membrane hemorrhage may occur due to a decrease in platelet production, leading to bleeding tendencies.",
+                tags: ["Oncology"] },
+            { id: 197, t: 1, c: false, stem: "What diagnostic test can be done to diagnose ALL?",
+                opts: ["Cytogenetic/molecular studies", "Bone marrow evaluation", "Peripheral blood studies", "Flow cytometry"], ans: 1,
+                r: "Bone marrow evaluation, often through bone marrow aspiration and biopsy, is a key diagnostic step for ALL. It allows for the examination of the bone marrow cells to identify the presence of leukemic cells, their characteristics, and the degree of infiltration. This is the gold standard investigation to diagnose Leukemia.",
+                tags: ["Oncology"] },
+            { id: 198, t: 1, c: false, stem: "A 19yo young boy consulted the clinic with his parents because of the following systemic ‘B’ symptoms: unexplained fever >38C, weight loss >10% over 6 months and drenching night sweats. There is also presence of supraclavicular lymphadenopathy and mediastinal involvement. What diagnostic procedure should be INITIALLY requested?",
+                opts: ["Lymph node biopsy", "CT scans of the neck, chest, abdomen", "Bone marrow aspiration/biopsy", "Chest radiography"], ans: 3,
+                r: "Any patient with persistent, unexplained lymphadenopathy unassociated with an obvious underlying inflammatory or infectious process should undergo chest radiography to identify the presence of a large mediastinal mass before undergoing lymph node biopsy. Formal excisional biopsy is preferred over needle biopsy to ensure that adequate tissue is obtained, both for light microscopy and for appropriate immunohistochemical and molecular studies.",
+                tags: ["Oncology"] },
+            { id: 199, t: 1, c: false, stem: "The disease arises from lymphoid tissue and spread to adjacent lymph nodes with hematogenous spread associated with the systemic symptoms. What is the patient having?",
+                opts: ["Non-Hodgkin lymphoma", "Tuberculosis", "Hodgkin Lymphoma", "Thymoma"], ans: 2,
+                r: "Hodgkin Lymphoma: Systemic symptoms, classified as B symptoms that are considered important in staging, are unexplained fever >38C (100.4F), weight loss >10% total body weight over 6 months, and drenching night sweats. Patients commonly present with painless, nontender, firm, rubbery, cervical or supraclavicular lymphadenopathy and usually some degree of mediastinal involvement.",
+                tags: ["Oncology"] },
+            { id: 200, t: 1, c: false, stem: "Which is the LEAST poor prognostic features of Hodgkin Lymphoma?",
+                opts: ["Tumor bulk", "Extralymphatic disease", "Presence of bone marrow infiltration", "Stage of diagnosis"], ans: 3,
+                r: "The stage of diagnosis is a crucial prognostic factor in Hodgkin lymphoma. Generally, early-stage diagnosis is associated with a better prognosis compared to advanced-stage disease.",
+                tags: ["Oncology"] }
+        ];
+
+        Q.forEach(q => { if (!q.tags) q.tags = []; });
+
+        let state = {
+            mode: 'exam',
+            answers: {},
+            revealed: {},
+            filter: { t: 'all', type: 'all', tag: 'all' },
+            page: 0,
+            perPage: 10,
+            tableView: false
+        };
+
+        function getFiltered() {
+            return Q.filter(q => {
+                if (state.filter.t !== 'all' && q.t !== +state.filter.t) return false;
+                if (state.filter.type === 'clinical' && !q.c) return false;
+                if (state.filter.type === 'conceptual' && q.c) return false;
+                if (state.filter.tag !== 'all' && !q.tags.includes(state.filter.tag)) return false;
+                return true;
+            });
+        }
+
+        function setMode(m) {
+            state.mode = m;
+            document.querySelectorAll('.tab').forEach((el, i) => {
+                el.classList.toggle('active', ['exam', 'review', 'key'][i] === m);
+            });
+            state.page = 0;
+            render();
+            if (state.tableView) renderTable();
+        }
+
+        function applyFilter() {
+            state.filter.t = document.getElementById('themeFilter').value;
+            state.filter.type = document.getElementById('typeFilter').value;
+            state.filter.tag = document.getElementById('tagFilter').value;
+            state.page = 0;
+            render();
+            if (state.tableView) renderTable();
+        }
+
+        function changePerPage() {
+            state.perPage = +document.getElementById('perPageSel').value;
+            state.page = 0;
+            render();
+        }
+
+        function resetAll() {
+            if (!confirm('Reset all answers?')) return;
+            state.answers = {};
+            state.revealed = {};
+            updateStats();
+            render();
+            if (state.tableView) renderTable();
+        }
+
+        function openScore() {
+            const fq = getFiltered();
+            const answered = fq.filter(x => state.answers[x.id] !== undefined).length;
+            const correct = fq.filter(x => state.answers[x.id] === x.ans).length;
+            const pct = answered > 0 ? Math.round(correct / answered * 100) : 0;
+            const color = pct >= 75 ? '#6BC2E8' : pct >= 60 ? '#F9D56E' : '#F7A8B8';
+            const grade = pct >= 90 ? 'Distinction' : pct >= 75 ? 'Pass' : pct >= 60 ? 'Near Pass' : 'Needs Review';
+            document.getElementById('modalScore').textContent = pct + '%';
+            document.getElementById('modalScore').style.color = color;
+            document.getElementById('modalGrade').textContent = grade;
+            document.getElementById('modalGrade').style.color = color;
+            document.getElementById('modalSub').textContent =
+                `${fq.length} questions · Section: ${document.getElementById('themeFilter').options[document.getElementById('themeFilter').selectedIndex].text}`;
+            document.getElementById('mdAns').textContent = answered;
+            document.getElementById('mdCorr').textContent = correct;
+            document.getElementById('mdWrong').textContent = answered - correct;
+            document.getElementById('scoreModal').classList.add('open');
+        }
+
+        function closeScore(e) {
+            if (!e || e.target.id === 'scoreModal' || e.target.className === 'btn primary') {
+                document.getElementById('scoreModal').classList.remove('open');
+            }
+        }
+
+        function updateStats() {
+            const fq = getFiltered();
+            const answered = fq.filter(x => state.answers[x.id] !== undefined).length;
+            const correct = fq.filter(x => state.answers[x.id] === x.ans).length;
+            document.getElementById('sTotal').textContent = fq.length;
+            document.getElementById('sAnswered').textContent = answered;
+            document.getElementById('sCorrect').textContent = correct;
+            document.getElementById('sPct').textContent = answered > 0 ? Math.round(correct / answered * 100) + '%' : '—';
+            const pct = Math.round(answered / Math.max(fq.length, 1) * 100);
+            document.getElementById('progFill').style.width = pct + '%';
+            document.getElementById('progLabel').textContent = `${answered} / ${fq.length} answered`;
+            document.getElementById('progPct').textContent = pct + '%';
+        }
+
+        function selectAnswer(id, idx) {
+            if (state.mode === 'key') return;
+            state.answers[id] = idx;
+            if (state.mode === 'review') state.revealed[id] = true;
+            updateStats();
+            render();
+            if (state.tableView) renderTable();
+        }
+
+        function toggleReveal(id) {
+            state.revealed[id] = !state.revealed[id];
+            render();
+            if (state.tableView) renderTable();
+        }
+
+        function prevPage() {
+            if (state.page > 0) { state.page--;
+                render();
+                window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        }
+
+        function nextPage() {
+            const total = Math.ceil(getFiltered().length / state.perPage);
+            if (state.page < total - 1) { state.page++;
+                render();
+                window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        }
+
+        function toggleTableView() {
+            state.tableView = !state.tableView;
+            const wrap = document.getElementById('tableViewWrap');
+            const btn = document.getElementById('tableToggleBtn');
+            if (state.tableView) {
+                wrap.classList.add('open');
+                btn.classList.add('active');
+                renderTable();
+            } else {
+                wrap.classList.remove('open');
+                btn.classList.remove('active');
+            }
+        }
+
+        function renderTable() {
+            const fq = getFiltered();
+            const search = document.getElementById('tableSearch').value.toLowerCase();
+            let filtered = fq;
+            if (search) {
+                filtered = fq.filter(q =>
+                    q.stem.toLowerCase().includes(search) ||
+                    q.r.toLowerCase().includes(search) ||
+                    q.tags.some(t => t.toLowerCase().includes(search))
+                );
+            }
+            const tbody = document.getElementById('tableBody');
+            let html = '';
+            filtered.forEach(q => {
+                const userAns = state.answers[q.id];
+                const reveal = state.revealed[q.id] || state.mode === 'key';
+                let ansDisplay = '—';
+                if (reveal || userAns !== undefined) {
+                    if (reveal) ansDisplay = OPTS[q.ans];
+                    else if (userAns !== undefined) ansDisplay = OPTS[userAns];
+                }
+                const correctMark = (reveal && userAns === q.ans) ? ' ✓' : '';
+                const wrongMark = (reveal && userAns !== undefined && userAns !== q.ans) ? ' ✗' : '';
+                const tagStr = q.tags.slice(0, 3).join(', ') + (q.tags.length > 3 ? '…' : '');
+                html += `<tr>
+                    <td class="qnum-col">Q${q.id}</td>
+                    <td class="ans-col">${ansDisplay}${correctMark}${wrongMark}</td>
+                    <td class="stem-col">${q.stem}</td>
+                    <td class="r-col">${q.r}</td>
+                    <td class="tag-col">${tagStr}</td>
+                </tr>`;
+            });
+            tbody.innerHTML = html;
+            document.getElementById('tableCount').textContent = `Showing ${filtered.length} of ${fq.length} questions`;
+        }
+
+        function render() {
+            const filtered = getFiltered();
+            const total = Math.ceil(filtered.length / state.perPage);
+            const start = state.page * state.perPage;
+            const visible = filtered.slice(start, start + state.perPage);
+            document.getElementById('sTotal').textContent = filtered.length;
+            document.getElementById('pageInfo').textContent =
+                `Page ${state.page+1} of ${Math.max(total,1)} · Items ${start+1}–${Math.min(start+state.perPage, filtered.length)} of ${filtered.length}`;
+            let html = '';
+            let lastTheme = null;
+            visible.forEach(q => {
+                if (q.t !== lastTheme) {
+                    if (lastTheme !== null) {
+                        html +=
+                            `<div class="theme-divider"><div class="theme-divider-line"></div><div class="theme-divider-label">${THEME_NAMES[q.t]}</div><div class="theme-divider-line"></div></div>`;
+                    }
+                    lastTheme = q.t;
+                }
+                const userAns = state.answers[q.id];
+                const revealed = state.revealed[q.id] || state.mode === 'key';
+                const tagHtml = q.tags.length ? q.tags.map(t => {
+                    let cls = 'tag';
+                    if (['Cardiology'].includes(t)) cls += ' tag-cardiology';
+                    if (['Infectious Disease'].includes(t)) cls += ' tag-infectious';
+                    if (['Genetics'].includes(t)) cls += ' tag-genetics';
+                    if (['Nephrology'].includes(t)) cls += ' tag-nephrology';
+                    return `<span class="${cls}">${t}</span>`;
+                }).join('') : '';
+                const optHtml = q.opts.map((opt, i) => {
+                    let cls = 'opt';
+                    if (revealed) {
+                        if (i === q.ans) cls += ' correct';
+                        else if (userAns === i) cls += ' wrong';
+                    } else {
+                        if (userAns === i) cls += ' selected';
+                    }
+                    const click = state.mode !== 'key' ? `onclick="selectAnswer(${q.id},${i})"` : '';
+                    return `<button class="${cls}" ${click}><span class="opt-letter">${OPTS[i]}.</span><span>${opt}</span></button>`;
+                }).join('');
+                const rationaleHtml = revealed ?
+                    `<div class="rationale"><strong>Answer: ${OPTS[q.ans]}</strong> — ${q.r}</div>` :
+                    '';
+                const revealBtn = state.mode === 'exam' && userAns !== undefined && !state.revealed[q.id] ?
+                    `<button class="reveal-btn" onclick="toggleReveal(${q.id})">Show answer &amp; rationale</button>` :
+                    '';
+                let badges = `<span class="badge badge-theme">${THEME_NAMES[q.t]}</span>`;
+                if (q.c) badges += ` <span class="badge badge-clinical">● Clinical</span>`;
+                html += `<div class="q-card">
+              <div class="q-meta"><span class="q-num">Q${q.id}</span>${badges}</div>
+              <div class="tag-group">${tagHtml}</div>
+              <div class="q-stem">${q.stem}</div>
+              <div class="options">${optHtml}</div>
+              ${revealBtn}
+              ${rationaleHtml}
+            </div>`;
+            });
+            document.getElementById('qContainer').innerHTML = html;
+            updateStats();
+        }
+
+        window.addEventListener('scroll', () => {
+            document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 300);
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.target.tagName === 'SELECT') return;
+            if (e.key === 'ArrowRight') nextPage();
+            if (e.key === 'ArrowLeft') prevPage();
+            if (e.key === 'Escape') closeScore();
+        });
+
+        // Init
+        render();
+    </script>
+</body>
+</html>
