@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HTML → Word Converter</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+  :root{
+    --purple-deep:#4B2E83;
+    --purple-mid:#7A5299;
+    --purple-tint:#F3EAF8;
+    --ink:#222222;
+    --paper:#FBF9FC;
+    --line:#E3D9EC;
+    --ok:#2E7D4F;
+    --err:#B3261E;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Calibri','Segoe UI',system-ui,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    min-height:100vh;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:32px 16px 60px;
+  }
+  .wrap{width:100%;max-width:720px;}
+  header{margin-bottom:24px;}
+  h1{
+    font-family:Georgia,serif;
+    color:var(--purple-deep);
+    font-size:28px;
+    margin:0 0 6px;
+    border-bottom:3px solid var(--purple-deep);
+    padding-bottom:10px;
+  }
+  header p{color:#555;margin:0;font-size:14.5px;line-height:1.5;}
+
+  .card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:22px;
+    margin-bottom:18px;
+  }
+
+  .dropzone{
+    border:2px dashed var(--purple-mid);
+    border-radius:8px;
+    background:var(--purple-tint);
+    padding:28px 18px;
+    text-align:center;
+    cursor:pointer;
+    transition:background .15s ease, border-color .15s ease;
+  }
+  .dropzone.drag{background:#ecdcf5;border-color:var(--purple-deep);}
+  .dropzone strong{color:var(--purple-deep);}
+  .dropzone .sub{font-size:12.5px;color:#666;margin-top:4px;}
+  input[type=file]{display:none;}
+
+  .fileinfo{
+    display:none;
+    margin-top:12px;
+    padding:10px 12px;
+    background:var(--purple-tint);
+    border-left:4px solid var(--purple-deep);
+    border-radius:0 6px 6px 0;
+    font-size:13.5px;
+  }
+  .fileinfo.show{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .fileinfo button{
+    border:none;background:transparent;color:var(--purple-deep);
+    font-size:12.5px;cursor:pointer;text-decoration:underline;padding:0;
+  }
+
+  .or-row{display:flex;align-items:center;gap:10px;margin:16px 0;color:#999;font-size:12px;text-transform:uppercase;letter-spacing:.06em;}
+  .or-row::before,.or-row::after{content:"";flex:1;height:1px;background:var(--line);}
+
+  textarea{
+    width:100%;
+    min-height:110px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:10px 12px;
+    font-family:ui-monospace,Menlo,Consolas,monospace;
+    font-size:12.5px;
+    resize:vertical;
+    color:#333;
+  }
+  textarea:focus{outline:2px solid var(--purple-mid);outline-offset:1px;}
+
+  .row{display:flex;gap:12px;align-items:center;margin-top:16px;flex-wrap:wrap;}
+  button.primary{
+    background:var(--purple-deep);
+    color:#fff;
+    border:none;
+    padding:11px 22px;
+    border-radius:7px;
+    font-size:14.5px;
+    font-weight:600;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  button.primary:hover{background:#3b2468;}
+  button.primary:disabled{background:#b9aecb;cursor:not-allowed;}
+
+  .fname{
+    flex:1;
+    min-width:180px;
+    border:1px solid var(--line);
+    border-radius:7px;
+    padding:10px 12px;
+    font-size:13.5px;
+  }
+
+  .status{
+    margin-top:16px;
+    font-size:13.5px;
+    line-height:1.7;
+    white-space:pre-wrap;
+  }
+  .status .line{display:block;}
+  .status .ok{color:var(--ok);}
+  .status .err{color:var(--err);font-weight:600;}
+
+  .result{
+    display:none;
+    margin-top:18px;
+    padding:16px;
+    background:#F4FBF6;
+    border:1px solid #cdeed9;
+    border-radius:8px;
+    text-align:center;
+  }
+  .result.show{display:block;}
+  .result a{
+    display:inline-block;
+    background:var(--ok);
+    color:#fff;
+    text-decoration:none;
+    font-weight:600;
+    padding:11px 26px;
+    border-radius:7px;
+    font-size:14.5px;
+  }
+  .result .meta{margin-top:8px;font-size:12.5px;color:#4a4a4a;}
+
+  details{margin-top:18px;font-size:13px;color:#555;}
+  summary{cursor:pointer;color:var(--purple-mid);font-weight:600;}
+  details ul{margin:8px 0 0;padding-left:20px;line-height:1.7;}
+
+  #iframe-sandbox{
+    position:absolute;
+    top:-99999px;
+    left:-99999px;
+    width:816px;   /* US Letter @ 96dpi, matches 1in-margin docx page */
+    height:1056px;
+    visibility:hidden;
+    border:0;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>HTML → Word Converter</h1>
+    <p>Drop in a styled HTML file (or paste the markup) and get back a formatted <code>.docx</code>. Colors, fonts, headings, tables, and callout-style boxes are read straight from the page's own CSS — nothing is hard-coded to one theme.</p>
+  </header>
+
+  <div class="card">
+    <div class="dropzone" id="dropzone">
+      <div><strong>Click to choose a file</strong> or drag an .html file here</div>
+      <div class="sub">Runs entirely in your browser — nothing is uploaded anywhere</div>
+      <input type="file" id="fileInput" accept=".html,.htm,text/html">
+    </div>
+    <div class="fileinfo" id="fileinfo">
+      <span id="fileinfoText"></span>
+      <button id="clearFile" type="button">remove</button>
+    </div>
+
+    <div class="or-row">or paste HTML</div>
+    <textarea id="htmlPaste" placeholder="<html>...</html>"></textarea>
+
+    <div class="row">
+      <input class="fname" id="outName" type="text" value="converted-document.docx">
+      <button class="primary" id="convertBtn">Convert to Word</button>
+    </div>
+
+    <div class="status" id="status"></div>
+
+    <div class="result" id="result">
+      <a id="downloadLink" download="converted-document.docx">⬇ Download .docx</a>
+      <div class="meta" id="resultMeta"></div>
+    </div>
+  </div>
+
+  <details>
+    <summary>What it understands</summary>
+    <ul>
+      <li>Headings (h1–h6) with their CSS color, font, size, weight and border</li>
+      <li>Paragraphs, bold/italic/underline/strikethrough, line breaks</li>
+      <li>Bulleted and numbered lists, including nested lists</li>
+      <li>Tables — column widths, header shading, cell borders, per-row background all read from the rendered page</li>
+      <li>Colored / bordered boxes (callouts, footers, dividers) — detected from any block that has its own background or border, not tied to a specific class name</li>
+      <li>Rows containing a right-floated element (e.g. a table-of-contents page number) are rendered with a dotted leader, right-aligned</li>
+      <li>Forced page breaks (<code>page-break-before</code> / <code>break-before</code>)</li>
+      <li>Not yet supported: embedded images, multi-column layouts</li>
+    </ul>
+  </details>
+</div>
+
+<iframe id="iframe-sandbox" sandbox="allow-same-origin"></iframe>
+
+<script>
+/* ============================================================
+   HTML → DOCX converter
+   Strategy: render the user's HTML in a hidden sandboxed iframe
+   so the real browser CSS engine resolves the cascade, then walk
+   the rendered DOM reading getComputedStyle() for every element —
+   this means arbitrary selectors (classes, descendant rules,
+   nth-child, etc.) all "just work" without us re-implementing CSS.
+   The result is assembled as raw OOXML and zipped with JSZip.
+   ============================================================ */
+
+const BLOCK_TAGS = new Set(['DIV','P','TABLE','UL','OL','H1','H2','H3','H4','H5','H6','HR','SECTION','ARTICLE','HEADER','FOOTER','BLOCKQUOTE']);
+const EMU_PER_INCH = 914400;
+const TWIPS_PER_INCH = 1440;
+const PAGE_W_PX = 816;   // 8.5in @ 96dpi
+const PAGE_CONTENT_PX = 816; // full iframe width; margins come from the page's own CSS
+
+let numIdCounter = 100; // not used dynamically now, fixed IDs below
+
+function log(msg, cls){
+  const el = document.getElementById('status');
+  const line = document.createElement('span');
+  line.className = 'line' + (cls ? ' ' + cls : '');
+  line.textContent = msg;
+  el.appendChild(line);
+}
+function clearLog(){ document.getElementById('status').innerHTML = ''; }
+
+// ---------- small utils ----------
+function esc(s){
+  return String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;');
+}
+function pxToTwips(px){ return Math.round((px/96)*TWIPS_PER_INCH); }
+function pxToPt(px){ return (px/96)*72; }
+function ptToTwips(pt){ return Math.round(pt*20); }
+function ptToHalfPt(pt){ return Math.max(2, Math.round(pt*2)); }
+function ptToEighthPt(pt){ return Math.max(2, Math.round(pt*8)); }
+
+function rgbToHex(rgbStr){
+  if(!rgbStr) return null;
+  const m = rgbStr.match(/rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s]+([\d.]+))?\s*\)/i);
+  if(!m) {
+    if(/^#/.test(rgbStr)) return rgbStr.replace('#','').toUpperCase();
+    return null;
+  }
+  const a = m[4] === undefined ? 1 : parseFloat(m[4]);
+  if(a === 0) return null; // fully transparent
+  const toHex = n => Math.round(Math.max(0,Math.min(255,parseFloat(n)))).toString(16).padStart(2,'0');
+  return (toHex(m[1])+toHex(m[2])+toHex(m[3])).toUpperCase();
+}
+
+function firstFont(fontFamilyStr, fallback){
+  if(!fontFamilyStr) return fallback;
+  const first = fontFamilyStr.split(',')[0].trim().replace(/^['"]|['"]$/g,'');
+  return first || fallback;
+}
+
+function borderSide(cs, side){
+  // side: Top/Right/Bottom/Left
+  const style = cs.getPropertyValue(`border-${side.toLowerCase()}-style`);
+  const widthPx = parseFloat(cs.getPropertyValue(`border-${side.toLowerCase()}-width`)) || 0;
+  if(!style || style === 'none' || widthPx <= 0) return null;
+  const color = rgbToHex(cs.getPropertyValue(`border-${side.toLowerCase()}-color`)) || '000000';
+  return { widthPt: pxToPt(widthPx), color };
+}
+
+function isForcedBreak(cs, el){
+  const bb = cs.getPropertyValue('break-before');
+  const legacy = cs.getPropertyValue('page-break-before') || el.style.pageBreakBefore;
+  return bb === 'page' || bb === 'always' || legacy === 'always';
+}
+
+// ---------- output stack (lets table cells / list items collect their own paragraphs) ----------
+let outputStack = [];
+function emit(xml){ outputStack[outputStack.length-1].push(xml); }
+function pushOutput(){ const arr = []; outputStack.push(arr); return arr; }
+function popOutput(){ return outputStack.pop(); }
+
+// ---------- run / paragraph builders ----------
+function buildRunProps(cs){
+  const props = {};
+  props.font = firstFont(cs.fontFamily, null);
+  const sizePx = parseFloat(cs.fontSize);
+  if(!isNaN(sizePx)) props.sizePt = pxToPt(sizePx);
+  const weight = cs.fontWeight;
+  props.bold = weight === 'bold' || (parseInt(weight,10) >= 600);
+  props.italic = cs.fontStyle === 'italic';
+  const deco = cs.textDecorationLine || cs.textDecoration || '';
+  props.underline = deco.indexOf('underline') !== -1;
+  props.strike = deco.indexOf('line-through') !== -1;
+  const color = rgbToHex(cs.color);
+  if(color) props.color = color;
+  return props;
+}
+
+function runXml(text, props){
+  let rPr = '';
+  if(props.font) rPr += `<w:rFonts w:ascii="${esc(props.font)}" w:hAnsi="${esc(props.font)}" w:cs="${esc(props.font)}"/>`;
+  if(props.bold) rPr += `<w:b/>`;
+  if(props.italic) rPr += `<w:i/>`;
+  if(props.underline) rPr += `<w:u w:val="single"/>`;
+  if(props.strike) rPr += `<w:strike/>`;
+  if(props.color) rPr += `<w:color w:val="${props.color}"/>`;
+  if(props.sizePt) { const hp = ptToHalfPt(props.sizePt); rPr += `<w:sz w:val="${hp}"/><w:szCs w:val="${hp}"/>`; }
+  const rPrXml = rPr ? `<w:rPr>${rPr}</w:rPr>` : '';
+  return `<w:r>${rPrXml}<w:t xml:space="preserve">${esc(text)}</w:t></w:r>`;
+}
+function breakRunXml(props){
+  let rPr = '';
+  if(props.font) rPr += `<w:rFonts w:ascii="${esc(props.font)}" w:hAnsi="${esc(props.font)}" w:cs="${esc(props.font)}"/>`;
+  if(props.sizePt) { const hp = ptToHalfPt(props.sizePt); rPr += `<w:sz w:val="${hp}"/><w:szCs w:val="${hp}"/>`; }
+  const rPrXml = rPr ? `<w:rPr>${rPr}</w:rPr>` : '';
+  return `<w:r>${rPrXml}<w:br/></w:r>`;
+}
+
+// Walk inline content of `el`, calling back for text runs / <br>, using the
+// *current* element's computed style at every level (so nested <strong>,
+// <span class=...>, etc. automatically pick up their own CSS).
+function walkInline(el, out){
+  for(const child of el.childNodes){
+    if(child.nodeType === 3){ // text node
+      const text = child.textContent.replace(/\s+/g,' ');
+      if(text === '' ) continue;
+      const cs = getComputedStyle(el);
+      out.push(runXml(text, buildRunProps(cs)));
+    } else if(child.nodeType === 1){
+      if(child.tagName === 'BR'){
+        const cs = getComputedStyle(el);
+        out.push(breakRunXml(buildRunProps(cs)));
+        continue;
+      }
+      if(getComputedStyle(child).display === 'none') continue;
+      walkInline(child, out);
+    }
+  }
+}
+
+function pPrXml(opts){
+  let x = '';
+  if(opts.jc) x += `<w:jc w:val="${opts.jc}"/>`;
+  if(opts.keepNext) x += `<w:keepNext/>`;
+  const before = opts.spaceBeforePt, after = opts.spaceAfterPt;
+  if(before != null || after != null){
+    x += `<w:spacing`;
+    if(before != null) x += ` w:before="${Math.round(before*20)}"`;
+    if(after != null) x += ` w:after="${Math.round(after*20)}"`;
+    x += `/>`;
+  }
+  if(opts.leftIndentTwips != null || opts.rightIndentTwips != null || opts.hangingTwips != null){
+    x += `<w:ind`;
+    if(opts.leftIndentTwips != null) x += ` w:left="${Math.round(opts.leftIndentTwips)}"`;
+    if(opts.rightIndentTwips != null) x += ` w:right="${Math.round(opts.rightIndentTwips)}"`;
+    if(opts.hangingTwips != null) x += ` w:hanging="${Math.round(opts.hangingTwips)}"`;
+    x += `/>`;
+  }
+  if(opts.numId != null){
+    x += `<w:numPr><w:ilvl w:val="${opts.ilvl||0}"/><w:numId w:val="${opts.numId}"/></w:numPr>`;
+  }
+  if(opts.tabs && opts.tabs.length){
+    x += `<w:tabs>` + opts.tabs.map(t=>`<w:tab w:val="${t.val}" w:leader="${t.leader}" w:pos="${Math.round(t.posTwips)}"/>`).join('') + `</w:tabs>`;
+  }
+  if(opts.border){
+    let b = '';
+    for(const side of ['top','left','bottom','right']){
+      const spec = opts.border[side];
+      if(spec){
+        b += `<w:${side} w:val="single" w:sz="${ptToEighthPt(spec.widthPt)}" w:space="${spec.space!=null?spec.space:1}" w:color="${spec.color}"/>`;
+      }
+    }
+    if(b) x += `<w:pBdr>${b}</w:pBdr>`;
+  }
+  if(opts.shadeHex){
+    x += `<w:shd w:val="clear" w:color="auto" w:fill="${opts.shadeHex}"/>`;
+  }
+  return x ? `<w:pPr>${x}</w:pPr>` : '';
+}
+
+function emitParagraph(runsXmlArr, pOpts){
+  emit(`<w:p>${pPrXml(pOpts||{})}${runsXmlArr.join('')}</w:p>`);
+}
+
+function addPageBreak(){
+  emit(`<w:p><w:r><w:br w:type="page"/></w:r></w:p>`);
+}
+
+// ---------- block renderers ----------
+function jcFromTextAlign(ta){
+  if(ta === 'center') return 'center';
+  if(ta === 'right') return 'end';
+  if(ta === 'justify') return 'both';
+  return null;
+}
+
+function collectBorders(cs){
+  const b = {
+    top: borderSide(cs,'Top'),
+    right: borderSide(cs,'Right'),
+    bottom: borderSide(cs,'Bottom'),
+    left: borderSide(cs,'Left'),
+  };
+  if(!b.top && !b.right && !b.bottom && !b.left) return null;
+  return b;
+}
+
+function marginPt(cs, side){
+  return pxToPt(parseFloat(cs.getPropertyValue(`margin-${side}`)) || 0);
+}
+function paddingPt(cs, side){
+  return pxToPt(parseFloat(cs.getPropertyValue(`padding-${side}`)) || 0);
+}
+
+function renderHeading(el, cs){
+  const runs = [];
+  walkInline(el, runs);
+  if(runs.length === 0) return;
+  const border = collectBorders(cs);
+  const opts = {
+    jc: jcFromTextAlign(cs.textAlign),
+    spaceBeforePt: marginPt(cs,'top'),
+    spaceAfterPt: marginPt(cs,'bottom') + (border && border.bottom ? 2 : 0),
+    keepNext: true,
+    border: border,
+  };
+  emitParagraph(runs, opts);
+}
+
+function renderDivider(el, cs){
+  const b = borderSide(cs,'Top') || { widthPt: 1, color: '999999' };
+  emitParagraph([runXml(' ', {sizePt:1})], {
+    border: { top: b },
+    spaceBeforePt: marginPt(cs,'top') || 6,
+    spaceAfterPt: 4,
+  });
+}
+
+function isEmptyBarDiv(el, cs){
+  const text = el.textContent.replace(/\s+/g,'');
+  if(text !== '') return false;
+  if(el.children.length !== 0) return false;
+  const bg = rgbToHex(cs.backgroundColor);
+  const border = collectBorders(cs);
+  return !!(bg || border);
+}
+
+function renderBar(el, cs){
+  const bg = rgbToHex(cs.backgroundColor);
+  const heightPx = parseFloat(cs.height) || 4;
+  const widthPx = parseFloat(cs.width) || null;
+  const parentWidthPx = el.parentElement ? el.parentElement.clientWidth : PAGE_CONTENT_PX;
+  let leftIndent = null, rightIndent = null;
+  if(widthPx && parentWidthPx && widthPx < parentWidthPx * 0.98){
+    const diff = (parentWidthPx - widthPx) / 2;
+    leftIndent = pxToTwips(diff);
+    rightIndent = pxToTwips(diff);
+  }
+  const opts = {
+    jc: 'center',
+    spaceBeforePt: marginPt(cs,'top') || 6,
+    spaceAfterPt: marginPt(cs,'bottom') || 6,
+    leftIndentTwips: leftIndent,
+    rightIndentTwips: rightIndent,
+  };
+  if(bg){
+    opts.border = { bottom: { widthPt: Math.max(1.5, pxToPt(heightPx)), color: bg } };
+  }
+  emitParagraph([runXml(' ', {sizePt: 2})], opts);
+}
+
+// detect a descendant that's floated right -- used to recognise
+// "label ......... 3" style rows (tables of contents etc.) regardless of class names
+function findFloatRightChild(el){
+  for(const child of el.children){
+    if(getComputedStyle(child).float === 'right') return child;
+  }
+  return null;
+}
+
+function renderFloatRow(el, cs, floatEl){
+  const clone = el.cloneNode(true);
+  // find matching child in clone by index path to remove it from label text
+  const idx = Array.from(el.children).indexOf(floatEl);
+  const cloneFloatEl = clone.children[idx];
+  if(cloneFloatEl) cloneFloatEl.remove();
+
+  const runs = [];
+  walkInline(clone, runs);
+  const floatRuns = [];
+  walkInline(floatEl, floatRuns);
+
+  const border = collectBorders(cs);
+  const contentWidthTwips = pxToTwips(el.parentElement ? el.parentElement.clientWidth : (PAGE_CONTENT_PX-192));
+
+  const opts = {
+    spaceBeforePt: marginPt(cs,'top'),
+    spaceAfterPt: marginPt(cs,'bottom'),
+    border: border,
+    shadeHex: rgbToHex(cs.backgroundColor) || null,
+    tabs: [{ val:'right', leader:'dot', posTwips: contentWidthTwips }],
+  };
+  const allRuns = runs.concat([runXml('\t', buildRunProps(getComputedStyle(el)))], floatRuns);
+  emitParagraph(allRuns, opts);
+}
+
+function renderInlineBlock(el, cs){
+  const runs = [];
+  walkInline(el, runs);
+  if(runs.length === 0) return;
+  const border = collectBorders(cs);
+  const bg = rgbToHex(cs.backgroundColor);
+  const leftPad = paddingPt(cs,'left');
+  const opts = {
+    jc: jcFromTextAlign(cs.textAlign),
+    spaceBeforePt: marginPt(cs,'top'),
+    spaceAfterPt: marginPt(cs,'bottom'),
+    border: border,
+    shadeHex: bg || null,
+  };
+  if((border && (border.left || border.top || border.bottom || border.right)) || bg){
+    // give boxed content a bit of breathing room from the border
+    opts.leftIndentTwips = Math.max(0, (leftPad||6) * 20);
+    if(border && border.left) opts.border.left.space = 14;
+  }
+  emitParagraph(runs, opts);
+}
+
+function renderParagraphLike(el, cs){
+  // shared entry for <p> and leaf <div>s
+  renderInlineBlock(el, cs);
+}
+
+function renderList(el, cs, level){
+  level = level || 0;
+  const isOrdered = el.tagName === 'OL';
+  const numId = isOrdered ? 2 : 1;
+  const liRules = getComputedStyle(el.querySelector('li') || el);
+  for(const li of el.children){
+    if(li.tagName !== 'LI') continue;
+    const liCs = getComputedStyle(li);
+    const sublist = Array.from(li.children).find(c => c.tagName === 'UL' || c.tagName === 'OL');
+    const otherBlocks = Array.from(li.children).filter(c => BLOCK_TAGS.has(c.tagName) && c !== sublist);
+
+    // direct inline content of the <li> (excluding nested block children)
+    const runs = [];
+    for(const node of li.childNodes){
+      if(node.nodeType === 3){
+        const t = node.textContent.replace(/\s+/g,' ');
+        if(t.trim() !== '') runs.push(runXml(t, buildRunProps(liCs)));
+      } else if(node.nodeType === 1){
+        if(node === sublist || otherBlocks.includes(node)) continue;
+        if(node.tagName === 'BR'){ runs.push(breakRunXml(buildRunProps(liCs))); continue; }
+        walkInline(node, runs);
+      }
+    }
+    if(runs.length){
+      emitParagraph(runs, {
+        numId: numId,
+        ilvl: Math.min(level,3),
+        spaceAfterPt: 1.5,
+      });
+    }
+    otherBlocks.forEach(b => handleBlock(b));
+    if(sublist) renderList(sublist, getComputedStyle(sublist), level+1);
+  }
+}
+
+function renderTable(el, cs){
+  const rows = Array.from(el.querySelectorAll(':scope > tr, :scope > thead > tr, :scope > tbody > tr, :scope > tfoot > tr'));
+  if(rows.length === 0) return;
+
+  const ncols = Math.max(...rows.map(r => Array.from(r.children).filter(c=>c.tagName==='TD'||c.tagName==='TH').length));
+  if(!ncols) return;
+
+  // measure real column widths from the widest / most complete row
+  let refRow = rows.find(r => Array.from(r.children).filter(c=>c.tagName==='TD'||c.tagName==='TH').length === ncols) || rows[0];
+  let colWidthsPx = Array.from(refRow.children)
+    .filter(c=>c.tagName==='TD'||c.tagName==='TH')
+    .map(c => c.getBoundingClientRect().width);
+  if(colWidthsPx.length !== ncols || colWidthsPx.some(w=>!w)){
+    const tableWidth = el.getBoundingClientRect().width || (PAGE_CONTENT_PX-192);
+    colWidthsPx = new Array(ncols).fill(tableWidth/ncols);
+  }
+  const colWidthsTwips = colWidthsPx.map(pxToTwips);
+  const tableWidthTwips = colWidthsTwips.reduce((a,b)=>a+b,0);
+
+  const gridXml = `<w:tblGrid>${colWidthsTwips.map(w=>`<w:gridCol w:w="${w}"/>`).join('')}</w:tblGrid>`;
+  const tblPr = `<w:tblPr><w:tblW w:w="${tableWidthTwips}" w:type="dxa"/><w:tblLayout w:type="fixed"/></w:tblPr>`;
+
+  let rowsXml = '';
+  rows.forEach((row) => {
+    const cells = Array.from(row.children).filter(c=>c.tagName==='TD'||c.tagName==='TH');
+    if(!cells.length) return;
+    const isHeaderRow = cells.every(c => c.tagName === 'TH');
+    let trPr = '';
+    if(isHeaderRow) trPr = `<w:trPr><w:tblHeader/></w:trPr>`;
+
+    let cellsXml = '';
+    cells.forEach((cell, i) => {
+      const cCs = getComputedStyle(cell);
+      const border = collectBorders(cCs) || {};
+      const bg = rgbToHex(cCs.backgroundColor);
+      const wTw = colWidthsTwips[i] || Math.round(tableWidthTwips/ncols);
+
+      let tcPr = `<w:tcW w:w="${wTw}" w:type="dxa"/>`;
+      const bXml = ['top','left','bottom','right'].map(side=>{
+        const spec = border[side] || { widthPt:0.75, color:'CCCCCC' };
+        return `<w:${side} w:val="single" w:sz="${ptToEighthPt(spec.widthPt||0.75)}" w:color="${spec.color||'CCCCCC'}"/>`;
+      }).join('');
+      tcPr += `<w:tcBorders>${bXml}</w:tcBorders>`;
+      if(bg) tcPr += `<w:shd w:val="clear" w:color="auto" w:fill="${bg}"/>`;
+      const padL = ptToTwips(paddingPt(cCs,'left')) || 100;
+      const padR = ptToTwips(paddingPt(cCs,'right')) || 100;
+      const padT = ptToTwips(paddingPt(cCs,'top')) || 40;
+      const padB = ptToTwips(paddingPt(cCs,'bottom')) || 40;
+      tcPr += `<w:tcMar><w:top w:w="${padT}" w:type="dxa"/><w:left w:w="${padL}" w:type="dxa"/><w:bottom w:w="${padB}" w:type="dxa"/><w:right w:w="${padR}" w:type="dxa"/></w:tcMar>`;
+      const va = cCs.verticalAlign;
+      if(va === 'middle') tcPr += `<w:vAlign w:val="center"/>`;
+      else if(va === 'bottom') tcPr += `<w:vAlign w:val="bottom"/>`;
+      else tcPr += `<w:vAlign w:val="top"/>`;
+
+      pushOutput();
+      const blockChildren = Array.from(cell.children).filter(c=>BLOCK_TAGS.has(c.tagName));
+      if(blockChildren.length){
+        blockChildren.forEach(b => handleBlock(b));
+      } else {
+        const runs = [];
+        walkInline(cell, runs);
+        emitParagraph(runs.length?runs:[runXml('',{})], { jc: jcFromTextAlign(cCs.textAlign) });
+      }
+      let cellBody = popOutput().join('');
+      if(!cellBody) cellBody = `<w:p/>`;
+
+      cellsXml += `<w:tc><w:tcPr>${tcPr}</w:tcPr>${cellBody}</w:tc>`;
+    });
+    rowsXml += `<w:tr>${trPr}${cellsXml}</w:tr>`;
+  });
+
+  emit(`<w:tbl>${tblPr}${gridXml}${rowsXml}</w:tbl>`);
+  emitParagraph([], { spaceAfterPt: 2 }); // small gap after table
+}
+
+// ---------- dispatcher ----------
+function handleBlock(el){
+  if(el.nodeType !== 1) return;
+  const cs = getComputedStyle(el);
+  if(cs.display === 'none') return;
+  if(isForcedBreak(cs, el)) addPageBreak();
+
+  const tag = el.tagName;
+  if(/^H[1-6]$/.test(tag)) return renderHeading(el, cs);
+  if(tag === 'HR') return renderDivider(el, cs);
+  if(tag === 'TABLE') return renderTable(el, cs);
+  if(tag === 'UL' || tag === 'OL') return renderList(el, cs, 0);
+  if(tag === 'P' || tag === 'BLOCKQUOTE') return renderParagraphLike(el, cs);
+
+  // DIV / SECTION / ARTICLE / HEADER / FOOTER / unknown block container
+  const hasBlockChild = Array.from(el.children).some(c => BLOCK_TAGS.has(c.tagName));
+  if(!hasBlockChild){
+    if(isEmptyBarDiv(el, cs)) return renderBar(el, cs);
+    const floatChild = findFloatRightChild(el);
+    if(floatChild) return renderFloatRow(el, cs, floatChild);
+    return renderInlineBlock(el, cs);
+  } else {
+    Array.from(el.children).forEach(child => handleBlock(child));
+  }
+}
+
+// ---------- OOXML package assembly ----------
+function contentTypesXml(){
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+<Default Extension="xml" ContentType="application/xml"/>
+<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
+<Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/>
+<Override PartName="/word/numbering.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml"/>
+<Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>
+</Types>`;
+}
+function relsXml(){
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
+<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/>
+</Relationships>`;
+}
+function docRelsXml(){
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
+<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/numbering" Target="numbering.xml"/>
+</Relationships>`;
+}
+function coreXml(title){
+  const now = new Date().toISOString();
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<dc:title>${esc(title)}</dc:title>
+<dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created>
+<dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified>
+</cp:coreProperties>`;
+}
+function stylesXml(baseFont, baseSizePt, baseColor){
+  const hp = ptToHalfPt(baseSizePt||10.5);
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+<w:docDefaults>
+<w:rPrDefault><w:rPr>
+<w:rFonts w:ascii="${esc(baseFont)}" w:hAnsi="${esc(baseFont)}" w:cs="${esc(baseFont)}"/>
+<w:sz w:val="${hp}"/><w:szCs w:val="${hp}"/>
+<w:color w:val="${baseColor}"/>
+</w:rPr></w:rPrDefault>
+<w:pPrDefault><w:pPr><w:spacing w:after="0" w:line="276" w:lineRule="auto"/></w:pPr></w:pPrDefault>
+</w:docDefaults>
+<w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/></w:style>
+<w:style w:type="paragraph" w:styleId="ListParagraph"><w:name w:val="List Paragraph"/><w:basedOn w:val="Normal"/></w:style>
+</w:styles>`;
+}
+function numberingXml(){
+  function levelXml(ilvl, isOrdered){
+    const chars = ['•','◦','▪'];
+    const fmt = isOrdered ? 'decimal' : 'bullet';
+    const text = isOrdered ? `%${ilvl+1}.` : chars[ilvl%3];
+    const font = isOrdered ? '' : `<w:rFonts w:ascii="Symbol" w:hAnsi="Symbol" w:hint="default"/>`;
+    const indent = 720*(ilvl+1);
+    return `<w:lvl w:ilvl="${ilvl}"><w:start w:val="1"/><w:numFmt w:val="${fmt}"/><w:lvlText w:val="${text}"/><w:lvlJc w:val="left"/><w:pPr><w:ind w:left="${indent}" w:hanging="360"/></w:pPr><w:rPr>${font}</w:rPr></w:lvl>`;
+  }
+  let levelsBullet = '', levelsDecimal = '';
+  for(let i=0;i<4;i++){ levelsBullet += levelXml(i,false); levelsDecimal += levelXml(i,true); }
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:numbering xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+<w:abstractNum w:abstractNumId="0">${levelsBullet}</w:abstractNum>
+<w:abstractNum w:abstractNumId="1">${levelsDecimal}</w:abstractNum>
+<w:num w:numId="1"><w:abstractNumId w:val="0"/></w:num>
+<w:num w:numId="2"><w:abstractNumId w:val="1"/></w:num>
+</w:numbering>`;
+}
+function documentXml(bodyXml){
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+<w:body>
+${bodyXml}
+<w:sectPr>
+<w:pgSz w:w="12240" w:h="15840"/>
+<w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="720" w:footer="720" w:gutter="0"/>
+</w:sectPr>
+</w:body>
+</w:document>`;
+}
+
+// ---------- main conversion entry ----------
+async function convertHtmlToDocx(htmlString, title){
+  clearLog();
+  log('Rendering HTML in a sandboxed frame…');
+
+  const iframe = document.getElementById('iframe-sandbox');
+  await new Promise((resolve, reject) => {
+    iframe.onload = resolve;
+    iframe.onerror = reject;
+    iframe.srcdoc = htmlString;
+  });
+
+  const idoc = iframe.contentDocument;
+  const iwin = iframe.contentWindow;
+  if(!idoc || !idoc.body){
+    throw new Error('Could not read the document body — is this valid HTML?');
+  }
+
+  // force layout so getBoundingClientRect()/computed widths are accurate
+  void idoc.body.offsetHeight;
+
+  log('Reading base styles…');
+  const bodyCs = iwin.getComputedStyle(idoc.body);
+  const baseFont = firstFont(bodyCs.fontFamily, 'Calibri');
+  const baseSizePt = pxToPt(parseFloat(bodyCs.fontSize) || 14);
+  const baseColor = rgbToHex(bodyCs.color) || '222222';
+
+  outputStack = [];
+  pushOutput();
+
+  log('Walking document structure…');
+  // route every getComputedStyle() call in the helpers below through the
+  // iframe's own window, since that's the window the elements belong to
+  const _origGCS = window.getComputedStyle;
+  window.getComputedStyle = (el, pseudo) => iwin.getComputedStyle(el, pseudo);
+
+  let blockCount = 0, tableCount = 0, headingCount = 0;
+  try {
+    Array.from(idoc.body.children).forEach(el => {
+      handleBlock(el);
+      blockCount++;
+    });
+  } finally {
+    window.getComputedStyle = _origGCS;
+  }
+
+  const bodyXml = popOutput().join('\n');
+  tableCount = (bodyXml.match(/<w:tbl>/g)||[]).length;
+  headingCount = (bodyXml.match(/<w:pBdr>/g)||[]).length;
+
+  log('Assembling .docx package…');
+  const zip = new JSZip();
+  zip.file('[Content_Types].xml', contentTypesXml());
+  zip.folder('_rels').file('.rels', relsXml());
+  zip.folder('docProps').file('core.xml', coreXml(title));
+  const wordFolder = zip.folder('word');
+  wordFolder.file('document.xml', documentXml(bodyXml));
+  wordFolder.file('styles.xml', stylesXml(baseFont, baseSizePt, baseColor));
+  wordFolder.file('numbering.xml', numberingXml());
+  wordFolder.folder('_rels').file('document.xml.rels', docRelsXml());
+
+  log('Zipping…');
+  const blob = await zip.generateAsync({
+    type: 'blob',
+    mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  });
+
+  log(`Done — ${blockCount} top-level blocks, ${tableCount} table(s).`, 'ok');
+  return blob;
+}
+
+// ================== UI wiring ==================
+const dropzone = document.getElementById('dropzone');
+const fileInput = document.getElementById('fileInput');
+const fileinfo = document.getElementById('fileinfo');
+const fileinfoText = document.getElementById('fileinfoText');
+const clearFileBtn = document.getElementById('clearFile');
+const htmlPaste = document.getElementById('htmlPaste');
+const convertBtn = document.getElementById('convertBtn');
+const outName = document.getElementById('outName');
+const resultBox = document.getElementById('result');
+const downloadLink = document.getElementById('downloadLink');
+const resultMeta = document.getElementById('resultMeta');
+
+let loadedHtml = null;
+let loadedFileName = null;
+
+dropzone.addEventListener('click', () => fileInput.click());
+dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('drag'); });
+dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag'));
+dropzone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropzone.classList.remove('drag');
+  if(e.dataTransfer.files.length) loadFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', e => { if(e.target.files.length) loadFile(e.target.files[0]); });
+clearFileBtn.addEventListener('click', () => {
+  loadedHtml = null; loadedFileName = null;
+  fileInput.value = '';
+  fileinfo.classList.remove('show');
+});
+
+function loadFile(file){
+  const reader = new FileReader();
+  reader.onload = () => {
+    loadedHtml = reader.result;
+    loadedFileName = file.name;
+    fileinfoText.textContent = `${file.name} (${Math.round(file.size/1024)} KB)`;
+    fileinfo.classList.add('show');
+    htmlPaste.value = '';
+    const base = file.name.replace(/\.html?$/i,'');
+    outName.value = (base || 'converted-document') + '.docx';
+  };
+  reader.readAsText(file);
+}
+
+convertBtn.addEventListener('click', async () => {
+  const source = loadedHtml || htmlPaste.value;
+  if(!source || !source.trim()){
+    clearLog();
+    log('Please choose a file or paste some HTML first.', 'err');
+    return;
+  }
+  convertBtn.disabled = true;
+  resultBox.classList.remove('show');
+  try {
+    const titleMatch = source.match(/<title[^>]*>([^<]*)<\/title>/i);
+    const title = (titleMatch && titleMatch[1].trim()) || loadedFileName || 'Converted Document';
+    const blob = await convertHtmlToDocx(source, title);
+    const url = URL.createObjectURL(blob);
+    let name = outName.value.trim() || 'converted-document.docx';
+    if(!/\.docx$/i.test(name)) name += '.docx';
+    downloadLink.href = url;
+    downloadLink.download = name;
+    resultMeta.textContent = `${name} · ${Math.round(blob.size/1024)} KB`;
+    resultBox.classList.add('show');
+  } catch(err){
+    console.error(err);
+    log('Error: ' + err.message, 'err');
+  } finally {
+    convertBtn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
