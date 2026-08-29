@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harper's Biochemistry — 200-Item PRACTICE MCQ Examinations</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --bg2: #13131a;
+    --bg3: #1a1a24;
+    --bg4: #22222f;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #e8e4d8;
+    --text2: #9c9880;
+    --text3: #6b6855;
+    --gold: #c9a84c;
+    --gold2: #e8c96a;
+    --gold-dim: rgba(201,168,76,0.12);
+    --red: #c94c4c;
+    --red-dim: rgba(201,76,76,0.12);
+    --green: #4cad6e;
+    --green-dim: rgba(76,173,110,0.12);
+    --blue: #5b8fcf;
+    --blue-dim: rgba(91,143,207,0.12);
+    --teal: #4ca8a0;
+    --radius: 6px;
+    --radius-lg: 10px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    border-bottom: 1px solid var(--border2);
+    padding: 48px 0 36px;
+    margin-bottom: 40px;
+    position: relative;
+  }
+  .site-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0;
+    width: 80px; height: 2px;
+    background: var(--gold);
+  }
+  .header-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 4vw, 40px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .header-title em {
+    font-style: italic;
+    color: var(--gold2);
+  }
+  .header-sub {
+    font-size: 13px;
+    color: var(--text2);
+    font-style: italic;
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .stat-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .stat-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--gold2);
+    display: block;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text3);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── PROGRESS ── */
+  .progress-wrap {
+    margin-bottom: 28px;
+  }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text3);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .progress-track {
+    height: 3px;
+    background: var(--bg4);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold2));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* ── CONTROLS ── */
+  .controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 28px;
+    padding: 16px 20px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+  .controls label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text3);
+    font-family: 'JetBrains Mono', monospace;
+    margin-right: 2px;
+  }
+  select {
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    color: var(--text);
+    font-family: 'Source Serif 4', serif;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  select:hover, select:focus { border-color: var(--gold); }
+
+  .btn {
+    padding: 7px 16px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--text2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.18s;
+    white-space: nowrap;
+  }
+  .btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+  .btn.primary {
+    background: var(--gold-dim);
+    border-color: var(--gold);
+    color: var(--gold2);
+  }
+  .btn.primary:hover { background: rgba(201,168,76,0.22); }
+  .btn.danger:hover { border-color: var(--red); color: var(--red); background: var(--red-dim); }
+
+  /* ── MODE TABS ── */
+  .mode-tabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 28px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 4px;
+  }
+  .tab {
+    flex: 1;
+    padding: 9px;
+    border-radius: 7px;
+    border: none;
+    background: transparent;
+    color: var(--text3);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .tab:hover { color: var(--text2); }
+  .tab.active {
+    background: var(--bg4);
+    color: var(--gold2);
+    border: 1px solid var(--border2);
+  }
+
+  /* ── QUESTION CARDS ── */
+  .q-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+    animation: fadeUp 0.3s ease both;
+  }
+  .q-card:hover { border-color: var(--border2); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .q-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .q-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gold);
+    min-width: 42px;
+  }
+  .badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+  }
+  .badge-clinical { background: rgba(201,76,76,0.15); color: #e87070; border: 1px solid rgba(201,76,76,0.3); }
+  .badge-theme { background: var(--bg4); color: var(--text3); border: 1px solid var(--border); }
+
+  .q-stem {
+    font-size: 14.5px;
+    line-height: 1.72;
+    color: var(--text);
+    margin-bottom: 18px;
+    font-style: italic;
+    border-left: 2px solid var(--border2);
+    padding-left: 16px;
+  }
+  .q-stem::first-line { font-style: normal; }
+
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.16s;
+    font-size: 13.5px;
+    line-height: 1.6;
+    background: transparent;
+    color: var(--text2);
+    text-align: left;
+    font-family: 'Source Serif 4', serif;
+  }
+  .opt:hover { border-color: var(--border2); background: var(--bg3); color: var(--text); }
+  .opt.selected { border-color: var(--blue); background: var(--blue-dim); color: var(--text); }
+  .opt.correct { border-color: var(--green); background: var(--green-dim); color: #a8e8c0; }
+  .opt.wrong { border-color: var(--red); background: var(--red-dim); color: #e8a0a0; }
+  .opt.correct-unmarked { border-color: var(--green); background: var(--green-dim); color: #a8e8c0; }
+
+  .opt-letter {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 13px;
+    min-width: 20px;
+    color: var(--gold);
+    flex-shrink: 0;
+    padding-top: 1px;
+  }
+  .opt.correct .opt-letter, .opt.correct-unmarked .opt-letter { color: var(--green); }
+  .opt.wrong .opt-letter { color: var(--red); }
+  .opt.selected .opt-letter { color: var(--blue); }
+
+  .rationale {
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: rgba(76,173,110,0.07);
+    border: 1px solid rgba(76,173,110,0.2);
+    border-radius: var(--radius);
+    font-size: 13px;
+    line-height: 1.65;
+    color: #9ad4b0;
+    font-style: italic;
+  }
+  .rationale strong { color: var(--green); font-style: normal; }
+
+  .reveal-btn {
+    margin-top: 12px;
+    padding: 6px 14px;
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--text3);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .reveal-btn:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* ── NAV ── */
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 32px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .page-info {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.08em;
+    text-align: center;
+    flex: 1;
+  }
+
+  /* ── SCORE MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 40px 48px;
+    max-width: 440px;
+    width: 90%;
+    text-align: center;
+    animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+  @keyframes popIn {
+    from { opacity:0; transform:scale(0.88); }
+    to   { opacity:1; transform:scale(1); }
+  }
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: var(--gold2);
+    margin-bottom: 6px;
+  }
+  .modal-sub { font-size: 12px; color: var(--text3); font-style: italic; margin-bottom: 28px; }
+  .score-big {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .score-grade {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .score-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .sd-item { background: var(--bg3); border-radius: var(--radius); padding: 12px 8px; }
+  .sd-val { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--text); display: block; }
+  .sd-lab { font-size: 9px; color: var(--text3); letter-spacing: 0.12em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+
+  /* ── SCROLL TO TOP ── */
+  .scroll-top {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 40px; height: 40px;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    z-index: 50;
+    transition: all 0.2s;
+    color: var(--text3);
+    font-size: 16px;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .scroll-top.visible { opacity: 1; pointer-events: all; }
+  .scroll-top:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+
+  /* ── DIVIDER ── */
+  .theme-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 32px 0 20px;
+  }
+  .theme-divider-line { flex: 1; height: 1px; background: var(--border); }
+  .theme-divider-label {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 600px) {
+    .stats-bar { grid-template-columns: repeat(2,1fr); }
+    .q-card { padding: 18px 18px; }
+    .controls { gap: 8px; }
+    .modal { padding: 28px 20px; }
+    .score-big { font-size: 52px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-eyebrow">Comprehensive Examination · 200 Items · All 7 Themes</div>
+    <h1 class="header-title"><em>Harper's Illustrated Biochemistry</em><br>Multiple Choice Examination</h1>
+    <p class="header-sub">Amino Acids · Enzymes · Bioenergetics · Carbohydrates · Lipids · Molecular Biology · Clinical Applications</p>
+  </header>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-card"><span class="stat-val" id="sTotal">200</span><span class="stat-label">Questions</span></div>
+    <div class="stat-card"><span class="stat-val" id="sAnswered">0</span><span class="stat-label">Answered</span></div>
+    <div class="stat-card"><span class="stat-val" id="sCorrect">0</span><span class="stat-label">Correct</span></div>
+    <div class="stat-card"><span class="stat-val" id="sPct">—</span><span class="stat-label">Score %</span></div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span id="progLabel">0 / 200 answered</span>
+      <span id="progPct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+  </div>
+
+  <!-- MODE TABS -->
+  <div class="mode-tabs">
+    <button class="tab active" onclick="setMode('exam')">📝 Exam Mode</button>
+    <button class="tab" onclick="setMode('review')">🔍 Review Mode</button>
+    <button class="tab" onclick="setMode('key')">🗝 Answer Key</button>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <label>Theme</label>
+    <select id="themeFilter" onchange="applyFilter()">
+      <option value="all">All Themes</option>
+      <option value="1">Theme 1 — Proteins & Enzymes</option>
+      <option value="2">Theme 2 — Bioenergetics & Carbs</option>
+      <option value="3">Theme 3 — Lipid Metabolism</option>
+      <option value="4">Theme 4 — Protein Catabolism & N</option>
+      <option value="5">Theme 5 — Genetics & Mol Bio</option>
+      <option value="6">Theme 6 — Endocrine & Nutrition</option>
+      <option value="7">Theme 7 — Tissue & Hematology</option>
+    </select>
+    <label>Type</label>
+    <select id="typeFilter" onchange="applyFilter()">
+      <option value="all">All Types</option>
+      <option value="clinical">Clinical Only</option>
+      <option value="conceptual">Conceptual Only</option>
+    </select>
+    <label>Per Page</label>
+    <select id="perPageSel" onchange="changePerPage()">
+      <option value="10">10</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+      <option value="200">All</option>
+    </select>
+    <button class="btn primary" onclick="openScore()">Score Me</button>
+    <button class="btn danger" onclick="resetAll()">Reset</button>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div id="qContainer"></div>
+
+  <!-- NAV -->
+  <div class="nav">
+    <button class="btn" onclick="prevPage()">← Previous</button>
+    <span class="page-info" id="pageInfo"></span>
+    <button class="btn" onclick="nextPage()">Next →</button>
+  </div>
+</div>
+
+<!-- SCORE MODAL -->
+<div class="modal-overlay" id="scoreModal" onclick="closeScore(event)">
+  <div class="modal">
+    <div class="modal-title">Examination Results</div>
+    <div class="modal-sub" id="modalSub">Harper's Illustrated Biochemistry</div>
+    <div class="score-big" id="modalScore">—</div>
+    <div class="score-grade" id="modalGrade"></div>
+    <div class="score-detail">
+      <div class="sd-item"><span class="sd-val" id="mdAns">0</span><span class="sd-lab">Answered</span></div>
+      <div class="sd-item"><span class="sd-val" id="mdCorr">0</span><span class="sd-lab">Correct</span></div>
+      <div class="sd-item"><span class="sd-val" id="mdWrong">0</span><span class="sd-lab">Wrong</span></div>
+    </div>
+    <button class="btn primary" onclick="closeScore()">Close</button>
+  </div>
+</div>
+
+<!-- SCROLL TO TOP -->
+<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+const THEME_NAMES = ['','Proteins & Enzymes','Bioenergetics & Carbs','Lipid Metabolism','Protein Catabolism & N','Genetics & Mol Bio','Endocrine & Nutrition','Tissue & Hematology'];
+const OPTS = ['A','B','C','D','E'];
+
+const Q = [
+{id:1,t:1,c:false,stem:"The pKa of the α-amino group of most amino acids is approximately 9.0, while the α-carboxyl group has a pKa near 2.0. At physiological pH of 7.4, the predominant ionic form of a simple amino acid such as alanine is best described as:",opts:["Fully protonated cation","Zwitterion with both charges","Fully deprotonated anion","Uncharged neutral molecule","Equal mixture of cation and anion"],ans:1,r:"At pH 7.4, both the α-amino (pKa ~9) and α-carboxyl (pKa ~2) groups exist in their ionized states simultaneously, producing a zwitterion (dipolar ion) with net zero charge."},
+{id:2,t:1,c:true,stem:"A 3-month-old infant presents with vomiting, lethargy, and a mousy odor to the urine. Serum phenylalanine is markedly elevated. The enzyme deficient in the classic form of this disorder catalyzes the hydroxylation of phenylalanine to tyrosine using which cofactor?",opts:["Pyridoxal phosphate","Tetrahydrobiopterin","Flavin adenine dinucleotide","Tetrahydrofolate","Thiamine pyrophosphate"],ans:1,r:"Phenylalanine hydroxylase requires tetrahydrobiopterin (BH4) as a cofactor; its deficiency causes classic phenylketonuria, explaining the elevated phenylalanine and characteristic phenylacetate odor."},
+{id:3,t:1,c:false,stem:"Ramachandran plots depict the allowed conformations of a polypeptide backbone by plotting the dihedral angles φ and ψ. Which secondary structure occupies the most favorable (largest allowed) region of a Ramachandran plot?",opts:["Parallel β-sheet","Antiparallel β-sheet","Right-handed α-helix","Left-handed α-helix","3₁₀ helix"],ans:2,r:"The right-handed α-helix has φ ≈ −57° and ψ ≈ −47°, placing it in the largest, most energetically favorable region of the Ramachandran plot."},
+{id:4,t:1,c:false,stem:"Collagen is the most abundant protein in the human body and is characterized by a unique triple-helix structure. Which amino acid, occurring at every third position in the Gly-X-Y repeat, is absolutely required for triple-helix formation because its side chain must face the interior of the helix?",opts:["Proline","Hydroxyproline","Glycine","Alanine","Lysine"],ans:2,r:"Glycine, the smallest amino acid, must occupy every third position because only its hydrogen side chain can fit in the sterically restricted interior of the collagen triple helix."},
+{id:5,t:1,c:true,stem:"A 45-year-old man with a history of deep vein thrombosis is found to have a point mutation in his Factor V gene (Factor V Leiden) that renders Factor Va resistant to cleavage by activated protein C. This mutation exemplifies which level of protein structure?",opts:["Primary structure","Secondary structure","Tertiary structure","Quaternary structure","Post-translational modification"],ans:0,r:"A point mutation changes the amino acid sequence (primary structure); in Factor V Leiden, Arg506Gln prevents APC cleavage."},
+{id:6,t:1,c:false,stem:"Hemoglobin exhibits sigmoidal oxygen-binding kinetics unlike myoglobin, which shows hyperbolic kinetics. The cooperative behavior of hemoglobin is best explained by:",opts:["Higher heme iron content per molecule","Allosteric interactions between the four subunits","Presence of BPG in myoglobin","Greater solubility in plasma","Higher molecular weight"],ans:1,r:"Hemoglobin's cooperativity arises from allosteric communication between its four subunits: O₂ binding to one subunit shifts the T→R state transition, increasing affinity in remaining subunits."},
+{id:7,t:1,c:true,stem:"A 28-year-old woman of African descent presents with hemolytic anemia precipitated by an antimalarial drug. Hemoglobin electrophoresis is normal but Heinz bodies are seen on peripheral smear. The most likely enzyme deficiency affects which metabolic pathway?",opts:["Glycolysis","TCA cycle","Pentose phosphate pathway","Fatty acid oxidation","Urea cycle"],ans:2,r:"G6PD deficiency impairs the pentose phosphate pathway, reducing NADPH production needed to regenerate glutathione; oxidative drugs then cause hemolysis with Heinz body formation."},
+{id:8,t:1,c:false,stem:"In the Michaelis-Menten equation, the Km represents the substrate concentration at which reaction velocity equals half the maximum velocity (Vmax/2). Which statement about Km is most accurate?",opts:["Km equals the rate constant for product formation","Km is a measure of enzyme-substrate affinity when k₂ >> k₋₁","Km approximates substrate affinity when k₂ << k₋₁","Km decreases when a competitive inhibitor is added","Km is independent of enzyme concentration"],ans:2,r:"When k₂ << k₋₁, Km ≈ Ks = k₋₁/k₁, making Km a valid approximation of substrate affinity (dissociation constant of the ES complex)."},
+{id:9,t:1,c:true,stem:"A patient takes a sulfonamide antibiotic that competitively inhibits bacterial dihydropteroate synthase. In a Lineweaver-Burk (double-reciprocal) plot comparing the enzyme activity with and without this drug, competitive inhibition is characterized by:",opts:["Decreased slope and unchanged x-intercept","Same x-intercept (−1/Km) and increased y-intercept","Unchanged slope and decreased y-intercept","Decreased Vmax and unchanged Km","Same y-intercept (1/Vmax) and changed x-intercept"],ans:4,r:"Competitive inhibition increases apparent Km (shifts x-intercept leftward) but does not change Vmax (same y-intercept = 1/Vmax) because excess substrate can displace the inhibitor."},
+{id:10,t:1,c:false,stem:"Allosteric enzymes regulate metabolic pathways by binding effector molecules at sites distinct from the active site. Which of the following best describes the concerted (MWC) model of allostery?",opts:["Subunits switch conformations independently","All subunits exist in either all-T or all-R states","Only one subunit changes conformation at a time","Effector binding creates new active sites","Quaternary structure is irrelevant to regulation"],ans:1,r:"The concerted (Monod-Wyman-Changeux) model posits that all subunits flip simultaneously between the tense (T) low-affinity and relaxed (R) high-affinity states, maintaining molecular symmetry."},
+{id:11,t:1,c:true,stem:"A 55-year-old man with gout is prescribed allopurinol. This drug is converted to oxipurinol, which irreversibly inhibits xanthine oxidase. This is an example of:",opts:["Competitive inhibition","Uncompetitive inhibition","Mechanism-based (suicide) inhibition","Allosteric inhibition","Product inhibition"],ans:2,r:"Allopurinol is a substrate analog converted by xanthine oxidase to oxipurinol, which then irreversibly inactivates the enzyme — classic mechanism-based (suicide) inhibition."},
+{id:12,t:1,c:false,stem:"Zinc is an essential transition metal that serves as a cofactor in numerous enzymes. In carbonic anhydrase, the zinc ion participates in catalysis by:",opts:["Accepting electrons from substrate","Activating a water molecule to generate hydroxide ion","Acting as a reducing agent","Stabilizing the product","Chelating the substrate permanently"],ans:1,r:"In carbonic anhydrase, Zn²⁺ coordinates a water molecule, lowering its pKa and generating a metal-bound hydroxide ion that acts as the nucleophile attacking CO₂."},
+{id:13,t:1,c:false,stem:"The isoelectric point (pI) of an amino acid is the pH at which its net charge is zero. For a basic amino acid like lysine (pKa α-COOH = 2.2, pKa α-NH₃ = 9.0, pKa ε-NH₃ = 10.5), the pI is calculated as:",opts:["(2.2 + 9.0)/2 = 5.6","(9.0 + 10.5)/2 = 9.75","(2.2 + 10.5)/2 = 6.35","(9.0 − 2.2)/2 = 3.4","10.5 only"],ans:1,r:"For basic amino acids, the pI is the average of the two pKa values flanking the neutral (zwitterionic) species — in lysine, these are the two amino group pKa values: (9.0 + 10.5)/2 = 9.75."},
+{id:14,t:1,c:true,stem:"A neonate develops severe jaundice within the first 24 hours of life. The mother's blood type is O and the infant is type A. Maternal IgG antibodies cross the placenta and destroy fetal red cells. The heavy chain class involved in placental transfer is:",opts:["IgM μ chain","IgA α chain","IgG γ chain","IgE ε chain","IgD δ chain"],ans:2,r:"Only IgG (γ heavy chain) contains the Fc region recognized by neonatal Fc receptors (FcRn) on placental syncytiotrophoblasts, enabling transcytosis across the placenta."},
+{id:15,t:1,c:false,stem:"The Hill equation is used to quantify cooperative ligand binding. A Hill coefficient (nH) of 1 indicates:",opts:["Strong positive cooperativity","Strong negative cooperativity","No cooperativity (hyperbolic binding)","Allosteric inhibition","Sigmoidal kinetics"],ans:2,r:"nH = 1 indicates non-cooperative, hyperbolic binding (as in myoglobin); nH > 1 indicates positive cooperativity, and nH < 1 indicates negative cooperativity."},
+{id:16,t:1,c:false,stem:"During Edman degradation for protein sequencing, phenyl isothiocyanate (PITC) reacts with the amino-terminal residue under mild alkaline conditions to form a:",opts:["Phenylthiohydantoin (PTH) amino acid","Dansyl derivative","DNP amino acid","Carbamoylated residue","Disulfide bond"],ans:0,r:"PITC reacts with the N-terminal amine to form a phenylthiocarbamoyl derivative, which is cleaved under acid conditions as a thiazolinone that rearranges to the stable PTH-amino acid identified by HPLC."},
+{id:17,t:1,c:true,stem:"Osteogenesis imperfecta type II is caused by glycine substitutions in the collagen triple helix. The substitution of glycine by a larger amino acid disrupts triple helix formation because:",opts:["Glycine's carboxyl group forms hydrogen bonds","The larger R-group cannot be accommodated in the helix interior","Glycine provides N-linked glycosylation sites","The mutation disrupts disulfide bonds","Larger amino acids cannot be hydroxylated"],ans:1,r:"Glycine (Gly-X-Y repeat) must occupy every third position in the collagen triple helix because only its H side chain fits the sterically crowded helix interior; larger residues disrupt helix formation."},
+{id:18,t:1,c:false,stem:"Serine proteases such as chymotrypsin use a catalytic triad consisting of Ser-195, His-57, and Asp-102. The primary role of Asp-102 in catalysis is to:",opts:["Directly attack the substrate peptide bond","Accept the proton from histidine","Stabilize the positive charge on histidine by electrostatic interaction","Form a covalent acyl-enzyme intermediate","Act as a general acid"],ans:2,r:"Asp-102 is negatively charged and stabilizes the developing positive charge on His-57, enhancing histidine's ability to act as a general base/acid in the catalytic triad."},
+{id:19,t:1,c:false,stem:"Prion diseases such as Creutzfeldt-Jakob disease involve the conformational conversion of normal cellular PrPc to misfolded PrPsc. This conversion represents a change in:",opts:["Primary structure","Nucleotide sequence","Tertiary/quaternary structure","Amino acid composition","Gene expression"],ans:2,r:"Prion diseases do not involve changes in amino acid sequence (primary structure) but rather a conformational (tertiary/quaternary) change from α-helix-rich PrPc to β-sheet-rich PrPsc."},
+{id:20,t:1,c:false,stem:"In uncompetitive inhibition, an inhibitor binds exclusively to the enzyme-substrate (ES) complex. The kinetic effect on a Lineweaver-Burk plot is:",opts:["Parallel lines shifted upward (same slope, increased y-intercept)","Lines intersecting on the x-axis","Lines intersecting on the y-axis","Increased slope with unchanged y-intercept","Decreased Km and decreased Vmax in equal proportion"],ans:0,r:"Uncompetitive inhibitors decrease both apparent Vmax and apparent Km by the same factor (α'), producing parallel lines on a Lineweaver-Burk plot shifted upward relative to the uninhibited reaction."},
+{id:21,t:2,c:false,stem:"The standard free energy change (ΔG°') for ATP hydrolysis is approximately −30.5 kJ/mol. The actual free energy available from ATP hydrolysis under cellular conditions is:",opts:["Equal to ΔG°' at −30.5 kJ/mol","Greater than ΔG°' due to low product concentrations","Less than ΔG°' due to high ADP concentrations","Zero at equilibrium","Independent of cellular concentrations"],ans:1,r:"Cellular conditions ([ATP] high, [ADP] and [Pi] low) make the actual free energy of hydrolysis considerably more negative than −30.5 kJ/mol."},
+{id:22,t:2,c:false,stem:"The respiratory chain in the inner mitochondrial membrane transfers electrons from NADH to O₂ through a series of carriers. The correct sequence of electron flow is:",opts:["Complex I → CoQ → Complex III → Cytochrome c → Complex IV","Complex II → Complex I → CoQ → Complex IV","NADH → Complex III → CoQ → Complex I → O₂","Complex I → Cytochrome c → Complex III → CoQ → O₂","NADH → Complex IV → CoQ → Complex I → O₂"],ans:0,r:"Electrons from NADH enter at Complex I, pass to ubiquinone (CoQ), Complex III (bc₁), cytochrome c, and finally Complex IV (cytochrome c oxidase), which reduces O₂ to water."},
+{id:23,t:2,c:true,stem:"A 2-year-old child presents with lactic acidosis, failure to thrive, and ragged red fibers on muscle biopsy. Genetic testing reveals a mitochondrial DNA deletion. The ragged red appearance results from:",opts:["Excess glycogen accumulation","Proliferation of abnormal mitochondria beneath the sarcolemma","Increased iron deposition","Decreased myosin content","Lysosomal enzyme accumulation"],ans:1,r:"Ragged red fibers in mitochondrial myopathies reflect the subsarcolemmal and intermyofibrillar proliferation of abnormal mitochondria, which stain red with modified Gomori trichrome."},
+{id:24,t:2,c:false,stem:"The P/O ratio (ATP synthesized per oxygen atom reduced) for NADH oxidation via the respiratory chain using modern proton stoichiometry is approximately:",opts:["1.0","1.5","2.5","3.0","3.5"],ans:2,r:"Modern measurements using proton stoichiometry indicate a P/O ratio of approximately 2.5 for NADH, reflecting the actual H⁺/ATP ratio of ATP synthase (~2.7) and proton pumping stoichiometry."},
+{id:25,t:2,c:true,stem:"Cyanide poisoning inhibits cytochrome c oxidase (Complex IV). Which treatment provides an alternative electron acceptor, regenerating oxidized cytochrome c³⁺?",opts:["Hyperbaric oxygen alone","Sodium nitrite followed by sodium thiosulfate","N-acetylcysteine","Vitamin K","Flumazenil"],ans:1,r:"Sodium nitrite oxidizes hemoglobin to methemoglobin (high affinity for CN⁻, forming cyanomethemoglobin); sodium thiosulfate then converts CN⁻ to thiocyanate via rhodanese."},
+{id:26,t:2,c:false,stem:"The citric acid cycle regenerates oxaloacetate with each turn, producing NADH, FADH₂, and GTP. How many molecules of CO₂ are released per turn starting from one molecule of acetyl-CoA?",opts:["1","2","3","4","6"],ans:1,r:"Two CO₂ molecules are released per turn — one by isocitrate dehydrogenase and one by α-ketoglutarate dehydrogenase."},
+{id:27,t:2,c:false,stem:"Pyruvate dehydrogenase complex (PDC) catalyzes the irreversible oxidative decarboxylation of pyruvate. Which coenzyme is DIRECTLY involved in the reductive acetylation step carried out by the E2 component?",opts:["Thiamine pyrophosphate (TPP)","Lipoic acid","FAD","Coenzyme A","NAD⁺"],ans:1,r:"Lipoic acid (covalently bound to E2) accepts the acetyl group from TPP-E1 and transfers it to CoA; the reduced lipoamide is then reoxidized by E3 using FAD and then NAD⁺."},
+{id:28,t:2,c:true,stem:"A chronic alcoholic presents with confusion, ophthalmoplegia, and ataxia (Wernicke encephalopathy). The biochemical basis is deficiency of a coenzyme required by pyruvate dehydrogenase, α-ketoglutarate dehydrogenase, and transketolase. This coenzyme is:",opts:["Riboflavin (B2)","Niacin (B3)","Thiamine (B1)","Pyridoxine (B6)","Cobalamin (B12)"],ans:2,r:"Thiamine pyrophosphate (TPP) is the coenzyme for PDC, α-KGDH, and transketolase; deficiency in alcoholics causes Wernicke encephalopathy due to impaired carbohydrate metabolism in neurons."},
+{id:29,t:2,c:false,stem:"Glycolysis converts one glucose molecule to two pyruvates. The net ATP production per glucose in glycolysis (substrate-level phosphorylation only) is:",opts:["1","2","4","6","8"],ans:1,r:"Glycolysis invests 2 ATP (hexokinase and PFK-1) and produces 4 ATP (phosphoglycerate kinase and pyruvate kinase steps, twice), giving a net yield of 2 ATP per glucose."},
+{id:30,t:2,c:false,stem:"Phosphofructokinase-1 (PFK-1) is the primary regulatory enzyme of glycolysis. Which of the following is an allosteric ACTIVATOR of PFK-1?",opts:["ATP (high concentration)","Citrate","Glucagon","AMP","H⁺ (low pH)"],ans:3,r:"AMP signals a low-energy state and allosterically activates PFK-1, stimulating glycolysis to generate ATP; high ATP, citrate, and low pH are inhibitory signals."},
+{id:31,t:2,c:true,stem:"A patient with type 1 diabetes in poor glycemic control presents with deep, rapid (Kussmaul) breathing. Arterial blood gas shows pH 7.1, bicarbonate 8 mEq/L. The metabolic acidosis is primarily caused by:",opts:["Lactic acid overproduction","Acetoacetate and β-hydroxybutyrate accumulation","Glucuronic acid excess","Urea cycle dysfunction","Respiratory chain inhibition"],ans:1,r:"Insulin deficiency promotes lipolysis and hepatic ketogenesis; acetoacetate and β-hydroxybutyrate accumulate, causing high-anion-gap metabolic acidosis (diabetic ketoacidosis)."},
+{id:32,t:2,c:false,stem:"In rapidly dividing cancer cells, which product of the non-oxidative phase of the pentose phosphate pathway is most critical?",opts:["NADPH for anabolic reactions","Ribulose-5-phosphate","Ribose-5-phosphate for nucleotide synthesis","Glucose-1-phosphate","Fructose-6-phosphate for energy"],ans:2,r:"Rapidly dividing cells require abundant ribose-5-phosphate for nucleotide (DNA/RNA) synthesis; the non-oxidative phase of the PPP interconverts sugar phosphates to produce ribose-5-phosphate."},
+{id:33,t:2,c:false,stem:"Which enzyme unique to gluconeogenesis bypasses the irreversible pyruvate kinase step and is activated by glucagon?",opts:["Pyruvate kinase","Phosphoglucose isomerase","Phosphoenolpyruvate carboxykinase (PEPCK)","Enolase","Phosphoglycerate kinase"],ans:2,r:"PEPCK catalyzes decarboxylation and phosphorylation of oxaloacetate to PEP, bypassing the irreversible pyruvate kinase step; glucagon-induced cAMP upregulates PEPCK transcription."},
+{id:34,t:2,c:false,stem:"The branch-point enzyme that introduces α-1,6 linkages in glycogen is:",opts:["Glycogen phosphorylase","Glycogen synthase","Branching enzyme (amylo-1,4→1,6-transglycosylase)","Debranching enzyme","Phosphoglucomutase"],ans:2,r:"The branching enzyme transfers a terminal oligosaccharide from an α-1,4 chain and attaches it via an α-1,6 linkage, creating branch points that increase solubility and the number of non-reducing ends."},
+{id:35,t:2,c:true,stem:"An infant presents with fasting hypoglycemia, an enlarged liver, and absent glucose-6-phosphatase activity on liver biopsy. This is consistent with:",opts:["McArdle disease (GSD V)","Von Gierke disease (GSD I)","Pompe disease (GSD II)","Cori disease (GSD III)","Hers disease (GSD VI)"],ans:1,r:"Von Gierke disease (GSD type I) results from glucose-6-phosphatase deficiency; glucose-6-phosphate cannot be converted to free glucose for export, causing fasting hypoglycemia and hepatomegaly."},
+{id:36,t:2,c:false,stem:"Using modern P/O ratios of 2.5 for NADH and 1.5 for FADH₂, the approximate maximum ATP yield per glucose oxidized to CO₂ and H₂O is:",opts:["36–38","30–32","28–30","20–22","15–18"],ans:1,r:"10 NADH × 2.5 = 25 ATP; 2 FADH₂ × 1.5 = 3 ATP; 2 GTP + 2 net glycolytic ATP + 2 substrate-level = ~30–32 ATP per glucose."},
+{id:37,t:2,c:false,stem:"Uncouplers such as 2,4-dinitrophenol (DNP) dissipate the proton gradient across the inner mitochondrial membrane by:",opts:["Inhibiting ATP synthase directly","Blocking Complex I","Carrying protons across the membrane as lipophilic weak acids","Inhibiting the adenine nucleotide translocase","Disrupting the electron transport chain"],ans:2,r:"DNP is a lipophilic weak acid that accepts protons on the intermembrane space side and carries them across the hydrophobic inner membrane, short-circuiting the proton gradient and converting energy to heat."},
+{id:38,t:2,c:true,stem:"During prolonged exercise, the liver releases ketone bodies. The rate-limiting enzyme of hepatic ketogenesis is:",opts:["Acetyl-CoA carboxylase","HMG-CoA synthase (mitochondrial)","HMG-CoA reductase","Thiolase","β-Hydroxybutyrate dehydrogenase"],ans:1,r:"Mitochondrial HMG-CoA synthase, which condenses acetoacetyl-CoA with acetyl-CoA to form HMG-CoA, is the rate-limiting (committed) step of ketogenesis and is induced by low insulin/high glucagon."},
+{id:39,t:2,c:false,stem:"Which bifunctional enzyme controls fructose-2,6-bisphosphate (F-2,6-BP) levels, coordinating glycolysis and gluconeogenesis?",opts:["Phosphoglucose isomerase","PFK-2/FBPase-2","Fructose bisphosphate aldolase","Phosphoglucomutase","Glucose-6-phosphate dehydrogenase"],ans:1,r:"PFK-2/FBPase-2 is a bifunctional enzyme; in the fed state its kinase domain produces F-2,6-BP; in the fasting state (glucagon/cAMP-PKA phosphorylation) its phosphatase domain dominates, lowering F-2,6-BP."},
+{id:40,t:2,c:false,stem:"Galactosemia results from deficiency of galactose-1-phosphate uridylyltransferase. Accumulation of galactose-1-phosphate causes damage primarily to which organs?",opts:["Kidney and muscle","Liver, brain, and lens","Pancreas and adrenal glands","Spleen and bone marrow","Heart and skeletal muscle"],ans:1,r:"Galactose-1-phosphate accumulates in the liver (cirrhosis), brain (intellectual disability), and lens (galactitol-induced cataracts via aldose reductase), the classic targets of galactosemia toxicity."},
+{id:41,t:3,c:false,stem:"Which enzyme is inhibited by malonyl-CoA, preventing simultaneous fatty acid synthesis and β-oxidation?",opts:["Carnitine palmitoyltransferase II (CPT II)","Carnitine palmitoyltransferase I (CPT I)","Acyl-CoA synthetase","Translocase","Acetyl-CoA carboxylase"],ans:1,r:"Malonyl-CoA (produced by acetyl-CoA carboxylase in the fed state) inhibits CPT I on the outer mitochondrial membrane, preventing fatty acyl-CoA entry into the mitochondrion."},
+{id:42,t:3,c:false,stem:"How many turns of the β-oxidation spiral are required to completely oxidize one molecule of palmitoyl-CoA (C16:0)?",opts:["6","7","8","14","16"],ans:1,r:"An even-chain C16 fatty acid requires 7 turns of β-oxidation to yield 8 acetyl-CoA, 7 NADH, and 7 FADH₂; number of turns = (n/2 − 1) = 7."},
+{id:43,t:3,c:true,stem:"A patient on long-term valproate therapy develops hyperammonemia and microvesicular steatosis. The mechanism involves valproate-CoA depleting the mitochondrial CoA pool and inhibiting:",opts:["Fatty acid synthesis","β-Oxidation of fatty acids","Cholesterol synthesis","Glycolysis","Urea cycle enzymes directly"],ans:1,r:"Valproyl-CoA sequesters mitochondrial CoA, impairing β-oxidation; fatty acids accumulate as triglycerides (steatosis), and impaired oxidation reduces energy for the urea cycle, causing hyperammonemia."},
+{id:44,t:3,c:false,stem:"Peroxisomal β-oxidation differs from mitochondrial β-oxidation in that the first oxidation step uses which electron acceptor?",opts:["NAD⁺","FAD → FADH₂, which donates electrons directly to O₂ producing H₂O₂","Ubiquinone (CoQ)","Cytochrome c","FMN"],ans:1,r:"In peroxisomes, acyl-CoA oxidase uses FAD and transfers electrons directly to O₂, producing H₂O₂ (degraded by catalase) rather than reducing the respiratory chain."},
+{id:45,t:3,c:false,stem:"The committed step of de novo fatty acid synthesis, catalyzed by acetyl-CoA carboxylase (ACC), requires which vitamin-derived cofactor?",opts:["Thiamine pyrophosphate","Lipoic acid","Biotin","Pyridoxal phosphate","Cobalamin"],ans:2,r:"Acetyl-CoA carboxylase uses biotin (covalently linked) to carry CO₂ in the carboxylation of acetyl-CoA to malonyl-CoA, the committed, rate-limiting step of fatty acid synthesis."},
+{id:46,t:3,c:true,stem:"A 35-year-old man has severe hypertriglyceridemia (TG 4,500 mg/dL), eruptive xanthomas, and acute pancreatitis. Fasting chylomicrons persist in plasma. This is most consistent with deficiency of:",opts:["LDL receptor","VLDL receptor","Lipoprotein lipase or its cofactor apoC-II","Cholesterol 7α-hydroxylase","LCAT"],ans:2,r:"Familial LPL deficiency or apoC-II deficiency (LPL cofactor) prevents clearance of chylomicrons and VLDL, causing massive hypertriglyceridemia with eruptive xanthomas and pancreatitis."},
+{id:47,t:3,c:false,stem:"Arachidonic acid is released from membrane phospholipids by which enzyme as the first step in eicosanoid synthesis?",opts:["Cyclooxygenase","Phospholipase A₂","Lipoxygenase","Phospholipase C","Phospholipase D"],ans:1,r:"Phospholipase A₂ cleaves arachidonic acid from the sn-2 position of membrane phospholipids, making it available as the precursor for prostaglandins (via COX) and leukotrienes (via LOX)."},
+{id:48,t:3,c:false,stem:"Ceramide, the backbone of all sphingolipids, is synthesized from:",opts:["Glycerol + fatty acid","Sphingosine + fatty acyl-CoA","Cholesterol + serine","Phosphatidylinositol + ceramide","Ethanolamine + ceramide"],ans:1,r:"Ceramide is synthesized by the condensation of sphingosine (a long-chain amino alcohol) with a fatty acyl-CoA via ceramide synthase."},
+{id:49,t:3,c:true,stem:"A 6-month-old infant presents with progressive neurodegeneration, a cherry-red spot on the macula, and hepatosplenomegaly. Enzyme assay shows absent hexosaminidase A activity. The accumulated substrate is:",opts:["Glucocerebroside","GM2 ganglioside","Sulfatide","Sphingomyelin","Globotriaosylceramide"],ans:1,r:"Tay-Sachs disease (hexosaminidase A deficiency) causes GM2 ganglioside accumulation in neuronal lysosomes, causing progressive neurodegeneration and the characteristic cherry-red spot."},
+{id:50,t:3,c:false,stem:"The rate-limiting and regulated step of the cholesterol synthesis pathway is catalyzed by:",opts:["Squalene synthase","HMG-CoA synthase (cytosolic)","HMG-CoA reductase","Mevalonate kinase","Lanosterol synthase"],ans:2,r:"HMG-CoA reductase, which converts HMG-CoA to mevalonate, is the rate-limiting enzyme of cholesterol synthesis; it is inhibited by statins and downregulated by intracellular cholesterol."},
+{id:51,t:3,c:true,stem:"A 52-year-old man with familial hypercholesterolemia has markedly elevated LDL despite a low-fat diet. The most common cause of heterozygous FH is:",opts:["Defective apolipoprotein B-100","Loss-of-function mutations in LDL receptor","Gain-of-function mutations in PCSK9","Lipoprotein lipase deficiency","LCAT deficiency"],ans:1,r:"The most common cause of familial hypercholesterolemia is loss-of-function mutations in the LDL receptor gene, impairing LDL uptake by hepatocytes and causing elevated plasma LDL-cholesterol."},
+{id:52,t:3,c:false,stem:"The key lipoprotein mediating reverse cholesterol transport (RCT) from peripheral tissues to the liver is:",opts:["LDL","VLDL","Chylomicrons","HDL","IDL"],ans:3,r:"HDL mediates reverse cholesterol transport: it accepts free cholesterol from peripheral cells (via ABCA1), esterifies it (via LCAT), and delivers cholesteryl esters to the liver directly or via CETP-mediated exchange."},
+{id:53,t:3,c:false,stem:"Propionyl-CoA (from odd-chain fatty acid oxidation) enters the TCA cycle as succinyl-CoA through a pathway requiring which two vitamins?",opts:["Biotin and vitamin B12 (cobalamin)","Thiamine and riboflavin","Niacin and pantothenic acid","Vitamin B6 and folate","Vitamin C and vitamin E"],ans:0,r:"Propionyl-CoA carboxylase (biotin-dependent) forms D-methylmalonyl-CoA; methylmalonyl-CoA mutase (adenosylcobalamin-dependent) converts it to succinyl-CoA."},
+{id:54,t:3,c:true,stem:"A patient with abetalipoproteinemia cannot assemble chylomicrons or VLDL. Clinical consequences include fat malabsorption and deficiency of which vitamins?",opts:["B vitamins and vitamin C","Fat-soluble vitamins A, D, E, K","Vitamin B12 and folate only","Water-soluble vitamins","Iron and calcium"],ans:1,r:"Without chylomicrons, dietary fat and fat-soluble vitamins (A, D, E, K) cannot be absorbed; deficiency causes night blindness (A), coagulopathy (K), spinocerebellar degeneration (E), and rickets (D)."},
+{id:55,t:3,c:false,stem:"Phospholipase C cleaves PIP₂ to produce two second messengers. These are:",opts:["cAMP and cGMP","DAG and IP₃","Arachidonic acid and ceramide","Sphingosine-1-phosphate and DAG","LPA and lysophosphatidylcholine"],ans:1,r:"Phospholipase C hydrolyzes PIP₂ into diacylglycerol (DAG, which activates PKC) and inositol-1,4,5-trisphosphate (IP₃, which releases Ca²⁺ from the endoplasmic reticulum)."},
+{id:56,t:3,c:false,stem:"MCAD deficiency causes inability to generate ketone bodies from medium-chain fatty acids. The primary metabolic consequence during fasting is:",opts:["Hyperglycemia","Hypoketotic hypoglycemia","Hyperketotic hypoglycemia","Lactic acidosis only","Hyperammonemia"],ans:1,r:"MCAD deficiency causes hypoketotic hypoglycemia during fasting: without β-oxidation of medium-chain fatty acids, there is insufficient acetyl-CoA for ketogenesis while glucose is rapidly depleted."},
+{id:57,t:3,c:false,stem:"The lipoprotein that is the immediate precursor of LDL in plasma is:",opts:["Chylomicron remnant","VLDL","IDL (intermediate-density lipoprotein)","HDL","Lp(a)"],ans:2,r:"VLDL is partially hydrolyzed by lipolysis to become IDL; IDL then loses additional triglycerides and apoE via hepatic lipase to become LDL."},
+{id:58,t:3,c:false,stem:"The rate-limiting enzyme in primary bile acid synthesis (classic/neutral pathway) is:",opts:["HMG-CoA reductase","Cholesterol 7α-hydroxylase (CYP7A1)","Sterol 12α-hydroxylase","Bile acid CoA ligase","7α-Dehydroxylase"],ans:1,r:"Cholesterol 7α-hydroxylase (CYP7A1) is the rate-limiting enzyme of bile acid synthesis; it is inhibited by bile acids (negative feedback) and upregulated when cholesterol levels are high."},
+{id:59,t:3,c:true,stem:"A 60-year-old woman with elevated LDL of 280 mg/dL is prescribed a statin. Statins lower LDL-cholesterol by:",opts:["Directly inhibiting cholesterol absorption in the gut","Inhibiting HMG-CoA reductase, reducing hepatic cholesterol, and upregulating LDL receptors","Activating lipoprotein lipase","Increasing bile acid excretion directly","Inhibiting PCSK9 secretion"],ans:1,r:"Statins competitively inhibit HMG-CoA reductase; reduced intracellular cholesterol upregulates SREBP-2, increasing LDL receptor synthesis in hepatocytes and thus clearing LDL from plasma."},
+{id:60,t:3,c:false,stem:"A hallmark laboratory finding in Zellweger syndrome (absence of functional peroxisomes) is:",opts:["Accumulation of very-long-chain fatty acids (VLCFAs) in plasma","Elevated medium-chain acylcarnitines","Low plasma carnitine only","Deficiency of mitochondrial respiratory chain enzymes","Elevated propionyl-CoA"],ans:0,r:"Peroxisomes are the sole site of VLCFA (C22+) oxidation; Zellweger syndrome causes VLCFA accumulation in plasma and tissues, which is used diagnostically."},
+{id:61,t:3,c:false,stem:"Lipoprotein(a) [Lp(a)] is considered prothrombotic because apo(a):",opts:["Activates thrombin directly","Has homology to plasminogen and competitively inhibits fibrinolysis","Activates factor X","Inhibits protein C","Increases platelet aggregation via GPIIb/IIIa"],ans:1,r:"Apo(a) shares structural homology with plasminogen (multiple kringle domains) and competes with plasminogen for fibrin binding, thereby inhibiting fibrinolysis and promoting thrombosis."},
+{id:62,t:3,c:false,stem:"Aspirin irreversibly inhibits COX by:",opts:["Competitively blocking the arachidonic acid binding site","Acetylating a serine residue in the active site","Chelating the heme iron in COX","Alkylating the enzyme via a Michael addition","Inhibiting phospholipase A₂"],ans:1,r:"Aspirin irreversibly acetylates Ser-530 (COX-1) and Ser-516 (COX-2) in the cyclooxygenase active site, permanently blocking prostaglandin and thromboxane synthesis."},
+{id:63,t:3,c:false,stem:"Niemann-Pick disease type A/B results from deficiency of sphingomyelinase, causing accumulation of:",opts:["Ceramide","Glucocerebroside","Sphingomyelin","Galactocerebroside","Sulfatide"],ans:2,r:"Sphingomyelinase deficiency causes sphingomyelin accumulation in lysosomes of macrophages throughout the reticuloendothelial system, causing hepatosplenomegaly."},
+{id:64,t:3,c:false,stem:"The thiol group of which carrier protein shuttles the growing acyl chain between active sites during fatty acid synthesis?",opts:["CoA","Acyl carrier protein (ACP) — the 4'-phosphopantetheine arm","Lipoic acid","Glutathione","Thioredoxin"],ans:1,r:"ACP, which contains a 4'-phosphopantetheine prosthetic group (from pantothenate/vitamin B5), shuttles the growing acyl chain between the successive active sites of the FAS complex."},
+{id:65,t:3,c:false,stem:"Hormone-sensitive lipase (HSL) in adipose tissue is activated by:",opts:["Insulin-stimulated phosphorylation by Akt","Dephosphorylation by protein phosphatase 2A","Phosphorylation by PKA in response to β-adrenergic stimulation","Direct binding of fatty acids","AMPK-mediated phosphorylation"],ans:2,r:"Catecholamines (via β-adrenergic receptors) activate adenylyl cyclase → cAMP → PKA, which phosphorylates and activates HSL and also phosphorylates perilipin to expose lipid droplet surfaces."},
+{id:66,t:4,c:false,stem:"Transamination reactions require which coenzyme, and which amino acid is produced in virtually all transaminations?",opts:["TPP; alanine","Biotin; aspartate","Pyridoxal phosphate (PLP); glutamate","NAD⁺; glutamine","FAD; aspartate"],ans:2,r:"Aminotransferases use PLP (vitamin B6 derivative); the α-amino group is transferred to α-ketoglutarate, producing glutamate as the common nitrogen carrier in amino acid catabolism."},
+{id:67,t:4,c:true,stem:"A 3-day-old neonate develops hyperammonemia, respiratory alkalosis, and markedly elevated plasma citrulline. The deficient enzyme is:",opts:["Carbamoyl phosphate synthetase I","Ornithine transcarbamylase","Argininosuccinate synthetase (citrullinemia type I)","Arginase","N-acetylglutamate synthase"],ans:2,r:"Citrullinemia type I results from argininosuccinate synthetase deficiency; citrulline cannot be condensed with aspartate, causing citrulline accumulation and hyperammonemia neonatally."},
+{id:68,t:4,c:false,stem:"In the urea cycle, which amino acid donates the second nitrogen atom for urea synthesis?",opts:["Glutamine","Aspartate — via condensation with citrulline to form argininosuccinate","Glycine","Alanine","Serine"],ans:1,r:"One nitrogen comes from carbamoyl phosphate (derived from free NH₄⁺/glutamine) and the second comes from aspartate via its condensation with citrulline to form argininosuccinate."},
+{id:69,t:4,c:true,stem:"A 4-year-old boy has intellectual disability, a musty odor, elevated serum phenylalanine, low tyrosine, and urine phenylpyruvate. The enzyme deficiency is:",opts:["Tyrosine aminotransferase","Fumarylacetoacetase","Phenylalanine hydroxylase","Homogentisate oxidase","Maleylacetoacetate isomerase"],ans:2,r:"Phenylalanine hydroxylase deficiency (PKU) causes phenylalanine accumulation and its transamination to phenylpyruvate, with low tyrosine; intellectual disability results from neonatal hyperphenylalaninemia."},
+{id:70,t:4,c:false,stem:"The rate-limiting enzyme in catecholamine synthesis is:",opts:["Aromatic amino acid decarboxylase","DOPA decarboxylase","Tyrosine hydroxylase","Dopamine β-hydroxylase","Phenylethanolamine N-methyltransferase"],ans:2,r:"Tyrosine hydroxylase, which converts tyrosine to DOPA using tetrahydrobiopterin, is the rate-limiting and regulated step; it is feedback-inhibited by catecholamines."},
+{id:71,t:4,c:false,stem:"Homocysteine can be remethylated to methionine by which enzyme and cofactor combination?",opts:["Cystathionine β-synthase using PLP","Methionine synthase using methylcobalamin and 5-methyltetrahydrofolate","Homocysteine methyltransferase using SAM","Betaine-homocysteine methyltransferase using betaine (liver only)","Serine hydroxymethyltransferase using THF"],ans:1,r:"Methionine synthase uses methylcobalamin (vitamin B12) as intermediate methyl carrier and 5-methyltetrahydrofolate as methyl donor to remethylate homocysteine to methionine."},
+{id:72,t:4,c:true,stem:"A 50-year-old with chronic alcoholism develops megaloblastic anemia. B12 is normal. The deficiency impairing homocysteine remethylation and thymidylate synthesis is:",opts:["Vitamin B6","Folate (5-methylTHF)","Vitamin B12","Vitamin B1","Niacin"],ans:1,r:"Folate deficiency (common in alcoholism due to poor intake and impaired absorption) impairs 5-methylTHF availability; homocysteine remethylation and dTMP synthesis both fail, causing megaloblastic anemia."},
+{id:73,t:4,c:false,stem:"After transamination, branched-chain α-keto acids are oxidatively decarboxylated by which enzyme complex?",opts:["Pyruvate dehydrogenase complex","Branched-chain α-keto acid dehydrogenase (BCKDH) complex","α-Ketoglutarate dehydrogenase complex","Glycine cleavage system","Succinyl-CoA synthetase"],ans:1,r:"BCKDH (requiring TPP, lipoate, FAD, NAD⁺, and CoA) oxidatively decarboxylates branched-chain α-keto acids; BCKDH deficiency causes maple syrup urine disease."},
+{id:74,t:4,c:true,stem:"A newborn screened with tandem MS shows elevated C5-acylcarnitines (isovalerylcarnitine). The odor of isovaleric acidemia is described as:",opts:["Mousy/musty","Maple syrup","Sweaty feet","Cabbage-like","Fishy"],ans:2,r:"Isovaleric acidemia causes accumulation of isovaleric acid (from isovaleryl-CoA), which gives a characteristic 'sweaty feet' odor; MS/MS newborn screening detects elevated C5-acylcarnitine early."},
+{id:75,t:4,c:false,stem:"The rate-limiting step of serotonin synthesis from tryptophan, occurring in most tissues, is catalyzed by:",opts:["Aromatic amino acid decarboxylase","Tryptophan hydroxylase","Monoamine oxidase","Indoleamine 2,3-dioxygenase","Kynurenine aminotransferase"],ans:1,r:"Tryptophan hydroxylase converts tryptophan to 5-hydroxytryptophan (using tetrahydrobiopterin) in the rate-limiting step; 5-hydroxytryptophan is then decarboxylated to serotonin."},
+{id:76,t:4,c:false,stem:"The enzyme that synthesizes glutamine from glutamate and ammonia (using ATP), serving as the major mechanism of ammonia detoxification in muscle and brain, is:",opts:["Glutamate dehydrogenase","Glutaminase","Glutamine synthetase","Asparagine synthetase","Carbamoyl phosphate synthetase II"],ans:2,r:"Glutamine synthetase catalyzes the ATP-dependent condensation of glutamate and NH₄⁺ to form glutamine, the major mechanism of ammonia detoxification in muscle and brain."},
+{id:77,t:4,c:false,stem:"Which form of tetrahydrofolate (THF) carries a one-carbon unit at the most oxidized level (formyl)?",opts:["5-methylTHF","5,10-methyleneTHF","5-formylTHF or 10-formylTHF","5,10-methenylTHF","5-formiminoTHF"],ans:2,r:"The formyl (−CHO) group is the most oxidized one-carbon unit carried by THF; 10-formyl-THF donates formyl groups in de novo purine synthesis."},
+{id:78,t:4,c:true,stem:"An infant with hereditary tyrosinemia type I has liver failure and elevated urinary succinylacetone. The deficient enzyme is:",opts:["Tyrosine aminotransferase","4-Hydroxyphenylpyruvate dioxygenase","Homogentisate 1,2-dioxygenase","Fumarylacetoacetase","Maleylacetoacetate isomerase"],ans:3,r:"Fumarylacetoacetase deficiency causes fumarylacetoacetate accumulation and conversion to succinylacetone, which inhibits heme synthesis (ALA dehydratase) and is a potent carcinogen."},
+{id:79,t:4,c:false,stem:"Homocysteine can be disposed of by transsulfuration to cysteine via which PLP-dependent enzyme?",opts:["Methionine adenosyltransferase","Cystathionine β-synthase","Cystathionase (cystathionine γ-lyase)","Homocysteine methyltransferase","Serine hydroxymethyltransferase"],ans:1,r:"Cystathionine β-synthase (PLP-dependent) condenses homocysteine with serine to form cystathionine; cystathionine γ-lyase then cleaves it to cysteine, α-ketobutyrate, and NH₃."},
+{id:80,t:4,c:false,stem:"Alkaptonuria is characterized by dark urine on standing and ochronosis. The deficient enzyme is:",opts:["Tyrosine aminotransferase","4-Hydroxyphenylpyruvate dioxygenase","Homogentisate 1,2-dioxygenase","Fumarylacetoacetase","Phenylalanine hydroxylase"],ans:2,r:"Homogentisate 1,2-dioxygenase deficiency causes homogentisic acid accumulation; it oxidizes and polymerizes to form ochronotic pigment and darkens on exposure to oxygen in urine."},
+{id:81,t:4,c:true,stem:"A patient's forearm ischemic exercise test shows no rise in venous lactate but normal ammonia rise, with recurrent myoglobinuria after exercise. The most likely diagnosis is:",opts:["McArdle disease (GSD V — muscle phosphorylase deficiency)","Pompe disease","Myophosphorylase excess","MCAD deficiency","CPT II deficiency"],ans:0,r:"McArdle disease (muscle phosphorylase deficiency) presents with exercise intolerance and myoglobinuria; the ischemic forearm test shows a flat lactate curve with normal ammonia rise (purine nucleotide cycle intact)."},
+{id:82,t:4,c:false,stem:"Nitric oxide (NO) synthesized from arginine by NOS causes vasodilation by:",opts:["Directly relaxing smooth muscle by binding α-receptors","Activating soluble guanylyl cyclase → ↑cGMP → PKG → dephosphorylating myosin light chain","Inhibiting ACE directly","Blocking calcium channels","Activating adenylyl cyclase"],ans:1,r:"NO diffuses into vascular smooth muscle and activates soluble guanylyl cyclase, elevating cGMP, which activates PKG; PKG reduces myosin light chain kinase activity, causing relaxation."},
+{id:83,t:5,c:false,stem:"The first committed step of de novo purine synthesis — transfer of an amino group from glutamine to PRPP — is catalyzed by:",opts:["Adenylosuccinate synthetase","PRPP amidotransferase","GMP synthetase","SAICAR synthetase","FGAR amidotransferase"],ans:1,r:"PRPP amidotransferase catalyzes the first committed step of purine synthesis — displacement of pyrophosphate from PRPP by the amide nitrogen of glutamine, forming 5-phosphoribosylamine."},
+{id:84,t:5,c:true,stem:"A 6-year-old boy presents with hyperuricemia, self-mutilation, choreoathetosis, and intellectual disability. Complete HGPRT deficiency leads to this condition because:",opts:["Purines cannot be synthesized de novo","Salvage pathway blockade causes PRPP accumulation, driving excessive de novo purine synthesis and uric acid production","Uric acid is not excreted by the kidneys","Adenine deaminase activity is increased","Xanthine oxidase is constitutively activated"],ans:1,r:"Lesch-Nyhan syndrome: HGPRT loss prevents purine salvage, causing PRPP accumulation and uninhibited de novo purine synthesis; excess purines are catabolized to uric acid."},
+{id:85,t:5,c:false,stem:"The trifunctional enzyme that catalyzes the first three steps of pyrimidine synthesis is:",opts:["Dihydroorotase alone","CAD (CPS II + ATCase + dihydroorotase)","Orotate phosphoribosyltransferase","CTP synthetase","Carbamoyl phosphate synthetase I"],ans:1,r:"CAD is a trifunctional polypeptide containing CPS II, aspartate transcarbamoylase (ATCase), and dihydroorotase activities that catalyze the first three steps of pyrimidine synthesis."},
+{id:86,t:5,c:true,stem:"5-Fluorouracil (5-FU) after conversion to FdUMP inhibits thymidylate synthase, which is required for:",opts:["De novo purine synthesis","Conversion of dUMP to dTMP (providing the methyl group for thymine)","Ribonucleotide reductase activity","CTP synthesis from UTP","Pyrimidine salvage"],ans:1,r:"Thymidylate synthase methylates dUMP to dTMP using 5,10-methyleneTHF; FdUMP forms a covalent ternary complex, blocking dTMP synthesis and DNA replication."},
+{id:87,t:5,c:false,stem:"The enzyme responsible for synthesizing the RNA primer needed for each Okazaki fragment on the lagging strand is:",opts:["DNA polymerase α","DNA polymerase δ","DNA primase","Telomerase","DNA polymerase β"],ans:2,r:"DNA primase synthesizes short RNA primers (~10 nt) required at each origin and Okazaki fragment start site; DNA polymerase α then extends these primers before handoff to DNA polymerase δ."},
+{id:88,t:5,c:false,stem:"Degeneracy in the genetic code is predominantly due to wobble pairing at which codon position?",opts:["First (5') position","Second (middle) position","Third (3') position (wobble position)","All three positions equally","The anticodon loop only"],ans:2,r:"Wobble occurs at the third (3') position of the codon; the tRNA anticodon's first nucleotide can pair with multiple bases at this position, allowing one tRNA to read multiple synonymous codons."},
+{id:89,t:5,c:true,stem:"A patient develops numerous skin cancers in sun-exposed areas and is diagnosed with xeroderma pigmentosum (XP). XP cells cannot repair UV-induced thymine dimers due to a defect in:",opts:["Mismatch repair (MMR)","Base excision repair (BER)","Nucleotide excision repair (NER)","Homologous recombination","Non-homologous end joining (NHEJ)"],ans:2,r:"Xeroderma pigmentosum results from mutations in NER genes (XPA–XPG); NER recognizes and removes bulky DNA adducts including cyclobutane pyrimidine dimers caused by UV radiation."},
+{id:90,t:5,c:false,stem:"The TATA box, located ~25–30 bp upstream of the transcription start site, is recognized by:",opts:["RNA polymerase II directly","TATA-binding protein (TBP), a component of TFIID","TFIIB","Mediator complex","TFIIH kinase"],ans:1,r:"The TATA box is recognized by TBP, a subunit of the general transcription factor TFIID, which is the first factor to bind and nucleates pre-initiation complex assembly."},
+{id:91,t:5,c:false,stem:"In eukaryotes, the elongation factor that delivers aminoacyl-tRNAs to the ribosomal A-site is:",opts:["EF-Tu","EF-G","eEF1A (eEF-1α)","eEF2","IF2"],ans:2,r:"eEF1A (the eukaryotic equivalent of prokaryotic EF-Tu) delivers aminoacyl-tRNA to the ribosomal A-site as a ternary complex with GTP; GTP hydrolysis follows correct codon-anticodon recognition."},
+{id:92,t:5,c:true,stem:"Aminoglycosides (e.g., streptomycin) cause misreading of mRNA by:",opts:["Blocking the peptidyl transferase center","Inhibiting translocation (EF-G activity)","Binding to the 30S subunit and causing misreading of the A-site codon","Preventing release factor activity","Inhibiting the 50S subunit peptidyl transferase"],ans:2,r:"Aminoglycosides bind irreversibly to the 16S rRNA of the 30S ribosomal subunit, distorting the decoding site and causing codon misreading and translation inhibition."},
+{id:93,t:5,c:false,stem:"When both glucose and lactose are present, the lac operon is expressed at low levels because:",opts:["The lac operon is maximally expressed","Lactose induction is absent","Catabolite repression: high glucose → low cAMP → CAP not activated → low transcription despite repressor removal","The repressor is not removed","Expression is constitutive regardless of glucose"],ans:2,r:"High glucose depresses adenylyl cyclase, so CAP cannot bind its activating site; even if allolactose removes the repressor, transcription is low without CAP-cAMP positive activation — catabolite repression."},
+{id:94,t:5,c:true,stem:"A patient with Lynch syndrome (HNPCC) has a germline mutation in MSH2. The increased cancer risk results from impaired:",opts:["Nucleotide excision repair","Base excision repair","Homologous recombination","Mismatch repair (MMR)","Translesion synthesis"],ans:3,r:"Lynch syndrome is caused by germline mutations in MMR genes (MLH1, MSH2, MSH6, PMS2); impaired MMR allows replication errors to accumulate, causing microsatellite instability and elevated mutation rate."},
+{id:95,t:5,c:false,stem:"The branch point adenosine residue in the intron attacks the 5' splice site during spliceosomal splicing to form a:",opts:["Linear lariat","2'-5' phosphodiester bond lariat intermediate","3'-5' lariat intermediate","Exon-exon junction complex","Spliceosomal snRNP"],ans:1,r:"The 2'-OH of the branch-point adenosine attacks the 5' splice site via transesterification, generating a lariat intermediate with a 2'-5' phosphodiester linkage."},
+{id:96,t:5,c:false,stem:"Telomerase, which maintains telomere length in germ cells and stem cells, is classified as:",opts:["A DNA-dependent DNA polymerase","A DNA-dependent RNA polymerase","An RNA-dependent DNA polymerase (reverse transcriptase)","A ribozyme only","A topoisomerase"],ans:2,r:"Telomerase is an RNA-dependent DNA polymerase (reverse transcriptase) that uses its own internal RNA component (hTERC) as template to synthesize telomeric repeat DNA (TTAGGG) onto the chromosome 3' overhang."},
+{id:97,t:5,c:false,stem:"The correct sequence of steps in Southern blotting is:",opts:["Gel electrophoresis → transfer to membrane → hybridization with labeled probe","PCR → sequencing → hybridization","Northern blot → Southern blot → Western blot","RFLP analysis only → Southern blot","Restriction mapping → PCR → Southern"],ans:0,r:"Southern blotting: DNA is digested with restriction enzymes, separated by gel electrophoresis, denatured, transferred to a nitrocellulose/nylon membrane, then hybridized with a labeled probe."},
+{id:98,t:5,c:false,stem:"Mature miRNAs silence gene expression primarily by:",opts:["Methylating the target gene promoter","Inducing target mRNA degradation or translational repression via RISC","Inhibiting transcription factor binding","Causing alternative splicing","Blocking the 5' cap of mRNA"],ans:1,r:"Mature miRNAs are loaded into RISC; imperfect complementarity to target mRNA 3'UTR leads to translational repression or mRNA destabilization/degradation."},
+{id:99,t:5,c:true,stem:"Acute intermittent porphyria (AIP) attacks are triggered by barbiturates because barbiturates induce:",opts:["ALA synthase 1 (ALAS1) in the liver via CYP450 induction, increasing flux through the porphyrin pathway","Porphobilinogen accumulation directly","Heme oxygenase","Ferrochelatase","Coproporphyrinogen oxidase"],ans:0,r:"Barbiturates induce CYP450 enzymes, depleting hepatic heme; this de-represses ALAS1 (rate-limiting step of heme synthesis); with deficient PBG deaminase, ALA and PBG accumulate, causing neurotoxicity."},
+{id:100,t:5,c:false,stem:"Lead inhibits ferrochelatase (the final step of heme synthesis) contributing to which laboratory findings in lead poisoning?",opts:["Elevated plasma porphyrins only","Elevated free erythrocyte protoporphyrin (FEP) and basophilic stippling","Reduced heme synthesis only","Elevated urinary coproporphyrins only","Elevated urinary ALA without protoporphyrin accumulation"],ans:1,r:"Lead inhibits both ALA dehydratase (causing ALA accumulation) and ferrochelatase (causing protoporphyrin IX accumulation); elevated FEP and basophilic stippling are characteristic."},
+{id:101,t:6,c:false,stem:"Which method of membrane protein association involves insertion of a hydrophobic alpha-helical segment spanning the entire bilayer?",opts:["Peripheral protein association via electrostatic interaction","GPI-anchored protein","Integral transmembrane protein with one or more transmembrane domains","Lipid-anchored protein (myristoylated)","Cytoskeletal-tethered protein"],ans:2,r:"Integral transmembrane proteins possess one or more hydrophobic α-helices (typically 20–25 amino acids) that span the lipid bilayer, anchoring the protein by hydrophobic interactions."},
+{id:102,t:6,c:true,stem:"PTH acts on renal tubular cells via Gs-coupled PTH receptors. The downstream second messenger that activates protein kinase A is:",opts:["Inositol trisphosphate (IP₃)","Diacylglycerol (DAG)","3',5'-cyclic AMP (cAMP)","cGMP","Arachidonic acid"],ans:2,r:"PTH binds its GPCR → Gs → adenylyl cyclase → ↑cAMP → PKA activation → phosphorylation of tubular transport proteins; cAMP is the primary second messenger."},
+{id:103,t:6,c:false,stem:"Unlike peptide hormone signaling, steroid hormone action characteristically:",opts:["Acts within seconds via membrane receptors","Increases cAMP","Requires a cell-surface receptor and second messenger","Alters gene transcription with a latent period of hours","Is entirely mediated by IP₃ and Ca²⁺"],ans:3,r:"Steroid hormones are lipophilic and diffuse across the plasma membrane to bind intracellular (nuclear) receptors; hormone-receptor complexes bind DNA response elements and alter transcription with effects after a latent period of hours."},
+{id:104,t:6,c:true,stem:"Metformin activates AMPK in the liver. The primary metabolic effect of hepatic AMPK activation is:",opts:["Increased fatty acid synthesis and glycogen synthesis","Decreased fatty acid oxidation and increased gluconeogenesis","Decreased gluconeogenesis and fatty acid synthesis; increased fatty acid oxidation","Increased protein synthesis","Increased cholesterol synthesis"],ans:2,r:"AMPK (activated by low energy/high AMP) inhibits anabolic pathways (fatty acid synthesis, gluconeogenesis, protein synthesis) and activates catabolic pathways (fatty acid oxidation); this is the basis of metformin's glucose-lowering effect."},
+{id:105,t:6,c:false,stem:"Which fat-soluble vitamin functions as a cofactor for γ-carboxylation of glutamate residues in clotting factors (II, VII, IX, X)?",opts:["Vitamin A (retinol)","Vitamin D (calcitriol)","Vitamin E (α-tocopherol)","Vitamin K (phylloquinone/menaquinone)","Vitamin C (ascorbic acid)"],ans:3,r:"Vitamin K is required by γ-glutamyl carboxylase, which carboxylates specific glutamate residues in vitamin K-dependent clotting factors to γ-carboxyglutamate (Gla), enabling Ca²⁺-dependent membrane binding."},
+{id:106,t:6,c:true,stem:"A 2-year-old child has bowed legs, widened epiphyses, low serum phosphate, elevated PTH, and very low 25-OH vitamin D. Treatment is:",opts:["Calcium supplementation alone","Vitamin D (ergocalciferol or cholecalciferol) + calcium","Active calcitriol (1,25-OH₂-D₃) alone","Phosphate restriction only","Vitamin A supplementation"],ans:1,r:"Nutritional rickets results from vitamin D deficiency; treatment with vitamin D plus calcium corrects the deficient intestinal calcium/phosphate absorption and normalizes bone mineralization."},
+{id:107,t:6,c:false,stem:"Superoxide dismutase (SOD) converts superoxide radical to:",opts:["Hydroxyl radical and water","Hydrogen peroxide (H₂O₂) and O₂","Water directly","Singlet oxygen","Nitric oxide"],ans:1,r:"SOD catalyzes the dismutation of two superoxide radicals (O₂•⁻) to hydrogen peroxide (H₂O₂) and O₂; H₂O₂ is then eliminated by glutathione peroxidase or catalase."},
+{id:108,t:6,c:false,stem:"N-linked glycosylation begins in the ER with transfer of a preassembled oligosaccharide to which amino acid residue?",opts:["Serine (O-linked)","Threonine (O-linked)","Asparagine within an Asn-X-Ser/Thr sequon (N-linked)","Hydroxylysine","Tyrosine"],ans:2,r:"N-linked glycosylation requires an Asn-X-Ser/Thr sequon; oligosaccharyltransferase transfers the 14-sugar core oligosaccharide en bloc from dolichol-PP to the asparagine amide nitrogen co-translationally."},
+{id:109,t:6,c:true,stem:"A patient taking phenobarbital for epilepsy requires higher warfarin doses than expected. This is because phenobarbital:",opts:["More slowly metabolizes warfarin, requiring dose reduction","Induces hepatic CYP450 enzymes, more rapidly metabolizing warfarin to inactive products — requiring a higher dose","Converts warfarin to a more potent anticoagulant","Increases renal warfarin excretion","Binds warfarin more tightly to plasma proteins"],ans:1,r:"CYP450 induction by phenobarbital accelerates warfarin (mainly S-warfarin via CYP2C9) metabolism, reducing its plasma concentration and anticoagulant effect, necessitating higher warfarin doses."},
+{id:110,t:6,c:false,stem:"The major pathway leading to GLUT4 translocation to the plasma membrane in response to insulin involves:",opts:["cAMP → PKA → phosphorylation of GLUT4","PI3K → PIP₃ → PDK1 → Akt → AS160 phosphorylation → GLUT4 exocytosis","Ras → MEK → ERK only","PLC → IP₃ → Ca²⁺ → GLUT4","JAK2 → STAT5 → GLUT4 gene transcription"],ans:1,r:"Insulin receptor → IRS-1 phosphorylation → PI3K → PIP₃ → PDK1 activates Akt (PKB); Akt phosphorylates AS160 (a RabGAP), allowing Rab proteins to promote GLUT4-vesicle fusion with the plasma membrane."},
+{id:111,t:6,c:false,stem:"Vitamin C deficiency (scurvy) results in structurally weak collagen because ascorbate is required as a cofactor for:",opts:["Impaired γ-carboxylation of clotting factors","Prolyl hydroxylase and lysyl hydroxylase — failure to hydroxylate proline and lysine destabilizes the triple helix","Impaired disulfide bond formation","Defective N-linked glycosylation","Inability to process procollagen to tropocollagen"],ans:1,r:"Hydroxyproline and hydroxylysine are needed for collagen crosslinking and triple helix stability; vitamin C is essential for the Fe²⁺- and α-ketoglutarate-dependent hydroxylases."},
+{id:112,t:6,c:true,stem:"A 65-year-old man with chronic renal failure develops renal osteodystrophy. The defective enzyme is:",opts:["25-Hydroxylase in the liver","1α-Hydroxylase in the proximal tubule (CYP27B1)","24-Hydroxylase","Vitamin D receptor","Alkaline phosphatase"],ans:1,r:"The final activation step of vitamin D — conversion of 25-OH-D₃ to 1,25-(OH)₂-D₃ (calcitriol) — is catalyzed by 1α-hydroxylase (CYP27B1) in the renal proximal tubule; CKD destroys this capacity."},
+{id:113,t:6,c:false,stem:"Iodine organification and thyroid hormone synthesis requires which enzyme on the apical surface of thyroid follicular cells?",opts:["Monoamine oxidase","Thyroid peroxidase (TPO)","Alkaline phosphatase","Deiodinase","Pendrin"],ans:1,r:"Thyroid peroxidase (TPO) uses H₂O₂ to oxidize iodide and incorporate it into thyroglobulin tyrosines (MIT, DIT), and catalyzes the coupling reaction (DIT + DIT → T4; MIT + DIT → T3)."},
+{id:114,t:6,c:false,stem:"Niacin (vitamin B3) can be synthesized endogenously from which amino acid?",opts:["Phenylalanine","Tryptophan (via the kynurenine pathway)","Tyrosine","Methionine","Histidine"],ans:1,r:"Tryptophan is converted to niacin via the kynurenine pathway (requiring vitamin B6); ~60 mg tryptophan yields 1 mg niacin equivalent, explaining why carcinoid tumors (diverting tryptophan to serotonin) can cause pellagra."},
+{id:115,t:6,c:true,stem:"Cortisol raises blood glucose in Cushing syndrome by:",opts:["Increasing GLUT4 translocation in muscle","Inhibiting glucagon secretion","Inducing hepatic gluconeogenic enzymes (PEPCK, G6Pase) and increasing muscle protein catabolism to provide gluconeogenic substrates","Activating insulin receptor signaling","Inhibiting the adrenal medulla"],ans:2,r:"Cortisol (via glucocorticoid receptor nuclear signaling) induces PEPCK and glucose-6-phosphatase transcription, promoting gluconeogenesis, and increases protein catabolism in muscle, providing alanine for gluconeogenesis."},
+{id:116,t:7,c:false,stem:"Which copper-dependent enzyme initiates collagen crosslink formation by oxidatively deaminating lysine and hydroxylysine residues?",opts:["Prolyl 4-hydroxylase","Lysyl hydroxylase","Lysyl oxidase","Procollagen peptidase","Transglutaminase"],ans:2,r:"Lysyl oxidase oxidatively deaminates lysine and hydroxylysine in secreted collagen to aldehydes, which spontaneously condense to form covalent crosslinks giving collagen its tensile strength."},
+{id:117,t:7,c:true,stem:"A 25-year-old with Marfan syndrome has tall stature, arachnodactyly, ectopia lentis, and aortic root dilatation. The molecular defect is in:",opts:["Collagen type I (COL1A1)","Fibrillin-1 (FBN1) — a glycoprotein of extracellular microfibrils","Elastin (ELN)","Fibronectin","Laminin"],ans:1,r:"Marfan syndrome is caused by mutations in FBN1 (fibrillin-1); loss of fibrillin-1 disrupts microfibril assembly and releases excess active TGF-β, contributing to connective tissue manifestations."},
+{id:118,t:7,c:false,stem:"Ca²⁺ binds to troponin C during muscle contraction, causing a conformational change that:",opts:["Directly phosphorylates myosin","Removes tropomyosin's inhibitory blockade from actin-myosin binding sites","Activates adenylyl cyclase in the T-tubule","Releases ATP from myosin","Closes voltage-gated Ca²⁺ channels"],ans:1,r:"Ca²⁺ binding to troponin C shifts the troponin-tropomyosin complex, moving tropomyosin away from the myosin-binding sites on actin filaments, allowing cross-bridge formation."},
+{id:119,t:7,c:true,stem:"A 14-year-old boy has progressive proximal muscle weakness, pseudohypertrophy of the calves, markedly elevated CK, and absent dystrophin on muscle biopsy. This is:",opts:["Becker muscular dystrophy","Duchenne muscular dystrophy","Myotonic dystrophy","Facioscapulohumeral MD","Limb-girdle MD"],ans:1,r:"Complete absence of dystrophin (frameshift/nonsense mutation in DMD) causes Duchenne MD; pseudohypertrophy results from fat and connective tissue replacing muscle fibers."},
+{id:120,t:7,c:false,stem:"The most abundant plasma protein, which maintains colloid osmotic pressure and serves as a carrier, is:",opts:["Immunoglobulin G","α1-Antitrypsin","Albumin","Fibrinogen","Transferrin"],ans:2,r:"Albumin (Mr ~67,000 Da) is the most abundant plasma protein (~3.5–5 g/dL); it is synthesized exclusively in the liver and serves as an oncotic pressure agent and transport protein for fatty acids, bilirubin, drugs, and hormones."},
+{id:121,t:7,c:true,stem:"A 40-year-old nonsmoking man has emphysema. Serum protein electrophoresis shows a markedly reduced α1-globulin band, and liver biopsy shows PAS-positive inclusions. The diagnosis is:",opts:["Cystic fibrosis","α1-Antitrypsin (A1AT) deficiency — ZZ genotype","Hereditary hemochromatosis","Wilson disease","Chronic hepatitis B"],ans:1,r:"The Z allele of A1AT polymerizes within hepatocytes (PAS-positive inclusions), reducing serum A1AT; unopposed neutrophil elastase destroys alveolar walls (emphysema), and ER stress causes liver disease."},
+{id:122,t:7,c:false,stem:"Factor XIIIa crosslinks fibrin monomers to stabilize clots by forming:",opts:["Disulfide bonds between chains","ε-(γ-glutamyl) lysine isopeptide bonds","Phosphodiester bonds","Hydrogen bonds","Hydrophobic interactions only"],ans:1,r:"Factor XIIIa (a transglutaminase activated by thrombin and Ca²⁺) forms ε-(γ-glutamyl)lysine isopeptide crosslinks between adjacent fibrin molecules, stabilizing the clot against fibrinolysis."},
+{id:123,t:7,c:true,stem:"Factor VIII normally acts as a cofactor for:",opts:["Factor IXa in the intrinsic tenase complex to activate Factor X","Thrombin to cleave fibrinogen","Protein C to inactivate Factor Va","Factor VIIa in the extrinsic pathway","Von Willebrand factor polymerization"],ans:0,r:"Factor VIII is the non-enzymatic cofactor for Factor IXa in the intrinsic tenase complex (Factor IXa + Factor VIIIa + phospholipid + Ca²⁺), dramatically accelerating Factor X activation."},
+{id:124,t:7,c:false,stem:"2,3-Bisphosphoglycerate (2,3-BPG) in red blood cells:",opts:["Increases hemoglobin-O₂ affinity","Decreases hemoglobin-O₂ affinity by binding the T state and stabilizing deoxyhemoglobin","Activates glycolysis in RBCs","Acts as substrate for phosphoglycerate kinase","Inhibits pyruvate kinase"],ans:1,r:"2,3-BPG binds preferentially to the central cavity of deoxyhemoglobin (T state), stabilizing it and shifting the oxygen-dissociation curve rightward, decreasing O₂ affinity and facilitating O₂ release in tissues."},
+{id:125,t:7,c:false,stem:"Neutrophils kill microorganisms using hypochlorous acid (HOCl) generated from H₂O₂ and Cl⁻ by:",opts:["Catalase","Superoxide dismutase","Myeloperoxidase (MPO)","Glutathione peroxidase","Xanthine oxidase"],ans:2,r:"Myeloperoxidase in neutrophil primary granules uses H₂O₂ + Cl⁻ to generate HOCl (bleach), the most potent oxidant of the respiratory burst, responsible for bacterial killing."},
+{id:126,t:7,c:true,stem:"A 6-year-old boy has recurrent infections with catalase-positive organisms (Staphylococcus, Aspergillus). NBT test is negative. The diagnosis is:",opts:["X-linked agammaglobulinemia","Severe combined immunodeficiency (SCID)","Chronic granulomatous disease (CGD)","Myeloperoxidase deficiency","Chediak-Higashi syndrome"],ans:2,r:"CGD is caused by mutations in NOX2 (gp91phox) or associated subunits; failure to produce superoxide (negative NBT test) means catalase-positive bacteria destroy their own H₂O₂ without being killed."},
+{id:127,t:7,c:false,stem:"The Warburg effect in cancer cells is partly driven by upregulation of which glycolytic isoenzyme that can divert upstream intermediates into biosynthetic pathways?",opts:["Hexokinase IV (glucokinase)","Phosphofructokinase-1 muscle isoform","Pyruvate kinase M2 (PKM2)","Lactate dehydrogenase A","Enolase"],ans:2,r:"PKM2 (the embryonic/cancer isoform) can be sequestered in a less active dimeric form, slowing pyruvate kinase and diverting upstream glycolytic intermediates into biosynthetic pathways to support cell growth."},
+{id:128,t:7,c:false,stem:"Cells attach to fibronectin's RGD (Arg-Gly-Asp) tripeptide via which receptor family?",opts:["Cadherins","Selectins","Integrins","Ig-superfamily CAMs","Syndecans"],ans:2,r:"Integrins are heterodimeric (α+β subunit) transmembrane receptors that recognize ECM ligands such as fibronectin, laminin, and collagen via short peptide motifs (RGD in fibronectin)."},
+{id:129,t:7,c:true,stem:"Clopidogrel irreversibly inhibits which platelet receptor?",opts:["GP IIb/IIIa (αIIbβ3 integrin)","P2Y12 (ADP receptor)","COX-1","Thromboxane TP receptor","PAR-1 (thrombin receptor)"],ans:1,r:"Clopidogrel (a prodrug) is metabolized by CYP2C19 to an active metabolite that irreversibly alkylates and inhibits the P2Y12 ADP receptor on platelets, preventing ADP-mediated platelet activation and aggregation."},
+{id:130,t:7,c:false,stem:"The enzyme absent/inactive in most somatic cells that can extend telomeres is:",opts:["DNA polymerase δ","Topoisomerase II","Telomerase (TERT + TERC)","Primase","Helicase only"],ans:2,r:"Telomerase (composed of the reverse transcriptase TERT and RNA template TERC) adds TTAGGG repeats to chromosome ends; it is active in germ cells, stem cells, and cancer cells but absent/inactive in most somatic cells."},
+{id:131,t:4,c:true,stem:"A defect in bile acid conjugation (bile acid-CoA:amino acid N-acyltransferase deficiency) in a neonate causes:",opts:["Gilbert syndrome","Crigler-Najjar syndrome type II","Fat malabsorption, cholestasis, and elevated serum bile acids","Dubin-Johnson syndrome","Rotor syndrome"],ans:2,r:"Defects in bile acid conjugation to glycine/taurine impair bile acid solubility and secretion; fat-soluble vitamin malabsorption, cholestasis, and elevated serum bile acids result."},
+{id:132,t:4,c:false,stem:"In the liver, bilirubin is conjugated to glucuronic acid by:",opts:["UDP-glucuronosyltransferase (UGT1A1)","Glucuronidase","Biliverdin reductase","Heme oxygenase","Coproporphyrinogen oxidase"],ans:0,r:"UGT1A1 in hepatocytes conjugates bilirubin with UDP-glucuronic acid to form bilirubin mono- and diglucuronide (conjugated/direct bilirubin), which is water-soluble and can be excreted in bile."},
+{id:133,t:4,c:true,stem:"Phototherapy for neonatal jaundice works by:",opts:["Inducing UGT1A1 enzyme expression","Isomerizing bilirubin to water-soluble photoisomers that can be excreted without conjugation","Activating heme oxygenase","Reducing bilirubin to urobilinogen","Destroying circulating hemoglobin"],ans:1,r:"Blue-green light (~450 nm) converts unconjugated bilirubin to lumirubin and other photoisomers that are more water-soluble, allowing renal and biliary excretion without hepatic conjugation."},
+{id:134,t:4,c:false,stem:"ALAS1 (the rate-limiting enzyme of heme synthesis) is regulated primarily by:",opts:["Heme feedback inhibition of ALAS1 and repression of its mitochondrial import","Iron availability via IRE/IRP system","Bilirubin levels","Erythropoietin signaling","ATP/ADP ratio"],ans:0,r:"Heme feedback-inhibits ALAS1 by: (1) directly inhibiting enzyme activity, (2) repressing ALAS1 transcription, and (3) blocking ALAS1 precursor import into mitochondria — multilevel regulation."},
+{id:135,t:4,c:true,stem:"Uric acid stones occur because uric acid is poorly soluble at low urinary pH. Uric acid is the final product of purine catabolism in humans catalyzed by:",opts:["Adenosine deaminase","HGPRT","Xanthine oxidase","Purine nucleoside phosphorylase","5'-Nucleotidase"],ans:2,r:"Xanthine oxidase sequentially oxidizes hypoxanthine to xanthine and xanthine to uric acid; in humans (who lack uricase), uric acid is the end product and can precipitate in joints (gout) and urine."},
+{id:136,t:5,c:false,stem:"A person heterozygous for an RFLP would show on Southern blot:",opts:["A single band at the larger fragment size","A single band at the smaller fragment size","Two patterns: one from each allele (three bands total for a biallelic RFLP)","No bands","Three bands due to incomplete digestion"],ans:2,r:"An RFLP heterozygote has one allele with the restriction site (two smaller fragments) and one without (one larger fragment), so Southern blot shows three bands representing both alleles' restriction patterns."},
+{id:137,t:6,c:false,stem:"In obesity, adiponectin levels are:",opts:["Elevated, explaining the insulin resistance paradox","Normal","Decreased, contributing to insulin resistance","Increased to compensate for excess fat","Unrelated to insulin sensitivity"],ans:2,r:"In obesity, adiponectin is paradoxically decreased; low adiponectin reduces AMPK activity in liver and muscle, impairing fatty acid oxidation and insulin signaling, contributing to insulin resistance."},
+{id:138,t:7,c:true,stem:"Trastuzumab (Herceptin) for HER2-positive breast cancer targets:",opts:["VEGF receptor","Estrogen receptor α","HER2 (ErbB2) — a receptor tyrosine kinase in the EGF receptor family","PDGF receptor","mTOR"],ans:2,r:"Trastuzumab is a monoclonal antibody targeting the extracellular domain of HER2 (ErbB2); HER2 amplification drives cancer cell proliferation via PI3K-Akt and RAS-MAPK pathways."},
+{id:139,t:7,c:false,stem:"Oncogenic RAS mutations (e.g., Gly12→Val) in ~30% of human cancers act by:",opts:["Overexpression of RAS protein","A point mutation that impairs GTPase activity, locking RAS in the GTP-bound active conformation","Loss of GEF (guanine nucleotide exchange factor) activity","Chromosomal translocation only","Methylation of the ras promoter"],ans:1,r:"Oncogenic RAS mutations impair intrinsic GTPase activity and resistance to GAP stimulation, locking RAS·GTP in the constitutively active state and driving continuous downstream signaling."},
+{id:140,t:7,c:false,stem:"Unlike other glycosaminoglycans (GAGs), hyaluronan (hyaluronic acid):",opts:["Contains sulfate groups","Is synthesized in the Golgi apparatus","Is covalently linked to a core protein","Is synthesized at the plasma membrane and is not covalently linked to protein","Is found only in cartilage"],ans:3,r:"Hyaluronan is unique: synthesized by HAS enzymes at the plasma membrane, not sulfated, and not covalently linked to a protein core."},
+{id:141,t:2,c:true,stem:"Ethanol metabolism generates excess NADH, which inhibits gluconeogenesis by:",opts:["Activating PEPCK","Reducing oxaloacetate to malate and pyruvate to lactate, depleting gluconeogenic substrates","Stimulating insulin release","Inhibiting glycogenolysis","Increasing AMP/ATP ratio"],ans:1,r:"Excess NADH shifts LDH and MDH equilibria, depleting pyruvate and OAA (key gluconeogenic substrates), causing hypoglycemia and lactic acidosis in fasting alcoholics."},
+{id:142,t:3,c:false,stem:"Brown adipose tissue generates heat through thermogenin (UCP1), which works by:",opts:["Inhibiting ATP synthase","Allowing proton leak across the inner mitochondrial membrane, dissipating the proton gradient as heat","Activating fatty acid oxidation only","Increasing Complex I activity","Inhibiting carnitine palmitoyltransferase"],ans:1,r:"UCP1 (thermogenin) is a proton channel that short-circuits the proton gradient without coupling it to ATP synthesis; energy is released as heat, enabling non-shivering thermogenesis."},
+{id:143,t:1,c:false,stem:"For a buffer at pH = pKa (Henderson-Hasselbalch equation), the ratio of conjugate base to acid is:",opts:["10:1","0.1:1","1:1","100:1","0.01:1"],ans:2,r:"When pH = pKa, log([A⁻]/[HA]) = 0, so [A⁻]/[HA] = 1:1; the buffer is at its midpoint and has maximum buffering capacity."},
+{id:144,t:2,c:false,stem:"The net yield of mitochondrial NADH per cytosolic NADH transferred by the malate-aspartate shuttle is:",opts:["0.5","1.0","1.5","2.0","0.67"],ans:1,r:"The malate-aspartate shuttle transfers 1 cytosolic NADH equivalent into 1 mitochondrial NADH equivalent (net 1:1 ratio, P/O ≈ 2.5 ATP per NADH)."},
+{id:145,t:5,c:true,stem:"A female carrier of hemophilia A may have significantly reduced Factor VIII activity due to:",opts:["Autosomal modifier genes","X-chromosome inactivation (lyonization) — random in early embryogenesis, fixed thereafter in each cell clone","Hormonal influences on Factor VIII gene expression","Mitochondrial heteroplasmy","Alternative splicing"],ans:1,r:"X-inactivation (lyonization) is random; if by chance more cells inactivate the normal X, a carrier female may have significantly reduced Factor VIII activity and mild bleeding symptoms."},
+{id:146,t:6,c:false,stem:"Gi-coupled receptor activation:",opts:["Also increases cAMP","Increases IP₃ and DAG via PLC","Inhibits adenylyl cyclase, decreasing cAMP","Activates Rho GTPase","Increases cGMP"],ans:2,r:"Gi (inhibitory G protein) α-subunit inhibits adenylyl cyclase upon GPCR activation, reducing cAMP production; Gq activates PLC (IP₃/DAG), and G12/13 activates Rho GTPase."},
+{id:147,t:7,c:true,stem:"A patient with DVT has a normal PT but prolonged aPTT. The most likely inherited thrombophilia causing prolonged aPTT is:",opts:["Factor V Leiden","Prothrombin G20210A mutation","Protein C deficiency","Protein S deficiency","Antithrombin III deficiency"],ans:4,r:"Antithrombin III (ATIII) deficiency reduces inhibition of thrombin and Factors IXa and Xa (intrinsic pathway factors), prolonging aPTT while PT (extrinsic/common pathway) is normal."},
+{id:148,t:3,c:false,stem:"The cysteinyl leukotrienes (LTC4, LTD4, LTE4) are formed by conjugation of LTA4 with:",opts:["Arachidonic acid","Glutathione (forming LTC4)","Glycine","Taurine","Cysteine alone"],ans:1,r:"LTA4 is conjugated with reduced glutathione (GSH) by LTC4 synthase to form LTC4; sequential removal of glutamyl and glycinyl residues gives LTD4 and LTE4, all potent bronchoconstrictors."},
+{id:149,t:2,c:false,stem:"The overall PDC reaction (pyruvate → acetyl-CoA) results in:",opts:["Reduction of FAD to FADH₂ only","Oxidative decarboxylation: loss of CO₂, reduction of lipoamide, and formation of acetyl-lipoamide (then acetyl-CoA)","Oxidation of NAD⁺ to NADH","Reduction of ubiquinone","Phosphorylation of ADP"],ans:1,r:"In the PDC reaction, E1 (TPP) decarboxylates pyruvate (oxidative decarboxylation); E2 (lipoamide) accepts the acetyl group while lipoamide is reduced to dihydrolipoamide, and acetyl-CoA is released."},
+{id:150,t:1,c:true,stem:"The kidney generates bicarbonate (to buffer metabolic acidosis) by:",opts:["Secreting HCO₃⁻ into tubular lumen","Generating new HCO₃⁻ via glutamine catabolism in the proximal tubule and H⁺ secretion in the collecting duct","Absorbing H⁺ from urine","Increasing aldosterone to secrete bicarbonate","Filtering HCO₃⁻ and not reabsorbing it"],ans:1,r:"The kidney generates new bicarbonate via: (1) glutamine catabolism in the proximal tubule producing NH₄⁺ and HCO₃⁻; and (2) H⁺ secretion by α-intercalated cells in the collecting duct generating HCO₃⁻ returned to blood."},
+{id:151,t:2,c:false,stem:"In muscle, the primary activator of glycogen phosphorylase (via phosphorylase kinase) is:",opts:["Glucagon","Insulin","Epinephrine → β2-adrenergic receptor → cAMP → PKA → phosphorylase kinase activation","Fructose-6-phosphate","ADP directly"],ans:2,r:"In muscle, epinephrine binds β2-adrenergic receptors → Gs → adenylyl cyclase → cAMP → PKA phosphorylates phosphorylase kinase → phosphorylase kinase phosphorylates glycogen phosphorylase b to active a."},
+{id:152,t:3,c:false,stem:"Bile salt micelles facilitate lipid absorption by:",opts:["Hydrolysing triglycerides directly","Incorporating fatty acids and monoacylglycerols into mixed micelles that contact the brush border, allowing diffusion into enterocytes","Acting as lipase cofactors only","Esterifying cholesterol in the lumen","Activating pancreatic amylase"],ans:1,r:"Bile salts form mixed micelles with dietary fatty acids, monoglycerides, cholesterol, and fat-soluble vitamins; these particles contact the brush border, enabling monomeric lipid delivery for passive diffusion into enterocytes."},
+{id:153,t:4,c:true,stem:"Propionic acidemia (propionyl-CoA carboxylase deficiency) causes secondary hyperammonemia because accumulated propionyl-CoA:",opts:["Inhibits fatty acid synthase","Inhibits pyruvate carboxylase only","Inhibits succinyl-CoA synthetase","Inhibits the TCA cycle and inhibits N-acetylglutamate synthase, depleting NAG (required activator of CPS I)","Inhibits xanthine oxidase"],ans:3,r:"Propionyl-CoA and propionate inhibit multiple TCA cycle enzymes; propionyl-CoA also inhibits NAG synthase, reducing NAG (obligate activator of CPS I), causing secondary hyperammonemia."},
+{id:154,t:5,c:false,stem:"Histone acetylation by histone acetyltransferases (HATs) generally:",opts:["Compacts chromatin and represses transcription","Relaxes chromatin structure and activates transcription by neutralizing positive histone charge","Methylates CpG islands causing silencing","Promotes heterochromatin formation","Increases histone-DNA affinity"],ans:1,r:"Acetylation of histone lysine residues neutralizes the positive charge of histones, reducing their affinity for negatively charged DNA and opening chromatin, making promoters accessible to transcription machinery."},
+{id:155,t:6,c:false,stem:"When mTORC1 is activated by nutrients and insulin signaling, it:",opts:["Stimulates autophagy by activating ULK1","Inhibits protein synthesis by phosphorylating 4EBP1 to keep it active","Phosphorylates S6K1 and 4EBP1 to promote protein synthesis; inhibits autophagy (ULK1 phosphorylation)","Activates AMPK","Promotes amino acid catabolism"],ans:2,r:"Active mTORC1 phosphorylates S6K1 (activating it) and 4EBP1 (inactivating this cap-binding inhibitor), promoting mRNA translation and ribosome biogenesis; it simultaneously inhibits autophagy by phosphorylating ULK1."},
+{id:156,t:7,c:true,stem:"A 25-year-old man has hemolytic anemia, thrombosis, and paroxysmal dark urine. Flow cytometry shows absence of CD55 and CD59 on red cells. The diagnosis is:",opts:["Hereditary spherocytosis","G6PD deficiency","Paroxysmal nocturnal hemoglobinuria (PNH)","Sickle cell disease","Autoimmune hemolytic anemia"],ans:2,r:"PNH is caused by a somatic mutation in PIG-A, impairing GPI-anchor biosynthesis; CD55 (DAF) and CD59 (protectin) — GPI-anchored complement regulators — are absent from RBCs, making them susceptible to complement-mediated lysis."},
+{id:157,t:1,c:false,stem:"The key distinguishing feature of mechanism-based (suicide) inhibitors from regular irreversible inhibitors is:",opts:["They require catalytic activity of the target enzyme to become inhibitory","They are competitive inhibitors that never dissociate","They bind outside the active site","They require cofactor removal","They act instantaneously without enzymatic processing"],ans:0,r:"Mechanism-based (suicide) inhibitors require the target enzyme to catalytically activate them into a reactive species that then covalently modifies and inactivates the enzyme's active site."},
+{id:158,t:2,c:false,stem:"Lactate produced by anaerobic muscle glycolysis is transported to the liver and converted back to glucose. This cycle is called:",opts:["Alanine-glucose cycle","Cori cycle (lactate-glucose cycle)","Malate-aspartate shuttle","Glutamine-glucose cycle","Glycerol-glucose cycle"],ans:1,r:"The Cori cycle: lactate from anaerobic muscle glycolysis is transported to the liver, where gluconeogenesis converts it back to glucose; glucose is returned to muscle, allowing continued exercise."},
+{id:159,t:3,c:false,stem:"Which enzyme maintains phospholipid asymmetry by actively transporting phosphatidylserine (PS) from the outer to the inner leaflet?",opts:["Scramblase","Floppase (ABCC1)","Flippase (aminophospholipid translocase)","Phospholipid transfer protein","Sphingomyelinase"],ans:2,r:"Flippases (aminophospholipid translocases) are ATP-dependent enzymes that move PS and PE from outer to inner leaflet; during apoptosis, scramblase is activated and PS is exposed as an 'eat-me' signal."},
+{id:160,t:4,c:false,stem:"Carbamoyl phosphate synthetase I (CPS I) requires which obligate allosteric activator?",opts:["Ornithine","Citrulline","N-acetylglutamate (NAG)","ATP","Aspartate"],ans:2,r:"N-acetylglutamate (synthesized from glutamate + acetyl-CoA by NAG synthase, which is activated by arginine) is the obligate allosteric activator of CPS I."},
+{id:161,t:6,c:true,stem:"Estrogen-containing OCP increases thrombosis risk in Factor V Leiden carriers because it:",opts:["Directly activates factor X","Decreases fibrinolysis only","Increases synthesis of clotting factors (II, VII, VIII, X) and decreases protein S, synergizing with the APC resistance of Factor V Leiden","Increases platelet count","Inhibits antithrombin III synthesis"],ans:2,r:"Estrogens increase hepatic synthesis of clotting factors (VII, X, fibrinogen) and decrease protein S; combined with Factor V Leiden's APC resistance, this markedly amplifies thrombotic risk."},
+{id:162,t:5,c:false,stem:"DNA cleavage by SpCas9 in CRISPR-Cas9 genome editing requires the target sequence to be adjacent to a:",opts:["TATA box sequence","CpG island","Protospacer adjacent motif (PAM) sequence (5'-NGG-3')","Shine-Dalgarno sequence","Kozak sequence"],ans:2,r:"SpCas9 requires a 5'-NGG-3' PAM sequence immediately 3' of the target (protospacer) sequence; the PAM is recognized by the PI domain of Cas9 and is essential for R-loop formation and cleavage."},
+{id:163,t:2,c:false,stem:"In actively biosynthesizing tissues (liver, mammary gland, adrenal cortex), the pentose phosphate pathway primarily operates in the:",opts:["Non-oxidative phase only","Oxidative phase, generating NADPH","Both phases simultaneously with ribose-5-P recycled back to glucose","Mitochondrial matrix","TCA cycle integration"],ans:1,r:"In biosynthesizing tissues, the oxidative phase of the PPP generating NADPH is the predominant mode; glucose-6-phosphate → ribulose-5-phosphate; non-oxidative phase recycles carbons back if ribose-5-P is not needed."},
+{id:164,t:7,c:false,stem:"Which complement component polymerizes to form the transmembrane pore of the membrane attack complex (MAC)?",opts:["C3b","C5a","C9 (polymerized on C5b-6-7-8 scaffold)","C4b2a","C3a"],ans:2,r:"C5b initiates MAC assembly by sequentially binding C6, C7, C8, and multiple C9 molecules; poly-C9 inserts into the target membrane bilayer, forming a transmembrane pore (~10 nm) causing osmotic cell lysis."},
+{id:165,t:6,c:true,stem:"GLP-1 (glucagon-like peptide-1), the incretin targeted by liraglutide:",opts:["Stimulates glucagon secretion","Decreases insulin secretion in a glucose-dependent manner","Potentiates glucose-stimulated insulin secretion, inhibits glucagon, slows gastric emptying, and promotes satiety","Acts via intracellular steroid receptor","Inhibits GLP-1 receptor in pancreas"],ans:2,r:"GLP-1 binds its Gs-coupled GPCR on pancreatic β-cells, potentiating glucose-stimulated insulin secretion; it also suppresses glucagon, slows gastric emptying, and acts centrally to reduce appetite."},
+{id:166,t:5,c:false,stem:"In prokaryotic translation, which initiation factor delivers formyl-methionyl-tRNA (fMet-tRNA) to the P-site of the 30S ribosomal subunit?",opts:["IF-1","IF-2 (with GTP)","IF-3","EF-Tu","RF-2"],ans:1,r:"IF-2 (in complex with GTP) specifically binds formylmethionyl-tRNA and delivers it to the P-site of the 30S subunit; GTP hydrolysis follows 50S joining and IF-2 dissociation."},
+{id:167,t:4,c:true,stem:"Methylmalonic acidemia in a B12-deficient vegan is corrected by:",opts:["Folate","Pyridoxine (B6)","Cobalamin (B12)","Biotin","Pantothenic acid"],ans:2,r:"Methylmalonyl-CoA mutase requires adenosylcobalamin (adenosyl-B12) to isomerize methylmalonyl-CoA to succinyl-CoA; B12 deficiency causes methylmalonic acid accumulation, corrected by cobalamin supplementation."},
+{id:168,t:3,c:false,stem:"Adipose triglyceride lipase (ATGL) requires which co-activator protein?",opts:["Monoglyceride lipase","CGI-58 (ABHD5)","Perilipin-1","HSL","CD36"],ans:1,r:"CGI-58 (ABHD5) is the co-activator of ATGL; under basal conditions, CGI-58 is sequestered by perilipin-1; upon lipolytic stimulation (PKA → perilipin phosphorylation), CGI-58 is released to activate ATGL."},
+{id:169,t:2,c:true,stem:"Excess insulin lowers blood glucose by:",opts:["Inhibiting glucagon secretion only","Stimulating hepatic glycogenolysis","Promoting GLUT4 translocation in muscle and adipose, stimulating glycogen synthesis, and inhibiting hepatic gluconeogenesis and glycogenolysis","Increasing renal glucose excretion","Stimulating the PPP"],ans:2,r:"Insulin promotes glucose uptake (GLUT4 translocation in muscle/fat), glycogen synthesis (activating glycogen synthase), and inhibits hepatic glucose output (gluconeogenesis + glycogenolysis)."},
+{id:170,t:7,c:false,stem:"Von Willebrand factor mediates platelet adhesion to exposed subendothelial collagen under high shear by binding to:",opts:["GpIb (glycoprotein Ib) on platelets and collagen simultaneously","GpIIb/IIIa directly","Fibrinogen","Thrombin","PECAM-1"],ans:0,r:"Under high shear, VWF undergoes conformational extension on subendothelial collagen, exposing its A1 domain that binds GpIbα on the platelet surface, initiating platelet tethering and rolling."},
+{id:171,t:6,c:false,stem:"Phase I hepatic xenobiotic metabolism (CYP450-mediated oxidation) primarily aims to:",opts:["Directly excrete the compound in bile","Introduce or expose a reactive functional group to increase hydrophilicity and provide a handle for phase II conjugation","Conjugate the compound with glucuronic acid","Methylate the compound","Sulfate the compound"],ans:1,r:"Phase I metabolism (mainly CYP450 oxidation, reduction, or hydrolysis) functionalizes xenobiotics by introducing or unmasking polar groups, increasing hydrophilicity and providing sites for phase II conjugation."},
+{id:172,t:7,c:true,stem:"A 55-year-old man has markedly elevated ferritin (2,000 ng/mL), transferrin saturation 85%, and cirrhosis with hepatocyte iron deposition. The most likely genetic defect affects:",opts:["Transferrin receptor 1","Hephaestin","HFE protein (C282Y mutation) — reducing hepcidin and causing unregulated intestinal iron absorption","Ceruloplasmin","Ferritin synthesis"],ans:2,r:"Hereditary hemochromatosis type 1 is caused by HFE mutations (C282Y); defective HFE signaling reduces hepcidin, leading to unregulated ferroportin activity and excessive intestinal iron absorption."},
+{id:173,t:5,c:false,stem:"A key component distinguishing premature termination codons (PTCs) from normal stop codons in NMD is:",opts:["The 5' cap structure","Poly-A tail length","Exon junction complexes (EJCs) deposited >50–55 nt downstream of a stop codon, indicating a PTC","The Kozak sequence","5'UTR length"],ans:2,r:"EJCs deposited ~20–24 nt upstream of each exon-exon junction; if a stop codon is recognized >50–55 nt upstream of an EJC, the mRNA is flagged as having a PTC and degraded by NMD machinery (UPF1/UPF2/UPF3)."},
+{id:174,t:4,c:false,stem:"In maple syrup urine disease (MSUD), accumulated branched-chain α-keto acids (especially α-ketoisocaproate from leucine) are neurotoxic because:",opts:["They inhibit succinate dehydrogenase","They deplete glutamate and GABA in the brain and inhibit PDC and α-KGDH, impairing brain energy metabolism","They inhibit hexokinase","They cause mitochondrial uncoupling","They activate NMDA receptors"],ans:1,r:"Branched-chain keto acids inhibit PDC and α-KGDH, impairing neuronal energy metabolism; they also deplete glutamate (consumed as transamination acceptor) and reduce GABA synthesis, causing neurotoxicity."},
+{id:175,t:3,c:false,stem:"LCAT (lecithin-cholesterol acyltransferase), which esterifies cholesterol in HDL particles, is activated by:",opts:["ApoB-100","ApoC-II","ApoA-I","ApoE","ApoC-III"],ans:2,r:"ApoA-I (the major structural apolipoprotein of HDL) activates LCAT, which transfers a fatty acid from lecithin to free cholesterol, generating cholesteryl ester that partitions into the HDL core, driving reverse cholesterol transport."},
+{id:176,t:2,c:true,stem:"Leucovorin rescue after high-dose methotrexate rescues normal cells because it:",opts:["Activates DHFR bypassing the inhibited step","Directly inhibits cancer cell replication","Provides preformed THF (5-formylTHF) that bypasses the DHFR block, replenishing the THF pool for thymidylate and purine synthesis","Chelates methotrexate","Activates folate salvage enzymes"],ans:2,r:"Leucovorin (folinic acid/5-formylTHF) is a reduced folate that enters one-carbon metabolism downstream of the DHFR block, replenishing THF cofactors for dTMP and purine synthesis, rescuing normal cells."},
+{id:177,t:6,c:false,stem:"The molecular mechanism coupling glucose metabolism to insulin secretion in β-cells is:",opts:["Direct glucose binding to KATP channels","Increased glucose metabolism → ↑ATP/ADP ratio → KATP channel closure → membrane depolarization → voltage-gated Ca²⁺ channel opening → Ca²⁺ influx → insulin exocytosis","cAMP-mediated directly","IP₃-mediated Ca²⁺ release from ER only","Fatty acid activation of GPR40"],ans:1,r:"Glucose enters β-cells via GLUT2, is metabolized raising ATP/ADP; elevated ATP closes KATP channels (SUR1/Kir6.2), depolarizing the membrane, opening voltage-gated L-type Ca²⁺ channels, triggering insulin granule exocytosis."},
+{id:178,t:5,c:false,stem:"LINE-1 (L1) retrotransposition occurs via:",opts:["Direct DNA transposition (cut-and-paste)","RNA intermediate: L1 RNA is reverse-transcribed into cDNA at the target site (target-primed reverse transcription, TPRT)","Homologous recombination","RNA polymerase II synthesis of DNA directly","Replicative recombination"],ans:1,r:"L1 elements are transcribed to RNA; the L1-encoded ORF2 protein (endonuclease + reverse transcriptase) nicks target DNA, uses the 3'-OH as primer, and reverse-transcribes the L1 RNA directly at the new genomic site (TPRT)."},
+{id:179,t:7,c:true,stem:"Polycythemia vera with JAK2 V617F mutation has elevated erythrocyte production because:",opts:["Overexpression of EPO receptor","Constitutive JAK2/STAT5 signaling mimics persistent EPO receptor activation, independent of EPO","Loss of GATA-1 transcription factor","Somatic mutation in globin genes","Excess iron stimulating erythropoiesis"],ans:1,r:"JAK2 V617F is a gain-of-function mutation; JAK2 is the kinase associated with the EPO receptor; constitutively active JAK2 V617F signals through STAT5 to drive erythroid proliferation without EPO."},
+{id:180,t:1,c:false,stem:"Hsp70 chaperones use an ATP-dependent allosteric mechanism where:",opts:["GTP hydrolysis exclusively drives function","ATP binding opens the substrate-binding domain (low affinity); client binding stimulates ATP hydrolysis to ADP (high affinity, closed)","Direct covalent bonding to client protein","Disulfide bond formation","GRP78 chaperone only"],ans:1,r:"Hsp70: ATP binding opens the substrate-binding domain (low affinity for client); client binding stimulates ATP hydrolysis to ADP (closes the domain, high affinity); nucleotide exchange factors release ADP allowing another cycle."},
+{id:181,t:2,c:false,stem:"Succinyl-CoA is generated in the TCA cycle by which enzyme?",opts:["Succinate dehydrogenase","Fumarase","α-Ketoglutarate dehydrogenase complex","Isocitrate dehydrogenase","Citrate synthase"],ans:2,r:"α-Ketoglutarate dehydrogenase complex oxidatively decarboxylates α-ketoglutarate to succinyl-CoA (generating CO₂ and NADH), analogous to the PDC reaction."},
+{id:182,t:3,c:true,stem:"In Gaucher disease type I, glucocerebrosidase deficiency causes accumulation of:",opts:["GM2 ganglioside","Sphingomyelin","Glucocerebroside (glucosylceramide) in macrophages and Kupffer cells","Sulfatide","Galactocerebroside"],ans:2,r:"Glucocerebrosidase (β-glucosidase) deficiency causes glucocerebroside (glucosylceramide) accumulation in lysosomes of macrophages throughout the reticuloendothelial system, causing organomegaly and bone marrow infiltration."},
+{id:183,t:4,c:false,stem:"Creatinine, used to estimate GFR, is the spontaneous cyclization product of:",opts:["Creatine phosphate","Creatine (nonenzymatic dehydration)","Glycine + arginine directly","Ornithine","Homocysteine"],ans:1,r:"Creatine (synthesized from glycine, arginine, and SAM) and phosphocreatine undergo nonenzymatic cyclization to creatinine, which is excreted in urine at a rate proportional to muscle mass."},
+{id:184,t:5,c:false,stem:"In RNAi, long dsRNA is cleaved by which cytoplasmic RNase III enzyme to generate 21–23 nt siRNA duplexes?",opts:["Drosha","RISC (RNA-induced silencing complex)","Dicer","Argonaute 2 (AGO2)","XRN1"],ans:2,r:"Dicer (an RNase III family enzyme) cleaves long double-stranded RNA (or pre-miRNA) into 21–23 nt siRNA or miRNA duplexes in the cytoplasm; one strand is loaded into RISC to guide target recognition."},
+{id:185,t:6,c:true,stem:"T3 (thyroid hormone) negative feedback on the HPT axis involves T3 binding to:",opts:["Peripheral tissue only","Nuclear thyroid hormone receptors (TRs) at the hypothalamus (repressing TRH) and anterior pituitary (repressing TSH gene transcription)","Adrenal gland directly","Posterior pituitary only","Thyroid directly"],ans:1,r:"T3 (and T4 converted to T3) binds nuclear TRs at hypothalamic TRH-producing neurons and pituitary thyrotropes, directly repressing TRH and TSH gene transcription, completing negative feedback."},
+{id:186,t:7,c:false,stem:"The molecular basis of hemoglobin S (HbS) polymerization is a single amino acid substitution:",opts:["Val→Glu at position 6","Glu→Val at position 6 of the β-globin chain (β6Glu→Val)","Glu→Lys at position 26","Glu→Lys at position 121","His→Tyr at position 63"],ans:1,r:"HbS results from β6Glu→Val; the hydrophobic valine creates a complementary hydrophobic 'sticky patch' that drives intermolecular contacts and HbS polymer/fiber formation under low O₂."},
+{id:187,t:2,c:false,stem:"In the glycerophosphate shuttle, cytosolic NADH is oxidized by glycerol-3-phosphate dehydrogenase, reducing FAD. Electrons then enter the respiratory chain via:",opts:["NAD⁺","FAD (via glycerol-3-phosphate dehydrogenase) → ubiquinone (CoQ)","Cytochrome c","FMN","Protein-bound iron-sulfur cluster"],ans:1,r:"The glycerophosphate shuttle uses mitochondria-facing glycerol-3-phosphate dehydrogenase (FAD-dependent), reducing FAD → FADH₂ → CoQ; cytosolic NADH enters as FADH₂ equivalent (≈1.5 ATP vs. 2.5 for the malate-aspartate shuttle)."},
+{id:188,t:4,c:true,stem:"The most common precipitant of aplastic crisis in sickle cell disease, causing sudden severe anemia without reticulocytosis, is:",opts:["Streptococcus pneumoniae infection","Parvovirus B19 infection, which selectively infects and destroys erythroid progenitors (BFU-E/CFU-E)","Salmonella osteomyelitis","Malaria","Hyperhemolysis"],ans:1,r:"Parvovirus B19 uses globoside (P antigen) on erythroid progenitors as its receptor and selectively destroys BFU-E/CFU-E; in patients with chronic hemolytic anemia (HbSS), even temporary arrest of erythropoiesis causes severe aplastic crisis."},
+{id:189,t:6,c:false,stem:"Two molecules of DIT (diiodotyrosine) within thyroglobulin couple to form:",opts:["T3 (triiodothyronine)","T4 (thyroxine, tetraiodothyronine)","MIT (monoiodotyrosine)","Reverse T3 (rT3)","Thyroglobulin directly"],ans:1,r:"Oxidative coupling of two DIT residues within thyroglobulin by thyroid peroxidase generates T4; coupling of one MIT + one DIT generates T3."},
+{id:190,t:7,c:false,stem:"The correct order of the ubiquitylation cascade is:",opts:["E3 → E2 → E1 → substrate","E1 (ubiquitin-activating) → E2 (ubiquitin-conjugating) → E3 (ubiquitin ligase) → substrate","E2 → E3 → E1 → substrate","E3 → E1 → substrate → E2","E1 → E3 → E2 → substrate"],ans:1,r:"E1 activates ubiquitin (ATP-dependent thioester bond), transfers it to E2 (conjugating enzyme), and E3 (ubiquitin ligase) catalyzes transfer to the substrate lysine residue; substrate specificity is determined by E3."},
+{id:191,t:3,c:true,stem:"A 16-year-old with LPL deficiency, TG 6,200 mg/dL, and pancreatitis develops acute abdominal pain. The mechanism of pancreatitis with extreme hypertriglyceridemia is:",opts:["Accelerated atherosclerosis","Chylomicrons hydrolyzed by pancreatic lipase in pancreatic capillaries, generating high local concentrations of free fatty acids that are directly toxic to pancreatic acinar cells","Hemolytic anemia","Renal failure","Hepatic encephalopathy"],ans:1,r:"Extreme hypertriglyceridemia (chylomicronemia) causes acute pancreatitis because chylomicrons are hydrolyzed by pancreatic lipase in capillaries, generating locally high concentrations of free fatty acids toxic to acinar cells."},
+{id:192,t:5,c:false,stem:"Loss of BRCA2 specifically impairs loading of which recombinase onto single-stranded DNA to initiate strand invasion in homologous recombination?",opts:["Ku70/Ku80","DNA-PKcs","RAD51","RPA (replication protein A)","MRN complex (MRE11-RAD50-NBS1)"],ans:2,r:"BRCA2 has eight BRC repeats that bind RAD51 monomers and mediate RAD51 filament formation on ssDNA at DSB resection tails; without BRCA2, RAD51 cannot be efficiently loaded, impairing HR."},
+{id:193,t:6,c:false,stem:"Activation of IGF-1R in cancer cells promotes survival through:",opts:["Increased cAMP only","PI3K-Akt-mTOR pathway (promoting survival/proliferation) and RAS-MAPK pathway (proliferation)","Direct nuclear receptor signaling","Increased cGMP","JAK-STAT pathway exclusively"],ans:1,r:"IGF-1R signals via IRS-1/2 → PI3K → Akt → mTOR (promoting survival, protein synthesis, glucose uptake) and via Grb2-SOS → Ras → Raf → MEK → ERK (promoting proliferation); both are commonly hyperactivated in cancer."},
+{id:194,t:7,c:true,stem:"The primary biochemical mechanism of emphysema in smokers is:",opts:["Excess collagen deposition destroying alveoli","Neutrophil elastase activity unchecked by oxidant-inactivated α1-antitrypsin, destroying alveolar elastin and collagen","Macrophage lipid accumulation","Surfactant deficiency","Excess mucus production by goblet cells"],ans:1,r:"Cigarette smoke: (1) attracts neutrophils/macrophages releasing elastase; (2) oxidatively inactivates α1-antitrypsin (Met358 oxidized to methionine sulfoxide); net result is unopposed elastase destruction of alveolar walls."},
+{id:195,t:5,c:false,stem:"The natural inducer of the lac operon that causes the lac repressor to dissociate from DNA is:",opts:["Lactose itself","Allolactose (a transglycosylation product of lactose formed by β-galactosidase)","Glucose","cAMP","IPTG"],ans:1,r:"The natural inducer of the lac operon is allolactose, formed by β-galactosidase from trace amounts of lactose; allolactose binds the lac repressor, causing a conformational change that reduces operator affinity ~1000-fold."},
+{id:196,t:2,c:false,stem:"When intracellular iron is low, cytosolic aconitase transforms into IRP1, which:",opts:["Activates ferritin mRNA translation","Inhibits transferrin receptor mRNA stability","Binds IREs in 3'UTR of TfR1 mRNA (stabilizing it, ↑iron uptake) and 5'UTR IRE of ferritin mRNA (repressing translation, ↓iron storage)","Activates hepcidin transcription","Activates DMT1 expression directly"],ans:2,r:"Apo-IRP1 (without the [4Fe-4S] cluster) binds IRE stem-loops: 3'UTR IREs of TfR1 mRNA are stabilized (↑iron uptake), and 5'UTR IRE of ferritin mRNA is blocked (↓iron storage) — coordinately increasing cellular iron availability."},
+{id:197,t:6,c:true,stem:"A 28-year-old with prolactinoma (prolactin 3,200 ng/mL) and bitemporal hemianopia is best treated with:",opts:["Blocking the dopamine receptor in the pituitary","Blocking estrogen to reduce prolactin","Dopamine agonist (cabergoline/bromocriptine) at D2 receptors on lactotroph cells","Surgical removal first","Somatostatin analog"],ans:2,r:"Cabergoline and bromocriptine are dopamine D2 receptor agonists that mimic hypothalamic dopaminergic inhibition of lactotrophs, suppressing prolactin secretion and causing prolactinoma shrinkage; they are first-line therapy."},
+{id:198,t:7,c:false,stem:"Plasmin cleaves crosslinked fibrin, releasing which diagnostic marker of active fibrin formation and lysis?",opts:["Fibrinogen degradation products (FDP)","D-dimer (D-D fragment from crosslinked fibrin)","Prothrombin fragment 1+2","TAT (thrombin-antithrombin complex)","Protein C activation peptide"],ans:1,r:"Plasmin cleaves crosslinked fibrin generating D-dimer fragments (from adjacent D domains of crosslinked fibrin monomers); elevated D-dimer indicates active fibrin formation and lysis, used clinically to screen for VTE and DIC."},
+{id:199,t:1,c:true,stem:"Imatinib (Gleevec) treats CML with BCR-ABL fusion protein by:",opts:["Alkylating BCR-ABL DNA","Blocking the ATP-binding site of the BCR-ABL tyrosine kinase, inhibiting its constitutive activity","Promoting BCR-ABL protein degradation by the proteasome","Inhibiting BCR-ABL gene transcription","Blocking RAS downstream signaling only"],ans:1,r:"Imatinib occupies the ATP-binding pocket of BCR-ABL, preventing substrate phosphorylation; it is the prototype tyrosine kinase inhibitor (TKI) and revolutionized CML treatment."},
+{id:200,t:7,c:true,stem:"Bence Jones proteins detected in the urine of a patient with multiple myeloma are:",opts:["Intact IgG molecules filtered by the kidney","Free monoclonal immunoglobulin light chains (κ or λ) small enough to pass the glomerular filtration barrier","IgM pentamers","Albumin fragments","β2-microglobulin only"],ans:1,r:"Bence Jones proteins are free monoclonal immunoglobulin light chains (κ or λ) produced in excess by myeloma plasma cells; small enough (Mr ~22,500 Da) to pass the glomerular barrier, they are detected in urine and can cause cast nephropathy."}
+];
+
+let state = { mode:'exam', answers:{}, revealed:{}, filter:{t:'all', type:'all'}, page:0, perPage:10 };
+
+function getFiltered() {
+  return Q.filter(q => {
+    if (state.filter.t !== 'all' && q.t !== +state.filter.t) return false;
+    if (state.filter.type === 'clinical' && !q.c) return false;
+    if (state.filter.type === 'conceptual' && q.c) return false;
+    return true;
+  });
+}
+
+function setMode(m) {
+  state.mode = m;
+  document.querySelectorAll('.tab').forEach((el,i) => el.classList.toggle('active',['exam','review','key'][i]===m));
+  state.page = 0;
+  render();
+}
+
+function applyFilter() {
+  state.filter.t = document.getElementById('themeFilter').value;
+  state.filter.type = document.getElementById('typeFilter').value;
+  state.page = 0;
+  render();
+}
+
+function changePerPage() {
+  state.perPage = +document.getElementById('perPageSel').value;
+  state.page = 0;
+  render();
+}
+
+function resetAll() {
+  if (!confirm('Reset all answers? This cannot be undone.')) return;
+  state.answers = {}; state.revealed = {};
+  updateStats(); render();
+}
+
+function openScore() {
+  const fq = getFiltered();
+  const answered = fq.filter(x => state.answers[x.id] !== undefined).length;
+  const correct = fq.filter(x => state.answers[x.id] === x.ans).length;
+  const pct = answered > 0 ? Math.round(correct/answered*100) : 0;
+  let color = pct >= 75 ? '#4cad6e' : pct >= 60 ? '#c9a84c' : '#c94c4c';
+  let grade = pct >= 90 ? 'Distinction' : pct >= 75 ? 'Pass' : pct >= 60 ? 'Near Pass' : 'Needs Review';
+  document.getElementById('modalScore').textContent = pct + '%';
+  document.getElementById('modalScore').style.color = color;
+  document.getElementById('modalGrade').textContent = grade;
+  document.getElementById('modalGrade').style.color = color;
+  document.getElementById('modalSub').textContent = `${fq.length} questions filtered · Theme: ${document.getElementById('themeFilter').options[document.getElementById('themeFilter').selectedIndex].text}`;
+  document.getElementById('mdAns').textContent = answered;
+  document.getElementById('mdCorr').textContent = correct;
+  document.getElementById('mdWrong').textContent = answered - correct;
+  document.getElementById('scoreModal').classList.add('open');
+}
+
+function closeScore(e) {
+  if (!e || e.target.id === 'scoreModal' || e.target.className === 'btn primary') {
+    document.getElementById('scoreModal').classList.remove('open');
+  }
+}
+
+function updateStats() {
+  const fq = getFiltered();
+  const answered = fq.filter(x => state.answers[x.id] !== undefined).length;
+  const correct = fq.filter(x => state.answers[x.id] === x.ans).length;
+  document.getElementById('sTotal').textContent = fq.length;
+  document.getElementById('sAnswered').textContent = answered;
+  document.getElementById('sCorrect').textContent = correct;
+  document.getElementById('sPct').textContent = answered > 0 ? Math.round(correct/answered*100) + '%' : '—';
+  const pct = Math.round(answered / Math.max(fq.length,1) * 100);
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progLabel').textContent = `${answered} / ${fq.length} answered`;
+  document.getElementById('progPct').textContent = pct + '%';
+}
+
+function selectAnswer(id, idx) {
+  if (state.mode === 'key') return;
+  state.answers[id] = idx;
+  if (state.mode === 'review') state.revealed[id] = true;
+  updateStats();
+  render();
+}
+
+function toggleReveal(id) {
+  state.revealed[id] = !state.revealed[id];
+  render();
+}
+
+function prevPage() { if (state.page > 0) { state.page--; render(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function nextPage() {
+  const total = Math.ceil(getFiltered().length / state.perPage);
+  if (state.page < total - 1) { state.page++; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+
+function render() {
+  const filtered = getFiltered();
+  const total = Math.ceil(filtered.length / state.perPage);
+  const start = state.page * state.perPage;
+  const visible = filtered.slice(start, start + state.perPage);
+  document.getElementById('sTotal').textContent = filtered.length;
+  document.getElementById('pageInfo').textContent = `Page ${state.page+1} of ${Math.max(total,1)} · Items ${start+1}–${Math.min(start+state.perPage, filtered.length)} of ${filtered.length}`;
+
+  let html = '';
+  let lastTheme = null;
+
+  visible.forEach(q => {
+    if (q.t !== lastTheme) {
+      if (lastTheme !== null) {
+        html += `<div class="theme-divider"><div class="theme-divider-line"></div><div class="theme-divider-label">Theme ${q.t}: ${THEME_NAMES[q.t]}</div><div class="theme-divider-line"></div></div>`;
+      }
+      lastTheme = q.t;
+    }
+
+    const userAns = state.answers[q.id];
+    const revealed = state.revealed[q.id] || state.mode === 'key';
+
+    const optHtml = q.opts.map((opt,i) => {
+      let cls = 'opt';
+      if (revealed) {
+        if (i === q.ans) cls += ' correct';
+        else if (userAns === i) cls += ' wrong';
+      } else {
+        if (userAns === i) cls += ' selected';
+      }
+      const click = state.mode !== 'key' ? `onclick="selectAnswer(${q.id},${i})"` : '';
+      return `<button class="${cls}" ${click}><span class="opt-letter">${OPTS[i]}.</span><span>${opt}</span></button>`;
+    }).join('');
+
+    const rationaleHtml = revealed ? `<div class="rationale"><strong>Answer: ${OPTS[q.ans]}</strong> — ${q.r}</div>` : '';
+    const revealBtn = state.mode === 'exam' && userAns !== undefined && !state.revealed[q.id] ?
+      `<button class="reveal-btn" onclick="toggleReveal(${q.id})">Show answer & rationale</button>` : '';
+
+    html += `<div class="q-card">
+      <div class="q-meta">
+        <span class="q-num">Q${q.id}</span>
+        ${q.c ? '<span class="badge badge-clinical">● Clinical</span>' : ''}
+        <span class="badge badge-theme">Theme ${q.t} · ${THEME_NAMES[q.t]}</span>
+      </div>
+      <div class="q-stem">${q.stem}</div>
+      <div class="options">${optHtml}</div>
+      ${revealBtn}
+      ${rationaleHtml}
+    </div>`;
+  });
+
+  document.getElementById('qContainer').innerHTML = html;
+  updateStats();
+}
+
+// Scroll to top button
+window.addEventListener('scroll', () => {
+  document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 300);
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'SELECT') return;
+  if (e.key === 'ArrowRight') nextPage();
+  if (e.key === 'ArrowLeft') prevPage();
+  if (e.key === 'Escape') closeScore();
+});
+
+render();
+</script>
+</body>
+</html>
