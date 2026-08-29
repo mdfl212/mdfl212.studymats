@@ -1,0 +1,3055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pharmacology PLE Reviewer – 200 Items</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg: #0d0808;
+            --bg2: #1a0e0e;
+            --bg3: #2a1414;
+            --bg4: #3d1c1c;
+            --border: rgba(220, 80, 80, 0.10);
+            --border2: rgba(220, 80, 80, 0.25);
+            --text: #f0e0d8;
+            --text2: #d4a08a;
+            --text3: #a06050;
+            --red: #d94c4c;
+            --red2: #e87070;
+            --gold: #e8c96a;
+            --gold2: #f5dd8a;
+            --gold-dim: rgba(232, 201, 106, 0.12);
+            --red-dim: rgba(217, 76, 76, 0.13);
+            --blue: #5b8fcf;
+            --blue-dim: rgba(91, 143, 207, 0.12);
+            --radius: 6px;
+            --radius-lg: 10px;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 15px;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+        .wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+            position: relative;
+            z-index: 1;
+        }
+        .site-header {
+            border-bottom: 1px solid var(--border2);
+            padding: 48px 0 36px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .site-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background: var(--gold);
+        }
+        .header-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(26px, 4vw, 40px);
+            font-weight: 700;
+            line-height: 1.15;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+        .header-title em {
+            font-style: italic;
+            color: var(--gold2);
+        }
+        .header-sub {
+            font-size: 13px;
+            color: var(--text2);
+            font-style: italic;
+        }
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .stat-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 14px 16px;
+            text-align: center;
+        }
+        .stat-val {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--gold2);
+            display: block;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text3);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .progress-wrap {
+            margin-bottom: 28px;
+        }
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text3);
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.08em;
+            margin-bottom: 6px;
+        }
+        .progress-track {
+            height: 3px;
+            background: var(--bg4);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--red), var(--gold));
+            border-radius: 2px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 28px;
+            padding: 16px 20px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+        }
+        .controls label {
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text3);
+            font-family: 'JetBrains Mono', monospace;
+            margin-right: 2px;
+        }
+        select {
+            background: var(--bg3);
+            border: 1px solid var(--border2);
+            color: var(--text);
+            font-family: 'Source Serif 4', serif;
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        select:hover,
+        select:focus {
+            border-color: var(--gold);
+        }
+        .btn {
+            padding: 7px 16px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border2);
+            background: transparent;
+            color: var(--text2);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.18s;
+            white-space: nowrap;
+        }
+        .btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: var(--gold-dim);
+        }
+        .btn.primary {
+            background: var(--gold-dim);
+            border-color: var(--gold);
+            color: var(--gold2);
+        }
+        .btn.primary:hover {
+            background: rgba(232, 201, 106, 0.22);
+        }
+        .btn.danger:hover {
+            border-color: var(--red);
+            color: var(--red);
+            background: var(--red-dim);
+        }
+        .btn.table-toggle {
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+        .btn.table-toggle:hover {
+            background: var(--blue-dim);
+            border-color: var(--blue);
+            color: #8ab8f0;
+        }
+        .btn.table-toggle.active {
+            background: var(--blue-dim);
+            border-color: var(--blue);
+            color: #8ab8f0;
+        }
+        .mode-tabs {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 28px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 4px;
+        }
+        .tab {
+            flex: 1;
+            padding: 9px;
+            border-radius: 7px;
+            border: none;
+            background: transparent;
+            color: var(--text3);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .tab:hover {
+            color: var(--text2);
+        }
+        .tab.active {
+            background: var(--bg4);
+            color: var(--gold2);
+            border: 1px solid var(--border2);
+        }
+        .q-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px 28px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+            animation: fadeUp 0.3s ease both;
+        }
+        .q-card:hover {
+            border-color: var(--border2);
+        }
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .q-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+        .q-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gold);
+            min-width: 48px;
+        }
+        .badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 3px;
+        }
+        .badge-clinical {
+            background: rgba(201, 76, 76, 0.15);
+            color: #e87070;
+            border: 1px solid rgba(201, 76, 76, 0.3);
+        }
+        .badge-theme {
+            background: var(--bg4);
+            color: var(--text3);
+            border: 1px solid var(--border);
+        }
+        .badge-source {
+            background: rgba(91, 143, 207, 0.15);
+            color: #8ab8f0;
+            border: 1px solid rgba(91, 143, 207, 0.25);
+        }
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+        .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8px;
+            letter-spacing: 0.12em;
+            padding: 2px 8px;
+            border-radius: 3px;
+            background: rgba(217, 76, 76, 0.15);
+            color: var(--red2);
+            border: 1px solid rgba(217, 76, 76, 0.2);
+            text-transform: uppercase;
+        }
+        .tag-cyp-inducer {
+            background: rgba(232, 201, 106, 0.15);
+            color: var(--gold2);
+            border-color: rgba(232, 201, 106, 0.3);
+        }
+        .tag-cyp-inhibitor {
+            background: rgba(217, 76, 76, 0.2);
+            color: #f08080;
+            border-color: rgba(217, 76, 76, 0.3);
+        }
+        .q-stem {
+            font-size: 16px;
+            line-height: 1.72;
+            color: var(--text);
+            margin-bottom: 16px;
+            border-left: 2px solid var(--border2);
+            padding-left: 16px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .opt {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.16s;
+            font-size: 14.5px;
+            line-height: 1.6;
+            background: transparent;
+            color: var(--text2);
+            text-align: left;
+            font-family: 'Source Serif 4', serif;
+            width: 100%;
+        }
+        .opt:hover {
+            border-color: var(--border2);
+            background: var(--bg3);
+            color: var(--text);
+        }
+        .opt.selected {
+            border-color: var(--blue);
+            background: var(--blue-dim);
+            color: var(--text);
+        }
+        .opt.correct {
+            border-color: var(--gold);
+            background: var(--gold-dim);
+            color: var(--gold2);
+        }
+        .opt.wrong {
+            border-color: var(--red);
+            background: var(--red-dim);
+            color: #f0a0a0;
+        }
+        .opt-letter {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 13px;
+            min-width: 20px;
+            color: var(--gold);
+            flex-shrink: 0;
+            padding-top: 1px;
+        }
+        .opt.correct .opt-letter {
+            color: var(--gold2);
+        }
+        .opt.wrong .opt-letter {
+            color: var(--red);
+        }
+        .opt.selected .opt-letter {
+            color: var(--blue);
+        }
+        .rationale {
+            margin-top: 14px;
+            padding: 12px 16px;
+            background: rgba(232, 201, 106, 0.07);
+            border: 1px solid rgba(232, 201, 106, 0.2);
+            border-radius: var(--radius);
+            font-size: 14px;
+            line-height: 1.65;
+            color: #e8d4b0;
+            font-style: italic;
+        }
+        .rationale strong {
+            color: var(--gold2);
+            font-style: normal;
+        }
+        .reveal-btn {
+            margin-top: 12px;
+            padding: 6px 14px;
+            border: 1px solid var(--border2);
+            border-radius: var(--radius);
+            background: transparent;
+            color: var(--text3);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.18s;
+        }
+        .reveal-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 32px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .page-info {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text3);
+            letter-spacing: 0.08em;
+            text-align: center;
+            flex: 1;
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+        .modal-overlay.open {
+            display: flex;
+        }
+        .modal {
+            background: var(--bg2);
+            border: 1px solid var(--border2);
+            border-radius: 14px;
+            padding: 40px 48px;
+            max-width: 440px;
+            width: 90%;
+            text-align: center;
+            animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.88);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            color: var(--gold2);
+            margin-bottom: 6px;
+        }
+        .modal-sub {
+            font-size: 12px;
+            color: var(--text3);
+            font-style: italic;
+            margin-bottom: 28px;
+        }
+        .score-big {
+            font-family: 'Playfair Display', serif;
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .score-grade {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        .score-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .sd-item {
+            background: var(--bg3);
+            border-radius: var(--radius);
+            padding: 12px 8px;
+        }
+        .sd-val {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: var(--text);
+            display: block;
+        }
+        .sd-lab {
+            font-size: 9px;
+            color: var(--text3);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .scroll-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 40px;
+            height: 40px;
+            background: var(--bg3);
+            border: 1px solid var(--border2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 50;
+            transition: all 0.2s;
+            color: var(--text3);
+            font-size: 16px;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .scroll-top:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: var(--gold-dim);
+        }
+        .theme-divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 32px 0 20px;
+        }
+        .theme-divider-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+        .theme-divider-label {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 12px;
+            color: var(--gold);
+            white-space: nowrap;
+        }
+
+        /* ---- Table View ---- */
+        .table-view-wrap {
+            display: none;
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        .table-view-wrap.open {
+            display: block;
+        }
+        .rationale-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            background: var(--bg2);
+            border: 1px solid var(--border2);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+        .rationale-table th {
+            background: var(--bg4);
+            color: var(--gold2);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 2px solid var(--border2);
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+        .rationale-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text2);
+            vertical-align: top;
+        }
+        .rationale-table tr:hover td {
+            background: var(--bg3);
+        }
+        .rationale-table .qnum-col {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: var(--gold);
+            white-space: nowrap;
+        }
+        .rationale-table .ans-col {
+            font-weight: 600;
+            color: var(--gold2);
+            white-space: nowrap;
+            text-align: center;
+        }
+        .rationale-table .stem-col {
+            max-width: 300px;
+        }
+        .rationale-table .r-col {
+            font-style: italic;
+            color: #e8d4b0;
+            max-width: 400px;
+        }
+        .rationale-table .tag-col {
+            font-size: 9px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text3);
+        }
+        .table-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .table-controls label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text3);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .table-controls input {
+            background: var(--bg3);
+            border: 1px solid var(--border2);
+            color: var(--text);
+            padding: 5px 10px;
+            border-radius: var(--radius);
+            font-family: 'Source Serif 4', serif;
+            font-size: 12px;
+            outline: none;
+            transition: border-color 0.2s;
+            width: 140px;
+        }
+        .table-controls input:focus {
+            border-color: var(--gold);
+        }
+        .table-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text3);
+            margin-left: auto;
+        }
+
+        @media (max-width: 600px) {
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .q-card {
+                padding: 18px 18px;
+            }
+            .controls {
+                gap: 8px;
+            }
+            .modal {
+                padding: 28px 20px;
+            }
+            .score-big {
+                font-size: 52px;
+            }
+            .rationale-table th,
+            .rationale-table td {
+                padding: 6px 8px;
+                font-size: 11px;
+            }
+            .rationale-table .stem-col {
+                max-width: 140px;
+            }
+            .rationale-table .r-col {
+                max-width: 160px;
+            }
+        }
+        @media (max-width: 480px) {
+            .wrapper {
+                padding: 0 12px 60px;
+            }
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .controls label {
+                margin-top: 4px;
+            }
+            .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <header class="site-header">
+            <div class="header-eyebrow">💊 PLE 2023 · 200 Items · Katzung &amp; First Aid Reference</div>
+            <h1 class="header-title"><em>Pharmacology</em><br />PLE Reviewer</h1>
+            <p class="header-sub">Antimicrobials · Cardiovascular · CNS · Endocrine · GI · Chemotherapy &amp; More</p>
+        </header>
+        <div class="stats-bar">
+            <div class="stat-card"><span class="stat-val" id="sTotal">200</span><span class="stat-label">Questions</span></div>
+            <div class="stat-card"><span class="stat-val" id="sAnswered">0</span><span class="stat-label">Answered</span></div>
+            <div class="stat-card"><span class="stat-val" id="sCorrect">0</span><span class="stat-label">Correct</span></div>
+            <div class="stat-card"><span class="stat-val" id="sPct">—</span><span class="stat-label">Score %</span></div>
+        </div>
+        <div class="progress-wrap">
+            <div class="progress-meta"><span id="progLabel">0 / 200 answered</span><span id="progPct">0%</span></div>
+            <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+        </div>
+        <div class="mode-tabs">
+            <button class="tab active" onclick="setMode('exam')">📝 Exam Mode</button>
+            <button class="tab" onclick="setMode('review')">🔍 Review Mode</button>
+            <button class="tab" onclick="setMode('key')">🗝 Answer Key</button>
+        </div>
+        <div class="controls">
+            <label>Section</label>
+            <select id="themeFilter" onchange="applyFilter()">
+                <option value="all">All Sections</option>
+                <option value="1">Antimicrobials</option>
+                <option value="2">Cardiovascular</option>
+                <option value="3">CNS</option>
+                <option value="4">Endocrine &amp; Metabolic</option>
+                <option value="5">GI &amp; Respiratory</option>
+                <option value="6">Chemotherapy &amp; Other</option>
+            </select>
+            <label>Type</label>
+            <select id="typeFilter" onchange="applyFilter()">
+                <option value="all">All Types</option>
+                <option value="clinical">Clinical Only</option>
+                <option value="conceptual">Conceptual Only</option>
+            </select>
+            <label>Tag</label>
+            <select id="tagFilter" onchange="applyFilter()">
+                <option value="all">All Tags</option>
+                <option value="Antihistamine">Antihistamine</option>
+                <option value="Antibiotic">Antibiotic</option>
+                <option value="Antifungal">Antifungal</option>
+                <option value="Antihypertensive">Antihypertensive</option>
+                <option value="Antidiabetic">Antidiabetic</option>
+                <option value="Opioid">Opioid</option>
+                <option value="Antiseizure">Antiseizure</option>
+                <option value="Antidepressant">Antidepressant</option>
+                <option value="Antipsychotic">Antipsychotic</option>
+                <option value="Diuretic">Diuretic</option>
+                <option value="Anticoagulant">Anticoagulant</option>
+                <option value="Antidote">Antidote</option>
+                <option value="CYP Inducer">CYP Inducer</option>
+                <option value="CYP Inhibitor">CYP Inhibitor</option>
+                <option value="Beta Blocker">Beta Blocker</option>
+                <option value="ACEi/ARB">ACEi/ARB</option>
+                <option value="SERM">SERM</option>
+                <option value="Anticholinergic">Anticholinergic</option>
+                <option value="NSAID">NSAID</option>
+                <option value="Corticosteroid">Corticosteroid</option>
+                <option value="Antitubercular">Antitubercular</option>
+                <option value="Macrolide">Macrolide</option>
+                <option value="Carbapenem">Carbapenem</option>
+                <option value="Cephalosporin">Cephalosporin</option>
+                <option value="Aminoglycoside">Aminoglycoside</option>
+                <option value="Monobactam">Monobactam</option>
+                <option value="Glycopeptide">Glycopeptide</option>
+                <option value="Fluoroquinolone">Fluoroquinolone</option>
+                <option value="Sulfonamide">Sulfonamide</option>
+                <option value="Penicillin">Penicillin</option>
+                <option value="Beta-Lactamase Inhibitor">Beta-Lactamase Inhibitor</option>
+                <option value="STD">STD</option>
+                <option value="GnRH Agonist">GnRH Agonist</option>
+                <option value="GnRH Antagonist">GnRH Antagonist</option>
+                <option value="Vaccine">Vaccine</option>
+                <option value="Biologic">Biologic</option>
+                <option value="Tocolysis">Tocolysis</option>
+            </select>
+            <label>Per Page</label>
+            <select id="perPageSel" onchange="changePerPage()">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">All</option>
+            </select>
+            <button class="btn primary" onclick="openScore()">Score Me</button>
+            <button class="btn danger" onclick="resetAll()">Reset</button>
+            <button class="btn table-toggle" id="tableToggleBtn" onclick="toggleTableView()">📊 Table</button>
+        </div>
+
+        <!-- Table View -->
+        <div class="table-view-wrap" id="tableViewWrap">
+            <div class="table-controls">
+                <label>🔍 Filter</label>
+                <input type="text" id="tableSearch" placeholder="Search stem or rationale..." oninput="renderTable()" />
+                <span class="table-count" id="tableCount"></span>
+            </div>
+            <div style="overflow-x:auto;max-height:600px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-lg);">
+                <table class="rationale-table" id="rationaleTable">
+                    <thead>
+                        <tr>
+                            <th style="min-width:48px;">#</th>
+                            <th style="min-width:60px;">Answer</th>
+                            <th style="min-width:120px;">Question</th>
+                            <th style="min-width:180px;">Rationale</th>
+                            <th style="min-width:80px;">Tags</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="qContainer"></div>
+        <div class="nav">
+            <button class="btn" onclick="prevPage()">← Previous</button>
+            <span class="page-info" id="pageInfo"></span>
+            <button class="btn" onclick="nextPage()">Next →</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="scoreModal" onclick="closeScore(event)">
+        <div class="modal">
+            <div class="modal-title">Examination Results</div>
+            <div class="modal-sub" id="modalSub">Pharmacology PLE 2023 Reviewer</div>
+            <div class="score-big" id="modalScore">—</div>
+            <div class="score-grade" id="modalGrade"></div>
+            <div class="score-detail">
+                <div class="sd-item"><span class="sd-val" id="mdAns">0</span><span class="sd-lab">Answered</span></div>
+                <div class="sd-item"><span class="sd-val" id="mdCorr">0</span><span class="sd-lab">Correct</span></div>
+                <div class="sd-item"><span class="sd-val" id="mdWrong">0</span><span class="sd-lab">Wrong</span></div>
+            </div>
+            <button class="btn primary" onclick="closeScore()">Close</button>
+        </div>
+    </div>
+
+    <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+    <script>
+        const THEME_NAMES = ['', 'Antimicrobials', 'Cardiovascular', 'CNS', 'Endocrine & Metabolic', 'GI & Respiratory',
+            'Chemotherapy & Other'
+        ];
+        const OPTS = ['A', 'B', 'C', 'D'];
+
+        // ========== COMBINED QUESTION BANK ==========
+        // Part A: original 100 (IDs 1–100)
+        // Part B: second set (original IDs 1–100 → remapped to 101–200)
+        const Q = [];
+
+        // ---- PART A (IDs 1–100) ----
+        const partA = [{
+            id: 1,
+            t: 3,
+            c: true,
+            stem: "The use of which of the following should be avoided before operating machinery?",
+            opts: ["Diphenhydramine", "Cetirizine", "Fexofenadine", "Loratadine"],
+            ans: 0,
+            r: "Diphenhydramine is a 1st-generation antihistamine with sedating effects. 2nd-generation agents (cetirizine, fexofenadine, loratadine) are less sedating.",
+            tags: ["Antihistamine", "1st Generation"]
+        }, {
+            id: 2,
+            t: 3,
+            c: false,
+            stem: "2nd-generation antihistamines have less autonomic side effects compared to 1st-generation agents because they are:",
+            opts: ["Less lipid soluble", "More lipid soluble", "More ionized", "Less protein bound"],
+            ans: 0,
+            r: "2nd-generation antihistamines are less lipid soluble, so they do not readily enter the CNS, causing fewer sedating and autonomic effects.",
+            tags: ["Antihistamine", "2nd Generation"]
+        }, {
+            id: 3,
+            t: 3,
+            c: true,
+            stem: "The following anticholinesterase drugs are used in the treatment of Alzheimer disease, EXCEPT:",
+            opts: ["Donepezil", "Galantamine", "Rivastigmine", "Neostigmine"],
+            ans: 3,
+            r: "Donepezil, rivastigmine, and galantamine are used for Alzheimer's. Neostigmine is a cholinesterase inhibitor used for myasthenia gravis, not Alzheimer's.",
+            tags: ["Cholinesterase Inhibitor", "Alzheimer's", "CNS"]
+        }, {
+            id: 4,
+            t: 2,
+            c: true,
+            stem: "Which antihypertensive agent is absolutely contraindicated in pregnant patients because of the risk of major renal damage in the fetus?",
+            opts: ["Labetalol", "Losartan", "Hydralazine", "Nifedipine"],
+            ans: 1,
+            r: "Losartan is an ARB (ACEi class) and is contraindicated in pregnancy due to fetal renal damage. Labetalol, hydralazine, and nifedipine are safer options in pregnancy.",
+            tags: ["Antihypertensive", "ACEi/ARB", "Contraindicated in Pregnancy"]
+        }, {
+            id: 5,
+            t: 3,
+            c: false,
+            stem: "Tolerance to most of the pharmacologic effects of opioids occurs, EXCEPT for:",
+            opts: ["Respiratory depression", "Miosis", "Nausea and vomiting", "Sedation"],
+            ans: 1,
+            r: "Tolerance develops to most opioid effects except miosis and constipation. Miosis persists even with chronic use.",
+            tags: ["Opioid", "Analgesic", "Tolerance"]
+        }, {
+            id: 6,
+            t: 3,
+            c: false,
+            stem: "One characteristic effect of all opioids is pupillary constriction, EXCEPT?",
+            opts: ["Morphine", "Meperidine", "Fentanyl", "Hydrocodone"],
+            ans: 1,
+            r: "All opioids cause miosis except meperidine. Meperidine is also the only opioid that does not cause biliary tract smooth muscle contraction.",
+            tags: ["Opioid", "Analgesic", "Miosis"]
+        }, {
+            id: 7,
+            t: 3,
+            c: true,
+            stem: "Overdose in opioid analgesics is characterized by the following, EXCEPT?",
+            opts: ["Pupillary constriction", "Comatose", "Respiratory depression", "Diarrhea"],
+            ans: 3,
+            r: "Opioid overdose triad: pupillary constriction (miosis), coma, and respiratory depression. Diarrhea is not a feature; opioids cause constipation.",
+            tags: ["Opioid", "Toxicity", "Overdose"]
+        }, {
+            id: 8,
+            t: 4,
+            c: true,
+            stem: "Which antidiabetic drug works by inhibiting the enzyme that degrades GLP-1?",
+            opts: ["Liraglutide", "Linagliptin", "Canagliflozin", "Glipizide"],
+            ans: 1,
+            r: "Linagliptin is a DPP-4 inhibitor. DPP-4 deactivates GLP-1. Inhibition increases insulin release and decreases glucagon. Liraglutide is a GLP-1 analog; canagliflozin is SGLT2 inhibitor; glipizide is sulfonylurea.",
+            tags: ["Antidiabetic", "DPP-4 Inhibitor"]
+        }, {
+            id: 9,
+            t: 5,
+            c: true,
+            stem: "A neonate was incidentally found to have a cardiac murmur characterized as continuous, machinery-like. Which drug can hasten closure of the patent ductus arteriosus?",
+            opts: ["Prostaglandin E", "Indomethacin", "Ibuprofen", "Aspirin"],
+            ans: 1,
+            r: "Indomethacin (NSAID) can hasten closure of PDA. PGE is used to maintain patency. Ibuprofen is also used but indomethacin is classic.",
+            tags: ["NSAID", "PDA", "Neonatology"]
+        }, {
+            id: 10,
+            t: 4,
+            c: true,
+            stem: "Which is considered a partial agonist at estrogen receptors and is commonly used to induce ovulation?",
+            opts: ["Raloxifene", "Clomiphene", "Danazol", "Flutamide"],
+            ans: 1,
+            r: "Clomiphene is a SERM used for ovulation induction. Raloxifene is a SERM for osteoporosis, Danazol is for endometriosis, Flutamide is an antiandrogen for prostate cancer.",
+            tags: ["SERM", "Ovulation Induction", "Estrogen Receptor"]
+        }, {
+            id: 11,
+            t: 3,
+            c: true,
+            stem: "Hypertensive crisis occurs when patients eat tyramine-rich foods while taking which medication?",
+            opts: ["SSRIs", "MAO inhibitors", "SNRIs", "TCAs"],
+            ans: 1,
+            r: "MAO inhibitors + tyramine-rich foods (aged cheese, cured meats) → hypertensive crisis. Tyramine is normally metabolized by MAO; inhibition leads to NE release.",
+            tags: ["Antidepressant", "MAOI", "CYP Inhibitor", "Drug-Food Interaction"]
+        }, {
+            id: 12,
+            t: 3,
+            c: true,
+            stem: "Which is considered a skeletal muscle relaxant?",
+            opts: ["Eperisone", "Hydrocortisone", "Risperidone", "Dapsone"],
+            ans: 0,
+            r: "Eperisone is a skeletal muscle relaxant used for spasticity and muscle stiffness. Hydrocortisone is a corticosteroid; risperidone is antipsychotic; dapsone is antimicrobial.",
+            tags: ["Muscle Relaxant", "Spasmolytic"]
+        }, {
+            id: 13,
+            t: 3,
+            c: true,
+            stem: "Which component of drugs used for common cold (e.g., Decolgen Forte) is responsible for causing sedation?",
+            opts: ["Phenylpropanolamine", "Chlorpheniramine", "Paracetamol", "Any of the above"],
+            ans: 1,
+            r: "Chlorpheniramine is a 1st-generation antihistamine responsible for sedating effects. Phenylpropanolamine is a decongestant; paracetamol is an analgesic.",
+            tags: ["Antihistamine", "1st Generation", "Sedation"]
+        }, {
+            id: 14,
+            t: 3,
+            c: false,
+            stem: "Drug metabolism of some drugs may be decreased by which of the following?",
+            opts: ["Barbiturates", "Carbamazepine", "Rifampin", "Furanocoumarins"],
+            ans: 3,
+            r: "Furanocoumarins in grapefruit juice inhibit CYP3A4, decreasing drug metabolism. Barbiturates, carbamazepine, and rifampin are CYP inducers.",
+            tags: ["CYP Inhibitor", "Grapefruit Juice", "Drug Interaction"]
+        }, {
+            id: 15,
+            t: 2,
+            c: true,
+            stem: "What is the antidote for heparin overdose?",
+            opts: ["Protamine sulfate", "Vitamin K", "Prothrombin complex concentrate", "Any of the above"],
+            ans: 0,
+            r: "Protamine sulfate is the reversal agent for heparin. Vitamin K and PCC are used for warfarin reversal. Idarucizumab reverses dabigatran.",
+            tags: ["Antidote", "Anticoagulant", "Heparin"]
+        }, {
+            id: 16,
+            t: 3,
+            c: true,
+            stem: "The following are side effects of using 1st-generation antihistamine, EXCEPT?",
+            opts: ["Dry mouth", "Blurred vision", "Sedation", "None of the above"],
+            ans: 3,
+            r: "All options are side effects of 1st-generation antihistamines (anticholinergic effects + sedation). So 'None of the above' is correct.",
+            tags: ["Antihistamine", "1st Generation", "Side Effects"]
+        }, {
+            id: 17,
+            t: 3,
+            c: false,
+            stem: "Which treatment for muscle spasticity acts as a GABA agonist?",
+            opts: ["Dantrolene", "Baclofen", "Tizanidine", "All the above"],
+            ans: 1,
+            r: "Baclofen is a GABA agonist in the spinal cord that decreases spasticity. Dantrolene reduces Ca²⁺ release from SR; tizanidine is an α2 agonist.",
+            tags: ["Muscle Relaxant", "GABA Agonist", "Spasticity"]
+        }, {
+            id: 18,
+            t: 3,
+            c: true,
+            stem: "Organophosphate poisoning presents with the following signs and symptoms, EXCEPT?",
+            opts: ["Diarrhea", "Mydriasis", "Bronchospasm", "Emesis"],
+            ans: 1,
+            r: "Organophosphate poisoning causes miosis (not mydriasis). DUMBBELSS: Diarrhea, Urination, Miosis, Bronchospasm, Bradycardia, Emesis, Lacrimation, Sweating, Salivation.",
+            tags: ["Anticholinesterase", "Toxicity", "Organophosphate", "DUMBBELSS"]
+        }, {
+            id: 19,
+            t: 3,
+            c: false,
+            stem: "Baclofen is considered a:",
+            opts: ["Depolarizing neuromuscular blocker", "Nondepolarizing neuromuscular blocker", "Spasmolytic",
+                "None of the above"
+            ],
+            ans: 2,
+            r: "Baclofen is a spasmolytic (reduces spasms without paralysis). Depolarizing and nondepolarizing agents cause muscle paralysis.",
+            tags: ["Muscle Relaxant", "Spasmolytic", "GABA Agonist"]
+        }, {
+            id: 20,
+            t: 3,
+            c: true,
+            stem: "Which is used as part of the management of benzodiazepine overdose?",
+            opts: ["Flumazenil", "Naloxone", "Atropine", "Pralidoxime"],
+            ans: 0,
+            r: "Flumazenil is a benzodiazepine antagonist, used for overdose. Not used routinely due to seizure risk. Naloxone is for opioid overdose.",
+            tags: ["Antidote", "Benzodiazepine", "Flumazenil"]
+        }, {
+            id: 21,
+            t: 3,
+            c: true,
+            stem: "In a patient accidentally poisoned with parathion, which is the antidote of first choice?",
+            opts: ["Atropine", "Rivastigmine", "Glucagon", "Neostigmine"],
+            ans: 0,
+            r: "Atropine is the first-line antidote for organophosphate poisoning (AChE inhibitor). Pralidoxime regenerates cholinesterase but is used adjunctively.",
+            tags: ["Antidote", "Organophosphate", "Anticholinergic"]
+        }, {
+            id: 22,
+            t: 3,
+            c: false,
+            stem: "In patients with organophosphate poisoning, which can regenerate cholinesterase?",
+            opts: ["Atropine", "Pralidoxime", "Diazepam", "Succinylcholine"],
+            ans: 1,
+            r: "Pralidoxime regenerates cholinesterase by reactivating the phosphorylated enzyme. Atropine only blocks muscarinic effects.",
+            tags: ["Antidote", "Organophosphate", "Cholinesterase Reactivator"]
+        }, {
+            id: 23,
+            t: 2,
+            c: false,
+            stem: "Isoproterenol is a:",
+            opts: ["Beta agonist", "Beta blocker", "Alpha1-agonist", "Alpha1-antagonist"],
+            ans: 0,
+            r: "Isoproterenol is a non-selective beta agonist (β1 and β2). It is used for bradycardia and bronchospasm but has potent cardiac effects.",
+            tags: ["Beta Agonist", "Sympathomimetic"]
+        }, {
+            id: 24,
+            t: 2,
+            c: false,
+            stem: "Which Group 1 antiarrhythmic tends to shorten the action potential in some cardiac tissues?",
+            opts: ["Procainamide", "Quinidine", "Disopyramide", "Lidocaine"],
+            ans: 3,
+            r: "Lidocaine (Class IB) shortens the action potential duration. Class IA drugs (procainamide, quinidine, disopyramide) prolong AP.",
+            tags: ["Antiarrhythmic", "Class IB", "Lidocaine"]
+        }, {
+            id: 25,
+            t: 2,
+            c: false,
+            stem: "Which can occur in patients being given thiazides for treatment of hypertension?",
+            opts: ["Decreased serum uric acid", "Decreased serum lipid levels", "Hypoglycemia", "Hyperglycemia"],
+            ans: 3,
+            r: "Thiazides cause hyperglycemia, increased serum uric acid, and increased lipid levels. They are associated with metabolic side effects.",
+            tags: ["Diuretic", "Thiazide", "Hyperglycemia"]
+        }, {
+            id: 26,
+            t: 2,
+            c: false,
+            stem: "Which drug is used as treatment for hypertriglyceridemia?",
+            opts: ["Cholestyramine", "Ezetimibe", "Fenofibrate", "Any of the above"],
+            ans: 2,
+            r: "Fenofibrate (fibrate) is used for hypertriglyceridemia via PPARα activation. Cholestyramine and ezetimibe are for hypercholesterolemia.",
+            tags: ["Lipid-Lowering", "Fibrate", "Hypertriglyceridemia"]
+        }, {
+            id: 27,
+            t: 4,
+            c: false,
+            stem: "Diabetes insipidus can occur in patients given any of the following drugs, EXCEPT:",
+            opts: ["Lithium", "Demeclocycline", "Thiazides", "None of the above"],
+            ans: 2,
+            r: "Thiazides do not cause nephrogenic DI; they are actually used to treat it. Lithium and demeclocycline can cause nephrogenic DI.",
+            tags: ["Diuretic", "Thiazide", "Diabetes Insipidus"]
+        }, {
+            id: 28,
+            t: 3,
+            c: false,
+            stem: "The following drugs cause mydriasis, EXCEPT?",
+            opts: ["Pilocarpine", "Antihistamines", "Cocaine", "Meperidine"],
+            ans: 0,
+            r: "Pilocarpine is a parasympathomimetic that causes miosis. Antihistamines and cocaine cause mydriasis. Meperidine is an opioid (miosis).",
+            tags: ["Cholinergic Agonist", "Miosis", "Mydriasis"]
+        }, {
+            id: 29,
+            t: 4,
+            c: false,
+            stem: "The use of ethinyl estradiol without progesterone can predispose to which of the following, EXCEPT?",
+            opts: ["Endometrial cancer", "DVT", "Hypertriglyceridemia", "None of the above"],
+            ans: 3,
+            r: "All listed are risks of unopposed estrogen: endometrial cancer, DVT, hypertriglyceridemia, hypertension, migraine. So 'None of the above' is correct.",
+            tags: ["Estrogen", "Hormone Therapy", "Side Effects"]
+        }, {
+            id: 30,
+            t: 3,
+            c: false,
+            stem: "Which intravenous anesthetic is used for anesthesia induction for short procedures and is characterized by having a fast onset and short duration?",
+            opts: ["Thiopental", "Nitrous oxide", "Sevoflurane", "Midazolam"],
+            ans: 0,
+            r: "Thiopental is a barbiturate with high lipid solubility, fast onset, and short duration. Nitrous oxide and sevoflurane are inhaled; midazolam has slower onset.",
+            tags: ["Anesthetic", "Barbiturate", "IV Anesthetic"]
+        }, {
+            id: 31,
+            t: 3,
+            c: false,
+            stem: "Which antiseizure medication works by blocking voltage-gated sodium channels?",
+            opts: ["Carbamazepine", "Levetiracetam", "Gabapentin", "Ethosuximide"],
+            ans: 0,
+            r: "Carbamazepine blocks voltage-gated sodium channels. Levetiracetam blocks SV2A; gabapentin and ethosuximide block calcium channels.",
+            tags: ["Antiseizure", "Sodium Channel Blocker", "Carbamazepine"]
+        }, {
+            id: 32,
+            t: 3,
+            c: false,
+            stem: "What is the preferred drug for absence seizure which works by blocking voltage-gated calcium channels?",
+            opts: ["Carbamazepine", "Levetiracetam", "Gabapentin", "Ethosuximide"],
+            ans: 3,
+            r: "Ethosuximide is the preferred drug for absence seizures, blocking T-type calcium channels. Valproic acid is also used but has more side effects.",
+            tags: ["Antiseizure", "Calcium Channel Blocker", "Absence Seizure"]
+        }, {
+            id: 33,
+            t: 3,
+            c: false,
+            stem: "All local anesthetics are vasodilators, EXCEPT?",
+            opts: ["Cocaine", "Lidocaine", "Bupivacaine", "Prilocaine"],
+            ans: 0,
+            r: "Cocaine is the only local anesthetic that causes vasoconstriction (by blocking NE reuptake). Others are vasodilators.",
+            tags: ["Local Anesthetic", "Vasoconstrictor", "Cocaine"]
+        }, {
+            id: 34,
+            t: 3,
+            c: true,
+            stem: "Which local anesthetic cannot be used in patients at risk for cardiac arrhythmias?",
+            opts: ["Bupivacaine", "Lidocaine", "Benzocaine", "Prilocaine"],
+            ans: 0,
+            r: "Bupivacaine is associated with severe cardiovascular toxicity and should be avoided in patients at risk for cardiac arrhythmias.",
+            tags: ["Local Anesthetic", "Cardiac Toxicity", "Bupivacaine"]
+        }, {
+            id: 35,
+            t: 3,
+            c: false,
+            stem: "What local anesthetic can lead to development of methemoglobinemia?",
+            opts: ["Bupivacaine", "Lidocaine", "Benzocaine", "Prilocaine"],
+            ans: 3,
+            r: "Prilocaine can be metabolized to products that convert hemoglobin to methemoglobin. Benzocaine can also cause methemoglobinemia.",
+            tags: ["Local Anesthetic", "Methemoglobinemia", "Prilocaine"]
+        }, {
+            id: 36,
+            t: 2,
+            c: false,
+            stem: "Administration of phenylephrine can result to the following, EXCEPT:",
+            opts: ["Increased peripheral vascular resistance", "Increased mean BP", "Decreased heart rate",
+                "None of the above"
+            ],
+            ans: 3,
+            r: "Phenylephrine (α1 agonist) causes increased peripheral resistance, increased mean BP, and reflex bradycardia. All are true.",
+            tags: ["Sympathomimetic", "Alpha Agonist", "Vasopressor"]
+        }, {
+            id: 37,
+            t: 5,
+            c: false,
+            stem: "What is the most important anti-inflammatory drug used in asthma treatment?",
+            opts: ["Corticosteroids", "Leukotriene antagonists", "Theophylline", "Cromolyn"],
+            ans: 0,
+            r: "Inhaled corticosteroids are the most important anti-inflammatory drugs in asthma. They reduce airway inflammation and hyperreactivity.",
+            tags: ["Corticosteroid", "Asthma", "Anti-inflammatory"]
+        }, {
+            id: 38,
+            t: 5,
+            c: false,
+            stem: "Which asthma treatment functions as a monoclonal antibody to human IgE?",
+            opts: ["Nedocromil", "Omalizumab", "Benralizumab", "Prednisone"],
+            ans: 1,
+            r: "Omalizumab is a monoclonal antibody against IgE, used for severe allergic asthma. Benralizumab is anti-IL5.",
+            tags: ["Monoclonal Antibody", "Anti-IgE", "Asthma"]
+        }, {
+            id: 39,
+            t: 5,
+            c: false,
+            stem: "What drug used in asthma works by blocking muscarinic M3 receptors in the airways to prevent bronchoconstriction?",
+            opts: ["Ipratropium", "Budesonide", "Aminophylline", "Salbutamol"],
+            ans: 0,
+            r: "Ipratropium is a muscarinic antagonist (M3 blocker) used for bronchoconstriction in COPD/asthma. Budesonide is steroid; aminophylline is PDE inhibitor; salbutamol is β2 agonist.",
+            tags: ["Anticholinergic", "Bronchodilator", "Asthma", "COPD"]
+        }, {
+            id: 40,
+            t: 5,
+            c: false,
+            stem: "Overdose of methylxanthines, such as theophylline used in treatment of asthma, may lead to:",
+            opts: ["Arrhythmias", "Stroke", "Worsening of asthma", "Hypotension"],
+            ans: 0,
+            r: "Theophylline overdose can cause arrhythmias and seizures. It is a methylxanthine with a narrow therapeutic index.",
+            tags: ["Methylxanthine", "Asthma", "Toxicity", "Arrhythmia"]
+        }, {
+            id: 41,
+            t: 1,
+            c: false,
+            stem: "Azithromycin can be given to patients with community-acquired pneumonia using once-daily dosing due to its:",
+            opts: ["Long half-life", "Extensive drug interactions", "Ability to inhibit cytochrome P450",
+                "All of the above"
+            ],
+            ans: 0,
+            r: "Azithromycin has a long half-life (>70 hours), allowing once-daily dosing. It does not significantly inhibit CYP450 unlike erythromycin/clarithromycin.",
+            tags: ["Antibiotic", "Macrolide", "Long Half-Life"]
+        }, {
+            id: 42,
+            t: 1,
+            c: false,
+            stem: "The following macrolides inhibit cytochrome P450 enzymes which lead to increased serum levels of various drugs (such as warfarin), EXCEPT?",
+            opts: ["Erythromycin", "Clarithromycin", "Azithromycin", "None of the above"],
+            ans: 2,
+            r: "Azithromycin does not inhibit CYP450, unlike erythromycin and clarithromycin. This makes it safer for drug interactions.",
+            tags: ["Antibiotic", "Macrolide", "CYP Inhibitor", "Drug Interaction"]
+        }, {
+            id: 43,
+            t: 1,
+            c: true,
+            stem: "What drug is used as primary prophylaxis against Mycobacterium avium complex (MAC) in AIDS patients with CD4 counts < 50/μL?",
+            opts: ["Amikacin", "Azithromycin", "Isoniazid", "Pyrazinamide"],
+            ans: 1,
+            r: "Azithromycin (or clarithromycin) is used for MAC prophylaxis in AIDS patients with CD4 < 50/μL. Isoniazid/pyrazinamide are for TB.",
+            tags: ["Antibiotic", "Macrolide", "MAC Prophylaxis", "HIV"]
+        }, {
+            id: 44,
+            t: 1,
+            c: false,
+            stem: "What is the drug of choice for treatment of syphilis?",
+            opts: ["Penicillin G", "Ceftriaxone", "Oxacillin", "Doxycycline"],
+            ans: 0,
+            r: "Penicillin G is still the drug of choice for syphilis. Ceftriaxone is an alternative. Doxycycline for penicillin-allergic patients.",
+            tags: ["Antibiotic", "Penicillin", "Syphilis"]
+        }, {
+            id: 45,
+            t: 3,
+            c: false,
+            stem: "The plasma half-life of levodopa is prolonged with the administration of:",
+            opts: ["Pramipexole", "Apomorphine", "Tolcapone", "Carbidopa"],
+            ans: 3,
+            r: "Carbidopa inhibits peripheral dopa decarboxylase, prolonging levodopa's half-life. Tolcapone is a COMT inhibitor.",
+            tags: ["Parkinson's", "Carbidopa", "Levodopa", "Decarboxylase Inhibitor"]
+        }, {
+            id: 46,
+            t: 3,
+            c: false,
+            stem: "What drug used in Parkinson disease acts by inhibiting the enzyme that converts levodopa to 3-O-methyldopa?",
+            opts: ["Tolcapone", "Selegiline", "Levodopa-carbidopa", "Bromocriptine"],
+            ans: 0,
+            r: "Tolcapone is a COMT inhibitor that prevents conversion of levodopa to 3-O-methyldopa. Selegiline is MAO-B inhibitor.",
+            tags: ["Parkinson's", "COMT Inhibitor", "Tolcapone"]
+        }, {
+            id: 47,
+            t: 3,
+            c: true,
+            stem: "Hyperprolactinemia is a side effect of which of the following drugs?",
+            opts: ["Bromocriptine", "Cabergoline", "Risperidone", "All of the above"],
+            ans: 2,
+            r: "Risperidone is a dopamine receptor blocker → removes tonic inhibition of prolactin → hyperprolactinemia. Bromocriptine and cabergoline are dopamine agonists that lower prolactin.",
+            tags: ["Antipsychotic", "Dopamine Blocker", "Hyperprolactinemia"]
+        }, {
+            id: 48,
+            t: 2,
+            c: false,
+            stem: "Which is used in benign prostatic hyperplasia and acts to reduce prostatic smooth muscle tone?",
+            opts: ["Prazosin", "Finasteride", "Dutasteride", "All of the above"],
+            ans: 0,
+            r: "Prazosin (α1 blocker) reduces smooth muscle tone in BPH. Finasteride and dutasteride are 5α-reductase inhibitors that reduce prostate size.",
+            tags: ["Alpha Blocker", "BPH", "Prazosin"]
+        }, {
+            id: 49,
+            t: 2,
+            c: false,
+            stem: "What drug used in acute decompensated heart failure increases myocardial contractility by increasing cAMP through inhibition of PDE-3?",
+            opts: ["Dobutamine", "Milrinone", "Dopamine", "Norepinephrine"],
+            ans: 1,
+            r: "Milrinone is a PDE3 inhibitor that increases cAMP → increased contractility. Dobutamine is a β1 agonist. Digoxin inhibits Na/K ATPase.",
+            tags: ["Inotrope", "PDE Inhibitor", "Heart Failure", "Milrinone"]
+        }, {
+            id: 50,
+            t: 2,
+            c: false,
+            stem: "Which drug inhibits platelet aggregation by increasing levels of platelet cAMP?",
+            opts: ["Cilostazol", "Heparin", "Enoxaparin", "Warfarin"],
+            ans: 0,
+            r: "Cilostazol inhibits PDE → increases platelet cAMP → inhibits aggregation. Heparin/enoxaparin activate antithrombin; warfarin inhibits VKOR.",
+            tags: ["Antiplatelet", "PDE Inhibitor", "Cilostazol"]
+        }, {
+            id: 51,
+            t: 2,
+            c: false,
+            stem: "What drug can be used in the treatment of peripheral arterial disease (PAD)?",
+            opts: ["Cilostazol", "Heparin", "Enoxaparin", "Warfarin"],
+            ans: 0,
+            r: "Cilostazol is used for intermittent claudication in PAD. It improves walking distance. Anticoagulants are not first-line for PAD.",
+            tags: ["Antiplatelet", "PAD", "Cilostazol"]
+        }, {
+            id: 52,
+            t: 1,
+            c: false,
+            stem: "Which of the following is NOT a characteristic of Aztreonam?",
+            opts: ["No activity against Gram (+) bacteria", "No activity against anaerobes",
+                "Has cross-allergenicity with penicillins", "None of the above"
+            ],
+            ans: 2,
+            r: "Aztreonam has NO cross-allergenicity with penicillins. It is a monobactam active against Gram (-), no activity against Gram (+) or anaerobes.",
+            tags: ["Antibiotic", "Monobactam", "No Cross-Allergenicity"]
+        }, {
+            id: 53,
+            t: 1,
+            c: true,
+            stem: "Rapid infusion of vancomycin may lead to:",
+            opts: ["Red man syndrome", "Jarisch-Herxheimer syndrome", "Cyanosis", "All of the above"],
+            ans: 0,
+            r: "Red man syndrome (diffuse flushing) results from rapid IV vancomycin infusion due to histamine release. Slow infusion prevents it.",
+            tags: ["Antibiotic", "Glycopeptide", "Red Man Syndrome"]
+        }, {
+            id: 54,
+            t: 4,
+            c: false,
+            stem: "Which drug that affects bone mineral metabolism can be administered subcutaneously?",
+            opts: ["Alendronate", "Raloxifene", "Denosumab", "Cinacalcet"],
+            ans: 2,
+            r: "Denosumab (anti-RANKL) is given subcutaneously. Alendronate is oral; raloxifene is oral; cinacalcet is oral.",
+            tags: ["Osteoporosis", "Monoclonal Antibody", "Denosumab", "Subcutaneous"]
+        }, {
+            id: 55,
+            t: 6,
+            c: false,
+            stem: "Which drug used in severe plaque psoriasis is a human IgG1 monoclonal antibody that prevents the binding of IL-17A to IL-17A receptor?",
+            opts: ["Secukinumab", "Infliximab", "Methotrexate", "Tocilizumab"],
+            ans: 0,
+            r: "Secukinumab is anti-IL17A for psoriasis. Infliximab is anti-TNF; methotrexate is DHFR inhibitor; tocilizumab is anti-IL6.",
+            tags: ["Monoclonal Antibody", "Psoriasis", "Anti-IL17", "Secukinumab"]
+        }, {
+            id: 56,
+            t: 2,
+            c: true,
+            stem: "A patient with sulfa allergy should avoid thiazides, furosemide, sulfonylureas, but which diuretic is safe?",
+            opts: ["Thiazides", "Ethacrynic acid", "Furosemide", "Sulfonylureas"],
+            ans: 1,
+            r: "Ethacrynic acid is a non-sulfonamide diuretic, safe in sulfa allergy. Thiazides, furosemide, and sulfonylureas are sulfa-containing.",
+            tags: ["Diuretic", "Loop Diuretic", "Sulfa Allergy", "Ethacrynic Acid"]
+        }, {
+            id: 57,
+            t: 4,
+            c: false,
+            stem: "Continuous administration of GnRH agonists is used in patients with advanced prostate cancer. Which is a GnRH agonist?",
+            opts: ["Leuprolide", "Degarelix", "Clomiphene", "Anastrozole"],
+            ans: 0,
+            r: "Leuprolide is a GnRH agonist. Degarelix is a GnRH antagonist. Clomiphene is a SERM; anastrozole is an aromatase inhibitor.",
+            tags: ["GnRH Agonist", "Prostate Cancer", "Leuprolide"]
+        }, {
+            id: 58,
+            t: 4,
+            c: false,
+            stem: "Continuous administration of GnRH agonists can result in the following adverse effects, EXCEPT?",
+            opts: ["Hot flushes", "Gynecomastia", "Reduced bone density", "Increased hematocrit"],
+            ans: 3,
+            r: "GnRH agonists cause decreased hematocrit (not increased). Adverse effects: hot flushes, sweats, gynecomastia, reduced libido, decreased hematocrit, reduced bone density.",
+            tags: ["GnRH Agonist", "Side Effects", "Prostate Cancer"]
+        }, {
+            id: 59,
+            t: 4,
+            c: true,
+            stem: "Methimazole use during pregnancy is associated with which teratogenic effect?",
+            opts: ["Aplasia cutis", "Thyroglossal duct cyst", "Agranulocytosis", "All of the above"],
+            ans: 0,
+            r: "Methimazole is teratogenic and can cause aplasia cutis in the newborn. Agranulocytosis is a side effect but not a teratogenic effect.",
+            tags: ["Antithyroid", "Methimazole", "Teratogenicity", "Aplasia Cutis"]
+        }, {
+            id: 60,
+            t: 4,
+            c: false,
+            stem: "What drug can be used in von Willebrand disease to release vWF from endothelium stores?",
+            opts: ["Demecolcycline", "Desmopressin", "Dexamethasone", "Doxycycline"],
+            ans: 1,
+            r: "Desmopressin (DDAVP) releases von Willebrand factor from endothelial stores, used in mild vWD and hemophilia A.",
+            tags: ["Vasopressin Analog", "vWD", "Desmopressin"]
+        }, {
+            id: 61,
+            t: 5,
+            c: false,
+            stem: "Misoprostol is sometimes used in patients at risk of developing ulcers such as those taking NSAIDs. It acts by:",
+            opts: ["Increasing mucosal protection", "Irreversibly inactivating H+/K+ ATPase", "Neutralizing stomach acid",
+                "Acting as H2 receptor antagonist"
+            ],
+            ans: 0,
+            r: "Misoprostol is a PGE1 analog that increases mucosal protection. PPIs inactivate H+/K+ ATPase; antacids neutralize; H2 blockers block H2 receptors.",
+            tags: ["Prostaglandin Analog", "GI Protection", "Misoprostol", "NSAID"]
+        }, {
+            id: 62,
+            t: 4,
+            c: false,
+            stem: "Which drug used in patients with osteoporosis increases osteoblastic activity by acting as PTH analog?",
+            opts: ["Bisphosphonates", "Strontium", "Teriparatide", "Glucocorticoids"],
+            ans: 2,
+            r: "Teriparatide is recombinant PTH that increases osteoblastic activity, used for osteoporosis. Bisphosphonates inhibit osteoclasts.",
+            tags: ["Osteoporosis", "PTH Analog", "Teriparatide", "Anabolic"]
+        }, {
+            id: 63,
+            t: 1,
+            c: false,
+            stem: "Amphotericin B acts as an antifungal by creating artificial pores in the fungal cell membrane by binding to:",
+            opts: ["Cholesterol", "Ergosterol", "Lanosterol", "Squalene"],
+            ans: 1,
+            r: "Amphotericin B binds to ergosterol in fungal membranes, forming pores. It does not bind to cholesterol (mammalian) as avidly.",
+            tags: ["Antifungal", "Polyene", "Amphotericin B", "Ergosterol"]
+        }, {
+            id: 64,
+            t: 1,
+            c: false,
+            stem: "What drug used in dermatophytes acts by interfering with microtubule function?",
+            opts: ["Griseofulvin", "Terbinafine", "Amphotericin B", "Ketoconazole"],
+            ans: 0,
+            r: "Griseofulvin interferes with microtubule function, used for dermatophyte infections. Terbinafine inhibits squalene epoxidase; azoles inhibit ergosterol synthesis.",
+            tags: ["Antifungal", "Dermatophyte", "Microtubule Inhibitor", "Griseofulvin"]
+        }, {
+            id: 65,
+            t: 1,
+            c: false,
+            stem: "Which carbapenem is not active against Pseudomonas?",
+            opts: ["Ertapenem", "Meropenem", "Imipenem", "None of the above"],
+            ans: 0,
+            r: "Ertapenem lacks activity against Pseudomonas aeruginosa. Meropenem, imipenem, and doripenem have Pseudomonas coverage.",
+            tags: ["Antibiotic", "Carbapenem", "Pseudomonas", "Ertapenem"]
+        }, {
+            id: 66,
+            t: 1,
+            c: false,
+            stem: "What is the suggested treatment for gonorrhea?",
+            opts: ["Ceftriaxone", "Amoxicillin", "Meropenem", "Piperacillin-tazobactam"],
+            ans: 0,
+            r: "Ceftriaxone IM is the treatment of choice for gonorrhea, often combined with azithromycin for chlamydia coverage.",
+            tags: ["Antibiotic", "Cephalosporin", "Gonorrhea", "Ceftriaxone"]
+        }, {
+            id: 67,
+            t: 1,
+            c: true,
+            stem: "Which antibiotic can cause tendon rupture in patients >60 years old?",
+            opts: ["Daptomycin", "Metronidazole", "Penicillins", "Fluoroquinolones"],
+            ans: 3,
+            r: "Fluoroquinolones are associated with tendinitis and tendon rupture, especially in patients >60, with corticosteroids, and renal impairment.",
+            tags: ["Antibiotic", "Fluoroquinolone", "Tendon Rupture", "Side Effect"]
+        }, {
+            id: 68,
+            t: 3,
+            c: true,
+            stem: "Overdose of which drug can manifest with prolonged QT, convulsions, and coma?",
+            opts: ["SSRIs", "Lithium", "TCAs", "Any of the above"],
+            ans: 2,
+            r: "TCA overdose: prolonged QT, coma, convulsions. SSRIs cause serotonin syndrome; lithium causes nausea, vomiting, seizures, ataxia, nephrogenic DI.",
+            tags: ["Antidepressant", "TCA", "Overdose", "QT Prolongation"]
+        }, {
+            id: 69,
+            t: 1,
+            c: false,
+            stem: "What is considered as the single most important drug used in TB?",
+            opts: ["Isoniazid", "Rifampin", "Pyrazinamide", "Ethambutol"],
+            ans: 0,
+            r: "Isoniazid is the single most important drug in TB treatment due to its potency and early bactericidal activity. Rifampin is also key but INH is primary.",
+            tags: ["Antitubercular", "Isoniazid", "TB"]
+        }, {
+            id: 70,
+            t: 1,
+            c: false,
+            stem: "Which anti-TB drug can increase the rate of elimination of certain drugs such as contraceptives?",
+            opts: ["Isoniazid", "Rifampin", "Pyrazinamide", "Ethambutol"],
+            ans: 1,
+            r: "Rifampin is a potent CYP450 inducer, increasing elimination of contraceptives, warfarin, and many other drugs. Isoniazid is an inhibitor.",
+            tags: ["Antitubercular", "Rifampin", "CYP Inducer", "Drug Interaction"]
+        }, {
+            id: 71,
+            t: 2,
+            c: false,
+            stem: "What drug used in heart failure increases cardiac contractility by inhibiting the Na+/K+ ATPase pump?",
+            opts: ["Dobutamine", "Norepinephrine", "Digoxin", "None of the above"],
+            ans: 2,
+            r: "Digoxin inhibits Na+/K+ ATPase → increased intracellular Ca²⁺ → increased contractility. Dobutamine is a β1 agonist.",
+            tags: ["Cardiac Glycoside", "Heart Failure", "Digoxin", "Inotrope"]
+        }, {
+            id: 72,
+            t: 2,
+            c: true,
+            stem: "Which of the following conditions can be exacerbated by the administration of metoprolol?",
+            opts: ["Asthma", "Vasospastic angina", "COPD", "All of the above"],
+            ans: 3,
+            r: "Metoprolol (β1-selective blocker) can exacerbate asthma, COPD (β2 blockade at high doses), and vasospastic angina (unopposed α constriction).",
+            tags: ["Beta Blocker", "Metoprolol", "Contraindication", "Asthma", "COPD"]
+        }, {
+            id: 73,
+            t: 3,
+            c: false,
+            stem: "Administration of typical antipsychotics can precipitate an episode of acute dystonia. Which can be given to treat this condition?",
+            opts: ["Benztropine", "Phentolamine", "Lithium", "Cyproheptadine"],
+            ans: 0,
+            r: "Benztropine (anticholinergic) or diphenhydramine treats acute dystonia from antipsychotics. Cyproheptadine is for serotonin syndrome.",
+            tags: ["Anticholinergic", "Dystonia", "Antipsychotic Side Effect", "Benztropine"]
+        }, {
+            id: 74,
+            t: 6,
+            c: false,
+            stem: "What can be administered to reduce the incidence of hemorrhagic cystitis in patients being given cyclophosphamide?",
+            opts: ["Mesna", "Dexrazoxane", "Leucovorin", "Folic acid"],
+            ans: 0,
+            r: "Mesna traps acrolein, a toxic metabolite of cyclophosphamide, preventing hemorrhagic cystitis. Dexrazoxane protects against anthracycline cardiotoxicity.",
+            tags: ["Chemotherapy", "Mesna", "Hemorrhagic Cystitis", "Cyclophosphamide"]
+        }, {
+            id: 75,
+            t: 6,
+            c: false,
+            stem: "Which rescue therapy can be given to patients receiving anthracyclines to reduce the chance of developing cardiotoxicity?",
+            opts: ["Mesna", "Dexrazoxane", "Leucovorin", "Folic acid"],
+            ans: 1,
+            r: "Dexrazoxane chelates iron and reduces free radical formation from anthracyclines, protecting against cardiotoxicity. Leucovorin rescues methotrexate toxicity.",
+            tags: ["Chemotherapy", "Dexrazoxane", "Cardiotoxicity", "Anthracycline"]
+        }, {
+            id: 76,
+            t: 2,
+            c: false,
+            stem: "Which anti-ischemic drug acts as a partial fatty acid oxidation inhibitor?",
+            opts: ["Metoprolol", "Verapamil", "Trimetazidine", "Ranolazine"],
+            ans: 2,
+            r: "Trimetazidine shifts cardiac energy metabolism from fatty acids to glucose, improving efficiency. Ranolazine inhibits late Na⁺ current.",
+            tags: ["Anti-ischemic", "Trimetazidine", "Fatty Acid Oxidation"]
+        }, {
+            id: 77,
+            t: 2,
+            c: true,
+            stem: "Which is contraindicated when taking nitroglycerin?",
+            opts: ["Sildenafil", "Metoprolol", "Losartan", "Atorvastatin"],
+            ans: 0,
+            r: "Sildenafil (PDE5 inhibitor) with nitrates causes severe hypotension due to synergistic vasodilation. Contraindicated.",
+            tags: ["PDE5 Inhibitor", "Nitrate", "Contraindication", "Sildenafil"]
+        }, {
+            id: 78,
+            t: 3,
+            c: false,
+            stem: "Which antitussive acts as a weak μ receptor agonist?",
+            opts: ["Dextromethorphan", "Codeine", "Hydrocodone", "Benzonatate"],
+            ans: 0,
+            r: "Dextromethorphan is a weak μ opioid agonist used as an antitussive. It does not cause significant dependence at therapeutic doses.",
+            tags: ["Antitussive", "Opioid Agonist", "Dextromethorphan"]
+        }, {
+            id: 79,
+            t: 3,
+            c: false,
+            stem: "Propofol is NOT associated with which of the following?",
+            opts: ["Antiemetic action", "Marked decrease in BP", "Highly emetogenic", "Rapid induction"],
+            ans: 2,
+            r: "Propofol has antiemetic properties. It is NOT highly emetogenic; it is used for its antiemetic effects. It can cause hypotension.",
+            tags: ["Anesthetic", "Propofol", "Antiemetic"]
+        }, {
+            id: 80,
+            t: 3,
+            c: false,
+            stem: "Which antimuscarinic drug is used in Parkinson disease to improve rigidity and tremors but has minimal effect on bradykinesia?",
+            opts: ["Benztropine", "Trihexyphenidyl", "Diphenhydramine", "Amantadine"],
+            ans: 0,
+            r: "Benztropine is an anticholinergic used for Parkinson's, improving tremor and rigidity but not bradykinesia. Amantadine is also used.",
+            tags: ["Anticholinergic", "Parkinson's", "Benztropine"]
+        }, {
+            id: 81,
+            t: 3,
+            c: true,
+            stem: "A patient taking fluoxetine suddenly develops neuromuscular hyperexcitability, autonomic instability, and agitation. What drug most likely precipitated serotonin syndrome?",
+            opts: ["Tramadol", "Paracetamol", "Metoprolol", "All of the above"],
+            ans: 0,
+            r: "Tramadol (and other serotonergic drugs) with SSRIs can precipitate serotonin syndrome. Others include MAOIs, SNRIs, TCAs, triptans, linezolid.",
+            tags: ["Serotonin Syndrome", "Tramadol", "SSRI", "Drug Interaction"]
+        }, {
+            id: 82,
+            t: 3,
+            c: false,
+            stem: "Which of the following is NOT a characteristic of Tramadol?",
+            opts: ["Weak mu receptor agonist", "Blocks reuptake of serotonin",
+                "Should not be given in patients with history of seizure", "None of the above"
+            ],
+            ans: 3,
+            r: "All are true: weak μ agonist, blocks serotonin reuptake, lowers seizure threshold, should be avoided in seizure patients.",
+            tags: ["Opioid", "Tramadol", "Serotonin Reuptake", "Seizure"]
+        }, {
+            id: 83,
+            t: 6,
+            c: true,
+            stem: "A child with chickenpox given aspirin develops hepatic encephalopathy, vomiting, and hypoglycemia. What is the most likely diagnosis?",
+            opts: ["Viral hepatitis A", "Reye syndrome", "Wilson disease", "Acute Hepatitis B"],
+            ans: 1,
+            r: "Reye syndrome: aspirin use during viral infection (VZV, influenza) → hepatic encephalopathy, hypoglycemia, vomiting, hepatomegaly.",
+            tags: ["Reye Syndrome", "Aspirin", "Pediatrics", "Toxicity"]
+        }, {
+            id: 84,
+            t: 6,
+            c: true,
+            stem: "What is the most likely cause of Reye syndrome?",
+            opts: ["Administering paracetamol", "Administering aspirin", "Exposure to a virus",
+                "Autosomal recessive mutation"
+            ],
+            ans: 1,
+            r: "Reye syndrome is caused by aspirin use during viral infection (VZV, influenza). Acetaminophen is not associated with Reye syndrome.",
+            tags: ["Reye Syndrome", "Aspirin", "Toxicity"]
+        }, {
+            id: 85,
+            t: 1,
+            c: false,
+            stem: "Ceftaroline, a 5th generation cephalosporin, has no coverage against?",
+            opts: ["Pseudomonas", "MRSA", "Enterococcus", "None of the above"],
+            ans: 0,
+            r: "Ceftaroline covers MRSA and Enterococcus faecalis but lacks activity against Pseudomonas aeruginosa. It is the only cephalosporin with MRSA coverage.",
+            tags: ["Antibiotic", "Cephalosporin", "MRSA", "Ceftaroline"]
+        }, {
+            id: 86,
+            t: 1,
+            c: false,
+            stem: "Which carbapenem should always be administered with cilastatin?",
+            opts: ["Meropenem", "Imipenem", "Ertapenem", "Doripenem"],
+            ans: 1,
+            r: "Imipenem is given with cilastatin to inhibit renal dehydropeptidase I, preventing inactivation of imipenem. Other carbapenems do not require cilastatin.",
+            tags: ["Antibiotic", "Carbapenem", "Imipenem", "Cilastatin"]
+        }, {
+            id: 87,
+            t: 1,
+            c: false,
+            stem: "Which drug can kill more bacteria as its plasma level increases above its minimal inhibitory concentration (MIC)?",
+            opts: ["Aminoglycosides", "Cephalosporins", "Penicillins", "All of the above"],
+            ans: 0,
+            r: "Aminoglycosides exhibit concentration-dependent killing. Cephalosporins and penicillins exhibit time-dependent killing (related to time above MIC).",
+            tags: ["Antibiotic", "Aminoglycoside", "Concentration-Dependent", "Pharmacodynamics"]
+        }, {
+            id: 88,
+            t: 1,
+            c: false,
+            stem: "Which antibiotic functions by binding to the 30S ribosomal subunit?",
+            opts: ["Amikacin", "Clindamycin", "Erythromycin", "Linezolid"],
+            ans: 0,
+            r: "Aminoglycosides (amikacin) bind to 30S subunit, causing misreading. Clindamycin, erythromycin, and linezolid bind to 50S subunit.",
+            tags: ["Antibiotic", "Aminoglycoside", "30S Inhibitor", "Amikacin"]
+        }, {
+            id: 89,
+            t: 1,
+            c: false,
+            stem: "What is the drug of first choice in prophylaxis against Pneumocystis jirovecii in patients with AIDS?",
+            opts: ["Pentamidine", "Atovaquone", "Trimethoprim-sulfamethoxazole", "Melarsoprol"],
+            ans: 2,
+            r: "TMP-SMZ is first-line for P. jirovecii prophylaxis in AIDS patients. Alternatives include pentamidine and atovaquone.",
+            tags: ["Antibiotic", "Sulfonamide", "PCP Prophylaxis", "HIV"]
+        }, {
+            id: 90,
+            t: 3,
+            c: false,
+            stem: "Which of the following is a CYP450 inducer?",
+            opts: ["Rifampin", "Cimetidine", "Ketoconazole", "Grapefruit juice"],
+            ans: 0,
+            r: "Rifampin is a potent CYP450 inducer. Cimetidine, ketoconazole, and grapefruit juice are inhibitors.",
+            tags: ["CYP Inducer", "Rifampin", "Drug Interaction"]
+        }, {
+            id: 91,
+            t: 3,
+            c: false,
+            stem: "Which of the following is a CYP450 inhibitor?",
+            opts: ["Phenytoin", "Carbamazepine", "Cimetidine", "Chronic alcohol"],
+            ans: 2,
+            r: "Cimetidine inhibits CYP450. Phenytoin, carbamazepine, and chronic alcohol are inducers (chronic alcohol induces; acute alcohol inhibits).",
+            tags: ["CYP Inhibitor", "Cimetidine", "Drug Interaction"]
+        }, {
+            id: 92,
+            t: 1,
+            c: false,
+            stem: "Which antibiotic is associated with red man syndrome?",
+            opts: ["Vancomycin", "Teicoplanin", "Daptomycin", "Linezolid"],
+            ans: 0,
+            r: "Rapid IV infusion of vancomycin causes red man syndrome due to histamine release. Teicoplanin has lower risk.",
+            tags: ["Antibiotic", "Glycopeptide", "Red Man Syndrome", "Vancomycin"]
+        }, {
+            id: 93,
+            t: 2,
+            c: false,
+            stem: "Which drug used in heart failure acts by blocking the Na+/K+ ATPase pump?",
+            opts: ["Digoxin", "Dobutamine", "Milrinone", "Norepinephrine"],
+            ans: 0,
+            r: "Digoxin inhibits Na+/K+ ATPase. Dobutamine is a β1 agonist; milrinone is a PDE3 inhibitor.",
+            tags: ["Cardiac Glycoside", "Digoxin", "Heart Failure", "Inotrope"]
+        }, {
+            id: 94,
+            t: 4,
+            c: false,
+            stem: "Which drug is a DPP-4 inhibitor used in type 2 diabetes?",
+            opts: ["Sitagliptin", "Liraglutide", "Canagliflozin", "Glipizide"],
+            ans: 0,
+            r: "Sitagliptin is a DPP-4 inhibitor. Liraglutide is GLP-1 analog; canagliflozin is SGLT2 inhibitor; glipizide is sulfonylurea.",
+            tags: ["Antidiabetic", "DPP-4 Inhibitor", "Sitagliptin"]
+        }, {
+            id: 95,
+            t: 2,
+            c: false,
+            stem: "Which antihypertensive is a direct renin inhibitor?",
+            opts: ["Aliskiren", "Losartan", "Enalapril", "Amlodipine"],
+            ans: 0,
+            r: "Aliskiren is a direct renin inhibitor. Losartan is ARB, enalapril is ACEi, amlodipine is CCB.",
+            tags: ["Antihypertensive", "Renin Inhibitor", "Aliskiren"]
+        }, {
+            id: 96,
+            t: 1,
+            c: false,
+            stem: "Which antibiotic inhibits cell wall synthesis by binding to penicillin-binding proteins?",
+            opts: ["Penicillins", "Macrolides", "Tetracyclines", "Aminoglycosides"],
+            ans: 0,
+            r: "Penicillins bind to PBPs and inhibit cell wall synthesis. Macrolides, tetracyclines, and aminoglycosides inhibit protein synthesis.",
+            tags: ["Antibiotic", "Penicillin", "Cell Wall Synthesis", "PBP"]
+        }, {
+            id: 97,
+            t: 3,
+            c: false,
+            stem: "Which drug is used in opioid overdose to reverse respiratory depression?",
+            opts: ["Naloxone", "Flumazenil", "Atropine", "Pralidoxime"],
+            ans: 0,
+            r: "Naloxone is a pure opioid antagonist used to reverse opioid overdose. Flumazenil is for benzodiazepines.",
+            tags: ["Antidote", "Opioid", "Naloxone", "Overdose"]
+        }, {
+            id: 98,
+            t: 5,
+            c: false,
+            stem: "Which drug is a proton pump inhibitor used for GERD?",
+            opts: ["Omeprazole", "Ranitidine", "Misoprostol", "Sucralfate"],
+            ans: 0,
+            r: "Omeprazole is a PPI that irreversibly inhibits H+/K+ ATPase. Ranitidine is H2 blocker; misoprostol is PGE analog; sucralfate forms a protective barrier.",
+            tags: ["PPI", "GERD", "Omeprazole", "GI"]
+        }, {
+            id: 99,
+            t: 4,
+            c: false,
+            stem: "Which drug is a selective estrogen receptor modulator used for breast cancer prevention?",
+            opts: ["Tamoxifen", "Raloxifene", "Clomiphene", "Letrozole"],
+            ans: 0,
+            r: "Tamoxifen is a SERM used for breast cancer prevention and treatment. Raloxifene is for osteoporosis; clomiphene for ovulation; letrozole is aromatase inhibitor.",
+            tags: ["SERM", "Tamoxifen", "Breast Cancer"]
+        }, {
+            id: 100,
+            t: 1,
+            c: false,
+            stem: "Which antibiotic is a 5th generation cephalosporin with MRSA coverage?",
+            opts: ["Ceftaroline", "Ceftriaxone", "Cefepime", "Ceftazidime"],
+            ans: 0,
+            r: "Ceftaroline is the only 5th generation cephalosporin with MRSA coverage. Ceftriaxone is 3rd gen; cefepime is 4th gen; ceftazidime is 3rd gen with Pseudomonas coverage.",
+            tags: ["Antibiotic", "Cephalosporin", "MRSA", "Ceftaroline"]
+        }];
+
+        // ---- PART B (IDs 101–200) ----
+        const partB = [{
+            id: 101,
+            t: 1,
+            c: false,
+            stem: "Select the antibiotic regimen NOT approved by the Center for Disease Control in the management of pelvic inflammatory disease:",
+            opts: ["Clindamycin plus gentamycin", "Ceftriaxone with doxycycline", "Co-amoxiclav plus doxycycline",
+                "Cefoxitin plus doxycycline"
+            ],
+            ans: 2,
+            r: "Co-amoxiclav contains amoxicillin and clavulanic acid. The use of Amoxicillin + Clavulanic acid (Co-amoxiclav) is not part of the CDC recommendations for the treatment of PID. The recommended regimens include options with a combination of a cephalosporin (ceftriaxone or cefoxitin) plus doxycycline or a combination of azithromycin plus metronidazole.",
+            tags: ["Antibiotic", "Penicillin", "PID", "CDC"]
+        }, {
+            id: 102,
+            t: 3,
+            c: false,
+            stem: "Which of the following autonomic nervous system receptors should be targeted and stimulated to control the preterm labor of a pregnant woman?",
+            opts: ["Muscarinic receptor", "Beta-2 receptor", "Beta-1 receptor", "Nicotinic receptor"],
+            ans: 1,
+            r: "Beta-2 receptors are primarily found in the lungs and smooth muscles of blood vessels and the uterus. Stimulation of beta-2 receptors leads to relaxation of smooth muscles, including the uterine smooth muscle. Beta-2 agonists are commonly used to inhibit uterine contractions and are, therefore, a suitable target to control preterm labor.",
+            tags: ["Beta Agonist", "Tocolysis", "Preterm Labor"]
+        }, {
+            id: 103,
+            t: 1,
+            c: false,
+            stem: "Junjun is diagnosed with multiple sexually transmitted diseases namely: syphilis, gonorrhea and chlamydia. Select the antibiotic that can cure all three infections:",
+            opts: ["Trimethoprim/Sulfamethoxazole", "Ceftriaxone", "Streptomycin", "Doxycycline"],
+            ans: 1,
+            r: "Causative agents for syphilis (Treponema pallidum), chlamydia (Chlamydia trachomatis), and gonorrhea (Neisseria gonorrheae) are gram-negative bacteria which are covered by ceftriaxone. From the 2015 STD guidelines, the CDC recommends treatment for a gonorrhea-chlamydia coinfection with azithromycin plus ceftriaxone as first-line therapy. Ceftriaxone has also shown antitreponemal activity in clinical trials.",
+            tags: ["Antibiotic", "Cephalosporin", "STD", "Ceftriaxone"]
+        }, {
+            id: 104,
+            t: 1,
+            c: false,
+            stem: "Identify the penicillinase-resistant antibiotic:",
+            opts: ["Carbenicillin", "Bacampicillin", "Methicillin", "Piperacillin"],
+            ans: 2,
+            r: "Penicillinase resistant penicillins are antibiotics which are not inactivated by the penicillinase enzyme. Extended-spectrum penicillins (carbenicillin, bacampicillin, piperacillin) have greater activity against gram-negative bacteria but are inactivated by many β-lactamases. Methicillin is a penicillinase-resistant penicillin.",
+            tags: ["Antibiotic", "Penicillin", "Penicillinase-Resistant"]
+        }, {
+            id: 105,
+            t: 5,
+            c: false,
+            stem: "Select among the following drugs used in gastritis is categorized as pregnancy category X:",
+            opts: ["Ranitidine", "Omeprazole", "Sucralfate", "Misoprostol"],
+            ans: 3,
+            r: "Misoprostol is a prostaglandin analog that helps prevent stomach ulcers. It is categorized as pregnancy category X, signifying that studies in animals or humans have shown fetal abnormalities, and the risk of use during pregnancy clearly outweighs any potential benefit.",
+            tags: ["Prostaglandin Analog", "Pregnancy Category X", "Misoprostol"]
+        }, {
+            id: 106,
+            t: 3,
+            c: false,
+            stem: "Joel, 23 years old, developed blisters that transformed into open genital sores. The following results can be achieved by giving Joel oral acyclovir:",
+            opts: ["Decrease severity of recurrent infection", "No effect on number of lesions of initial infection",
+                "Decrease frequency of recurrent infection", "Reduce pain felt by the patient"
+            ],
+            ans: 3,
+            r: "Acyclovir is a purine analog that needs to be converted to nucleoside triphosphate for activity. Acyclovir does not eradicate latent virus; it has good CSF penetration. In first episodes of genital herpes, oral acyclovir shortens the duration of symptoms by approximately 2 days, the time to lesion healing by 4 days, and the duration of viral shedding by 7 days. Treatment of first episode genital herpes does not alter the frequency or severity of recurrent outbreaks.",
+            tags: ["Antiviral", "Acyclovir", "Genital Herpes"]
+        }, {
+            id: 107,
+            t: 3,
+            c: false,
+            stem: "Jojo is suffering from acute urinary retention. The doctor can prescribe the following medications, EXCEPT:",
+            opts: ["Tamsulosin", "Bethanechol", "Ipratropium", "Dutasteride"],
+            ans: 2,
+            r: "Ipratropium is an antimuscarinic bronchodilator commonly used in respiratory conditions. While it is not typically prescribed for urinary retention, it is worth noting that antimuscarinic medications can sometimes contribute to urinary retention. Tamsulosin is an alpha-1 blocker, bethanechol is a cholinergic agonist, and dutasteride is a 5-alpha-reductase inhibitor used in BPH.",
+            tags: ["Anticholinergic", "Urinary Retention", "Ipratropium"]
+        }, {
+            id: 108,
+            t: 4,
+            c: false,
+            stem: "Aling Julia has been taking prednisone for her allergy for the last 2 years without consulting a doctor. As a doctor you should warn her regarding the following ill effects of chronic use of this drug, except:",
+            opts: ["Hyperglycemia", "Increased bone density", "Decreased secretion of endogenous ACTH",
+                "Increased susceptibility to infection"
+            ],
+            ans: 1,
+            r: "Glucocorticoids induced osteoporosis is one of the well-known and devastating adverse effects of long-term use of glucocorticoids. Up to 40% of patients on long-term glucocorticoids develop bone loss leading to fractures. Several mechanisms play a role, including osteoclast activation by promoting RANK-ligand as well as a decrease in function and number of osteoblasts and osteocytes.",
+            tags: ["Corticosteroid", "Prednisone", "Side Effects", "Osteoporosis"]
+        }, {
+            id: 109,
+            t: 2,
+            c: false,
+            stem: "Julius has been taking Captopril for the last year for hypertension. As an adverse effect of this drug, he has been complaining of:",
+            opts: ["Headache", "Vomiting", "Non-healing wound", "Dry cough"],
+            ans: 3,
+            r: "Adverse effects common to all ACE inhibitors include a dry cough and, rarely, angioedema, especially of the face (both due to increased bradykinin levels), hypotension, and hyperkalemia.",
+            tags: ["ACE Inhibitor", "Captopril", "Dry Cough", "Side Effect"]
+        }, {
+            id: 110,
+            t: 1,
+            c: false,
+            stem: "Sulfamethoxazole may cause precipitation of crystals in the collecting tubules of the kidneys. This crystallization predisposed in:",
+            opts: ["Co-administration of trimethoprim", "Acidic urine", "Low urinary concentration of the drug",
+                "High urinary solubility of the drug"
+            ],
+            ans: 1,
+            r: "Sulfa crystals can be seen with both sulfamethoxazole and sulfadiazine. The major metabolite of sulfamethoxazole in urine is N-acetyl sulfamethoxazole. The crystals generally are pleomorphic and form in acidic urine. Treatment involves stopping the drug treatment and alkalinizing the urine with intravenous fluids.",
+            tags: ["Antibiotic", "Sulfonamide", "Crystalluria", "Sulfamethoxazole"]
+        }, {
+            id: 111,
+            t: 5,
+            c: false,
+            stem: "Fast acting drug used in the management of bronchial asthma is:",
+            opts: ["Montelukast", "Cromolyn sodium", "Methylprednisolone", "Salbutamol"],
+            ans: 3,
+            r: "Albuterol (Salbutamol), terbutaline, pirbuterol, and metaproterenol have enhanced β2-receptor selectivity. These agents are generally administered by inhalation and their onset of action is 1–5 minutes. Some preparations are available for oral administration.",
+            tags: ["Beta Agonist", "Asthma", "Bronchodilator", "Salbutamol"]
+        }, {
+            id: 112,
+            t: 6,
+            c: false,
+            stem: "Rofecoxib has been removed from the market due to increased risk of myocardial infarction. This can be a result of:",
+            opts: ["Increased atherosclerosis", "Increased risk of GI bleeding", "Increased risk of thrombosis",
+                "Hyponatremia"
+            ],
+            ans: 2,
+            r: "Selectivity for the COX-2 enzyme proves to be gastroprotective, which is a major benefit for pain management in patients with GI complications. However, COX-2 selective inhibition can increase the risk of cardiovascular events in patients with preexisting cardiovascular disease. This prothrombotic risk results from thromboxane A2–mediated vasoconstriction and platelet aggregation, which will remain unbalanced and unopposed when prostacyclin activity is suppressed via COX-2 inhibition.",
+            tags: ["NSAID", "COX-2 Inhibitor", "Thrombosis", "Rofecoxib"]
+        }, {
+            id: 113,
+            t: 3,
+            c: false,
+            stem: "Select the drug that can inhibit the metabolism of acetylcholine:",
+            opts: ["Pargyline", "Selegiline", "Tolcapone", "Neostigmine"],
+            ans: 3,
+            r: "Neostigmine is an acetylcholinesterase inhibitor. Unlike the other options, neostigmine directly inhibits the breakdown of acetylcholine by inhibiting acetylcholinesterase. This leads to an increase in acetylcholine levels, making it useful in conditions where enhanced cholinergic activity is desired, such as in the treatment of myasthenia gravis.",
+            tags: ["Cholinesterase Inhibitor", "Neostigmine", "Myasthenia Gravis"]
+        }, {
+            id: 114,
+            t: 3,
+            c: false,
+            stem: "Botulinum (Botox) is being used in dermatology to reduce wrinkles. This is achieved by blocking the interaction between:",
+            opts: ["Epinephrine and alpha-1 receptors", "Epinephrine and beta-1 receptors",
+                "Acetylcholine and nicotinic receptors", "Acetylcholine and muscarinic receptors"
+            ],
+            ans: 2,
+            r: "Botulinum toxin blocks the release of acetylcholine at the neuromuscular junction by cleaving SNARE proteins, preventing vesicle fusion and neurotransmitter release. This action primarily affects cholinergic synapses involving nicotinic receptors.",
+            tags: ["Botulinum Toxin", "Neuromuscular Block", "Acetylcholine"]
+        }, {
+            id: 115,
+            t: 2,
+            c: false,
+            stem: "Select the anti-platelet drug that works by inhibiting glycoprotein IIb/IIIa:",
+            opts: ["Aspirin", "Abciximab", "Cilostazol", "Dipyridamole"],
+            ans: 1,
+            r: "Abciximab is a glycoprotein IIb/IIIa inhibitor. It binds to the glycoprotein IIb/IIIa receptors on the surface of platelets, preventing the final common pathway of platelet aggregation.",
+            tags: ["Antiplatelet", "GPIIb/IIIa Inhibitor", "Abciximab"]
+        }, {
+            id: 116,
+            t: 3,
+            c: false,
+            stem: "The patient was complaining of extreme knee pain associated with erythema, swelling of the knee. Your diagnosis is septic arthritis. Gram stain of the synovial fluid secured through arthrocentesis revealed gram positive cocci. The empiric treatment should be:",
+            opts: ["Streptomycin", "Azithromycin", "Vancomycin", "Ceftriaxone"],
+            ans: 2,
+            r: "Vancomycin is a glycopeptide antibiotic with excellent activity against gram-positive cocci, including Staphylococcus aureus, which is a common pathogen in septic arthritis. It is often used as empiric therapy until the specific pathogen is identified.",
+            tags: ["Antibiotic", "Glycopeptide", "Septic Arthritis", "Vancomycin"]
+        }, {
+            id: 117,
+            t: 2,
+            c: false,
+            stem: "Which electrolyte disturbance is seen in prolonged digoxin therapy or digoxin overdose?",
+            opts: ["Hypomagnesemia", "Hyperkalemia", "Hypocalcemia", "Hypernatremia"],
+            ans: 0,
+            r: "Prolonged digoxin therapy or overdose can lead to hypomagnesemia. Magnesium is essential for proper cardiac function, and low magnesium levels can enhance the toxic effects of digoxin. Hypomagnesemia may contribute to increased digoxin toxicity.",
+            tags: ["Cardiac Glycoside", "Digoxin", "Hypomagnesemia", "Toxicity"]
+        }, {
+            id: 118,
+            t: 3,
+            c: false,
+            stem: "A patient was given a high dose of Physostigmine and is manifesting toxicity. Identify the antidote:",
+            opts: ["Acetylcholine", "Pralidoxime", "Flumazenil", "Ipratropium Bromide"],
+            ans: 1,
+            r: "Pralidoxime, also known as 2-PAM, is an antidote for organophosphate poisoning, including Physostigmine toxicity. Physostigmine, an acetylcholinesterase inhibitor, can lead to cholinergic toxicity, and Pralidoxime helps regenerate active acetylcholinesterase, reversing the toxic effects.",
+            tags: ["Antidote", "Pralidoxime", "Organophosphate", "Toxicity"]
+        }, {
+            id: 119,
+            t: 1,
+            c: false,
+            stem: "Which of the following conditions is resistant to Sulfamethoxazole/Trimethoprim combination?",
+            opts: ["Escherichia coli", "Pneumocystis carinii", "Mycobacterium tuberculosis", "Shigella spp."],
+            ans: 2,
+            r: "Many pathogens are typically resistant to TMP-SMX. These include Pseudomonas aeruginosa, Bacteroides fragilis (and most other anaerobes), Mycobacterium tuberculosis, Treponema pallidum, Campylobacter, penicillin-resistant Streptococcus pneumoniae, and Rickettsiae.",
+            tags: ["Antibiotic", "Sulfonamide", "Resistance", "Tuberculosis"]
+        }, {
+            id: 120,
+            t: 2,
+            c: false,
+            stem: "Juan has been diagnosed with rheumatic heart disease. ECG of Juan revealed atrial fibrillation. The consultant started Juan on Digoxin. Select the rationale for such medication.",
+            opts: ["Increase conductivity of the AV node", "Increase automaticity of the heart",
+                "Increase in excitability of the atria and ventricles",
+                "Increase the effective refractory period of the AV node"
+            ],
+            ans: 3,
+            r: "Digoxin is a cardiac glycoside that primarily acts by inhibiting the sodium-potassium ATPase pump. By inhibiting this pump, Digoxin increases intracellular sodium levels, leading to a subsequent increase in intracellular calcium concentration. The elevated calcium levels enhance cardiac contractility (positive inotropic effect) and also contribute to increased vagal tone, leading to a negative chronotropic effect (slowing of the heart rate). Digoxin's effects on contractility and heart rate are particularly beneficial in conditions like heart failure and atrial fibrillation.",
+            tags: ["Cardiac Glycoside", "Digoxin", "Atrial Fibrillation", "AV Node"]
+        }, {
+            id: 121,
+            t: 1,
+            c: false,
+            stem: "First line drug of treatment of typhoid fever is ____________.",
+            opts: ["Co-trimoxazole", "Chloramphenicol", "Ampicillin", "Fluoroquinolone"],
+            ans: 3,
+            r: "The initial choice of antibiotics depends on the susceptibility of the S. Typhi and S. Paratyphi strains in the area of residence or travel. For treatment of drug-susceptible typhoid fever, fluoroquinolones are the most effective class of agents, with cure rates of ~98% and relapse and fecal carriage rates of <2%. Experience is most extensive with ciprofloxacin.",
+            tags: ["Antibiotic", "Typhoid", "Fluoroquinolone"]
+        }, {
+            id: 122,
+            t: 6,
+            c: false,
+            stem: "Emong, 72 year old has been receiving Leuprolide for 1 year for prostate cancer. Which is the most common complication associated with long term use of Leuprolide?",
+            opts: ["Galactorrhea", "Osteoporosis", "Hypothyroidism", "Pain"],
+            ans: 1,
+            r: "Long-term use of Leuprolide, like other forms of androgen deprivation therapy, can be associated with an increased risk of osteoporosis. Androgen deprivation can lead to bone mineral density loss, potentially resulting in osteoporosis and an increased risk of fractures.",
+            tags: ["GnRH Agonist", "Leuprolide", "Osteoporosis", "Prostate Cancer"]
+        }, {
+            id: 123,
+            t: 6,
+            c: false,
+            stem: "Transmission of Trichomoniasis can be prevented by the following methods, EXCEPT:",
+            opts: ["Treat partner", "Vaginal douching", "Sex avoidance", "Use of condom"],
+            ans: 1,
+            r: "Vaginal douching is not an effective method for preventing the transmission of Trichomoniasis. In fact, it is generally discouraged as it can disrupt the natural balance of the vaginal flora and may even increase the risk of infections.",
+            tags: ["STD", "Trichomoniasis", "Prevention", "Douching"]
+        }, {
+            id: 124,
+            t: 3,
+            c: false,
+            stem: "Select the benzodiazepine that is short acting with half life of 1-12 hours.",
+            opts: ["Diazepam", "Clonazepam", "Alprazolam", "Midazolam"],
+            ans: 2,
+            r: "Alprazolam is a short- to intermediate-acting benzodiazepine. It has a relatively short half-life, typically ranging from 6 to 12 hours. It is often used for the management of anxiety and panic disorders.",
+            tags: ["Benzodiazepine", "Alprazolam", "Short-Acting"]
+        }, {
+            id: 125,
+            t: 3,
+            c: false,
+            stem: "A patient was rushed to the ER for overdose of Diazepam. Identify the antidote:",
+            opts: ["Pralidoxime", "Atropine", "Acetylcysteine", "Flumazenil"],
+            ans: 3,
+            r: "Flumazenil is a selective antagonist for benzodiazepines, including Diazepam. It works by competitively binding to the benzodiazepine receptor sites, reversing the central nervous system depression caused by excessive benzodiazepine activity.",
+            tags: ["Antidote", "Benzodiazepine", "Flumazenil", "Overdose"]
+        }, {
+            id: 126,
+            t: 1,
+            c: false,
+            stem: "Culture studies showed Klebsiella spp. Select the drug that will NOT be effective for the patient:",
+            opts: ["Ceftazidime", "Aztreonam", "Clindamycin", "Imipenem"],
+            ans: 2,
+            r: "Clindamycin is not typically the first choice for treating infections caused by Klebsiella spp. While it has activity against some Gram-positive and anaerobic bacteria, its coverage against aerobic Gram-negative bacteria like Klebsiella is limited.",
+            tags: ["Antibiotic", "Klebsiella", "Clindamycin", "Gram-Negative"]
+        }, {
+            id: 127,
+            t: 3,
+            c: false,
+            stem: "Which of the following is an effect notable with the use of general anesthesia?",
+            opts: ["Increase ventilator response to hypoxia", "CNS excitation", "Increase glomerular filtration rate",
+                "Negative inotropic effect"
+            ],
+            ans: 3,
+            r: "Halothane, enflurane, isoflurane, desflurane, and sevoflurane all depress normal cardiac contractility (halothane and enflurane more so than isoflurane, desflurane, and sevoflurane). As a result, all volatile agents tend to decrease mean arterial pressure in direct proportion to their alveolar concentration. Nitrous oxide also depresses myocardial function in a concentration-dependent manner.",
+            tags: ["Anesthesia", "General Anesthesia", "Negative Inotrope"]
+        }, {
+            id: 128,
+            t: 3,
+            c: false,
+            stem: "Structure activity relationship is important in the physical and drug effect of sympathetic drugs. Catecholamines are usually degraded by enzymes Catechol-O-methyl transferase (COMT) and Monoamine oxidase inhibitors (MAO-I) making them orally non-bioavailable. Which modification can improve oral bioavailability?",
+            opts: ["Substitution on the oral beta carbon of the side chain", "Substitution on the alpha carbon of the side chain",
+                "Substitution on the amino group side chain", "Removal of the hydroxyl group from the phenyl ring"
+            ],
+            ans: 3,
+            r: "Absence of one or both –OH groups on the phenyl ring increases the bioavailability after oral administration and prolongs the duration of action. Furthermore, absence of ring –OH groups tends to increase the distribution of the molecule to the central nervous system (CNS). For example, ephedrine and amphetamine are orally active, have a prolonged duration of action, and produce central nervous system effects not typically observed with the catecholamines.",
+            tags: ["Sympathomimetic", "Catecholamines", "Structure-Activity Relationship"]
+        }, {
+            id: 129,
+            t: 2,
+            c: false,
+            stem: "Which of the following drugs or conditions does NOT result in increased toxicity when occurring with or concomitantly given during digoxin administration?",
+            opts: ["Quinidine", "Hypokalemia", "Cholestyramine", "Renal Failure"],
+            ans: 2,
+            r: "The bile acid-binding resin cholestyramine was administered in a dose of 4 g every six hours to a patient with digoxin intoxication. The serum digoxin concentration declined rapidly, and the digoxin half-life decreased from 75.5 hours to 19.9 hours while cholestyramine was administered. Cholestyramine and a related agent, colestipol, presumably interrupt the enterohepatic recycling of digoxin to enhance elimination.",
+            tags: ["Cardiac Glycoside", "Digoxin", "Cholestyramine", "Drug Interaction"]
+        }, {
+            id: 130,
+            t: 3,
+            c: false,
+            stem: "In addition to the effect of tramadol on pain by affecting opioid receptors, it also affects the following neurotransmitters, EXCEPT___:",
+            opts: ["Serotonin (increase release)", "Acetylcholine (receptor antagonist)",
+                "Norepinephrine (inhibit re-uptake)", "Dopamine (increase release)"
+            ],
+            ans: 1,
+            r: "Tramadol has a dual mechanism of action. It not only acts as an opioid receptor agonist but also increases the release of serotonin in the central nervous system. Tramadol inhibits the reuptake of norepinephrine and also increases the release of dopamine in certain areas of the brain. Tramadol does not have a direct effect on acetylcholine receptors.",
+            tags: ["Opioid", "Tramadol", "Serotonin", "Norepinephrine", "Dopamine"]
+        }, {
+            id: 131,
+            t: 2,
+            c: false,
+            stem: "Side effect associated with thiazide diuretics are the following, EXCEPT:",
+            opts: ["Hyperlipidemia", "Hyperkalemia", "Hyperglycemia", "Hypercalcemia"],
+            ans: 1,
+            r: "Thiazide diuretics can cause an increase in cholesterol and triglyceride levels, leading to hyperlipidemia. Thiazides typically lead to hypokalemia (low potassium levels) due to increased potassium excretion in the urine, not hyperkalemia.",
+            tags: ["Diuretic", "Thiazide", "Side Effects", "Hyperglycemia"]
+        }, {
+            id: 132,
+            t: 1,
+            c: false,
+            stem: "Gigi, 30 years old, with acute pyelonephritis. Which of the following intravenous drugs is inappropriate?",
+            opts: ["Carbapenem", "Amikacin", "Fosfomycin", "Fluoroquinolone"],
+            ans: 2,
+            r: "Fosfomycin inhibits the enzyme enolpyruvate transferase and thereby interferes downstream with the formation of bacterial wall specific N-acetylmuramic acid. This oral agent is active against both gram-positive and gram-negative organisms. It is used to treat simple lower urinary tract infection, not acute pyelonephritis.",
+            tags: ["Antibiotic", "UTI", "Fosfomycin", "Pyelonephritis"]
+        }, {
+            id: 133,
+            t: 2,
+            c: false,
+            stem: "The following drugs can increase the serum level of Digoxin:",
+            opts: ["Amiodarone", "Azithromycin", "Antacid", "Quinine"],
+            ans: 2,
+            r: "Antacids reduce digoxin absorption. Other drugs that decrease digoxin concentration include rifampicin. Macrolide (i.e. azithromycin) antibiotics increase digoxin concentration. Antiarrhythmics increase digoxin concentration as well, such as amiodarone and quinine.",
+            tags: ["Cardiac Glycoside", "Digoxin", "Drug Interaction"]
+        }, {
+            id: 134,
+            t: 3,
+            c: false,
+            stem: "As a N-methyl-D-aspartate (NMDA) receptor blocker, which of the following drugs is used in the treatment of dementia?",
+            opts: ["Donepezil", "Sertraline", "Cabergoline", "Memantine"],
+            ans: 3,
+            r: "Memantine is an N-methyl-D-aspartate (NMDA) receptor antagonist used in the treatment of moderate to severe Alzheimer's disease. It works by blocking excessive activity of glutamate, which is involved in the pathophysiology of Alzheimer's disease.",
+            tags: ["NMDA Antagonist", "Dementia", "Memantine", "Alzheimer's"]
+        }, {
+            id: 135,
+            t: 5,
+            c: false,
+            stem: "Which drug facilitates the body's mechanism for clearing mucus from the respiratory tract? It increases the production of serous mucus in the respiratory tract making phlegm thinner and less viscous:",
+            opts: ["Butamirate", "Bromhexine", "Dextromethorphan", "Phenylephrine"],
+            ans: 1,
+            r: "Bromhexine is a derivative of the Adhatoda vasica plant, and is a mucolytic drug which enhances the secretion of various mucus components by modifying the physicochemical characteristics of mucus. These changes, in turn, increase mucociliary clearance and reduce cough.",
+            tags: ["Mucolytic", "Bromhexine", "Expectorant"]
+        }, {
+            id: 136,
+            t: 3,
+            c: false,
+            stem: "Tramadol exerts its effect on pain by reacting with:",
+            opts: ["Steroid receptors", "Serotonin receptors", "Mu-opioid receptors",
+                "The enzyme cyclooxygenase"],
+            ans: 2,
+            r: "Tramadol's primary mechanism of action involves acting as a mu-opioid receptor agonist. It binds to and activates mu-opioid receptors in the central nervous system, leading to analgesia (pain relief). Tramadol has a weak opioid mu-receptor agonist activity and weakly blocks reuptake of serotonin and norepinephrine.",
+            tags: ["Opioid", "Tramadol", "Mu Opioid Receptor"]
+        }, {
+            id: 137,
+            t: 1,
+            c: false,
+            stem: "Cefpirome is superior to Ceftazidime because it has activity against:",
+            opts: ["Pseudomonas aeruginosa", "Streptococcus pneumonia", "Enterobacter lactamase",
+                "Haemophilus influenzae"
+            ],
+            ans: 2,
+            r: "Cefpirome is a 4th class generation cephalosporin known to have strong antimicrobial activity against beta-lactamases and is highly stable to hydrolysis by various P-lactamases. Both cefpirome and ceftazidime have in vitro activity against P. aeruginosa with the same efficacy, yet Ceftazidime is superior when it comes to said in vitro activity as compared to Cefpirome.",
+            tags: ["Antibiotic", "Cephalosporin", "Beta-Lactamase", "Cefpirome"]
+        }, {
+            id: 138,
+            t: 1,
+            c: false,
+            stem: "Select the drug of choice for Cholera:",
+            opts: ["Streptomycin", "Doxycycline", "Penicillin", "Imipenem"],
+            ans: 1,
+            r: "Oral or intravenous hydration is the mainstay of cholera treatment. Doxycyline is the recommended first-line treatment for adults, while Azithromycin is recommended as first-line treatment for children and pregnant women.",
+            tags: ["Antibiotic", "Cholera", "Doxycycline"]
+        }, {
+            id: 139,
+            t: 2,
+            c: false,
+            stem: "Mario was rushed to the emergency room for severe crushing chest pain. ECG showed ST wave elevation. The following medications should be given to Mario, EXCEPT:",
+            opts: ["Clopidogrel", "Atorvastatin", "Mefenamic acid", "Nitroglycerin"],
+            ans: 2,
+            r: "Mefenamic acid is a nonsteroidal anti-inflammatory drug (NSAID) and is not typically used in the acute management of myocardial infarction. NSAIDs may have adverse cardiovascular effects and are generally avoided in this context.",
+            tags: ["Cardiovascular", "MI", "NSAID", "Contraindication"]
+        }, {
+            id: 140,
+            t: 6,
+            c: false,
+            stem: "Select the drug for the treatment of osteoporosis that is chemically similar to parathyroid hormone:",
+            opts: ["Denosumab", "Teriparatide", "Raloxifene", "Strontium"],
+            ans: 1,
+            r: "Teriparatide is a recombinant form of parathyroid hormone (PTH). It works by stimulating bone formation, increasing bone mineral density. It is used in the treatment of osteoporosis, particularly in individuals at high risk of fractures.",
+            tags: ["Osteoporosis", "PTH Analog", "Teriparatide"]
+        }, {
+            id: 141,
+            t: 5,
+            c: false,
+            stem: "The following statements about Sucralfate are true, EXCEPT:",
+            opts: ["It is poorly absorbed from the GI tract.",
+                "It inhibits proton pump that secretes HCl acid in the stomach",
+                "It acts as a protective barrier In the stomach against the action of acid and pepsin.",
+                "It reacts with HCl acid to form a viscous, paste like substance that acts as acid buffer."
+            ],
+            ans: 1,
+            r: "Sucralfate does not directly inhibit proton pumps. Its mechanism of action involves forming a protective barrier at the ulcer site. Sucralfate is a locally acting substance that in an acidic environment (pH < 4), reacts with hydrochloric acid in the stomach to form a cross-linking, viscous, paste-like material capable of acting as an acid buffer.",
+            tags: ["GI", "Sucralfate", "Protective Barrier"]
+        }, {
+            id: 142,
+            t: 1,
+            c: false,
+            stem: "Maricel is suffering from pelvic inflammatory disease complicated by Chlamydia trachomatis. Which of the following drugs is effective for this organism?",
+            opts: ["Fosfomycin", "Ciprofloxacin", "Amoxicillin", "Minocycline"],
+            ans: 3,
+            r: "Minocycline, a tetracycline antibiotic, is effective against Chlamydia trachomatis. Tetracyclines are among the antibiotics commonly used for the treatment of chlamydial infections.",
+            tags: ["Antibiotic", "Chlamydia", "Minocycline", "Tetracycline"]
+        }, {
+            id: 143,
+            t: 6,
+            c: false,
+            stem: "Which of the following vaccine products when given to human is the closest to a natural infection?",
+            opts: ["Conjugate vaccine", "Attenuated vaccine", "Subunit vaccine", "Inactivated vaccine"],
+            ans: 1,
+            r: "The immune response to a live attenuated vaccine is virtually identical to that produced by a natural infection. The immune system does not differentiate between an infection with a weakened vaccine virus and an infection with a wild virus. Attenuated vaccines closely mimic natural infections as they replicate in the host and elicit a broad immune response.",
+            tags: ["Vaccine", "Attenuated Vaccine", "Immunology"]
+        }, {
+            id: 144,
+            t: 1,
+            c: false,
+            stem: "The nephrotoxicity associated with the use of aminoglycosides is increased in the presence of the following conditions, EXCEPT:",
+            opts: ["Hypovolemia", "Reduced liver function", "Reduced renal function", "Hypernatremia"],
+            ans: 3,
+            r: "Several factors related to the nephrotoxicity of aminoglycosides have been reported: multiple doses, male animals, infection, acidosis, volume depletion, sodium depletion, hyperkalemia, hypomagnesemia, hepatic disease, and concomitant use of other drugs including vancomycin, teicoplanin, cyclosporin, and cisplatin. Hypernatremia is not directly associated with increased nephrotoxicity from aminoglycosides.",
+            tags: ["Antibiotic", "Aminoglycoside", "Nephrotoxicity", "Side Effect"]
+        }, {
+            id: 145,
+            t: 2,
+            c: false,
+            stem: "Which of the following is NOT an effect associated with Milrinone?",
+            opts: ["Positive inotropic action", "Vasoconstriction", "Fall in peripheral vascular resistance",
+                "Inhibits phosphodiesterase III"
+            ],
+            ans: 1,
+            r: "Milrinone does not typically cause vasoconstriction. Instead, it is associated with vasodilation, particularly in arterial and venous vessels. Milrinone is a phosphodiesterase III inhibitor that increases intracellular cAMP, leading to enhanced cardiac contractility and vasodilation.",
+            tags: ["Inotrope", "PDE Inhibitor", "Milrinone"]
+        }, {
+            id: 146,
+            t: 5,
+            c: false,
+            stem: "Select the biologic agent used in the treatment of ulcerative colitis:",
+            opts: ["Azathioprine", "Sulfasalazine", "Infliximab", "Dexamethasone"],
+            ans: 2,
+            r: "Infliximab is a biologic agent classified as a tumor necrosis factor (TNF) inhibitor. It binds to and neutralizes TNF, a cytokine involved in the inflammatory response. Infliximab is indicated for the treatment of moderate to severe ulcerative colitis that has not responded to conventional therapy.",
+            tags: ["Biologic", "Ulcerative Colitis", "Infliximab", "TNF Inhibitor"]
+        }, {
+            id: 147,
+            t: 4,
+            c: false,
+            stem: "In the final maturation induction during fertility treatment and in the presence of mature ovarian follicles, ovulation can be triggered by the administration of ____.",
+            opts: ["Clomiphene", "Human chorionic gonadotropin", "Follicular stimulating hormone",
+                "Gonadotropin releasing hormone agonist"
+            ],
+            ans: 1,
+            r: "hCG is a hormone that mimics the action of LH. In fertility treatments, hCG is often used to trigger ovulation. When administered, it mimics the surge of LH that typically triggers the final maturation and release of the egg from the mature ovarian follicle.",
+            tags: ["Fertility", "Ovulation", "hCG", "GnRH"]
+        }, {
+            id: 148,
+            t: 3,
+            c: false,
+            stem: "Identify the drug that can antagonize epinephrine at alpha adrenergic receptors:",
+            opts: ["Dobutamine", "Phentolamine", "Dopamine", "Isoproterenol"],
+            ans: 1,
+            r: "Phentolamine is an alpha-adrenergic antagonist. It competes with epinephrine for binding to alpha receptors, thereby blocking its vasoconstrictive effects.",
+            tags: ["Alpha Blocker", "Phentolamine", "Adrenergic Antagonist"]
+        }, {
+            id: 149,
+            t: 1,
+            c: false,
+            stem: "Select the INCORRECT statement regarding beta lactamase inhibitors:",
+            opts: ["Adjustment in patients with CRF is based on the penicillin component",
+                "The new anti-bacterial spectrum of the combination is determined by the beta-lactamase inhibitor",
+                "They have similar appearance to penicillin but with limited antibacterial activity",
+                "Beta-lactamase inhibitors are compounds that irreversibly inactivate bacterial beta-lactamase"
+            ],
+            ans: 2,
+            r: "Beta-lactamase inhibitors, such as clavulanic acid or sulbactam, are structurally different from penicillins. They do not exhibit antibacterial activity on their own but enhance the activity of penicillins by preventing their degradation by beta-lactamases.",
+            tags: ["Antibiotic", "Beta-Lactamase Inhibitor", "Drug Interaction"]
+        }, {
+            id: 150,
+            t: 4,
+            c: false,
+            stem: "Controlled ovarian hyperstimulation is achieved using the following drugs, EXCEPT:",
+            opts: ["Human menopausal gonadotropin", "Human chorionic gonadotropin", "Follitropin", "Clomiphene"],
+            ans: 3,
+            r: "Clomiphene is typically not used for controlled ovarian hyperstimulation. It is a selective estrogen receptor modulator (SERM) that works by blocking estrogen receptors in the hypothalamus, leading to an increase in FSH and LH, which stimulates ovulation. However, it is more commonly used to induce ovulation in women with ovulatory dysfunction rather than in controlled ovarian hyperstimulation protocols.",
+            tags: ["Fertility", "Ovulation Induction", "Clomiphene"]
+        }, {
+            id: 151,
+            t: 3,
+            c: false,
+            stem: "The psychomimetic effect of morphine is associated with reaction of morphine with:",
+            opts: ["Sigma opioid receptor", "Delta opioid receptor", "K-opioid receptor", "Mu opioid receptor"],
+            ans: 2,
+            r: "Interaction with μ-receptors contributes to supraspinal and spinal analgesia, respiratory depression, sedation, euphoria, decreased GI transit, and physical dependence. The significance of interaction with κ-receptors is unclear, but it may contribute to analgesia and also psychomimetic effects of some opioids.",
+            tags: ["Opioid", "Morphine", "Kappa Receptor"]
+        }, {
+            id: 152,
+            t: 3,
+            c: false,
+            stem: "The overdose of morphine and other opioid can be reversed by giving __.",
+            opts: ["Nalbuphine", "Heroin", "Naloxone", "Hydrocodone"],
+            ans: 2,
+            r: "Naloxone is the preferred and highly effective opioid receptor antagonist used to reverse the effects of opioid overdose. It rapidly displaces opioids from their receptors, restoring respiratory function and consciousness. It is a critical intervention in opioid emergencies.",
+            tags: ["Antidote", "Opioid", "Naloxone"]
+        }, {
+            id: 153,
+            t: 6,
+            c: false,
+            stem: "Adjunct treatment for prostate cancer is ____?",
+            opts: ["Danazol", "Testosterone", "Leuprolide", "Dopamine"],
+            ans: 2,
+            r: "The treatment of choice for patients with advanced prostate cancer is elimination of testosterone production by the testes through either surgical or chemical castration. Presently, the use of luteinizing hormone-releasing hormone (LHRH) agonists— including leuprolide and goserelin agonists, alone or in combination with an antiandrogen (eg, flutamide, bicalutamide, or nilutamide)—is the preferred approach.",
+            tags: ["GnRH Agonist", "Prostate Cancer", "Leuprolide"]
+        }, {
+            id: 154,
+            t: 2,
+            c: false,
+            stem: "The nurse referred the patient for poor urine output secondary to relative hypotension. The best management is to start ____.",
+            opts: ["Epinephrine", "Digoxin", "Dobutamine", "Dopamine"],
+            ans: 3,
+            r: "Dopamine is a precursor to norepinephrine and can stimulate both dopaminergic and adrenergic receptors. At low doses, it primarily affects dopaminergic receptors, leading to vasodilation in the renal and mesenteric beds, potentially improving renal perfusion and urine output. It can be a suitable choice for addressing relative hypotension and poor urine output.",
+            tags: ["Vasopressor", "Dopamine", "Renal Perfusion"]
+        }, {
+            id: 155,
+            t: 2,
+            c: false,
+            stem: "Which of the following diuretics produces alkaline urine?",
+            opts: ["Acetazolamide", "Hydrochlorothiazide", "Furosemide", "Spironolactone"],
+            ans: 0,
+            r: "Acetazolamide is a carbonic anhydrase inhibitor. It primarily acts in the proximal convoluted tubule of the nephron, inhibiting the reabsorption of bicarbonate. This leads to the excretion of bicarbonate in the urine, resulting in alkaline urine.",
+            tags: ["Diuretic", "Acetazolamide", "Alkaline Urine"]
+        }, {
+            id: 156,
+            t: 4,
+            c: false,
+            stem: "Juan is suffering from acromegaly resistant to radiation. You would like to start the patient on an antagonist of growth hormone receptor. Select the appropriate drug:",
+            opts: ["Leuprolide", "Mecasermin", "Pegvisomant", "Decapeptyl"],
+            ans: 2,
+            r: "Pegvisomant is a growth hormone receptor antagonist. It competes with endogenous growth hormone for binding to the growth hormone receptor and inhibits the biological actions of excess growth hormone. It is used in the treatment of acromegaly when surgery or radiation therapy is not an option or has not been successful.",
+            tags: ["Growth Hormone Antagonist", "Acromegaly", "Pegvisomant"]
+        }, {
+            id: 157,
+            t: 2,
+            c: false,
+            stem: "Which of the following statements is INCORRECT regarding tachyphylaxis seen in chronic nitrate use?",
+            opts: ["It is a result of release of vasoconstrictors angiotensin II",
+                "Tachyphylaxis can be avoided by having a 6-8 hour nitrate free dose",
+                "Repeated administration of nitrates results in increase in effect",
+                "It is explained by the 'oxidative stress theory'"
+            ],
+            ans: 2,
+            r: "This statement is generally incorrect. Repeated administration of nitrates often leads to tolerance, where the effectiveness of the drug diminishes over time. This phenomenon is known as nitrate tolerance.",
+            tags: ["Nitrates", "Tachyphylaxis", "Tolerance"]
+        }, {
+            id: 158,
+            t: 6,
+            c: false,
+            stem: "Among the following drugs that can induce medical menopause, identify the drug that will NOT cause the 'flare effect':",
+            opts: ["Leuprolide", "Abarelix", "Triptorelin", "Goserelin"],
+            ans: 1,
+            r: "Abarelix is a gonadotropin-releasing hormone (GnRH) antagonist. It works by competitively blocking the GnRH receptors, leading to a rapid and sustained suppression of gonadotropins without an initial flare effect.",
+            tags: ["GnRH Antagonist", "Medical Menopause", "Abarelix"]
+        }, {
+            id: 159,
+            t: 1,
+            c: false,
+            stem: "After taking her medications for pulmonary TB, Shiela is now complaining of vertigo and inability to perceive termination of movement and difficulty sitting and standing without visual clues. This can be explained as a side effect of ___?",
+            opts: ["Isoniazid", "Streptomycin", "Ethambutol", "Pyrazinamide"],
+            ans: 1,
+            r: "Streptomycin is known to cause vestibular and auditory toxicity. Vertigo, difficulty perceiving movement termination, and imbalance may occur due to its impact on the vestibular system. The symptoms described (vertigo, difficulty perceiving movement termination, difficulty sitting and standing without visual clues) align more with the side effects of streptomycin.",
+            tags: ["Antitubercular", "Streptomycin", "Vestibular Toxicity"]
+        }, {
+            id: 160,
+            t: 3,
+            c: false,
+            stem: "Reserpine is used in the management of hypertension by __.",
+            opts: ["Agonist at muscarinic receptors", "Agonist effect at sympathetic beta receptors",
+                "Inhibiting adrenergic re-uptake at synapses",
+                "Blocking the effect of epinephrine at adrenergic receptors"
+            ],
+            ans: 2,
+            r: "Reserpine blocks the ability of aminergic transmitter vesicles to take up and store biogenic amines, probably by interfering with the vesicular membrane-associated transporter. This effect occurs throughout the body, resulting in depletion of norepinephrine, dopamine, and serotonin in both central and peripheral neurons.",
+            tags: ["Antihypertensive", "Reserpine", "Vesicular Depletion"]
+        }, {
+            id: 161,
+            t: 6,
+            c: false,
+            stem: "Dutasteride is given to Manuel for his prostate hyperplasia. It works __.",
+            opts: ["As estrogen receptor antagonist", "By inhibiting aromatase enzyme",
+                "By inhibiting 5-alpha reductase", "As testosterone receptor antagonist"
+            ],
+            ans: 2,
+            r: "Dutasteride inhibits the enzyme 5-alpha reductase, which is responsible for the conversion of testosterone to dihydrotestosterone (DHT). By blocking this conversion, dutasteride reduces the levels of DHT, which is implicated in the development and progression of benign prostatic hyperplasia (BPH).",
+            tags: ["5-Alpha Reductase Inhibitor", "BPH", "Dutasteride"]
+        }, {
+            id: 162,
+            t: 2,
+            c: false,
+            stem: "Among the phosphodiesterase inhibitors, identify the drug that inhibits selectively PDE3 used in patients with cardiac pathology:",
+            opts: ["Papaverine", "Tadalafil", "Theophylline", "Milrinone"],
+            ans: 3,
+            r: "Milrinone is a selective phosphodiesterase type 3 (PDE3) inhibitor. It is used for its inotropic (increases contractility) and vasodilatory effects, making it beneficial in the treatment of heart failure.",
+            tags: ["PDE3 Inhibitor", "Inotrope", "Milrinone"]
+        }, {
+            id: 163,
+            t: 1,
+            c: false,
+            stem: "Lymphogranuloma venereum or Climatic bubo is treated with the following drugs, EXCEPT __.",
+            opts: ["Azithromycin", "Co-trimoxazole", "Doxycycline", "Tetracycline"],
+            ans: 1,
+            r: "Co-trimoxazole is a combination of two antibiotics, trimethoprim, and sulfamethoxazole. While it is effective against a broad spectrum of bacteria, it may not be the first-line treatment for LGV. Doxycycline, tetracycline, and azithromycin are commonly used for Chlamydia trachomatis infections, including LGV.",
+            tags: ["Antibiotic", "LGV", "STD"]
+        }, {
+            id: 164,
+            t: 1,
+            c: false,
+            stem: "Spontaneous bacterial peritonitis is treated empirically by giving __.",
+            opts: ["Ampicillin", "Aminoglycosides", "Third generation cephalosporin", "Tetracycline"],
+            ans: 2,
+            r: "Third-generation cephalosporins such as cefotaxime (2 g q8h, administered IV) provide reasonable initial coverage in moderately ill patients. Broad-spectrum antibiotics, such as β-lactam/β-lactamase inhibitor combinations (e.g., piperacillin/tazobactam, 3.375 g q6h IV) or ceftriaxone (2 g q24h IV), also are options.",
+            tags: ["Antibiotic", "Peritonitis", "Cephalosporin"]
+        }, {
+            id: 165,
+            t: 4,
+            c: false,
+            stem: "Flatulence is a common side effect of which of the following anti-diabetic drugs?",
+            opts: ["Pioglitazone", "Acarbose", "Metformin", "Glibenclamide"],
+            ans: 1,
+            r: "α-Glucosidase inhibitors (acarbose, miglitol, voglibose) reduce intestinal absorption of starch, dextrin, and disaccharides by inhibiting the action of α-glucosidase in the intestinal brush border. The most prominent adverse effects related to α-glucosidase inhibitors are malabsorption, flatulence, diarrhea, and abdominal bloating.",
+            tags: ["Antidiabetic", "Acarbose", "Flatulence"]
+        }, {
+            id: 166,
+            t: 2,
+            c: false,
+            stem: "Consuela accidentally took an overdose amount of warfarin. Lab test showed INR is 10, no active bleeding reported. The antidote for warfarin toxicity is __.",
+            opts: ["Ethinyl estradiol", "pRBC transfusion", "Dexamethasone", "Phytomenadione"],
+            ans: 3,
+            r: "Phytomenadione is the antidote for warfarin toxicity. Warfarin inhibits vitamin K-dependent clotting factors, and phytomenadione replenishes these factors, helping to normalize the INR and prevent bleeding complications. If the INR is ≥5, vitamin K1 (phytonadione) can be given orally at a dose of 1-2.5 mg (for 5≤ INR ≤9) or 3-5 mg (for INR >9).",
+            tags: ["Anticoagulant", "Antidote", "Vitamin K", "Warfarin"]
+        }, {
+            id: 167,
+            t: 4,
+            c: false,
+            stem: "Empagliflozin is used in the treatment of diabetes mellitus, it works by ___",
+            opts: ["Increasing the insulin effect on peripheral tissues (insulin sensitizer)",
+                "Increasing the release of insulin from pancreatic beta cells (insulin secretagogues)",
+                "Decreasing the amount of sugar absorbed from food",
+                "Decreasing the amount of sugar reabsorbed from the proximal tubules of the kidneys"
+            ],
+            ans: 3,
+            r: "Empagliflozin works by inhibiting the sodium-glucose co-transporter-2 (SGLT-2) found in the proximal tubules in the kidneys. Through SGLT2 inhibition, empagliflozin reduces renal reabsorption of glucose and increases urinary excretion of glucose.",
+            tags: ["Antidiabetic", "SGLT2 Inhibitor", "Empagliflozin"]
+        }, {
+            id: 168,
+            t: 3,
+            c: false,
+            stem: "Loperamide slows down gastrointestinal contraction by ___.",
+            opts: ["Serotonin receptor effect", "Stimulation of sympathetic system", "Anticholinergic effect",
+                "Opioid receptors"
+            ],
+            ans: 3,
+            r: "Loperamide is an opioid-receptor agonist and acts on the μ-opioid receptors in the myenteric plexus of the large intestine. It works like morphine, decreasing the activity of the myenteric plexus, which decreases the tone of the longitudinal and circular smooth muscles of the intestinal wall. This increases the time material stays in the intestine, allowing more water to be absorbed from the fecal matter.",
+            tags: ["Antidiarrheal", "Loperamide", "Opioid Receptor"]
+        }, {
+            id: 169,
+            t: 1,
+            c: false,
+            stem: "Ceftaroline is reserved for the following infections, EXCEPT ___",
+            opts: ["Infection with Enterobacter spp.", "MRSA infection", "Complicated skin infection",
+                "Atypical bacteria"
+            ],
+            ans: 0,
+            r: "The activity of ceftaroline is limited against Enterococcus sp., beta-lactamase-producing Enterobacteriaceae, and Pseudomonas aeruginosa. Ceftaroline does not have activity against atypical bacteria. Atypical bacteria include organisms like Mycoplasma, Chlamydia, and Legionella.",
+            tags: ["Antibiotic", "Cephalosporin", "MRSA", "Ceftaroline"]
+        }, {
+            id: 170,
+            t: 3,
+            c: false,
+            stem: "Identify the component that blocks histamine-1 receptors in this cough and cold preparation:",
+            opts: ["Paracetamol", "Phenylephrine", "Brompheniramine", "Carbocysteine"],
+            ans: 2,
+            r: "Brompheniramine is an antihistamine that blocks histamine-1 receptors. It is used to relieve symptoms of allergy and the common cold, including sneezing, runny nose, and itching.",
+            tags: ["Antihistamine", "H1 Antagonist", "Brompheniramine"]
+        }, {
+            id: 171,
+            t: 1,
+            c: false,
+            stem: "Select the correct statement regarding clindamycin:",
+            opts: ["It has activity against both gram positive and gram negative organism",
+                "It has no activity against anaerobic organism", "It can be given to penicillin-allergic patient",
+                "It inhibits bacteria by inhibiting cell wall synthesis"
+            ],
+            ans: 2,
+            r: "Clindamycin is a suitable alternative for patients who are allergic to penicillin. However, it's important to note that clindamycin resistance can develop, and its use should be guided by local resistance patterns. Clindamycin is primarily effective against gram-positive bacteria, including anaerobic bacteria, and inhibits bacterial protein synthesis by binding to the 50S subunit of the bacterial ribosome.",
+            tags: ["Antibiotic", "Lincosamide", "Clindamycin"]
+        }, {
+            id: 172,
+            t: 3,
+            c: false,
+            stem: "The development of tolerance to morphine can be inhibited by:",
+            opts: ["Naltrexone", "Naloxone", "Phenobarbital", "Ketamine"],
+            ans: 3,
+            r: "N-methyl-D-aspartate receptor antagonists can attenuate or reverse morphine tolerance. Systemically administered ketamine attenuates and reverses systemically induced morphine tolerance in mice, and intraspinal ketamine attenuates tolerance produced by intraspinal morphine in rats.",
+            tags: ["Opioid", "Morphine", "Tolerance", "Ketamine"]
+        }, {
+            id: 173,
+            t: 2,
+            c: false,
+            stem: "Select the INCORRECT statement regarding warfarin:",
+            opts: ["Oral antibiotic can potentiate the effect of warfarin by reducing normal bacterial flora",
+                "Hypothyroidism makes the patient less responsive to the effect of warfarin",
+                "Patients on warfarin should have regular aPTT determination",
+                "Broccoli can counteract the effects of warfarin"
+            ],
+            ans: 2,
+            r: "The activated partial thromboplastin time (aPTT) is not routinely monitored for patients on warfarin. The Prothrombin time (PT) and international normalized ratio (INR) are the standard test used to monitor and adjust warfarin therapy.",
+            tags: ["Anticoagulant", "Warfarin", "Monitoring", "INR"]
+        }, {
+            id: 174,
+            t: 3,
+            c: false,
+            stem: "Oxybutynin is a drug used for the treatment of overactive bowel. Which of the following side effects is seen with its use?",
+            opts: ["Salivation", "Hyperacidity", "Uterine relaxation", "Constipation"],
+            ans: 3,
+            r: "Oxybutynin, which is somewhat selective for M3 receptors, is used to relieve bladder spasm after urologic surgery. It is also valuable in reducing involuntary voiding in patients with neurologic disease. Like other anticholinergics, it can cause constipation.",
+            tags: ["Anticholinergic", "Oxybutynin", "Constipation"]
+        }, {
+            id: 175,
+            t: 3,
+            c: false,
+            stem: "Taking phenylephrine can worsen the following co-morbid disease, EXCEPT?",
+            opts: ["Peripheral artery disease", "Anxiety disorder", "Orthostatic hypotension",
+                "Benign prostatic hyperplasia"
+            ],
+            ans: 2,
+            r: "Phenylephrine is commonly used to treat orthostatic hypotension by causing vasoconstriction and elevating blood pressure. It is not expected to worsen orthostatic hypotension. Phenylephrine can worsen symptoms of BPH by causing smooth muscle contraction in the prostate region, leading to increased difficulty with urination.",
+            tags: ["Sympathomimetic", "Phenylephrine", "Orthostatic Hypotension"]
+        }, {
+            id: 176,
+            t: 6,
+            c: false,
+            stem: "For the treatment of advanced prostate cancer, select the drug that is given to control this condition.",
+            opts: ["Anastrozole", "Cyproterone", "Leuprolide", "Dutasteride"],
+            ans: 2,
+            r: "Leuprolide is a luteinizing hormone-releasing hormone (LHRH) agonist. It works by suppressing the production of testosterone, a hormone that fuels the growth of prostate cancer cells. It is commonly used in the treatment of advanced prostate cancer.",
+            tags: ["GnRH Agonist", "Prostate Cancer", "Leuprolide"]
+        }, {
+            id: 177,
+            t: 1,
+            c: false,
+            stem: "Shiela was given the antibiotic combination Amoxiclav 625mg 2x a day by her doctor. Clavulanic acid is added to improve the activity of Amoxicillin by ______:",
+            opts: ["Reducing the renal elimination", "Reducing degradation", "Improving intestinal absorption",
+                "Displacing amoxicillin from its protein binding site"
+            ],
+            ans: 1,
+            r: "Clavulanic acid is a beta-lactamase inhibitor. Beta-lactamases are enzymes produced by bacteria that can inactivate antibiotics like amoxicillin by breaking the beta-lactam ring in their structure. Clavulanic acid, being a beta-lactamase inhibitor, protects amoxicillin from degradation by these enzymes, thereby enhancing its antibacterial activity.",
+            tags: ["Antibiotic", "Beta-Lactamase Inhibitor", "Amoxicillin"]
+        }, {
+            id: 178,
+            t: 4,
+            c: false,
+            stem: "A patient is taking acarbose and is now suffering from hypoglycemia. What will you give?",
+            opts: ["Glucose tablet", "Intravenous glucose", "Ampalaya capsule", "Prednisone"],
+            ans: 0,
+            r: "All the manifestations of hypoglycemia are relieved by glucose administration. To expedite absorption, simple sugar or glucose should be given, preferably in liquid form. To treat mild hypoglycemia in a patient who is conscious and able to swallow, dextrose tablets, glucose gel, or any sugar-containing beverage or food may be given.",
+            tags: ["Antidiabetic", "Hypoglycemia", "Acarbose", "Glucose"]
+        }, {
+            id: 179,
+            t: 5,
+            c: false,
+            stem: "The suggested treatment for laryngopharyngeal reflux is ____:",
+            opts: ["Miconazole", "Omeprazole", "Cefuroxime", "Phenylephrine"],
+            ans: 1,
+            r: "PPIs inhibit both fasting and meal-stimulated secretion because they block the final common pathway of acid secretion, the proton pump. In standard doses, PPIs inhibit 90-98% of 24-hour acid secretion.",
+            tags: ["PPI", "GERD", "Omeprazole", "LPR"]
+        }, {
+            id: 180,
+            t: 4,
+            c: false,
+            stem: "Julia is diagnosed with diabetes type 2. She is prescribed with Glibenclamide but still with uncontrolled sugar. The doctor would like to add a second drug. The doctor can choose any drug from the following, EXCEPT:",
+            opts: ["Metformin", "Acarbose", "Glipizide", "Pioglitazone"],
+            ans: 2,
+            r: "Glipizide is a sulfonylurea that stimulates the release of insulin from the pancreas. Since Julia is already taking Glibenclamide (also a sulfonylurea), adding another sulfonylurea might not be the first choice due to the risk of hypoglycemia.",
+            tags: ["Antidiabetic", "Sulfonylurea", "Combination Therapy"]
+        }, {
+            id: 181,
+            t: 3,
+            c: false,
+            stem: "Cough inhibition of Dextromethorphan is achieved through action on cough center located in the ______.",
+            opts: ["Lungs", "Throat", "Brain", "Carotid"],
+            ans: 2,
+            r: "Dextromethorphan is an antitussive medication commonly used to suppress cough. Its mechanism of action involves the central nervous system. The cough center is located in the brain. Dextromethorphan acts centrally to inhibit the cough reflex by affecting signals in the brain.",
+            tags: ["Antitussive", "Dextromethorphan", "CNS"]
+        }, {
+            id: 182,
+            t: 1,
+            c: false,
+            stem: "Cielo is suffering from nosocomial pneumonia caused by Pseudomonas aeruginosa. You can use any of the following antibiotics, EXCEPT:",
+            opts: ["Cefpirome", "Ceftazidime", "Cefuroxime", "Ceftobiprole"],
+            ans: 2,
+            r: "Cefuroxime is a second-generation cephalosporin with limited activity against Pseudomonas aeruginosa. It may not be the best choice for nosocomial pneumonia caused by this pathogen. Cefpirome, ceftazidime, and ceftobiprole have activity against Pseudomonas aeruginosa.",
+            tags: ["Antibiotic", "Pseudomonas", "Cephalosporin"]
+        }, {
+            id: 183,
+            t: 3,
+            c: false,
+            stem: "Identify the drug that inhibits the conversion of levodopa to dopamine outside the brain thereby decreasing the side effect and increasing the available levodopa for transport inside the brain:",
+            opts: ["Bromocriptine", "Tolcapone", "Carbidopa", "Selegiline"],
+            ans: 2,
+            r: "Carbidopa is a peripheral inhibitor of dopa decarboxylase, an enzyme that converts levodopa to dopamine in peripheral tissues outside the brain. While it does not cross the blood-brain barrier, it plays a crucial role in the treatment of Parkinson's disease when administered in combination with levodopa.",
+            tags: ["Parkinson's", "Carbidopa", "Decarboxylase Inhibitor"]
+        }, {
+            id: 184,
+            t: 3,
+            c: false,
+            stem: "Identify the drug that causes nasal decongestion in this preparation:",
+            opts: ["Paracetamol", "Phenylephrine", "Dextromethorphan", "Chlorpheniramine"],
+            ans: 1,
+            r: "Phenylephrine is a sympathomimetic drug that acts as a selective alpha-1 adrenergic receptor agonist. By activating these receptors, it causes vasoconstriction, particularly in the nasal passages. This vasoconstriction reduces blood flow in the nasal mucosa, leading to a decrease in swelling and congestion.",
+            tags: ["Decongestant", "Phenylephrine", "Alpha Agonist"]
+        }, {
+            id: 185,
+            t: 1,
+            c: false,
+            stem: "Sheila is suffering from acute bacterial tonsillopharyngitis. She is allergic to food and penicillin. Select the appropriate drug for Sheila:",
+            opts: ["Cefaclor", "Cefuroxime", "Azithromycin", "Ampicillin"],
+            ans: 2,
+            r: "Azithromycin is a macrolide antibiotic. It is a reasonable alternative for individuals allergic to penicillin, as macrolides have a different structure from beta-lactam antibiotics. Azithromycin is effective against many bacteria causing respiratory tract infections.",
+            tags: ["Antibiotic", "Macrolide", "Penicillin Allergy", "Azithromycin"]
+        }, {
+            id: 186,
+            t: 1,
+            c: false,
+            stem: "Once the diagnosis of cervicitis is made, drugs should be administered against the following causative agents, if present, EXCEPT:",
+            opts: ["Chlamydia", "Gonorrhea", "Herpes", "Candida"],
+            ans: 3,
+            r: "Candida, a type of yeast, can cause a condition known as yeast infection, which is treated with antifungal agents. The standard treatments for cervicitis caused by Chlamydia, Gonorrhea, and Herpes involve specific antibiotics or antiviral medications. The exception in this context would be treating cervicitis caused by Candida.",
+            tags: ["STD", "Cervicitis", "Candida", "Antifungal"]
+        }, {
+            id: 187,
+            t: 6,
+            c: false,
+            stem: "Which drug is given to patients with breast cancer to prevent conversion of androstenedione to estrogen?",
+            opts: ["Anastrozole", "Tamoxifen", "Dutasteride", "Buserelin"],
+            ans: 0,
+            r: "Anastrozole is an aromatase inhibitor used in the treatment of breast cancer. It works by inhibiting the enzyme aromatase, thereby reducing the conversion of androgens (like androstenedione) into estrogen. This is significant in postmenopausal women, where most of the estrogen is produced via this conversion in peripheral tissues.",
+            tags: ["Aromatase Inhibitor", "Breast Cancer", "Anastrozole"]
+        }, {
+            id: 188,
+            t: 3,
+            c: false,
+            stem: "The muscarinic side effects of acetylcholinesterase inhibitors in the treatment of myasthenia gravis can be alleviated by giving:",
+            opts: ["Epinephrine", "Bethanechol", "Atropine", "Nicotine"],
+            ans: 2,
+            r: "Atropine is a muscarinic receptor antagonist and can be used to alleviate muscarinic side effects caused by excess acetylcholine. It competes with acetylcholine for binding to muscarinic receptors, thereby reducing the excessive cholinergic stimulation.",
+            tags: ["Anticholinergic", "Myasthenia Gravis", "Atropine"]
+        }, {
+            id: 189,
+            t: 1,
+            c: false,
+            stem: "Joan, 27/female, complained of curd-like white vaginal discharge, non-foul smelling and accompanied by itchy sensation. Which of the following medications is effective?",
+            opts: ["Ciprofloxacin", "Metronidazole", "Fluconazole", "Azithromycin"],
+            ans: 2,
+            r: "Fluconazole is an antifungal medication that belongs to the azole class. It is commonly used to treat fungal infections, including vaginal candidiasis. A single oral dose of fluconazole is often effective in treating uncomplicated cases of vaginal candidiasis.",
+            tags: ["Antifungal", "Vaginal Candidiasis", "Fluconazole"]
+        }, {
+            id: 190,
+            t: 5,
+            c: false,
+            stem: "Cora has been complaining of gastrointestinal distress. She describes the pain as 'gassy'. Identify the drug that can coalesce smaller gas bubbles into larger bubbles thereby easing the release of gas via burping or flatulence:",
+            opts: ["Cimetidine", "Simethicone", "Omeprazole", "Aluminum-magnesium"],
+            ans: 1,
+            r: "Simethicone is an anti-foaming agent that works by coalescing smaller gas bubbles into larger ones, making it easier for the gas to be expelled through burping or flatulence. It is commonly used to relieve symptoms of gas and bloating.",
+            tags: ["Antiflatulent", "Simethicone", "Gas"]
+        }, {
+            id: 191,
+            t: 1,
+            c: false,
+            stem: "The management of mild leptospirosis is the administration of:",
+            opts: ["Chloramphenicol 500mg every 8 hours", "Ciprofloxacin 500mg BID",
+                "Imipenem 1g IV every 12 hours", "Doxycycline 100mg 12-hourly"
+            ],
+            ans: 3,
+            r: "Doxycycline is a tetracycline antibiotic and is often considered a first-line treatment for leptospirosis. It is effective against Leptospira and is commonly used in mild cases.",
+            tags: ["Antibiotic", "Leptospirosis", "Doxycycline"]
+        }, {
+            id: 192,
+            t: 6,
+            c: false,
+            stem: "Contraindications to the use of NSAID are the following, EXCEPT:",
+            opts: ["Third trimester pregnant woman", "Person with uncontrolled hypertension",
+                "Person who experienced transient ischemic attack", "People taking misoprostol"
+            ],
+            ans: 3,
+            r: "Misoprostol is often prescribed with NSAIDs to reduce the risk of gastric ulcers and complications. Therefore, it is not a contraindication, but rather a medication that may be co-prescribed to mitigate the gastrointestinal side effects of NSAIDs.",
+            tags: ["NSAID", "Contraindication", "Misoprostol"]
+        }, {
+            id: 193,
+            t: 4,
+            c: false,
+            stem: "Gonadorelin is an agonist of the GnRH receptor. It can stimulate the secretion of follicular stimulating hormone (FSH) and luteinizing hormone (LH). it can inhibit the release of both FSH and LH if given:",
+            opts: ["In a pulsatile subcutaneous administration", "Topically from a patch", "Intrathecal",
+                "In a continuous manner through intramuscular injection"
+            ],
+            ans: 3,
+            r: "Continuous administration of gonadorelin through intramuscular injection could lead to desensitization of the GnRH receptors, resulting in the inhibition of FSH and LH release. Continuous exposure may suppress the normal pulsatile release pattern.",
+            tags: ["GnRH Agonist", "Gonadorelin", "Endocrine"]
+        }, {
+            id: 194,
+            t: 3,
+            c: false,
+            stem: "Select the drug used in the treatment of myasthenia gravis in a 24 year old patient presenting with difficulty of breathing and weakness:",
+            opts: ["Digibind", "Duloxetine", "Bretylium", "Neostigmine"],
+            ans: 3,
+            r: "Neostigmine is a cholinesterase inhibitor and is commonly used in the treatment of myasthenia gravis. It helps improve muscle strength by increasing the concentration of acetylcholine at the neuromuscular junction.",
+            tags: ["Cholinesterase Inhibitor", "Myasthenia Gravis", "Neostigmine"]
+        }, {
+            id: 195,
+            t: 2,
+            c: false,
+            stem: "Which one of the following is the primary neurotransmitter agent normally released in the sinoatrial node of the heart in response to a blood pressure increase?",
+            opts: ["Acetylcholine", "Dopamine", "Epinephrine", "Glutamate"],
+            ans: 0,
+            r: "When blood pressure increases, the parasympathetic system is activated and heart rate decreases. Acetylcholine is the transmitter at parasympathetic nerve endings innervating the sinus node (nerve endings of the vagus nerve).",
+            tags: ["Autonomic Nervous System", "Acetylcholine", "SA Node"]
+        }, {
+            id: 196,
+            t: 3,
+            c: false,
+            stem: "A 28-year-old office worker suffers from intense migraine headaches. Which of the following is a serotonin 5-HT 1D/1B agonist useful for aborting an acute migraine headache?",
+            opts: ["Sumatriptan", "Ondansetron", "Ketanserin", "Ephedrine"],
+            ans: 0,
+            r: "Sumatriptan, an agonist at 5-HT 1D/1B receptors, is indicated for prevention or treatment of migraine and cluster headaches. Ergotamine is also effective for acute migraine but is produced by the fungus Claviceps purpurea.",
+            tags: ["Antimigraine", "Sumatriptan", "5-HT Agonist"]
+        }, {
+            id: 197,
+            t: 6,
+            c: false,
+            stem: "A patient intolerant to opioids received ketorolac for postoperative inflammatory pain control. The main advantage of ketorolac over aspirin is that ketorolac:",
+            opts: ["Can be combined more safely with an opioid such as codeine",
+                "Can be obtained as an over-the-counter agent",
+                "Is available in a parenteral formulation that can be injected intramuscularly or intravenously",
+                "Is less likely to cause acute renal failure in patients with some preexisting degree of renal impairment"
+            ],
+            ans: 2,
+            r: "Ketorolac exerts typical NSAID effects. It prolongs the bleeding time and can impair renal function, especially in a patient with preexisting renal disease. Its primary use is as a parenteral agent for pain management, especially for treatment of postoperative patients.",
+            tags: ["NSAID", "Ketorolac", "Parenteral"]
+        }, {
+            id: 198,
+            t: 6,
+            c: false,
+            stem: "PB is a 28-year-old male who experienced a dull ache and a sensation of heaviness in the right testicle. On physical exam the right testis appeared to be enlarged. An orchidectomy was performed and chemotherapy started. Which of the following is a drug that is used in combination therapy for testicular carcinoma and is also associated with nephrotoxicity?",
+            opts: ["Bleomycin", "Etoposide", "Cisplatin", "Vinblastine"],
+            ans: 2,
+            r: "Nephrotoxicity is a characteristic toxicity of cisplatin. Renal toxicity can be reduced by slow intravenous infusion, maintenance of good hydration, and administration of mannitol to maximize urine flow. For testicular cancer, cisplatin is used in combination with etoposide and bleomycin.",
+            tags: ["Chemotherapy", "Cisplatin", "Nephrotoxicity", "Testicular Cancer"]
+        }, {
+            id: 199,
+            t: 6,
+            c: false,
+            stem: "A 2-year-old child was brought to the emergency department 1 hour after ingestion of tablets he had managed to obtain from a bottle on top of the refrigerator. His symptoms included marked gastrointestinal distress, vomiting (with hematemesis), and epigastric pain. Metabolic acidosis and leukocytosis were also present. This patient is most likely to have ingested tablets containing:",
+            opts: ["Acetaminophen", "Aspirin", "Vitamin C", "Iron"],
+            ans: 3,
+            r: "This question emphasizes that the ingestion of iron tablets is a relatively common cause of accidental poisoning in young children. The signs and symptoms described usually occur in the first 6 h after ingestion. In a child whose body weight is 22 pounds, the ingestion of 600 mg can cause severe, perhaps lethal, toxicity.",
+            tags: ["Toxicology", "Iron Poisoning", "Pediatrics"]
+        }, {
+            id: 200,
+            t: 6,
+            c: false,
+            stem: "Which one of the cannabinoids is well tolerated and does not result in reports of unwanted psychotropic effects?",
+            opts: ["Anandamide", "Cannabidiol", "Dronabinol", "Nabilone"],
+            ans: 1,
+            r: "Cannabidiol (CBD) is a cannabinoid derived from the cannabis plant. It is well-tolerated and does not produce the psychotropic effects associated with THC (tetrahydrocannabinol). CBD is being researched for various medical purposes, including its potential anti-seizure effects. Cannabidiol is effective in certain seizure disorders but does not act on CB1 or CB2 receptors.",
+            tags: ["Cannabinoid", "Cannabidiol", "CBD", "Psychotropic"]
+        }];
+
+        // ----- Build combined Q array -----
+        partA.forEach(q => Q.push(q));
+        partB.forEach(q => Q.push(q));
+
+        // Ensure every question has a tags array
+        Q.forEach(q => { if (!q.tags) q.tags = []; });
+
+        // ---------- Existing logic (unchanged, with table additions) ----------
+        let state = {
+            mode: 'exam',
+            answers: {},
+            revealed: {},
+            filter: { t: 'all', type: 'all', tag: 'all' },
+            page: 0,
+            perPage: 10,
+            tableView: false
+        };
+
+        function getFiltered() {
+            return Q.filter(q => {
+                if (state.filter.t !== 'all' && q.t !== +state.filter.t) return false;
+                if (state.filter.type === 'clinical' && !q.c) return false;
+                if (state.filter.type === 'conceptual' && q.c) return false;
+                if (state.filter.tag !== 'all' && !q.tags.includes(state.filter.tag)) return false;
+                return true;
+            });
+        }
+
+        function setMode(m) {
+            state.mode = m;
+            document.querySelectorAll('.tab').forEach((el, i) => {
+                el.classList.toggle('active', ['exam', 'review', 'key'][i] === m);
+            });
+            state.page = 0;
+            render();
+            if (state.tableView) renderTable();
+        }
+
+        function applyFilter() {
+            state.filter.t = document.getElementById('themeFilter').value;
+            state.filter.type = document.getElementById('typeFilter').value;
+            state.filter.tag = document.getElementById('tagFilter').value;
+            state.page = 0;
+            render();
+            if (state.tableView) renderTable();
+        }
+
+        function changePerPage() {
+            state.perPage = +document.getElementById('perPageSel').value;
+            state.page = 0;
+            render();
+        }
+
+        function resetAll() {
+            if (!confirm('Reset all answers? This cannot be undone.')) return;
+            state.answers = {};
+            state.revealed = {};
+            updateStats();
+            render();
+            if (state.tableView) renderTable();
+        }
+
+        function openScore() {
+            const fq = getFiltered();
+            const answered = fq.filter(x => state.answers[x.id] !== undefined).length;
+            const correct = fq.filter(x => state.answers[x.id] === x.ans).length;
+            const pct = answered > 0 ? Math.round(correct / answered * 100) : 0;
+            const color = pct >= 75 ? '#e8c96a' : pct >= 60 ? '#d4a060' : '#d94c4c';
+            const grade = pct >= 90 ? 'Distinction' : pct >= 75 ? 'Pass' : pct >= 60 ? 'Near Pass' : 'Needs Review';
+            document.getElementById('modalScore').textContent = pct + '%';
+            document.getElementById('modalScore').style.color = color;
+            document.getElementById('modalGrade').textContent = grade;
+            document.getElementById('modalGrade').style.color = color;
+            document.getElementById('modalSub').textContent =
+                `${fq.length} questions · Section: ${document.getElementById('themeFilter').options[document.getElementById('themeFilter').selectedIndex].text}`;
+            document.getElementById('mdAns').textContent = answered;
+            document.getElementById('mdCorr').textContent = correct;
+            document.getElementById('mdWrong').textContent = answered - correct;
+            document.getElementById('scoreModal').classList.add('open');
+        }
+
+        function closeScore(e) {
+            if (!e || e.target.id === 'scoreModal' || e.target.className === 'btn primary') {
+                document.getElementById('scoreModal').classList.remove('open');
+            }
+        }
+
+        function updateStats() {
+            const fq = getFiltered();
+            const answered = fq.filter(x => state.answers[x.id] !== undefined).length;
+            const correct = fq.filter(x => state.answers[x.id] === x.ans).length;
+            document.getElementById('sTotal').textContent = fq.length;
+            document.getElementById('sAnswered').textContent = answered;
+            document.getElementById('sCorrect').textContent = correct;
+            document.getElementById('sPct').textContent = answered > 0 ? Math.round(correct / answered * 100) + '%' : '—';
+            const pct = Math.round(answered / Math.max(fq.length, 1) * 100);
+            document.getElementById('progFill').style.width = pct + '%';
+            document.getElementById('progLabel').textContent = `${answered} / ${fq.length} answered`;
+            document.getElementById('progPct').textContent = pct + '%';
+        }
+
+        function selectAnswer(id, idx) {
+            if (state.mode === 'key') return;
+            state.answers[id] = idx;
+            if (state.mode === 'review') state.revealed[id] = true;
+            updateStats();
+            render();
+            if (state.tableView) renderTable();
+        }
+
+        function toggleReveal(id) {
+            state.revealed[id] = !state.revealed[id];
+            render();
+            if (state.tableView) renderTable();
+        }
+
+        function prevPage() {
+            if (state.page > 0) { state.page--;
+                render();
+                window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        }
+
+        function nextPage() {
+            const total = Math.ceil(getFiltered().length / state.perPage);
+            if (state.page < total - 1) { state.page++;
+                render();
+                window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        }
+
+        // ----- Table View -----
+        function toggleTableView() {
+            state.tableView = !state.tableView;
+            const wrap = document.getElementById('tableViewWrap');
+            const btn = document.getElementById('tableToggleBtn');
+            if (state.tableView) {
+                wrap.classList.add('open');
+                btn.classList.add('active');
+                renderTable();
+            } else {
+                wrap.classList.remove('open');
+                btn.classList.remove('active');
+            }
+        }
+
+        function renderTable() {
+            const fq = getFiltered();
+            const search = document.getElementById('tableSearch').value.toLowerCase();
+            let filtered = fq;
+            if (search) {
+                filtered = fq.filter(q =>
+                    q.stem.toLowerCase().includes(search) ||
+                    q.r.toLowerCase().includes(search) ||
+                    q.tags.some(t => t.toLowerCase().includes(search))
+                );
+            }
+            const tbody = document.getElementById('tableBody');
+            let html = '';
+            filtered.forEach(q => {
+                const userAns = state.answers[q.id];
+                const reveal = state.revealed[q.id] || state.mode === 'key';
+                let ansDisplay = '—';
+                if (reveal || userAns !== undefined) {
+                    if (reveal) ansDisplay = OPTS[q.ans];
+                    else if (userAns !== undefined) ansDisplay = OPTS[userAns];
+                }
+                const correctMark = (reveal && userAns === q.ans) ? ' ✓' : '';
+                const wrongMark = (reveal && userAns !== undefined && userAns !== q.ans) ? ' ✗' : '';
+                const tagStr = q.tags.slice(0, 3).join(', ') + (q.tags.length > 3 ? '…' : '');
+                html += `<tr>
+                    <td class="qnum-col">Q${q.id}</td>
+                    <td class="ans-col">${ansDisplay}${correctMark}${wrongMark}</td>
+                    <td class="stem-col">${q.stem}</td>
+                    <td class="r-col">${q.r}</td>
+                    <td class="tag-col">${tagStr}</td>
+                </tr>`;
+            });
+            tbody.innerHTML = html;
+            document.getElementById('tableCount').textContent = `Showing ${filtered.length} of ${fq.length} questions`;
+        }
+
+        // ----- Render questions (card view) -----
+        function render() {
+            const filtered = getFiltered();
+            const total = Math.ceil(filtered.length / state.perPage);
+            const start = state.page * state.perPage;
+            const visible = filtered.slice(start, start + state.perPage);
+            document.getElementById('sTotal').textContent = filtered.length;
+            document.getElementById('pageInfo').textContent =
+                `Page ${state.page+1} of ${Math.max(total,1)} · Items ${start+1}–${Math.min(start+state.perPage, filtered.length)} of ${filtered.length}`;
+            let html = '';
+            let lastTheme = null;
+            visible.forEach(q => {
+                if (q.t !== lastTheme) {
+                    if (lastTheme !== null) {
+                        html +=
+                            `<div class="theme-divider"><div class="theme-divider-line"></div><div class="theme-divider-label">${THEME_NAMES[q.t]}</div><div class="theme-divider-line"></div></div>`;
+                    }
+                    lastTheme = q.t;
+                }
+                const userAns = state.answers[q.id];
+                const revealed = state.revealed[q.id] || state.mode === 'key';
+                const tagHtml = q.tags.length ? q.tags.map(t => {
+                    let cls = 'tag';
+                    if (t === 'CYP Inducer') cls += ' tag-cyp-inducer';
+                    if (t === 'CYP Inhibitor') cls += ' tag-cyp-inhibitor';
+                    return `<span class="${cls}">${t}</span>`;
+                }).join('') : '';
+                const optHtml = q.opts.map((opt, i) => {
+                    let cls = 'opt';
+                    if (revealed) {
+                        if (i === q.ans) cls += ' correct';
+                        else if (userAns === i) cls += ' wrong';
+                    } else {
+                        if (userAns === i) cls += ' selected';
+                    }
+                    const click = state.mode !== 'key' ? `onclick="selectAnswer(${q.id},${i})"` : '';
+                    return `<button class="${cls}" ${click}><span class="opt-letter">${OPTS[i]}.</span><span>${opt}</span></button>`;
+                }).join('');
+                const rationaleHtml = revealed ?
+                    `<div class="rationale"><strong>Answer: ${OPTS[q.ans]}</strong> — ${q.r}</div>` :
+                    '';
+                const revealBtn = state.mode === 'exam' && userAns !== undefined && !state.revealed[q.id] ?
+                    `<button class="reveal-btn" onclick="toggleReveal(${q.id})">Show answer &amp; rationale</button>` :
+                    '';
+                let badges = `<span class="badge badge-theme">${THEME_NAMES[q.t]}</span>`;
+                if (q.c) badges += ` <span class="badge badge-clinical">● Clinical</span>`;
+                // Source badge: Q <= 100 → Part A, else Part B
+                const src = q.id <= 100 ? 'A' : 'B';
+                badges += ` <span class="badge badge-source">Set ${src}</span>`;
+                html += `<div class="q-card">
+              <div class="q-meta"><span class="q-num">Q${q.id}</span>${badges}</div>
+              <div class="tag-group">${tagHtml}</div>
+              <div class="q-stem">${q.stem}</div>
+              <div class="options">${optHtml}</div>
+              ${revealBtn}
+              ${rationaleHtml}
+            </div>`;
+            });
+            document.getElementById('qContainer').innerHTML = html;
+            updateStats();
+        }
+
+        // ----- Event listeners -----
+        window.addEventListener('scroll', () => {
+            document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 300);
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.target.tagName === 'SELECT') return;
+            if (e.key === 'ArrowRight') nextPage();
+            if (e.key === 'ArrowLeft') prevPage();
+            if (e.key === 'Escape') closeScore();
+        });
+
+        // ----- Init -----
+        // Set perPage to 10 by default
+        document.getElementById('perPageSel').value = '10';
+        state.perPage = 10;
+        render();
+    </script>
+</body>
+</html>
