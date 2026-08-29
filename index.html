@@ -46,19 +46,24 @@
             transition: background-color 0.2s, color 0.2s;
         }
 
-        .wrapper { max-width: 1024px; margin: 0 auto; }
+        .wrapper {
+            max-width: 1024px;
+            margin: 0 auto;
+        }
 
         .site-header {
             border-bottom: 2px solid var(--border);
             padding: 44px 0 32px;
             margin-bottom: 40px;
             position: relative;
+            text-align: center;
         }
         .site-header::after {
             content: '';
             position: absolute;
             bottom: -2px;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
             width: 90px;
             height: 3px;
             background: var(--gold-primary);
@@ -95,7 +100,9 @@
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
+            text-align: center;
         }
         .section-title span {
             font-family: 'JetBrains Mono', monospace;
@@ -110,8 +117,10 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
+            max-width: 1024px;
+            margin: 0 auto;
         }
 
         .subject-card {
@@ -182,13 +191,24 @@
             box-shadow: 0 12px 28px rgba(0,0,0,0.07);
         }
 
-        @media (max-width: 600px) {
-            .grid { grid-template-columns: 1fr 1fr; }
+        @media (max-width: 992px) {
+            .grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
             .subject-card { padding: 18px 14px; }
             .card-title { font-size: 16px; }
         }
-        @media (max-width: 440px) {
-            .grid { grid-template-columns: 1fr; }
+
+        @media (max-width: 480px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .footer-note {
