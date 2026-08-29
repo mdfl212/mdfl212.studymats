@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physiology PLE Reviewer — 300 Items</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --bg2: #13131a;
+    --bg3: #1a1a24;
+    --bg4: #22222f;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #e8e4d8;
+    --text2: #9c9880;
+    --text3: #6b6855;
+    --gold: #c9a84c;
+    --gold2: #e8c96a;
+    --gold-dim: rgba(201,168,76,0.12);
+    --red: #c94c4c;
+    --red-dim: rgba(201,76,76,0.12);
+    --green: #4cad6e;
+    --green-dim: rgba(76,173,110,0.12);
+    --blue: #5b8fcf;
+    --blue-dim: rgba(91,143,207,0.12);
+    --teal: #4ca8a0;
+    --radius: 6px;
+    --radius-lg: 10px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .site-header {
+    border-bottom: 1px solid var(--border2);
+    padding: 48px 0 36px;
+    margin-bottom: 40px;
+    position: relative;
+  }
+  .site-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0;
+    width: 80px; height: 2px;
+    background: var(--gold);
+  }
+  .header-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 4vw, 40px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .header-title em { font-style: italic; color: var(--gold2); }
+  .header-sub { font-size: 13px; color: var(--text2); font-style: italic; }
+
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .stat-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .stat-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--gold2);
+    display: block;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text3);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .progress-wrap { margin-bottom: 28px; }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text3);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .progress-track { height: 3px; background: var(--bg4); border-radius: 2px; overflow: hidden; }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold2));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 28px;
+    padding: 16px 20px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+  .controls label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text3);
+    font-family: 'JetBrains Mono', monospace;
+    margin-right: 2px;
+  }
+  select {
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    color: var(--text);
+    font-family: 'Source Serif 4', serif;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  select:hover, select:focus { border-color: var(--gold); }
+
+  .btn {
+    padding: 7px 16px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--text2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.18s;
+    white-space: nowrap;
+  }
+  .btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+  .btn.primary { background: var(--gold-dim); border-color: var(--gold); color: var(--gold2); }
+  .btn.primary:hover { background: rgba(201,168,76,0.22); }
+  .btn.danger:hover { border-color: var(--red); color: var(--red); background: var(--red-dim); }
+
+  .mode-tabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 28px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 4px;
+  }
+  .tab {
+    flex: 1;
+    padding: 9px;
+    border-radius: 7px;
+    border: none;
+    background: transparent;
+    color: var(--text3);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .tab:hover { color: var(--text2); }
+  .tab.active { background: var(--bg4); color: var(--gold2); border: 1px solid var(--border2); }
+
+  .q-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+    animation: fadeUp 0.3s ease both;
+  }
+  .q-card:hover { border-color: var(--border2); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .q-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .q-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gold);
+    min-width: 42px;
+  }
+  .badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+  }
+  .badge-clinical { background: rgba(201,76,76,0.15); color: #e87070; border: 1px solid rgba(201,76,76,0.3); }
+  .badge-theme { background: var(--bg4); color: var(--text3); border: 1px solid var(--border); }
+  .badge-calc { background: rgba(91,143,207,0.15); color: #90b8e8; border: 1px solid rgba(91,143,207,0.3); }
+  .badge-source { background: rgba(76,173,110,0.12); color: #82c9a0; border: 1px solid rgba(76,173,110,0.25); }
+
+  .q-stem {
+    font-size: 16px;
+    line-height: 1.72;
+    color: var(--text);
+    margin-bottom: 18px;
+    border-left: 2px solid var(--border2);
+    padding-left: 16px;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.16s;
+    font-size: 14.5px;
+    line-height: 1.6;
+    background: transparent;
+    color: var(--text2);
+    text-align: left;
+    font-family: 'Source Serif 4', serif;
+    width: 100%;
+  }
+  .opt:hover { border-color: var(--border2); background: var(--bg3); color: var(--text); }
+  .opt.selected { border-color: var(--blue); background: var(--blue-dim); color: var(--text); }
+  .opt.correct { border-color: var(--green); background: var(--green-dim); color: #a8e8c0; }
+  .opt.wrong { border-color: var(--red); background: var(--red-dim); color: #e8a0a0; }
+
+  .opt-letter {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 13px;
+    min-width: 20px;
+    color: var(--gold);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .rationale {
+    margin-top: 16px;
+    padding: 14px 18px;
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.18);
+    border-radius: var(--radius);
+    font-size: 13.5px;
+    color: var(--text2);
+    line-height: 1.7;
+  }
+  .rationale strong { color: var(--gold2); }
+
+  .reveal-btn {
+    margin-top: 14px;
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text3);
+    background: transparent;
+    border: 1px dashed var(--border2);
+    border-radius: var(--radius);
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .reveal-btn:hover { color: var(--gold); border-color: var(--gold); background: var(--gold-dim); }
+
+  .theme-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 32px 0 20px;
+  }
+  .theme-divider-line { flex: 1; height: 1px; background: var(--border); }
+  .theme-divider-label {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--text3);
+    white-space: nowrap;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .page-info {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.06em;
+  }
+
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 40px 44px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+  }
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .modal-sub { font-size: 12px; color: var(--text3); margin-bottom: 28px; font-style: italic; }
+  .score-big {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .score-grade { font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 28px; }
+  .score-detail { display: flex; gap: 20px; justify-content: center; margin-bottom: 28px; }
+  .sd-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .sd-val { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 600; color: var(--text); }
+  .sd-lab { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); }
+
+  .scroll-top {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    color: var(--gold);
+    font-size: 16px;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    z-index: 50;
+  }
+  .scroll-top.visible { display: flex; }
+  .scroll-top:hover { background: var(--gold-dim); border-color: var(--gold); }
+
+  @media (max-width: 600px) {
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .q-card { padding: 18px 16px; }
+    .modal { padding: 28px 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <header class="site-header">
+    <div class="header-eyebrow">Physiology · Verified & Corrected Edition · 300 Items</div>
+    <h1 class="header-title">Physiology <em>Practice Exam</em></h1>
+    <p class="header-sub">Cell · Neuro · Cardiovascular · Respiratory · Renal · GI · Endocrine · Reproductive · Muscle · Integrative</p>
+  </header>
+
+  <div class="stats-bar">
+    <div class="stat-card"><span class="stat-val" id="sTotal">300</span><span class="stat-label">Questions</span></div>
+    <div class="stat-card"><span class="stat-val" id="sAnswered">0</span><span class="stat-label">Answered</span></div>
+    <div class="stat-card"><span class="stat-val" id="sCorrect">0</span><span class="stat-label">Correct</span></div>
+    <div class="stat-card"><span class="stat-val" id="sPct">—</span><span class="stat-label">Score</span></div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span id="progLabel">0 / 300 answered</span>
+      <span id="progPct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+  </div>
+
+  <div class="mode-tabs">
+    <button class="tab active" onclick="setMode('exam')">📝 Exam Mode</button>
+    <button class="tab" onclick="setMode('review')">🔍 Review Mode</button>
+    <button class="tab" onclick="setMode('key')">🗝 Answer Key</button>
+  </div>
+
+  <div class="controls">
+    <label>System</label>
+    <select id="themeFilter" onchange="applyFilter()">
+      <option value="all">All Systems</option>
+      <option value="cell">Cell Physiology</option>
+      <option value="neuro">Neurophysiology</option>
+      <option value="cardio">Cardiovascular</option>
+      <option value="resp">Respiratory</option>
+      <option value="renal">Renal</option>
+      <option value="gi">GI</option>
+      <option value="endo">Endocrine</option>
+      <option value="repro">Reproductive</option>
+      <option value="muscle">Muscle</option>
+      <option value="integrative">Integrative</option>
+      <option value="general">General (Reviewer)</option>
+    </select>
+    <label>Type</label>
+    <select id="typeFilter" onchange="applyFilter()">
+      <option value="all">All Types</option>
+      <option value="clinical">Clinical Only</option>
+      <option value="calc">Calculation Only</option>
+      <option value="concept">Conceptual Only</option>
+    </select>
+    <label>Per Page</label>
+    <select id="perPageSel" onchange="changePerPage()">
+      <option value="10">10</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+      <option value="999">All</option>
+    </select>
+    <button class="btn primary" onclick="openScore()">Score Me</button>
+    <button class="btn danger" onclick="resetAll()">Reset</button>
+  </div>
+
+  <div id="qContainer"></div>
+
+  <div class="nav">
+    <button class="btn" onclick="prevPage()">← Previous</button>
+    <span class="page-info" id="pageInfo"></span>
+    <button class="btn" onclick="nextPage()">Next →</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="scoreModal" onclick="closeScore(event)">
+  <div class="modal">
+    <div class="modal-title">Examination Results</div>
+    <div class="modal-sub" id="modalSub">Physiology Reviewer</div>
+    <div class="score-big" id="modalScore">—</div>
+    <div class="score-grade" id="modalGrade"></div>
+    <div class="score-detail">
+      <div class="sd-item"><span class="sd-val" id="mdAns">0</span><span class="sd-lab">Answered</span></div>
+      <div class="sd-item"><span class="sd-val" id="mdCorr">0</span><span class="sd-lab">Correct</span></div>
+      <div class="sd-item"><span class="sd-val" id="mdWrong">0</span><span class="sd-lab">Wrong</span></div>
+    </div>
+    <button class="btn primary" onclick="closeScore()">Close</button>
+  </div>
+</div>
+
+<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+const OPTS = ['A','B','C','D','E'];
+
+// Q object fields:
+// id, sys (system), c (clinical bool), calc (calculation bool), stem, opts (array), ans (0-indexed), r (rationale)
+const Q = [
+  // ══════════════════════════════════════════════════════
+  // CELL PHYSIOLOGY — from Verified PDF (Items 1–15)
+  // ══════════════════════════════════════════════════════
+  {id:1,sys:'cell',c:false,calc:false,stem:"A first-year medical student performs an experiment on isolated neurons and records a resting membrane potential of -70 mV. Which primary mechanism is responsible for maintaining the steady-state distribution of K⁺ and Na⁺ across the plasma membrane in this neuron?",opts:["Simple diffusion of K⁺ through leak channels","Na⁺-K⁺ ATPase (Na⁺-K⁺ pump)","Voltage-gated Na⁺ channels","Na⁺-K⁺ cotransporter","Na⁺-glucose symporter"],ans:1,r:"Na⁺-K⁺ ATPase actively transports 3 Na⁺ out and 2 K⁺ in, maintaining the ionic gradients essential for resting potential."},
+  {id:2,sys:'cell',c:false,calc:false,stem:"A pharmacologist blocks all ATP-dependent ion pumps in a cell. Over time, the resting membrane potential depolarizes toward approximately -40 mV. Which ion's electrochemical gradient is primarily lost in this scenario?",opts:["Cl⁻","Ca²⁺","K⁺","Na⁺","HCO₃⁻"],ans:2,r:"Na⁺-K⁺ ATPase establishes the K⁺ gradient, which dominates the resting potential; its block leads to K⁺ efflux and depolarization."},
+  {id:3,sys:'cell',c:false,calc:false,stem:"A patch-clamp experiment shows that a channel conducts positive ions only when the transmembrane potential is more negative than -50 mV and closes at potentials above -30 mV. This behavior is most consistent with which type of channel?",opts:["Inward-rectifying K⁺ channel","Voltage-gated Na⁺ channel","Voltage-gated Ca²⁺ channel","Leak Cl⁻ channel","Ligand-gated nicotinic channel"],ans:0,r:"Inward-rectifying K⁺ channels conduct better at hyperpolarized potentials (more negative than their activation threshold)."},
+  {id:4,sys:'cell',c:false,calc:false,stem:"A cell culture is placed in a solution containing 140 mM K⁺ and 140 mM Na⁺. The intracellular concentrations are 150 mM K⁺ and 10 mM Na⁺. Which transport process directly counteracts the tendency of Na⁺ to enter the cell down its electrochemical gradient?",opts:["Na⁺-glucose cotransport","Na⁺-K⁺ ATPase","Na⁺-Ca²⁺ exchanger","Na⁺-H⁺ antiport","Na⁺ leak channel"],ans:1,r:"Na⁺-K⁺ ATPase pumps Na⁺ out against its electrochemical gradient using ATP hydrolysis."},
+  {id:5,sys:'cell',c:false,calc:true,stem:"A medical student estimates the equilibrium potential for K⁺ using the Nernst equation: extracellular K⁺ = 5 mM, intracellular K⁺ = 150 mM. Which value is closest to E_K at 37°C?",opts:["-90 mV","-70 mV","-50 mV","0 mV","+50 mV"],ans:0,r:"E_K = (61/1) × log(5/150) ≈ 61 × (−1.477) ≈ −90 mV at 37°C."},
+  {id:6,sys:'cell',c:false,calc:false,stem:"A research paper reports that a mutant cell line has a resting membrane potential of -40 mV instead of the normal -70 mV. Which change in membrane permeability best explains this finding?",opts:["Decreased K⁺ permeability","Increased K⁺ permeability","Decreased Na⁺ permeability","Increased Cl⁻ permeability","Decreased Ca²⁺ permeability"],ans:0,r:"Decreased P_K shifts the resting potential away from E_K (−90 mV) and toward E_Na (+60 mV), causing depolarization to −40 mV."},
+  {id:7,sys:'cell',c:false,calc:false,stem:"A physiologist notices that as extracellular K⁺ increases, the resting membrane potential becomes less negative. Which principle explains this observation?",opts:["Ohm's law","Nernst equation for K⁺","Goldman-Hodgkin-Katz equation","Fick's first law of diffusion","Starling's law of the capillary"],ans:1,r:"The Nernst equation for K⁺ shows that raising [K⁺]o reduces the concentration gradient, depolarizing the cell (less negative E_K)."},
+  {id:8,sys:'cell',c:false,calc:false,stem:"A cell membrane is permeable only to K⁺, bathed in 3 mM K⁺ outside and 150 mM K⁺ inside. At −90 mV, which statement best describes net K⁺ flux?",opts:["K⁺ moves out of the cell","K⁺ moves into the cell","K⁺ flux is zero","K⁺ moves out only if a gating ligand is applied","K⁺ moves in only if ATP is supplied"],ans:2,r:"At −90 mV, the membrane potential equals E_K for these concentrations; therefore the electrochemical driving force is zero and net K⁺ flux is zero."},
+  {id:9,sys:'cell',c:true,calc:false,stem:"A patch-clamp recording shows a channel that opens in response to acetylcholine, allows Na⁺ influx and K⁺ efflux, and is blocked by curare. This channel is most consistent with which receptor type?",opts:["Voltage-gated Na⁺ channel","GABA_A receptor","Nicotinic acetylcholine receptor","Metabotropic glutamate receptor","Voltage-gated K⁺ channel"],ans:2,r:"The nicotinic ACh receptor is a ligand-gated, non-selective cation channel; curare (tubocurarine) is its classic competitive antagonist."},
+  {id:10,sys:'cell',c:false,calc:false,stem:"A student studies vesicular transport in a cultured epithelial cell. The dye accumulates inside vesicles that bud from the Golgi apparatus and move toward the basolateral membrane. This pathway is best described as part of which general transport mechanism?",opts:["Phagocytosis","Pinocytosis","Receptor-mediated endocytosis","Exocytosis","Facilitated diffusion"],ans:3,r:"Exocytosis describes the fusion of secretory vesicles (from the Golgi) with the plasma membrane to release contents extracellularly."},
+  {id:11,sys:'cell',c:false,calc:false,stem:"A researcher perfuses a proximal tubule cell with a chloride-free solution and discovers that Cl⁻ reabsorption is abolished. Cl⁻ entry across the apical membrane is primarily mediated by which process?",opts:["Simple diffusion down its electrochemical gradient","Na⁺-K⁺-2Cl⁻ cotransport (NKCC)","Cl⁻-HCO₃⁻ antiport","Na⁺-Cl⁻ symport","Active ATP-dependent Cl⁻ pump"],ans:1,r:"The NKCC cotransporter requires Cl⁻ as a co-substrate; removing luminal Cl⁻ abolishes transport."},
+  {id:12,sys:'cell',c:false,calc:true,stem:"A medical student increases the permeability of the membrane to Cl⁻ relative to K⁺ and Na⁺ in the GHK equation. Which effect on the resting membrane potential is most likely?",opts:["Hyperpolarization toward E_Cl","Depolarization toward E_Na","Hyperpolarization toward E_K","Depolarization toward E_K","No change, because K⁺ permeability dominates"],ans:0,r:"In the GHK equation, increasing P_Cl weights the potential toward E_Cl (approximately −65 to −70 mV), which is slightly hyperpolarizing."},
+  {id:13,sys:'cell',c:false,calc:false,stem:"A patch-clamp experiment shows a channel that opens when intracellular Ca²⁺ rises and conducts K⁺ outward, causing membrane hyperpolarization. This channel is most likely which type?",opts:["Voltage-gated K⁺ channel","Ca²⁺-activated K⁺ channel","Inward-rectifying K⁺ channel","Na⁺-K⁺ ATPase","Voltage-gated Ca²⁺ channel"],ans:1,r:"Ca²⁺-activated K⁺ channels (BK/SK channels) open in response to elevated intracellular Ca²⁺, allowing K⁺ efflux and membrane hyperpolarization."},
+  {id:14,sys:'cell',c:false,calc:false,stem:"A pharmacologist blocks the Na⁺-K⁺ ATPase in a cardiac myocyte. Intracellular Na⁺ rises and the cell depolarizes. Which secondary consequence is most likely to occur first?",opts:["Decreased Ca²⁺ efflux via Na⁺-Ca²⁺ exchanger","Increased Ca²⁺ influx via Na⁺-Ca²⁺ exchanger (reverse mode)","Increased Ca²⁺ efflux via Ca²⁺ ATPase","Decreased Ca²⁺ release from the sarcoplasmic reticulum","Hyperpolarization of the cell"],ans:1,r:"Elevated intracellular Na⁺ reverses the NCX, causing Ca²⁺ influx instead of efflux — the mechanism of cardiac glycoside inotropy."},
+  {id:15,sys:'cell',c:false,calc:false,stem:"A mutant epithelial cell cannot maintain a transepithelial potential difference. Intracellular Na⁺ is elevated and the cell swells. Which transport defect most likely explains this?",opts:["Mutant CFTR channel","Mutant Na⁺-K⁺ ATPase","Mutant Na⁺-K⁺-2Cl⁻ cotransporter","Mutant Na⁺-glucose symporter","Mutant Na⁺-H⁺ antiporter"],ans:1,r:"Na⁺-K⁺ ATPase failure prevents Na⁺ extrusion, leading to Na⁺ accumulation, osmotic water influx, and cell swelling."},
+
+  // ══════════════════════════════════════════════════════
+  // NEUROPHYSIOLOGY — from Verified PDF (Items 16–35)
+  // ══════════════════════════════════════════════════════
+  {id:16,sys:'neuro',c:false,calc:false,stem:"A neurophysiologist records an action potential in a large myelinated axon and notes that the amplitude does not change when the stimulus strength is increased beyond threshold. This observation illustrates which property?",opts:["Absolute refractory period","All-or-none response","Saltatory conduction","Temporal summation","Spatial summation"],ans:1,r:"Action potentials are all-or-none: once threshold is reached, the amplitude is fixed regardless of stimulus intensity."},
+  {id:17,sys:'neuro',c:false,calc:false,stem:"Two unmyelinated axons are compared: one has a diameter of 1 µm and the other 5 µm. Which factor best explains why the larger axon conducts action potentials faster?",opts:["Higher density of voltage-gated Na⁺ channels","Greater myelination","Lower axial (internal) resistance","Higher K⁺ conductance","Longer length constant"],ans:2,r:"Larger axon diameter lowers internal (axial) resistance, allowing faster electrotonic spread of current ahead of the action potential."},
+  {id:18,sys:'neuro',c:false,calc:false,stem:"Blocking voltage-gated Na⁺ channels abolishes the rapid upstroke of the action potential in a neuron. Which phase is directly prevented?",opts:["After-hyperpolarization","Falling phase (repolarization)","Depolarization phase (upstroke)","Refractory phase","Plateau phase"],ans:2,r:"The rapid upstroke (phase 0 depolarization) is driven by Na⁺ influx through voltage-gated Na⁺ channels; blocking them prevents this phase."},
+  {id:19,sys:'neuro',c:true,calc:false,stem:"A drug blocks voltage-gated K⁺ channels in a neuron. Compared with control, which change in the action potential is most likely?",opts:["Reduced amplitude","Shorter duration","Prolonged duration","Slower conduction velocity","Loss of overshoot"],ans:2,r:"Delayed rectifier K⁺ channels mediate repolarization; blocking them prolongs the action potential duration."},
+  {id:20,sys:'neuro',c:false,calc:false,stem:"A patch-clamp recording shows a tetrodotoxin (TTX)-sensitive inward current that activates and inactivates rapidly upon depolarization. This current is most consistent with which ion channel?",opts:["Voltage-gated K⁺ channel","Voltage-gated Ca²⁺ channel","Voltage-gated Na⁺ channel","Inward-rectifying K⁺ channel","Cl⁻ channel"],ans:2,r:"TTX specifically blocks voltage-gated Na⁺ channels; fast activation and inactivation kinetics are hallmarks of I_Na."},
+  {id:21,sys:'neuro',c:false,calc:false,stem:"A researcher stimulates a motor neuron at two different frequencies. At low frequency, individual twitches are distinct; at high frequency, twitches summate and tension increases progressively. This phenomenon is best described as:",opts:["Recruitment","Tetanus","Facilitation","Fatigue","Accommodation"],ans:1,r:"High-frequency stimulation prevents complete relaxation between twitches, causing summation to produce tetanic (fused) contraction."},
+  {id:22,sys:'neuro',c:false,calc:false,stem:"A presynaptic stimulus produces a subthreshold depolarization that does not evoke an action potential. This response is best called:",opts:["IPSP","EPSP","End-plate potential","Miniature end-plate potential","Inhibitory postsynaptic action potential"],ans:1,r:"A subthreshold depolarization at a synapse is an excitatory postsynaptic potential (EPSP); it brings the membrane closer to threshold without firing an action potential."},
+  {id:23,sys:'neuro',c:false,calc:false,stem:"A pharmacologist applies a drug that blocks postsynaptic GABA_A receptors in a spinal cord neuron. Which change in postsynaptic activity is most likely?",opts:["Reduced Cl⁻ influx and decreased inhibition","Increased Cl⁻ influx and decreased inhibition","Increased K⁺ efflux and increased inhibition","Reduced Na⁺ influx and decreased excitation","Increased Ca²⁺ influx and increased excitation"],ans:0,r:"GABA_A receptors are Cl⁻ channels; blocking them reduces Cl⁻ influx, preventing hyperpolarization and thus decreasing inhibition."},
+  {id:24,sys:'neuro',c:false,calc:false,stem:"A student records extracellular potentials from a mixed peripheral nerve and distinguishes three groups of fibers by conduction velocity. The fastest group corresponds to which type of fibers?",opts:["C fibers (unmyelinated)","A-delta fibers (small myelinated)","B fibers (preganglionic autonomic)","A-alpha fibers (large motor and proprioceptive)","A-beta fibers (cutaneous mechanoreceptors)"],ans:3,r:"A-alpha fibers are the largest myelinated fibers (12–20 µm) and conduct at 70–120 m/s — the fastest of all peripheral nerve fibers."},
+  {id:25,sys:'neuro',c:true,calc:false,stem:"A neurophysiologist records an inhibitory postsynaptic potential (IPSP) in a spinal motor neuron. Which ion movement is most responsible for this IPSP?",opts:["Na⁺ influx","Ca²⁺ influx","K⁺ efflux or Cl⁻ influx","Cl⁻ efflux","H⁺ efflux"],ans:2,r:"IPSPs are generated by K⁺ efflux (through GABA_B/glycine receptors) or Cl⁻ influx (through GABA_A/glycine receptors), both of which hyperpolarize the membrane."},
+  {id:26,sys:'neuro',c:false,calc:false,stem:"A single presynaptic stimulus produces a small depolarization, but two closely spaced stimuli produce a larger depolarization that reaches threshold. This phenomenon is best described as:",opts:["Spatial summation","Temporal summation","Presynaptic inhibition","Homosynaptic depression","Facilitation"],ans:1,r:"Temporal summation occurs when EPSPs from successive stimuli overlap in time, adding to reach threshold."},
+  {id:27,sys:'neuro',c:true,calc:false,stem:"A clinician administers botulinum toxin to a patient with focal dystonia. The patient's muscle spasms decrease because the toxin acts by:",opts:["Blocking voltage-gated Na⁺ channels in the motor axon","Blocking postsynaptic nicotinic receptors at the NMJ","Blocking acetylcholine release from presynaptic terminals","Enhancing reuptake of acetylcholine","Blocking postsynaptic muscarinic receptors"],ans:2,r:"Botulinum toxin cleaves SNARE proteins (SNAP-25, synaptobrevin), preventing synaptic vesicle fusion and ACh release from presynaptic terminals."},
+  {id:28,sys:'neuro',c:false,calc:false,stem:"Increasing the extracellular Ca²⁺ concentration increases the amplitude of EPSPs. Which mechanism best explains this effect?",opts:["More Ca²⁺ enters the presynaptic terminal, increasing neurotransmitter release","More Ca²⁺ enters the postsynaptic neuron, directly increasing the EPSP","More Ca²⁺ efflux from the neuron decreases the EPSP","Ca²⁺ blocks K⁺ channels, increasing the EPSP","Ca²⁺ competes with Na⁺ at the synapse"],ans:0,r:"Ca²⁺ entry via presynaptic voltage-gated Ca²⁺ channels triggers vesicle fusion; higher [Ca²⁺]o increases Ca²⁺ influx and therefore transmitter release."},
+  {id:29,sys:'neuro',c:false,calc:false,stem:"A sudden painful stimulus to the foot produces rapid flexion of the ipsilateral leg and extension of the contralateral leg. Which reflex pair best describes this pattern?",opts:["Flexor reflex and crossed extensor reflex","Myotatic (stretch) reflex and inverse stretch reflex","Golgi tendon organ reflex and reciprocal inhibition","Withdrawal reflex and Babinski reflex","Tendon-guard reflex and crossed-extension reflex"],ans:0,r:"Ipsilateral flexion (withdrawal) combined with contralateral extension (to maintain balance) defines the flexor reflex and crossed extensor reflex."},
+  {id:30,sys:'neuro',c:false,calc:false,stem:"A neurologist tests a patient's biceps reflex and finds it markedly diminished. Which component of the reflex arc is most likely impaired?",opts:["Corticospinal motor neuron","Muscle spindle afferent (Ia fiber)","Gamma motor neuron","Local interneuron","Upper motor neuron above the spinal cord"],ans:1,r:"The monosynaptic stretch reflex depends on Ia afferents from the muscle spindle; their impairment abolishes or reduces the reflex."},
+  {id:31,sys:'neuro',c:false,calc:false,stem:"A pharmacologist blocks voltage-gated Ca²⁺ channels in a presynaptic terminal and observes that synaptic transmission is abolished. Ca²⁺ entry is essential for which process?",opts:["Action potential propagation in the axon","Postsynaptic receptor activation","Synaptic vesicle fusion and neurotransmitter release","K⁺ repolarization in the presynaptic terminal","Cl⁻ channel opening in the postsynaptic neuron"],ans:2,r:"Ca²⁺ influx through presynaptic P/Q-type (and N-type) Ca²⁺ channels triggers synaptic vesicle fusion with the active zone membrane."},
+  {id:32,sys:'neuro',c:false,calc:false,stem:"A student records a postsynaptic potential and notes that the reversal potential is about 0 mV. Which ion or combination is most likely responsible?",opts:["K⁺ only","Na⁺ only","Cl⁻ only","Na⁺ and K⁺ (non-selective cation channel)","Ca²⁺ only"],ans:3,r:"Non-selective cation channels (e.g., nicotinic receptors, AMPA receptors) pass both Na⁺ and K⁺; their reversal potential is near 0 mV, reflecting the mix of E_Na (+60 mV) and E_K (−90 mV)."},
+  {id:33,sys:'neuro',c:false,calc:false,stem:"A neuron fires repetitively without continuous depolarizing current after a brief depolarization. This 'rhythmic' firing is most likely due to:",opts:["High density of voltage-gated Na⁺ channels","Presence of pacemaker (HCN) channels and slow K⁺ channels","Strong inward-rectifier K⁺ channels","High resting K⁺ permeability","Low capacitance of the membrane"],ans:1,r:"HCN (I_h / 'funny') channels provide depolarizing inward current during hyperpolarization; combined with slow K⁺ channels, they generate rhythmic pacemaker activity."},
+  {id:34,sys:'neuro',c:true,calc:false,stem:"A clinician measures conduction velocity in a patient's median nerve and finds it is below the normal range. Which anatomical feature is most likely abnormal?",opts:["Axon diameter","Myelin thickness (degree of myelination)","Number of voltage-gated Na⁺ channels","K⁺ concentration gradient","Extracellular osmolality"],ans:1,r:"Reduced myelin thickness (demyelination) is the most common cause of decreased conduction velocity in peripheral nerves (e.g., Guillain-Barré, carpal tunnel myelin loss)."},
+  {id:35,sys:'neuro',c:false,calc:false,stem:"A single presynaptic neuron synapses onto many postsynaptic neurons, AND each postsynaptic neuron receives input from many presynaptic neurons. Which term best describes this combined pattern?",opts:["Convergence only","Divergence only","Reverberation","Specific neural line","Divergence and convergence (parallel processing)"],ans:4,r:"The question describes BOTH divergence (one pre → many post) AND convergence (many pre → one post). This combined arrangement is characteristic of parallel processing in neural circuits."},
+
+  // ══════════════════════════════════════════════════════
+  // CARDIOVASCULAR — from Verified PDF (Items 36–65)
+  // ══════════════════════════════════════════════════════
+  {id:36,sys:'cardio',c:false,calc:true,stem:"A 23-year-old medical student has a heart rate of 72 beats/min and a stroke volume of 70 mL. Which value is closest to his cardiac output?",opts:["3.5 L/min","4.0 L/min","5.0 L/min","6.0 L/min","7.0 L/min"],ans:2,r:"CO = HR × SV = 72 × 70 mL = 5,040 mL/min ≈ 5.0 L/min."},
+  {id:37,sys:'cardio',c:false,calc:true,stem:"A patient's ventricular end-diastolic volume increases from 120 mL to 140 mL while systemic vascular resistance remains constant. Which change in cardiac output is most likely?",opts:["Decreased, due to reduced heart rate","Increased, due to the Frank-Starling mechanism","Decreased, due to increased afterload","Increased, due to decreased afterload","No change, because resistance is constant"],ans:1,r:"The Frank-Starling mechanism states that increased ventricular filling (preload) stretches myofibers, enhancing Ca²⁺ sensitivity and increasing stroke volume."},
+  {id:38,sys:'cardio',c:false,calc:false,stem:"During isovolumetric contraction, left ventricular pressure rises while volume remains constant. Which valve(s) is/are closed at this time?",opts:["Aortic valve closed; mitral valve closed","Aortic valve open; mitral valve open","Aortic valve closed; mitral valve open","Aortic valve open; mitral valve closed","Pulmonic valve open; tricuspid valve closed"],ans:0,r:"During isovolumetric contraction, both the mitral (AV) and aortic (semilunar) valves are closed — pressure rises without ejection."},
+  {id:39,sys:'cardio',c:true,calc:false,stem:"An ECG shows a normal P wave, QRS complex, and T wave, but the PR interval is 0.24 seconds. This finding is most consistent with which condition?",opts:["First-degree AV block","Second-degree AV block, Type I (Wenckebach)","Second-degree AV block, Type II (Mobitz II)","Third-degree (complete) AV block","Sinus tachycardia"],ans:0,r:"First-degree AV block is defined by a PR interval > 0.20 s with 1:1 AV conduction; all P waves conduct to the ventricles."},
+  {id:40,sys:'cardio',c:false,calc:true,stem:"A cardiac index rises from 3 L/min/m² at rest to 8 L/min/m² during maximal exercise. Which combination of changes best explains this increase?",opts:["Increased heart rate and increased stroke volume","Increased heart rate and decreased stroke volume","Decreased heart rate and increased stroke volume","Decreased heart rate and decreased stroke volume","Increased peripheral resistance and increased afterload"],ans:0,r:"During exercise, both HR (sympathetic) and SV (Frank-Starling + enhanced contractility) increase to raise cardiac output."},
+  {id:41,sys:'cardio',c:true,calc:false,stem:"A left ventricular pressure-volume loop shows end-diastolic volume shifted to the right and end-systolic volume also increased. Which hemodynamic change is most likely?",opts:["Increased preload and increased contractility","Decreased preload and increased contractility","Increased preload and decreased contractility","Decreased preload and decreased contractility","No change in preload or contractility"],ans:2,r:"A rightward-shifted, wider loop with elevated ESVI indicates dilated cardiomyopathy — increased preload (EDV) and reduced contractility (elevated ESV, reduced ejection fraction)."},
+  {id:42,sys:'cardio',c:false,calc:false,stem:"A physiologist perfuses an isolated heart with a solution that increases extracellular Ca²⁺ concentration. Which immediate effect on the heart is most likely?",opts:["Decreased contractility and prolonged relaxation","Increased heart rate and decreased contractility","Increased contractility and shortened systole","Decreased heart rate and decreased contractility","Increased heart rate and no change in contractility"],ans:2,r:"Higher extracellular Ca²⁺ increases Ca²⁺ influx through L-type channels, augmenting contractility; the stronger, faster contraction also shortens systole duration."},
+  {id:43,sys:'cardio',c:true,calc:false,stem:"A 55-year-old man with chronic hypertension has a stiff left ventricle and a slow rate of ventricular filling. Which pressure-volume relationship is most characteristic?",opts:["Shifted upward and leftward (increased contractility)","Shifted rightward at same contractility (increased preload)","Shifted upward at lower volume (diastolic dysfunction)","Shifted rightward and downward (decreased contractility and increased preload)","Shifted upward and rightward (increased contractility and preload)"],ans:2,r:"Hypertensive hypertrophy causes diastolic dysfunction: the stiff ventricle generates high filling pressures at lower volumes, shifting the diastolic pressure-volume curve upward and leftward."},
+  {id:44,sys:'cardio',c:false,calc:false,stem:"A student identifies the T wave on an ECG. Which phase of ventricular myocyte repolarization is best reflected by the T wave?",opts:["Phase 0 (rapid depolarization)","Phase 1 (early rapid repolarization)","Phase 2 (plateau)","Phase 3 (rapid repolarization)","Phase 4 (resting membrane potential)"],ans:3,r:"The T wave on the surface ECG corresponds to ventricular repolarization, which reflects Phase 3 (rapid repolarization via I_Ks and I_Kr)."},
+  {id:45,sys:'cardio',c:true,calc:false,stem:"A 68-year-old woman with atrial fibrillation has an irregularly irregular ventricular rhythm on ECG. Which mechanism best explains the irregular R-R intervals?",opts:["Multiple ectopic foci firing in the atria at variable rates with variable AV conduction","Block at the AV node causing intermittent failure of conduction","Reentry circuits in the ventricles","Sinus node dysfunction","Hyperkalemia-related depolarization of the His-Purkinje system"],ans:0,r:"In atrial fibrillation, chaotic atrial impulses bombard the AV node at ~350–600/min; the node conducts them irregularly due to concealed conduction, producing an irregular ventricular response."},
+  {id:46,sys:'cardio',c:false,calc:true,stem:"A physiologist measures MAP = 95 mm Hg and cardiac output = 5.25 L/min (CVP ≈ 0). What is the approximate systemic vascular resistance (SVR)?",opts:["1.8 mm Hg·min/L","10 mm Hg·min/L","18 mm Hg·min/L","28 mm Hg·min/L","35 mm Hg·min/L"],ans:2,r:"SVR = (MAP − CVP) / CO = (95 − 0) / 5.25 ≈ 18 mm Hg·min/L (Wood units)."},
+  {id:47,sys:'cardio',c:false,calc:false,stem:"A drug blocks L-type Ca²⁺ channels in cardiac myocytes. Which effect on the ventricular action potential is most likely?",opts:["Shortened phase 0 and prolonged phase 2","Prolonged phase 0 and shortened phase 2","Reduced phase 2 plateau and decreased contractility","Increased phase 3 repolarization and increased contractility","No change in phase 2, but increased phase 4 automaticity"],ans:2,r:"L-type Ca²⁺ channels sustain the phase 2 plateau; blocking them shortens the plateau and reduces Ca²⁺ entry, decreasing contractility."},
+  {id:48,sys:'cardio',c:true,calc:false,stem:"A 24-year-old man runs a 5-km race. Immediately afterward HR = 160 bpm and SBP = 170 mm Hg. Which reflex is most responsible for the rapid return of HR and BP to baseline after the race?",opts:["Bainbridge reflex","Baroreceptor reflex","Bezold-Jarisch reflex","Cushing reflex","Chemoreceptor reflex"],ans:1,r:"The arterial baroreceptor reflex detects elevated BP, increases parasympathetic and decreases sympathetic output, returning HR and BP toward baseline."},
+  {id:49,sys:'cardio',c:false,calc:false,stem:"An increase in ventricular end-diastolic volume leads to an increase in stroke volume (Frank-Starling). This relationship is best explained by which cellular mechanism?",opts:["Increased Ca²⁺ release from the SR due to greater sarcomere stretch (length-dependent activation)","Increased Ca²⁺ influx through L-type channels due to higher membrane potential","Increased Na⁺-Ca²⁺ exchanger activity","Decreased Ca²⁺ affinity of troponin C","Shortening of action-potential duration"],ans:0,r:"Sarcomere stretch increases myofilament Ca²⁺ sensitivity (titin-mediated) and promotes Ca²⁺ release from the SR, increasing cross-bridge recruitment."},
+  {id:50,sys:'cardio',c:true,calc:false,stem:"A 70-year-old man with heart failure has a cardiac index of 2.0 L/min/m², elevated jugular venous pressure, and peripheral edema. Which term best describes this pattern of failure?",opts:["High-output cardiac failure","Right-sided heart failure","Left-sided heart failure","Low-output cardiac failure","Mixed-output cardiac failure"],ans:3,r:"Low cardiac index (<2.2 L/min/m²) with signs of venous congestion (elevated JVP, edema) indicates low-output heart failure."},
+  {id:51,sys:'cardio',c:false,calc:true,stem:"A patient has systolic pressure of 140 mm Hg and diastolic pressure of 90 mm Hg. Which value is closest to the MAP?",opts:["100 mm Hg","107 mm Hg","110 mm Hg","115 mm Hg","120 mm Hg"],ans:1,r:"MAP = diastolic + 1/3 × pulse pressure = 90 + 1/3 × (140−90) = 90 + 16.7 ≈ 107 mm Hg. [CORRECTED from original answer key]"},
+  {id:52,sys:'cardio',c:false,calc:false,stem:"A physiologist notes that pulse pressure is markedly increased. Which change in arterial compliance is most likely?",opts:["Increased aortic compliance","Decreased aortic compliance (stiff arteries)","No change in compliance but increased heart rate","No change in compliance but decreased stroke volume","Increased venous compliance"],ans:1,r:"Stiff (less compliant) arteries cannot buffer stroke volume, causing greater systolic pressure rises and larger pulse pressure."},
+  {id:53,sys:'cardio',c:false,calc:true,stem:"Starling forces in a capillary: hydrostatic pressure (arterial end) = 35 mm Hg, plasma oncotic pressure = 25 mm Hg, interstitial hydrostatic pressure = 5 mm Hg, interstitial oncotic pressure = 2 mm Hg. Net fluid movement at the arterial end is best described as:",opts:["Net filtration out of the capillary","Net absorption into the capillary","Net movement of 0 mm Hg (equilibrium)","Net filtration only if lymphatic flow is blocked","Net absorption only if interstitial protein is elevated"],ans:0,r:"Net filtration pressure = (35 − 5) − (25 − 2) = 30 − 23 = +7 mm Hg (outward); net filtration occurs at the arterial end."},
+  {id:54,sys:'cardio',c:true,calc:false,stem:"A 45-year-old man with chronic liver disease develops peripheral edema and ascites. Which alteration in Starling forces is most likely responsible?",opts:["Decreased plasma oncotic pressure due to hypoalbuminemia","Increased capillary hydrostatic pressure","Decreased interstitial oncotic pressure","Increased capillary permeability","Increased lymphatic flow"],ans:0,r:"Liver disease impairs albumin synthesis; hypoalbuminemia reduces plasma oncotic pressure, favoring net filtration and edema formation."},
+  {id:55,sys:'cardio',c:false,calc:true,stem:"A patient's blood pressure is 160/100 mm Hg. Which value is closest to the pulse pressure?",opts:["40 mm Hg","50 mm Hg","60 mm Hg","70 mm Hg","80 mm Hg"],ans:2,r:"Pulse pressure = systolic − diastolic = 160 − 100 = 60 mm Hg."},
+  {id:56,sys:'cardio',c:false,calc:false,stem:"The QRS axis is approximately +110°. This finding is most consistent with which condition?",opts:["Left axis deviation","Right axis deviation","Normal axis","Extreme axis deviation","No axis deviation"],ans:1,r:"Right axis deviation is defined as a QRS axis > +90°; +110° falls within the right axis deviation range (+90° to +180°)."},
+  {id:57,sys:'cardio',c:true,calc:false,stem:"A 60-year-old man with coronary artery disease has ST-segment elevation in the inferior leads (II, III, aVF). Which coronary artery is most likely involved?",opts:["Left anterior descending artery","Left circumflex artery","Right coronary artery","Left main coronary artery","Posterior descending artery"],ans:2,r:"The right coronary artery (RCA) supplies the inferior wall of the LV (and the inferior portion of the RV) in most patients."},
+  {id:58,sys:'cardio',c:false,calc:true,stem:"A model vessel's radius is increased by a factor of 2 while length and pressure gradient remain constant. By what approximate factor does flow increase (Poiseuille's law)?",opts:["2","4","8","16","32"],ans:3,r:"Poiseuille's law: Q ∝ r⁴. Doubling radius → 2⁴ = 16-fold increase in flow."},
+  {id:59,sys:'cardio',c:false,calc:false,stem:"A 22-year-old well-trained woman has a resting heart rate of 55 beats/min and a normal cardiac output. Which compensatory change most likely maintains cardiac output at this lower heart rate?",opts:["Decreased stroke volume","Increased stroke volume","Increased systemic vascular resistance","Decreased preload","Increased afterload"],ans:1,r:"Athletic bradycardia is accompanied by increased stroke volume (enhanced filling time and ventricular compliance), maintaining normal CO."},
+  {id:60,sys:'cardio',c:false,calc:false,stem:"On a normal sinus rhythm ECG, the P wave is upright in lead II and the QRS complex is narrow. Which statement best describes the origin of the rhythm?",opts:["Ectopic atrial focus in the left atrium","Atrioventricular junctional pacemaker","Ectopic ventricular focus","Normal sinoatrial (SA) node pacemaker","Multifocal atrial tachycardia"],ans:3,r:"Upright P wave in lead II (normal P axis ~0–75°) followed by narrow QRS indicates normal SA node origin with intact AV conduction."},
+  {id:61,sys:'cardio',c:true,calc:false,stem:"A 50-year-old man with diabetes mellitus develops a non-healing foot ulcer. His leg has cool, pale skin and absent distal pulses. Which hemodynamic abnormality is most likely?",opts:["Increased pulse pressure and low SVR","Decreased distal pulse pressure and high peripheral vascular resistance","High cardiac output and low SVR","Low cardiac output and low SVR","No change in vascular resistance"],ans:1,r:"Peripheral arterial disease (atherosclerosis) causes high upstream resistance and decreased distal perfusion — cool, pale skin and absent pulses are the hallmarks. [CORRECTED from original]"},
+  {id:62,sys:'cardio',c:false,calc:false,stem:"A physiologist notes that some capillaries are intermittently perfused. This phenomenon is best explained by which mechanism?",opts:["Continuous high flow due to vasoconstriction","Vasomotion in terminal arterioles","Fixed arteriovenous shunts","Lymphatic pumping","Autonomic sympathetic tone alone"],ans:1,r:"Vasomotion — rhythmic spontaneous contraction and relaxation of terminal arterioles — intermittently opens and closes capillary beds."},
+  {id:63,sys:'cardio',c:true,calc:false,stem:"A 30-year-old man with a patent ductus arteriosus has a continuous 'machinery' murmur and a wide pulse pressure. Which change in hemodynamics is most consistent?",opts:["Left-to-right shunt increasing pulmonary blood flow and LV volume load","Left-to-right shunt decreasing pulmonary blood flow and LV preload","Right-to-left shunt increasing systemic oxygen delivery","Right-to-left shunt decreasing LV volume load","No change in ventricular loading conditions"],ans:0,r:"In PDA, aortic pressure > pulmonary artery pressure; blood shunts left-to-right throughout the cardiac cycle, increasing pulmonary flow and LV volume overload (wide pulse pressure from diastolic runoff)."},
+  {id:64,sys:'cardio',c:false,calc:false,stem:"A patient receiving an anti-arrhythmic drug has a prolonged QT interval. Which cellular event is most prolonged by this interval?",opts:["Atrial depolarization","Ventricular depolarization","Ventricular repolarization","Atrial repolarization","Conduction through the AV node"],ans:2,r:"The QT interval encompasses the entire ventricular electrical cycle (depolarization + repolarization); prolonged QT primarily reflects delayed ventricular repolarization."},
+  {id:65,sys:'cardio',c:true,calc:false,stem:"A 65-year-old man with chronic kidney disease has a markedly elevated hematocrit. Which change in hemodynamics is most likely?",opts:["Decreased blood viscosity and increased flow","Decreased blood viscosity and decreased flow","Increased blood viscosity and decreased flow","Increased blood viscosity and increased flow","No change in viscosity or flow"],ans:2,r:"Polycythemia (elevated hematocrit) increases blood viscosity proportionally; by Poiseuille's law, increased viscosity reduces flow at the same pressure gradient."},
+
+  // ══════════════════════════════════════════════════════
+  // RESPIRATORY — from Verified PDF (Items 66–78)
+  // ══════════════════════════════════════════════════════
+  {id:66,sys:'resp',c:false,calc:true,stem:"A 22-year-old man at sea level has PaO₂ = 98 mm Hg, PaCO₂ = 40 mm Hg, pH = 7.4. Which value is closest to the alveolar PO₂?",opts:["80 mm Hg","90 mm Hg","100 mm Hg","110 mm Hg","120 mm Hg"],ans:2,r:"Alveolar gas equation: PAO₂ = PIO₂ − PaCO₂/RQ = (760−47)×0.21 − 40/0.8 = 150 − 50 = 100 mm Hg."},
+  {id:67,sys:'resp',c:false,calc:true,stem:"A patient has an arterial PO₂ of 65 mm Hg and an estimated alveolar PO₂ of 105 mm Hg. What is the A-a gradient?",opts:["20 mm Hg","30 mm Hg","40 mm Hg","50 mm Hg","60 mm Hg"],ans:2,r:"A-a gradient = PAO₂ − PaO₂ = 105 − 65 = 40 mm Hg."},
+  {id:68,sys:'resp',c:false,calc:true,stem:"A 70-year-old man with emphysema has: TLC = 7.5 L, FRC = 4.5 L, ERV = 1.0 L, TV = 0.6 L. What is his inspiratory capacity (IC)?",opts:["2.4 L","3.0 L","3.5 L","4.0 L","4.5 L"],ans:1,r:"RV = FRC − ERV = 4.5 − 1.0 = 3.5 L; VC = TLC − RV = 7.5 − 3.5 = 4.0 L; IC = VC − ERV = 4.0 − 1.0 = 3.0 L."},
+  {id:69,sys:'resp',c:false,calc:false,stem:"Ventilation/perfusion measurements show that the apex has a higher V/Q ratio than the base. Which factor best explains this regional difference?",opts:["Higher ventilation relative to perfusion at the apex","Higher perfusion relative to ventilation at the apex","Equal ventilation and perfusion throughout the lung","Higher diffusion capacity at the apex","Higher airway resistance at the base"],ans:0,r:"Gravity preferentially distributes blood flow to the base; the apex receives relatively more ventilation for its blood flow, giving a high V/Q ratio."},
+  {id:70,sys:'resp',c:true,calc:false,stem:"A 45-year-old woman with chronic pulmonary emboli develops hypoxemia that does not correct with 100% O₂ by face mask. Which mechanism is most likely responsible?",opts:["Increased diffusion distance","Right-to-left shunt","V/Q mismatch","Alveolar hypoventilation","Hypoventilation due to obesity"],ans:1,r:"Hypoxemia refractory to 100% O₂ is the hallmark of an anatomic right-to-left shunt; shunted blood bypasses ventilated alveoli entirely."},
+  {id:71,sys:'resp',c:false,calc:false,stem:"Spirometry data: FVC is reduced, FEV₁ is even more reduced, and the FEV₁/FVC ratio is 60%. Which pattern is most consistent?",opts:["Restrictive lung disease","Obstructive lung disease","Normal lung function","Increased lung compliance","Hyperventilation syndrome"],ans:1,r:"FEV₁/FVC < 70% (here 60%) defines obstruction; both FVC and FEV₁ may be reduced but FEV₁ falls proportionally more."},
+  {id:72,sys:'resp',c:false,calc:false,stem:"An animal exposed to hypoxic gas (10% O₂) shows an increase in minute ventilation after a few seconds. Which receptors are primarily responsible for this initial ventilatory response?",opts:["Central chemoreceptors (medulla)","Peripheral chemoreceptors (carotid and aortic bodies)","Lung stretch receptors (Hering-Breuer)","J-receptors (juxtacapillary)","Muscle spindles in the diaphragm"],ans:1,r:"Only peripheral chemoreceptors (carotid bodies primarily) respond to low PaO₂; central chemoreceptors respond to CO₂/H⁺, not hypoxia."},
+  {id:73,sys:'resp',c:true,calc:false,stem:"A 30-year-old man with diabetic ketoacidosis has: pH 7.20, PCO₂ 25 mm Hg, HCO₃⁻ 10 mEq/L. Which respiratory response is most appropriate?",opts:["Hypoventilation","Kussmaul hyperventilation","Normal ventilation","Cheyne-Stokes breathing","Biot's breathing"],ans:1,r:"DKA causes metabolic acidosis; respiratory compensation is Kussmaul hyperventilation (deep, rapid breaths) to blow off CO₂ and raise pH."},
+  {id:74,sys:'resp',c:false,calc:true,stem:"A patient has serum: Na⁺ 140, K⁺ 4, Cl⁻ 100, HCO₃⁻ 12 (all mEq/L). What is the anion gap?",opts:["12 mEq/L","16 mEq/L","24 mEq/L","28 mEq/L","32 mEq/L"],ans:3,r:"AG = Na⁺ − (Cl⁻ + HCO₃⁻) = 140 − (100 + 12) = 28 mEq/L. [CORRECTED — original key listed A (12), which is incorrect]"},
+  {id:75,sys:'resp',c:false,calc:false,stem:"The oxyhemoglobin dissociation curve shows a rightward shift at the same P50. Which change in physiologic conditions is most likely?",opts:["Decreased pH (acidosis) — Bohr effect","Increased pH (alkalosis)","Increased plasma HCO₃⁻","Decreased temperature","Decreased 2,3-BPG"],ans:0,r:"A rightward shift (decreased O₂ affinity, higher P50) is caused by acidosis, hyperthermia, hypercapnia, and increased 2,3-BPG — the Bohr effect."},
+  {id:76,sys:'resp',c:true,calc:false,stem:"A 60-year-old man with COPD has cyanosis, hematocrit of 55%, and normal resting PaO₂ on oxygen therapy. Which term best describes the increased hemoglobin concentration?",opts:["Polycythemia vera","Secondary polycythemia","Absolute anemia","Relative polycythemia","Hypervolemic state"],ans:1,r:"Chronic hypoxia stimulates erythropoietin release, increasing RBC production — secondary (reactive) polycythemia."},
+  {id:77,sys:'resp',c:false,calc:true,stem:"A 70-kg adult has a tidal volume of 0.5 L, respiratory rate of 12 breaths/min, and dead space of 0.15 L. What is the approximate alveolar ventilation?",opts:["2.1 L/min","3.6 L/min","4.2 L/min","5.4 L/min","6.0 L/min"],ans:2,r:"VA = (TV − VD) × RR = (0.5 − 0.15) × 12 = 0.35 × 12 = 4.2 L/min. [CORRECTED — original key listed B (3.6), which is incorrect]"},
+  {id:78,sys:'resp',c:false,calc:false,stem:"Mixed venous PCO₂ is higher than arterial PCO₂. Which factor best explains this difference?",opts:["CO₂ is produced by tissues and eliminated by the lungs","CO₂ is produced by the lungs and consumed by tissues","Hemoglobin preferentially carries CO₂ in arterial blood","CO₂ diffuses more slowly than O₂","Venous blood has a lower pH than arterial blood"],ans:0,r:"Tissues produce CO₂ through aerobic metabolism; it diffuses into venous blood, raising venous PCO₂ (≈46 mm Hg) above arterial PCO₂ (≈40 mm Hg); the lungs then eliminate it."},
+
+  // ══════════════════════════════════════════════════════
+  // RENAL — from Verified PDF (Items 116–120)
+  // ══════════════════════════════════════════════════════
+  {id:79,sys:'renal',c:true,calc:false,stem:"A 25-year-old woman with pregnancy-induced hypertension develops decreased renal perfusion and prerenal acute kidney injury. Which change in renal hemodynamics is most likely?",opts:["Increased renal blood flow and increased GFR","Decreased renal blood flow and decreased GFR with preserved filtration fraction","Increased GFR with normal renal blood flow","Decreased renal blood flow and increased GFR","Increased renal blood flow and decreased GFR"],ans:1,r:"Prerenal AKI: reduced perfusion pressure decreases RBF and GFR proportionally; filtration fraction (GFR/RBF) is initially preserved or elevated due to efferent arteriolar constriction by angiotensin II."},
+  {id:80,sys:'renal',c:false,calc:false,stem:"A 58-year-old man with diabetes mellitus and hypertension develops a gradual rise in serum creatinine over several years. Which histologic change is most characteristic of chronic kidney disease?",opts:["Glomerular hyperfiltration with podocyte hypertrophy","Glomerulosclerosis, tubular atrophy, and interstitial fibrosis","Acute tubular necrosis with cellular casts","Glomerular leukocyte infiltration only","Crescent formation in all glomeruli"],ans:1,r:"CKD is characterized by progressive glomerulosclerosis, tubular atrophy, and interstitial fibrosis — the final common pathway regardless of etiology."},
+  {id:81,sys:'renal',c:false,calc:false,stem:"A 30-year-old man eats a protein-rich meal and later passes urine with a high urea concentration. Which tubular segment is responsible for the majority of urea reabsorption that helps maintain the medullary concentration gradient?",opts:["Proximal tubule","Thin descending limb of Henle","Thick ascending limb of Henle","Distal convoluted tubule","Inner medullary collecting duct"],ans:4,r:"ADH-regulated urea transporters (UT-A1/UT-A3) in the inner medullary collecting duct reabsorb urea, recycling it into the medullary interstitium to maintain the osmotic gradient."},
+  {id:82,sys:'renal',c:true,calc:false,stem:"A 40-year-old woman develops respiratory alkalosis from fever-induced hyperventilation. Which renal response is expected over several days?",opts:["Decreased H⁺ secretion and decreased HCO₃⁻ reabsorption","Increased H⁺ secretion and increased HCO₃⁻ excretion","Decreased H⁺ secretion and increased HCO₃⁻ excretion","Increased H⁺ secretion and increased HCO₃⁻ reabsorption","No change in acid-base handling"],ans:2,r:"Renal compensation for respiratory alkalosis: the kidney reduces H⁺ secretion and excretes excess HCO₃⁻, lowering plasma HCO₃⁻ toward normal."},
+  {id:83,sys:'renal',c:false,calc:true,stem:"A patient has: Na⁺ 140 mEq/L, Cl⁻ 102 mEq/L, and HCO₃⁻ 15 mEq/L. What is the anion gap?",opts:["23 mEq/L","27 mEq/L","31 mEq/L","35 mEq/L","39 mEq/L"],ans:0,r:"AG = Na⁺ − (Cl⁻ + HCO₃⁻) = 140 − (102 + 15) = 23 mEq/L."},
+
+  // ══════════════════════════════════════════════════════
+  // GI PHYSIOLOGY — from Verified PDF (Items 121–140)
+  // ══════════════════════════════════════════════════════
+  {id:84,sys:'gi',c:false,calc:false,stem:"A 25-year-old man eats a large steak and experiences increased gastric acid secretion. Which hormone is most responsible for the cephalic-phase stimulation of acid secretion?",opts:["Secretin","Cholecystokinin (CCK)","Gastrin","Motilin","Gastric inhibitory peptide (GIP)"],ans:2,r:"During the cephalic phase, vagal stimulation releases ACh (directly stimulating parietal cells) and GRP, causing antral G cells to secrete gastrin, which is the primary hormonal stimulus for acid secretion."},
+  {id:85,sys:'gi',c:false,calc:false,stem:"A physiologist blocks histamine H2 receptors in the gastric mucosa and observes a marked decrease in acid secretion. Histamine acts as a major:",opts:["Stimulator of pepsinogen release","Inhibitor of parietal cell function","Downstream mediator amplifying ACh and gastrin signals at parietal cells","Inducer of parietal cell apoptosis","Inhibitor of vagal stimulation"],ans:2,r:"Histamine from ECL cells acts on H2 receptors to raise cAMP in parietal cells, amplifying the stimulatory effects of both ACh and gastrin."},
+  {id:86,sys:'gi',c:false,calc:false,stem:"A 30-year-old man with a duodenal ulcer has a gastric pH of 2.0 and increased gastrin levels. Which layer of the stomach is most affected by the acid-induced injury?",opts:["Mucosa (surface epithelium and glands)","Muscularis externa","Serosa","Submucosa","Myenteric plexus"],ans:0,r:"Acid penetrates and erodes the mucosal layer first, damaging the surface epithelium and underlying glands before reaching deeper layers."},
+  {id:87,sys:'gi',c:false,calc:false,stem:"The half-time of gastric emptying is defined as the time required for 50% of the meal to empty from the stomach. If 50% of the meal remains in the stomach at 60 minutes, the half-time is:",opts:["30 minutes","45 minutes","60 minutes","90 minutes","120 minutes"],ans:2,r:"The half-time of gastric emptying is defined as the time required for 50% of the meal to empty from the stomach — 60 minutes by the data given."},
+  {id:88,sys:'gi',c:true,calc:false,stem:"A 45-year-old woman with chronic pancreatitis develops steatorrhea and weight loss. Which enzyme deficiency is most likely responsible for poor fat digestion?",opts:["Trypsin","Chymotrypsin","Pancreatic lipase","Amylase","Carboxypeptidase"],ans:2,r:"Pancreatic lipase is the primary enzyme for triglyceride hydrolysis; its deficiency in chronic pancreatitis leads to fat malabsorption (steatorrhea)."},
+  {id:89,sys:'gi',c:false,calc:false,stem:"Peristaltic waves move chyme from the duodenum to the ileum. Which myoelectrical activity best describes the basic rhythm of these contractions?",opts:["Slow waves (basic electrical rhythm) from interstitial cells of Cajal","Action potentials from the submucosal plexus","Vagal efferent-induced tonic contractions","Migrating motor complex during fasting","Segmental mixing contractions"],ans:0,r:"Interstitial cells of Cajal generate slow waves (3–12/min depending on segment) that set the maximum frequency of peristaltic contractions."},
+  {id:90,sys:'gi',c:false,calc:false,stem:"A 28-year-old woman with a gallstone-obstructed common bile duct develops jaundice and steatorrhea. Which substance is most deficient in the intestinal lumen?",opts:["HCl","Intrinsic factor","Bile salts","Pancreatic lipase","Salivary amylase"],ans:2,r:"Bile duct obstruction prevents bile salt delivery to the duodenum; without bile salts for emulsification, fat digestion and absorption are severely impaired."},
+  {id:91,sys:'gi',c:false,calc:false,stem:"A medical student notes that pancreatic secretions in response to a meal are alkaline with a high bicarbonate concentration. Which hormone is most responsible for this alkaline secretion?",opts:["Gastrin","Secretin","Cholecystokinin (CCK)","Motilin","GIP"],ans:1,r:"Secretin, released by S cells in response to duodenal acidification, stimulates pancreatic ductal cells to secrete large volumes of HCO₃⁻-rich fluid."},
+  {id:92,sys:'gi',c:false,calc:false,stem:"A 70-year-old man with a large-bowel obstruction has abdominal distension and failure of peristalsis beyond the obstruction. Which neurologic reflex most explains the lack of propulsive movement distal to the blockage?",opts:["Gastrocolic reflex","Ileocolic reflex","Peristaltic reflex (intestinointestinal inhibitory reflex)","Haustration reflex","Mass movement reflex"],ans:2,r:"Intestinal distension activates the intestinointestinal inhibitory reflex, which inhibits motility in segments distal to the obstruction."},
+  {id:93,sys:'gi',c:true,calc:false,stem:"A 22-year-old woman with celiac disease ingests gluten and later develops diarrhea and weight loss. Which structural change in the small intestine is most characteristic?",opts:["Hypertrophy of villi","Villous atrophy and crypt hyperplasia","Hyperplasia of Paneth cells","Thickening of the muscularis externa","Hyperplasia of the submucosal glands"],ans:1,r:"Celiac disease causes T-cell-mediated destruction of enterocytes, resulting in villous atrophy (decreased absorptive surface) and compensatory crypt hyperplasia."},
+  {id:94,sys:'gi',c:false,calc:false,stem:"A physiologist studies fluid absorption in the small intestine. Which mechanism accounts for most isosmotic NaCl absorption?",opts:["Passive diffusion of Na⁺","Na⁺-glucose or Na⁺-amino acid cotransport driving secondary active absorption","Cl⁻-HCO₃⁻ antiport","Na⁺-K⁺ ATPase on the luminal membrane","Osmotic water movement down a Na⁺ gradient"],ans:1,r:"Na⁺-coupled nutrient cotransporters (SGLT1, etc.) on the apical membrane drive Na⁺ and solute entry; basolateral Na⁺-K⁺ ATPase then extrudes Na⁺, creating an osmotic gradient that pulls water."},
+  {id:95,sys:'gi',c:true,calc:false,stem:"A 40-year-old man with a history of partial gastrectomy develops macrocytic anemia. Which nutrient is most likely deficient?",opts:["Iron","Folate","Vitamin B12","Vitamin C","Zinc"],ans:2,r:"Gastric parietal cells secrete intrinsic factor (IF); gastrectomy removes parietal cell mass, reducing IF and preventing ileal absorption of vitamin B12, causing pernicious-type megaloblastic anemia."},
+  {id:96,sys:'gi',c:false,calc:false,stem:"Which component of bile is most important for fat emulsification?",opts:["Bilirubin","Cholesterol","Bile salts","Phospholipids","Bicarbonate"],ans:2,r:"Bile salts (amphipathic molecules) emulsify dietary fat into micelles, increasing the surface area available for pancreatic lipase."},
+  {id:97,sys:'gi',c:false,calc:false,stem:"After a marathon runner drinks 3 L of water within 1 hour, his stomach empties more slowly than usual. Which mechanism best explains delayed gastric emptying after large-volume ingestion?",opts:["Increased vagal activity","Increased gastrin secretion","Gastroileal reflex","Enterogastric reflex and hormonal inhibition (CCK and secretin)","Increased sympathetic tone alone"],ans:3,r:"Duodenal distension and fatty/acidic chyme trigger the enterogastric reflex and release CCK and secretin, which inhibit gastric emptying to allow duodenal processing."},
+  {id:98,sys:'gi',c:false,calc:false,stem:"A 55-year-old woman with peptic ulcer disease is given a proton-pump inhibitor. Which cellular process is most directly inhibited?",opts:["Carbonic anhydrase in parietal cells","H⁺-K⁺ ATPase on the apical membrane of parietal cells","Histamine release from enterochromaffin-like cells","Acetylcholine release from vagal terminals","Na⁺-K⁺ ATPase on the basolateral membrane"],ans:1,r:"Proton-pump inhibitors (omeprazole, etc.) irreversibly inhibit the H⁺-K⁺ ATPase on the secretory canalicular membrane of parietal cells, blocking the final step of acid secretion."},
+  {id:99,sys:'gi',c:false,calc:false,stem:"Which enzyme is most important for starch digestion under normal conditions?",opts:["Trypsin","Chymotrypsin","Amylase","Lipase","Elastase"],ans:2,r:"Pancreatic alpha-amylase cleaves alpha-1,4-glycosidic bonds in starch to produce maltose and oligosaccharides — the primary enzyme for starch digestion."},
+  {id:100,sys:'gi',c:false,calc:false,stem:"The Na⁺-glucose cotransporter (SGLT1) on the apical membrane of intestinal cells — which property is most characteristic?",opts:["It is a primary active transporter","It is an ATP-dependent pump","It is a secondary active transporter driven by the Na⁺ gradient","It is a facilitated diffuser that does not require Na⁺","It is a voltage-gated channel"],ans:2,r:"SGLT1 uses the inwardly directed Na⁺ electrochemical gradient (maintained by basolateral Na⁺-K⁺ ATPase) to co-transport glucose uphill — secondary active transport."},
+  {id:101,sys:'gi',c:true,calc:false,stem:"A 28-year-old woman with lactose intolerance drinks milk and develops abdominal cramps and diarrhea. Which enzyme is most deficient?",opts:["Sucrase","Maltase","Lactase","Amylase","Isomaltase"],ans:2,r:"Lactase (on the brush border of enterocytes) cleaves lactose into glucose and galactose; its deficiency leaves unabsorbed lactose, which is fermented by colonic bacteria, causing bloating, cramps, and osmotic diarrhea."},
+  {id:102,sys:'gi',c:true,calc:false,stem:"A 60-year-old man with chronic alcohol use develops cirrhosis and portal hypertension. Which hemodynamic change in the splanchnic circulation is most likely?",opts:["Decreased portal venous pressure","Decreased hepatic arterial resistance","Increased portal venous pressure and splanchnic vasodilation","Decreased splanchnic blood flow","Increased hepatic venous resistance alone"],ans:2,r:"Cirrhosis increases intrahepatic resistance → portal hypertension; compensatory splanchnic vasodilation (NO-mediated) further increases portal inflow and blood flow."},
+  {id:103,sys:'gi',c:false,calc:false,stem:"A 20-year-old medical student fasts for 12 hours and then eats a mixed meal. Which hormone most stimulates gallbladder contraction and the release of bile into the duodenum?",opts:["Gastrin","Intrinsic factor","Cholecystokinin (CCK)","Secretin","Motilin"],ans:2,r:"CCK, released by I cells in response to fat and protein in the duodenum, is the primary stimulus for gallbladder contraction and relaxation of the sphincter of Oddi."},
+
+  // ══════════════════════════════════════════════════════
+  // ENDOCRINE — from Verified PDF (Items 141–165)
+  // ══════════════════════════════════════════════════════
+  {id:104,sys:'endo',c:true,calc:false,stem:"A 28-year-old woman has headache, bitemporal visual field loss, and galactorrhea. MRI shows a pituitary macroadenoma. Which hormone is most likely overproduced?",opts:["Cortisol","Growth hormone","Prolactin","TSH","Vasopressin"],ans:2,r:"Prolactinoma is the most common functional pituitary adenoma; galactorrhea, amenorrhea, and hyperprolactinemia are the classic triad."},
+  {id:105,sys:'endo',c:false,calc:false,stem:"A 35-year-old man with hypopituitarism has low serum cortisol and low ACTH. Which brain region is most likely responsible for primary failure of hypothalamic and pituitary control of the adrenal cortex?",opts:["Anterior pituitary","Posterior pituitary","Hypothalamus","Medulla oblongata","Cerebellum"],ans:2,r:"The hypothalamus secretes CRH, which drives ACTH release from the anterior pituitary; hypothalamic failure causes both low CRH and thus low ACTH and low cortisol."},
+  {id:106,sys:'endo',c:false,calc:true,stem:"A medical student calculates the plasma osmolality of a patient with Na⁺ 140 mEq/L, glucose 180 mg/dL, BUN 28 mg/dL. Which value is closest to the calculated osmolality?",opts:["270 mOsm/kg","290 mOsm/kg","300 mOsm/kg","310 mOsm/kg","330 mOsm/kg"],ans:2,r:"Posm = 2×Na + glucose/18 + BUN/2.8 = 2×140 + 180/18 + 28/2.8 = 280 + 10 + 10 = 300 mOsm/kg. [CORRECTED from original key]"},
+  {id:107,sys:'endo',c:true,calc:false,stem:"A 50-year-old woman with central diabetes insipidus has polyuria and polydipsia. Which hormone is most deficient?",opts:["Insulin","Glucagon","Aldosterone","Antidiuretic hormone (ADH/vasopressin)","Oxytocin"],ans:3,r:"Central DI results from insufficient ADH secretion from the posterior pituitary; without ADH, the collecting duct is impermeable to water, producing large volumes of dilute urine."},
+  {id:108,sys:'endo',c:false,calc:false,stem:"A 40-year-old man with hyperthyroidism has weight loss, tremor, and tachycardia. Which hormone is most likely elevated?",opts:["TSH","TRH","T4 and T3","Somatostatin","Cortisol"],ans:2,r:"Hyperthyroidism is defined by excess T3/T4; TSH is suppressed by negative feedback. T3 and T4 increase basal metabolic rate, causing weight loss, heat intolerance, and tachycardia."},
+  {id:109,sys:'endo',c:false,calc:false,stem:"A 60-year-old woman with primary hypothyroidism has elevated serum TSH and low free T4. Which organ is most likely dysfunctional?",opts:["Hypothalamus","Anterior pituitary","Thyroid gland","Parathyroid glands","Adrenal cortex"],ans:2,r:"Primary hypothyroidism = thyroid gland failure; the pituitary compensates by raising TSH. Low T4 + high TSH points to the thyroid as the primary defect."},
+  {id:110,sys:'endo',c:true,calc:false,stem:"A 25-year-old man with pheochromocytoma has episodic hypertension, headache, and sweating. Which hormone is most likely secreted in excess?",opts:["Cortisol","Epinephrine and norepinephrine","Aldosterone","Insulin","Glucagon"],ans:1,r:"Pheochromocytoma is a catecholamine-secreting tumor of the adrenal medulla; excess epinephrine and norepinephrine cause episodic hypertension, palpitations, headache, and sweating."},
+  {id:111,sys:'endo',c:false,calc:false,stem:"A 55-year-old woman with Conn's syndrome has hypertension, hypokalemia, and metabolic alkalosis. Which hormone is most likely elevated?",opts:["Cortisol","Aldosterone","Renin","Epinephrine","Antidiuretic hormone"],ans:1,r:"Conn's syndrome = primary hyperaldosteronism; excess aldosterone causes Na⁺ retention (hypertension), K⁺ wasting (hypokalemia), and H⁺ loss (metabolic alkalosis)."},
+  {id:112,sys:'endo',c:false,calc:false,stem:"A 70-year-old man with diabetes mellitus has fasting plasma glucose of 180 mg/dL and HbA1c of 9%. Which hormone is most likely deficient or ineffective?",opts:["Glucagon","Growth hormone","Insulin","Somatostatin","Cortisol"],ans:2,r:"Hyperglycemia in diabetes results from absolute (T1DM) or relative (T2DM) insulin deficiency or peripheral insulin resistance."},
+  {id:113,sys:'endo',c:true,calc:false,stem:"A 22-year-old woman with amenorrhea and weight gain has elevated TSH and low free T4. Which change in her metabolic rate is most likely?",opts:["Increased basal metabolic rate","Decreased basal metabolic rate","Normal basal metabolic rate","Increased resting metabolic rate with normal BMR","Increased thermogenesis"],ans:1,r:"Hypothyroidism (low T3/T4) reduces basal metabolic rate, causing weight gain, cold intolerance, bradycardia, and fatigue."},
+  {id:114,sys:'endo',c:false,calc:false,stem:"A 30-year-old man with Addison's disease has hypotension, hyponatremia, and hyperkalemia. Which hormone is most deficient?",opts:["Insulin","Cortisol and aldosterone","Growth hormone","Thyroid hormone","Antidiuretic hormone"],ans:1,r:"Addison's disease = primary adrenal insufficiency; deficiency of both cortisol (hypotension, fatigue) and aldosterone (hyponatremia, hyperkalemia) is characteristic."},
+  {id:115,sys:'endo',c:false,calc:false,stem:"A 45-year-old woman with Cushing's syndrome has central obesity, moon face, and purple striae. Which hormone is most elevated?",opts:["Insulin","Growth hormone","Cortisol","Aldosterone","Epinephrine"],ans:2,r:"Cushing's syndrome results from chronic glucocorticoid (cortisol) excess — the classic features are central obesity, moon facies, buffalo hump, and purple striae."},
+  {id:116,sys:'endo',c:true,calc:false,stem:"A 28-year-old woman with Graves' disease has exophthalmos and a diffusely enlarged thyroid. Which autoantibody is most characteristic?",opts:["Antithyroid peroxidase antibodies","Antithyroglobulin antibodies","TSH-receptor-stimulating antibodies (TSI)","Anti-TSH antibodies","Both antithyroid peroxidase and antithyroglobulin antibodies"],ans:2,r:"Graves' disease is caused by TSI (thyroid-stimulating immunoglobulins) that bind and activate TSH receptors, causing unregulated thyroid hormone production."},
+  {id:117,sys:'endo',c:false,calc:false,stem:"A 20-year-old man with untreated type 1 diabetes mellitus presents with polyuria, polydipsia, and weight loss. Which metabolic change is most characteristic during the fasting state?",opts:["Increased hepatic glycogenolysis and gluconeogenesis","Decreased hepatic glycogenolysis and gluconeogenesis","Increased muscle glycogen synthesis","Decreased plasma free fatty acids","Increased insulin-mediated glucose uptake"],ans:0,r:"Without insulin, glucagon dominates; hepatic glycogenolysis and gluconeogenesis are maximally activated, raising plasma glucose further despite already elevated levels."},
+  {id:118,sys:'endo',c:false,calc:false,stem:"A 50-year-old man with type 2 diabetes mellitus has fasting plasma glucose of 150 mg/dL and HbA1c of 8%. Which organ most likely exhibits insulin resistance?",opts:["Liver and skeletal muscle","Adrenal medulla","Thyroid gland","Anterior pituitary","Parathyroid glands"],ans:0,r:"In T2DM, the primary sites of insulin resistance are liver (increased hepatic glucose output) and skeletal muscle (decreased glucose uptake)."},
+  {id:119,sys:'endo',c:true,calc:false,stem:"A 35-year-old woman with hyperparathyroidism has elevated serum calcium and inappropriately elevated PTH. Which bone change is most likely?",opts:["Increased bone density","Osteoporosis and bone resorption","Osteomalacia","Rickets","Paget's disease"],ans:1,r:"Excess PTH activates osteoclasts, increasing bone resorption and causing osteoporosis and subperiosteal erosions (osteitis fibrosa cystica in severe cases)."},
+  {id:120,sys:'endo',c:true,calc:false,stem:"A 40-year-old man with hypocalcemia and seizures has low serum calcium and low PTH. Which gland is most likely responsible for the primary defect?",opts:["Thyroid gland","Parathyroid glands","Pancreas","Adrenal cortex","Anterior pituitary"],ans:1,r:"Hypoparathyroidism (low PTH) causes hypocalcemia (and hyperphosphatemia); tetany and seizures result from reduced ionized calcium. [NOTE: Question corrected — original said 'elevated PTH' which is contradictory; low PTH is consistent with hypoparathyroidism]"},
+  {id:121,sys:'endo',c:false,calc:false,stem:"A 25-year-old man with a pheochromocytoma has a hypertensive crisis after anesthesia induction. Which drug would most directly antagonize the effects of the elevated catecholamines?",opts:["Beta-blocker alone","Alpha-blocker (e.g., phenoxybenzamine) first, then beta-blocker","Calcium channel blocker","Diuretic","ACE inhibitor"],ans:1,r:"Alpha-blockade (phenoxybenzamine) must precede beta-blockade to prevent unopposed alpha-adrenergic vasoconstriction (hypertensive crisis) that would result from beta-blockade alone."},
+  {id:122,sys:'endo',c:false,calc:false,stem:"A 60-year-old woman with osteoporosis has low serum calcium and elevated PTH. Which hormone is most likely deficient, leading to secondary hyperparathyroidism?",opts:["Vitamin D (1,25-dihydroxyvitamin D / calcitriol)","Calcitonin","Cortisol","Insulin","Aldosterone"],ans:0,r:"Vitamin D deficiency reduces Ca²⁺ absorption, leading to hypocalcemia that stimulates PTH (secondary hyperparathyroidism); calcitriol supplementation corrects this."},
+  {id:123,sys:'endo',c:true,calc:false,stem:"A 30-year-old woman with acromegaly has coarse facial features and enlarged hands and feet. Which hormone is most likely overproduced?",opts:["Prolactin","ACTH","Growth hormone","TSH","FSH"],ans:2,r:"Acromegaly (in adults) results from excess GH (and IGF-1), causing soft-tissue and bony overgrowth — acral enlargement, coarsening of facial features, macroglossia."},
+  {id:124,sys:'endo',c:false,calc:false,stem:"A 45-year-old man with chronic stress has elevated serum cortisol and suppressed ACTH. Which diagnostic test would best confirm a pituitary origin of hypercortisolism (Cushing's disease)?",opts:["Low-dose dexamethasone suppression test","High-dose dexamethasone suppression test","CRH stimulation test","Inferior petrosal sinus sampling (IPSS)","MRI of the pituitary"],ans:3,r:"IPSS is the gold-standard test to confirm a pituitary (Cushing's disease) vs ectopic ACTH source, showing central-to-peripheral ACTH gradient."},
+  {id:125,sys:'endo',c:false,calc:false,stem:"A 22-year-old woman with anorexia nervosa has amenorrhea and low serum estradiol. Which hypothalamic hormone is most likely suppressed?",opts:["GnRH","CRH","TRH","GHRH","Dopamine"],ans:0,r:"Nutritional stress suppresses hypothalamic GnRH pulse frequency, reducing LH and FSH, leading to hypogonadotropic hypogonadism and amenorrhea."},
+  {id:126,sys:'endo',c:true,calc:false,stem:"A 55-year-old man with diabetes mellitus has poor wound healing and neuropathy. Which long-term complication is most characteristic?",opts:["Microvascular disease (retinopathy, nephropathy, neuropathy)","Macrovascular disease only","Adrenal insufficiency","Hypothyroidism","Hyperparathyroidism"],ans:0,r:"Chronic hyperglycemia causes microvascular damage through advanced glycation end products (AGEs) and polyol pathway activation, leading to retinopathy, nephropathy, and neuropathy."},
+  {id:127,sys:'endo',c:false,calc:false,stem:"A 28-year-old woman with primary ovarian failure has high FSH and low estradiol. Which structure is most likely dysfunctional?",opts:["Hypothalamus","Anterior pituitary","Ovaries","Adrenal glands","Thyroid gland"],ans:2,r:"Primary ovarian failure: the ovaries cannot produce estrogen; loss of negative feedback elevates FSH. High FSH + low estradiol = primary (ovarian) etiology."},
+  {id:128,sys:'endo',c:false,calc:false,stem:"A 70-year-old man with metastatic prostate cancer develops hypercalcemia. Which hormone or factor is most likely elevated secondary to bone metastases?",opts:["PTH","PTHrP (parathyroid hormone-related protein)","Calcitonin","Vitamin D","Cortisol"],ans:1,r:"PTHrP is produced by many tumors (especially prostate, breast, lung); it activates PTH receptors, causing osteolytic hypercalcemia of malignancy."},
+
+  // ══════════════════════════════════════════════════════
+  // REPRODUCTIVE — from Verified PDF (Items 166–180)
+  // ══════════════════════════════════════════════════════
+  {id:129,sys:'repro',c:false,calc:false,stem:"A 25-year-old woman is on day 14 of her menstrual cycle and has a positive ovulation predictor test. Which hormone is most elevated at this time?",opts:["Estrogen","Progesterone","LH","FSH","Prolactin"],ans:2,r:"The LH surge on approximately day 13–14 triggers ovulation; ovulation predictor tests detect this surge."},
+  {id:130,sys:'repro',c:false,calc:false,stem:"A 30-year-old man has a semen analysis showing low sperm count and motility. Which hormone is most likely deficient in primary hypogonadism?",opts:["GnRH","LH and FSH","Testosterone","Inhibin","Prolactin"],ans:2,r:"Primary hypogonadism = testicular failure; testosterone (and inhibin B) are low, with compensatory rise in LH and FSH."},
+  {id:131,sys:'repro',c:false,calc:false,stem:"A 28-year-old pregnant woman at 8 weeks gestation has a serum hCG level of 50,000 IU/L. Which hormone prevents menstruation and maintains the corpus luteum during early pregnancy?",opts:["Estrogen","Progesterone","hCG","Relaxin","Prolactin"],ans:2,r:"hCG produced by the trophoblast rescues the corpus luteum from luteal regression, maintaining progesterone secretion until the placenta takes over at ~10 weeks."},
+  {id:132,sys:'repro',c:false,calc:false,stem:"A 22-year-old woman with polycystic ovary syndrome has elevated LH, normal FSH, and high androgens. Which phase of the menstrual cycle is most disrupted?",opts:["Follicular phase","Ovulation","Luteal phase","Menses","Proliferative phase"],ans:1,r:"In PCOS, the LH:FSH ratio is elevated, preventing normal follicular maturation and the mid-cycle LH surge, thus disrupting ovulation."},
+  {id:133,sys:'repro',c:true,calc:false,stem:"A 35-year-old man with Klinefelter syndrome (47,XXY) has small testes and gynecomastia. Which hormone is most likely elevated?",opts:["Testosterone","FSH and LH","Inhibin B","Estradiol (relatively)","GnRH"],ans:1,r:"Klinefelter syndrome causes primary testicular failure; loss of negative feedback by testosterone and inhibin B leads to elevated FSH and LH."},
+  {id:134,sys:'repro',c:false,calc:false,stem:"A 40-year-old woman in the luteal phase of her cycle has a serum progesterone of 15 ng/mL. Which structure is the primary source of this progesterone?",opts:["Ovarian follicle","Corpus luteum","Placenta","Adrenal cortex","Anterior pituitary"],ans:1,r:"After ovulation, the granulosa cells luteinize to form the corpus luteum, which secretes progesterone during the luteal phase."},
+  {id:135,sys:'repro',c:false,calc:false,stem:"A 28-year-old man with varicocele has infertility. Which testicular process is most affected?",opts:["Spermatogenesis impaired by increased scrotal temperature","Leydig cell testosterone production","Sertoli cell function","Epididymal maturation","Seminiferous tubule contraction"],ans:0,r:"Varicocele causes venous reflux that raises scrotal temperature; spermatogenesis requires a temperature 2–3°C below body temperature and is impaired by this increase."},
+  {id:136,sys:'repro',c:false,calc:false,stem:"A 32-year-old pregnant woman at 36 weeks has uterine contractions every 5 minutes. Which hormone is most responsible for increased myometrial contractility near term?",opts:["Estrogen (increases oxytocin receptors)","Progesterone","Oxytocin","Relaxin","hCG"],ans:2,r:"Oxytocin (from the posterior pituitary) acts on myometrial oxytocin receptors (upregulated by estrogen near term) to stimulate and coordinate uterine contractions."},
+  {id:137,sys:'repro',c:false,calc:false,stem:"A 25-year-old woman with secondary amenorrhea has low LH and FSH. Which condition is most likely?",opts:["Primary ovarian failure","Hypothalamic amenorrhea","Polycystic ovary syndrome","Hyperprolactinemia","Premature ovarian failure"],ans:1,r:"Low LH and FSH indicate hypothalamic or pituitary suppression (hypogonadotropic hypogonadism); hypothalamic amenorrhea (stress, weight loss, exercise) is the most common cause."},
+  {id:138,sys:'repro',c:false,calc:false,stem:"A 30-year-old man with a pituitary tumor has low testosterone and elevated FSH. Which testicular cell type is most likely dysfunctional?",opts:["Leydig cells","Sertoli cells","Spermatogonia","Spermatocytes","Spermatids"],ans:0,r:"Low testosterone with elevated FSH suggests Leydig cell dysfunction (LH-dependent testosterone production is impaired), while Sertoli cells and spermatogenesis may be partially preserved."},
+  {id:139,sys:'repro',c:false,calc:false,stem:"A 24-year-old woman on day 5 of her cycle has a dominant follicle visible on ultrasound. Which hormone is primarily responsible for follicular development at this stage?",opts:["LH","FSH","Progesterone","Estrogen","Inhibin A"],ans:1,r:"FSH drives follicular growth and maturation in the early follicular phase; it stimulates granulosa cell proliferation and aromatase activity."},
+  {id:140,sys:'repro',c:false,calc:false,stem:"A 38-year-old woman with endometriosis has infertility. Which physiologic change is most associated with endometriosis?",opts:["Increased follicular atresia","Retrograde menstruation and ectopic endometrial implants","Decreased ovarian reserve","Hyperprolactinemia","Luteal phase defect"],ans:1,r:"Endometriosis is caused by retrograde flow of menstrual debris through the fallopian tubes; ectopic endometrial implants cause inflammation, adhesions, and infertility."},
+  {id:141,sys:'repro',c:false,calc:false,stem:"A 28-year-old pregnant woman has a negative urine pregnancy test at 4 weeks despite missed menses. Which hormone is most likely absent or undetectable?",opts:["Progesterone","Estrogen","hCG","Prolactin","Relaxin"],ans:2,r:"Urine pregnancy tests detect the beta subunit of hCG; hCG rises steeply from implantation. A negative test at 4 weeks may reflect very early timing (hCG below detection threshold)."},
+  {id:142,sys:'repro',c:false,calc:false,stem:"A 35-year-old man with azoospermia has normal testosterone and normal FSH. Which site of obstruction is most likely?",opts:["Seminiferous tubules","Rete testis","Epididymis or vas deferens","Ejaculatory ducts","Prostate"],ans:2,r:"Normal FSH + normal testosterone + azoospermia = obstructive azoospermia; the epididymis or vas deferens is the most common site of obstruction (e.g., post-vasectomy, congenital absence of vas)."},
+  {id:143,sys:'repro',c:false,calc:false,stem:"A 22-year-old woman in the secretory phase of her cycle has endometrial glands that are coiled and secretory. Which hormone is primarily responsible for these changes?",opts:["Estrogen","FSH","LH","Progesterone","hCG"],ans:3,r:"Progesterone (from the corpus luteum) transforms the proliferative endometrium into the secretory endometrium — coiled glands, increased vascularity, glycogen accumulation."},
+
+  // ══════════════════════════════════════════════════════
+  // MUSCLE PHYSIOLOGY — from Verified PDF (Items 181–195)
+  // ══════════════════════════════════════════════════════
+  {id:144,sys:'muscle',c:false,calc:false,stem:"A 25-year-old athlete performs repeated isometric contractions and develops muscle fatigue. Which change in the cross-bridge cycle is most likely responsible?",opts:["Decreased ATP availability for myosin detachment","Increased Ca²⁺ binding to troponin","Increased actin-myosin affinity","Decreased sarcoplasmic reticulum Ca²⁺ release","Increased K⁺ efflux from the T tubule"],ans:0,r:"Muscle fatigue is primarily caused by ATP depletion and Pi accumulation, impairing myosin ATPase activity and reducing the rate of cross-bridge detachment."},
+  {id:145,sys:'muscle',c:false,calc:false,stem:"A medical student stimulates a skeletal muscle fiber at low frequency and observes individual twitches, but at high frequency the tension increases and smooths out. This phenomenon is called:",opts:["Tetanus","Treppe","Fatigue","Recruitment","Facilitation"],ans:0,r:"Summation of twitches at high stimulus frequency produces tetanic contraction (tetanus) — smooth, sustained, maximal tension."},
+  {id:146,sys:'muscle',c:false,calc:false,stem:"A physiologist blocks acetylcholinesterase at the neuromuscular junction and observes prolonged end-plate potentials. Which drug mimics this effect?",opts:["Curare (tubocurarine)","Neostigmine","Botulinum toxin","Succinylcholine","Atropine"],ans:1,r:"Neostigmine is a reversible acetylcholinesterase inhibitor; it prevents ACh breakdown, prolonging end-plate potentials."},
+  {id:147,sys:'muscle',c:true,calc:false,stem:"A 40-year-old man with myasthenia gravis has fatigable weakness and ptosis. Which component of the neuromuscular junction is most affected?",opts:["Presynaptic voltage-gated Ca²⁺ channels","Acetylcholine release","Postsynaptic nicotinic ACh receptors","Voltage-gated Na⁺ channels in muscle","Muscle fiber contractile apparatus"],ans:2,r:"MG is caused by IgG autoantibodies against postsynaptic nicotinic AChRs, reducing receptor density and causing fatigable weakness."},
+  {id:148,sys:'muscle',c:false,calc:false,stem:"A student studies the length-tension relationship in skeletal muscle. Tension is maximal at an optimal sarcomere length of 2.2 µm. Which molecular event explains this optimum?",opts:["Maximal overlap of actin and myosin filaments","Minimal overlap of actin and myosin filaments","Maximal Ca²⁺ binding to troponin","Minimal troponin inhibition","Maximal ATP hydrolysis"],ans:0,r:"At 2.2 µm sarcomere length, actin and myosin filaments overlap maximally, allowing the greatest number of cross-bridge interactions."},
+  {id:149,sys:'muscle',c:false,calc:false,stem:"A 30-year-old woman performs eccentric exercise and develops delayed-onset muscle soreness (DOMS). Which physiologic change is most likely?",opts:["Increased cross-bridge cycling rate","Microtears in muscle fibers and subsequent inflammation","Decreased sarcoplasmic reticulum function","Increased motor unit recruitment","Decreased blood flow to muscle"],ans:1,r:"Eccentric contractions generate high mechanical stress, causing sarcomere disruption and microtears; the resulting inflammatory response (prostaglandins, cytokines) causes delayed soreness 24–72 hours later."},
+  {id:150,sys:'muscle',c:false,calc:false,stem:"A skeletal muscle action potential has a longer duration than a nerve action potential. Which feature accounts for the longer duration?",opts:["Longer refractory period due to T-tubule capacitance","Slower Na⁺ channel inactivation","Prolonged K⁺ conductance during repolarization","Higher Ca²⁺ conductance","Lower resting membrane potential"],ans:2,r:"Skeletal muscle action potentials last ~2–5 ms (vs ~1 ms in nerve) largely because of a more prolonged K⁺ conductance, which slightly delays full repolarization."},
+  {id:151,sys:'muscle',c:false,calc:false,stem:"A 25-year-old man lifts a heavy weight using a fast motor unit. Which type of skeletal muscle fiber is most recruited?",opts:["Type I (slow oxidative)","Type IIa (fast oxidative-glycolytic)","Type IIx (fast glycolytic)","Cardiac muscle fibers","Smooth muscle fibers"],ans:2,r:"Type IIx (fast glycolytic) fibers are the largest, fastest, and most fatigable; they are recruited for high-force, short-duration activities."},
+  {id:152,sys:'muscle',c:false,calc:false,stem:"A medical student blocks ryanodine receptors (RyR1) in skeletal muscle. Which step is most directly prevented?",opts:["Action potential propagation into T tubules","Ca²⁺ release from the sarcoplasmic reticulum","Cross-bridge formation","Na⁺ influx at the neuromuscular junction","Acetylcholine binding to receptors"],ans:1,r:"Ryanodine receptors (RyR1) are the SR Ca²⁺ release channels; blocking them prevents the Ca²⁺ transient required for troponin C activation and cross-bridge cycling."},
+  {id:153,sys:'muscle',c:true,calc:false,stem:"A 50-year-old man with Lambert-Eaton syndrome has proximal weakness that improves with repeated exercise. Which presynaptic component is affected?",opts:["Presynaptic voltage-gated Ca²⁺ channels","Postsynaptic nicotinic receptors","Acetylcholinesterase","Ryanodine receptors","Dihydropyridine receptors"],ans:0,r:"Lambert-Eaton syndrome: autoantibodies against presynaptic voltage-gated Ca²⁺ channels reduce ACh release; repeated stimulation allows Ca²⁺ accumulation and improvement."},
+  {id:154,sys:'muscle',c:false,calc:false,stem:"A physiologist stimulates a single motor unit and observes that tension increases gradually with successive stimuli of constant strength. This phenomenon is called:",opts:["Tetanus","Treppe (staircase effect)","Fatigue","Post-tetanic potentiation","All-or-none response"],ans:1,r:"Treppe (staircase effect): each successive twitch is slightly stronger than the last due to residual Ca²⁺ and warming, until a steady-state is reached."},
+  {id:155,sys:'muscle',c:false,calc:false,stem:"A 20-year-old sprinter trains for speed and develops hypertrophy of type II muscle fibers. Which metabolic property is most characteristic of these fibers?",opts:["High oxidative capacity and fatigue resistance","High glycolytic capacity and fatigability","Low ATP hydrolysis rate","High mitochondrial density","Low myosin ATPase activity"],ans:1,r:"Type II (fast-twitch) fibers rely primarily on anaerobic glycolysis, have fast myosin ATPase, generate high peak force rapidly, but fatigue quickly."},
+  {id:156,sys:'muscle',c:false,calc:false,stem:"A student blocks voltage-gated Na⁺ channels in skeletal muscle with tetrodotoxin and notes that muscle contraction is abolished. Which step requires this channel?",opts:["Ca²⁺ release from the sarcoplasmic reticulum","Action potential propagation along the sarcolemma and into T tubules","Cross-bridge cycling","Troponin activation","Myosin detachment"],ans:1,r:"Voltage-gated Na⁺ channels initiate and propagate the muscle action potential along the sarcolemma and into the T tubular system, triggering excitation-contraction coupling."},
+  {id:157,sys:'muscle',c:true,calc:false,stem:"A 45-year-old man develops malignant hyperthermia during anesthesia — muscle rigidity and rapidly rising core temperature. Which ion channel is most likely dysfunctional?",opts:["Voltage-gated Na⁺ channel","Ryanodine receptor type 1 (RyR1 — SR Ca²⁺ release channel)","Voltage-gated L-type Ca²⁺ channel (DHPR)","Na⁺-K⁺ ATPase","Cl⁻ channel"],ans:1,r:"Malignant hyperthermia is caused by RyR1 mutations that allow uncontrolled Ca²⁺ release from the SR in response to volatile anesthetics, causing sustained muscle contraction and hyperthermia."},
+  {id:158,sys:'muscle',c:false,calc:false,stem:"A physiologist studies smooth muscle contraction and notes that it is slower than skeletal muscle. Which molecular feature best explains the slower contraction?",opts:["Presence of troponin regulatory complex","Latch state with low myosin ATPase activity","High density of voltage-gated Na⁺ channels","Fast cross-bridge cycling rate","Absence of actin filaments"],ans:1,r:"Smooth muscle myosin has a very low ATPase rate; the latch state allows sustained tension with minimal ATP consumption and slow, tonic contraction."},
+
+  // ══════════════════════════════════════════════════════
+  // INTEGRATIVE — from Verified PDF (Items 196–200)
+  // ══════════════════════════════════════════════════════
+  {id:159,sys:'integrative',c:false,calc:false,stem:"A 25-year-old marathon runner has a cardiac output of 25 L/min during peak exercise. Which adjustment contributes most to this high output?",opts:["Increased heart rate and increased stroke volume","Decreased heart rate and increased stroke volume","Increased peripheral resistance","Decreased venous return","Decreased contractility"],ans:0,r:"Maximal exercise increases CO through both HR (up to ~200/min) and SV (Frank-Starling + enhanced contractility + reduced afterload)."},
+  {id:160,sys:'integrative',c:true,calc:false,stem:"A 30-year-old woman ascends to 5,000 m and develops acute mountain sickness with headache and nausea. Which physiologic change is most responsible for hypoxemia at altitude?",opts:["Decreased alveolar ventilation","Low inspired PO₂ (reduced barometric pressure)","V/Q mismatch","Diffusion limitation","Right-to-left shunt"],ans:1,r:"At high altitude, barometric pressure falls, reducing the PO₂ of inspired air; this lowers alveolar PO₂ and arterial PaO₂, causing hypoxic hypoxia."},
+  {id:161,sys:'integrative',c:false,calc:false,stem:"A 40-year-old man exercises in a hot environment and sweats profusely. Which mechanism is most important for heat loss?",opts:["Radiation","Conduction","Convection","Evaporation from sweat","Vasodilation alone"],ans:3,r:"In a hot, humid environment, evaporation of sweat is the dominant mechanism of heat loss; radiation and convection are less effective when ambient temperature approaches body temperature."},
+  {id:162,sys:'integrative',c:false,calc:false,stem:"A physiologist studies the response to moderate exercise and notes increased blood flow to skeletal muscle but decreased flow to the splanchnic bed. Which mechanism mediates this redistribution?",opts:["Sympathetic vasoconstriction in the gut and metabolic vasodilation in muscle","Parasympathetic stimulation of muscle vessels","Local metabolites in muscle alone (adenosine, K⁺, H⁺)","Increased atrial natriuretic peptide","Decreased renin release"],ans:0,r:"During exercise, sympathetic activity constricts splanchnic (and renal) vessels, while local metabolites override sympathetic tone in active muscle, causing net vasodilation."},
+  {id:163,sys:'integrative',c:false,calc:false,stem:"A 35-year-old woman with hypothyroidism lives in a cold climate and shivers frequently. Which thermoregulatory mechanism is most likely impaired?",opts:["Nonshivering thermogenesis (brown adipose tissue / uncoupling proteins)","Sweating","Cutaneous vasodilation","Behavioral responses only","Shivering thermogenesis"],ans:0,r:"Thyroid hormones are essential for nonshivering thermogenesis (upregulating UCP1 in brown fat and increasing mitochondrial uncoupling); hypothyroidism impairs this pathway, making the patient cold-intolerant and reliant on shivering."},
+
+  // ══════════════════════════════════════════════════════
+  // GENERAL PHYSIOLOGY REVIEWER (from HTML template)
+  // ══════════════════════════════════════════════════════
+  {id:164,sys:'general',c:false,calc:false,stem:"Which of the following intercellular connections enable the flow of current in myocardial cells?",opts:["Zonula occludens","Gap junctions","Tight junctions","Hemidesmosome"],ans:1,r:"Gap junctions allow the flow of current between myocardial cells. Tight junctions, also called zonula occludens, may either be tight or leaky."},
+  {id:165,sys:'general',c:false,calc:false,stem:"Which of the following cell junctions connects the basal cells to the basement membrane underneath it?",opts:["Zonula occludens","Gap junctions","Tight junctions","Hemidesmosome"],ans:3,r:"Hemidesmosomes connect the basal cells to the basement membrane underneath it."},
+  {id:166,sys:'general',c:false,calc:false,stem:"The following are considered excitatory neurotransmitters, EXCEPT?",opts:["GABA","Glutamate","Norepinephrine","Serotonin"],ans:0,r:"GABA is an inhibitory neurotransmitter. The rest of the options are excitatory."},
+  {id:167,sys:'general',c:false,calc:false,stem:"Which of the following troponins allows the binding of actin to myosin?",opts:["Troponin T","Troponin I","Troponin C","Troponin H"],ans:2,r:"Troponin C allows the binding of actin to myosin by exposing the myosin-binding sites. Troponin I inhibits the binding. Troponin T attaches tropomyosin to the troponin complex."},
+  {id:168,sys:'general',c:false,calc:false,stem:"The binding of Ca²⁺ to calmodulin is the basis of contraction for which of the following muscles?",opts:["Skeletal muscle","Smooth muscle","Cardiac muscle","All of the above"],ans:1,r:"Smooth muscle. The molecular basis of contraction of skeletal and cardiac muscle is Ca²⁺-troponin C."},
+  {id:169,sys:'general',c:false,calc:false,stem:"Which of the following is characteristic of Type II skeletal muscle fibers?",opts:["Slow contraction velocity","Red color","Anaerobic metabolism is the predominant metabolism","None of the above"],ans:2,r:"Type II: Fast contraction velocity, White fiber color, Anaerobic glycolysis. Type I: Slow contraction, Red color, Oxidative phosphorylation."},
+  {id:170,sys:'general',c:true,calc:false,stem:"A lesion affecting the optic nerve will result in:",opts:["Ipsilateral eye blindness","Bitemporal hemianopia","Homonymous contralateral hemianopia","Homonymous hemianopia with macular sparing"],ans:0,r:"Optic nerve lesions result in ipsilateral eye blindness. Optic chiasm = bitemporal hemianopia. Optic tract = homonymous contralateral hemianopia."},
+  {id:171,sys:'general',c:true,calc:false,stem:"A patient with myopia will benefit from using a ___ lens:",opts:["Cylindric lens","Biconcave lens","Biconvex lens","Any of the above"],ans:1,r:"Myopia is corrected with a biconcave lens. Hyperopia is corrected with a biconvex lens. Astigmatism is corrected with a cylindric lens."},
+  {id:172,sys:'general',c:false,calc:false,stem:"The medulla contains the following autonomic centers, EXCEPT?",opts:["Vasomotor","Respiratory","Swallowing","Pneumotaxic"],ans:3,r:"The medulla contains vasomotor, respiratory, swallowing, coughing, and vomiting centers. The pneumotaxic center is in the pons."},
+  {id:173,sys:'general',c:false,calc:false,stem:"A substance with increased dromotropic effects will result in:",opts:["Increased heart rate","Increased conduction velocity","Increased contractility","None of the above"],ans:1,r:"Increased dromotropic effect means increased conduction velocity through the AV node. Chronotropic = heart rate. Inotropic = contractility."},
+  {id:174,sys:'general',c:false,calc:false,stem:"A sarcomere runs from:",opts:["Z line to Z line","I band to I band","A band to A band","T tubule to T tubule"],ans:0,r:"A sarcomere is defined as the segment between two neighboring Z lines."},
+  {id:175,sys:'general',c:false,calc:false,stem:"During muscle contraction, which of the following remains the same length?",opts:["A band","I band","Z lines","H band"],ans:0,r:"During muscle contraction or shortening, the A band remains the same length. The I band and the H band both shorten."},
+  {id:176,sys:'general',c:false,calc:false,stem:"Which of the following glucose transporters is dependent on the presence of insulin?",opts:["GLUT 1","GLUT 2","GLUT 3","GLUT 4"],ans:3,r:"GLUT 4 is found in adipose tissue and striated muscles and is an insulin-dependent glucose transporter. GLUT 1, 2, and 3 are insulin-independent."},
+  {id:177,sys:'general',c:false,calc:false,stem:"The affinity of hemoglobin for oxygen is decreased in conditions that shift the hemoglobin-oxygen dissociation curve to the right. Which of the following is included in those conditions?",opts:["Increase in PCO₂","Increase in pH","Decrease in temperature","Decrease in 2,3 DPG"],ans:0,r:"Conditions that shift the curve to the RIGHT (reduced Hgb affinity): Exercise, Decreased pH, Increased PCO₂, Increased temperature, Hypoxia, Increased 2,3 DPG."},
+  {id:178,sys:'general',c:false,calc:false,stem:"Majority of blood CO₂ is transported to lungs in what form?",opts:["HCO₃⁻","Carbaminohemoglobin","Dissolved CO₂","All of the above"],ans:0,r:"The majority of blood CO₂ is transported to lungs in the form of HCO₃⁻."},
+  {id:179,sys:'general',c:false,calc:false,stem:"Central chemoreceptors are stimulated to increase breathing rate by which of the following?",opts:["Increase in H⁺","Increase in pH","Decrease in pH","Decrease in pO₂"],ans:2,r:"Central chemoreceptors are stimulated by a decrease in pH of the CSF. H⁺ does not cross the blood-brain barrier. They do not respond directly to changes in PO₂."},
+  {id:180,sys:'general',c:false,calc:false,stem:"What is the EEG waveform present in an awake and alert patient with eyes open?",opts:["Alpha","Beta","Delta","Theta"],ans:1,r:"An awake, alert patient with eyes open will show beta waves. An awake, alert patient with eyes closed will show alpha waves."},
+  {id:181,sys:'general',c:false,calc:false,stem:"Sleep spindles in the EEG are found in what stage of sleep?",opts:["REM sleep","Stage N1 of non-REM sleep","Stage N2 of non-REM sleep","Stage N3 of non-REM sleep"],ans:2,r:"Sleep spindles and K complexes in the EEG are found in stage N2 of non-REM sleep."},
+  {id:182,sys:'general',c:false,calc:false,stem:"Which of the following ECG waveforms is influenced by the conduction velocity through the AV node?",opts:["P wave","PR interval","QRS complex","QT interval"],ans:1,r:"The PR interval is influenced by the conduction velocity through the AV node. If conduction velocity slows down, the PR interval becomes prolonged."},
+  {id:183,sys:'general',c:false,calc:false,stem:"Which of the following represents ventricular repolarization?",opts:["P wave","QRS complex","U wave","T wave"],ans:3,r:"Ventricular repolarization is represented by the T wave. P wave = atrial depolarization. QRS complex = ventricular depolarization."},
+  {id:184,sys:'general',c:false,calc:false,stem:"Beta 1 receptor stimulation results in increased cardiac contractility through the phosphorylation of:",opts:["Calmodulin","Phospholamban","Tropomyosin","All of the above"],ans:1,r:"Phospholamban phosphorylation leads to increased activity of the Ca²⁺ ATPase, increasing Ca²⁺ stored in the sarcoplasmic reticulum, making more calcium available for the next cardiac beats."},
+  {id:185,sys:'general',c:false,calc:false,stem:"Myocardial oxygen demand is increased by all of the following, EXCEPT?",opts:["Increased cardiac contractility","Reduced afterload","Increased HR","Increased ventricular diameter"],ans:1,r:"Factors that increase myocardial oxygen demand: Increased cardiac contractility, Increased afterload, Increased HR, and Increased ventricular diameter. Reduced afterload decreases it."},
+  {id:186,sys:'general',c:false,calc:false,stem:"Prolactin secretion is tonically inhibited by which of the following?",opts:["Dopamine","Dobutamine","Somatostatin","ACTH"],ans:0,r:"Dopamine tonically inhibits prolactin secretion from the anterior pituitary. Dopamine antagonists can cause hyperprolactinemia."},
+  {id:187,sys:'general',c:false,calc:false,stem:"The following anterior pituitary hormones have the same alpha subunits, EXCEPT?",opts:["TSH","FSH","LH","ACTH"],ans:3,r:"TSH, FSH, and LH have the same alpha subunits because they belong to the same glycoprotein family. ACTH is derived from proopiomelanocortin (POMC)."},
+  {id:188,sys:'general',c:true,calc:false,stem:"Lesions of which of the following parts of the basal ganglia may result in Parkinson disease?",opts:["Striatum","Substantia nigra","Subthalamic nucleus","Any of the above"],ans:1,r:"Lesions of the substantia nigra may result in Parkinson disease. Lesions of the striatum may occur in Huntington disease. Lesions of the subthalamic nucleus may give rise to hemiballismus."},
+  {id:189,sys:'general',c:true,calc:false,stem:"Damage to what area may result in inability to write, but with intact understanding?",opts:["Broca area","Wernicke area","Occipital area","Hippocampus"],ans:0,r:"Damage to the Broca area may result in motor aphasia, where understanding is intact, but speech and writing are impaired."},
+  {id:190,sys:'general',c:false,calc:false,stem:"Calcitonin is produced by:",opts:["Follicular cells","Parafollicular cells","PTH","All of the above"],ans:1,r:"Parafollicular cells (C cells) of the thyroid produce calcitonin."},
+  {id:191,sys:'general',c:false,calc:false,stem:"Aldosterone is produced in which of the following structures?",opts:["Zona glomerulosa","Zona fasciculata","Zona reticularis","Adrenal medulla"],ans:0,r:"Aldosterone is produced in the zona glomerulosa. Cortisol = zona fasciculata. Androgens = zona reticularis."},
+  {id:192,sys:'general',c:false,calc:false,stem:"Cortisol has all the following effects EXCEPT?",opts:["Increased protein catabolism","Decreased glucose utilization","Increased lipolysis","None of the above"],ans:3,r:"Cortisol has all the listed effects to stimulate gluconeogenesis: Increased protein catabolism, Decreased glucose utilization, and Increased lipolysis."},
+  {id:193,sys:'general',c:false,calc:false,stem:"Which of the following muscles is used during quiet inspiration?",opts:["Diaphragm","External intercostals","Accessory muscles","All of the above"],ans:0,r:"The external intercostals and accessory muscles are not used during quiet inspiration. They are only used during exercise or respiratory distress."},
+  {id:194,sys:'general',c:false,calc:false,stem:"ADH increases water permeability of the late distal tubule and collecting ducts using what signaling pathway?",opts:["cAMP","cGMP","IP3","Tyrosine kinase"],ans:0,r:"ADH increases water permeability via a V2 receptor using the cAMP signaling pathway. The IP3 pathway is used via a V1 receptor for vasoconstriction."},
+  {id:195,sys:'general',c:false,calc:false,stem:"When blood in the lungs becomes oxygenated, hydrogen dissociates from hemoglobin to form CO₂ which is then exhaled. This process is called the:",opts:["Haldane effect","Bohr effect","Cushing effect","Left shift"],ans:0,r:"This is the Haldane effect. The Bohr effect occurs at the cellular level where increased hydrogen and CO₂ lead to increased unloading of oxygen at the tissues."},
+  {id:196,sys:'general',c:false,calc:false,stem:"Examples of primary active transport are the following, EXCEPT?",opts:["Na/K ATPase","H/K ATPase","Ca ATPase","Na/Ca²⁺ exchange"],ans:3,r:"Na/Ca²⁺ exchange is an example of secondary active transport where energy is indirectly provided from the Na gradient. The rest are examples of primary active transport."},
+  {id:197,sys:'general',c:false,calc:false,stem:"The Na-glucose cotransport present in the proximal tubules of the kidney is an example of:",opts:["Primary active transport","Secondary active transport","Osmosis","Diffusion"],ans:1,r:"In this example, Na⁺ is transported 'downhill' while glucose is transported 'uphill'. Therefore, it is an example of secondary active transport."},
+  {id:198,sys:'general',c:false,calc:false,stem:"Which of the following glial cells synthesize myelin in the CNS?",opts:["Oligodendrocytes","Schwann cells","Astrocytes","Microglia"],ans:0,r:"Oligodendrocytes synthesize myelin in the CNS. Schwann cells produce myelin in the PNS."},
+  {id:199,sys:'general',c:false,calc:false,stem:"Which of the following vessels provide the highest resistance in the cardiovascular system?",opts:["Arteries","Arterioles","Capillaries","Venules"],ans:1,r:"Arterioles provide the highest resistance in the cardiovascular system."},
+  {id:200,sys:'general',c:false,calc:false,stem:"Which of the following has the highest proportion of blood in the cardiovascular system?",opts:["Arteries","Capillaries","Venules","Veins"],ans:3,r:"Veins contain the highest proportion of blood in the CV system. Capillaries comprise the largest total cross-sectional area."},
+  {id:201,sys:'general',c:false,calc:false,stem:"Na-K-2Cl transport in the thick ascending limb of the loop of Henle is an example of:",opts:["Cotransport","Countertransport","Antiport","Primary active transport"],ans:0,r:"Na-K-2Cl transport is an example of cotransport (secondary active transport). Na/Ca exchange is an example of countertransport or antiport."},
+  {id:202,sys:'general',c:false,calc:false,stem:"Efflux of K⁺ occurs in which phase of the SA node action potential?",opts:["Phase 0","Phase 1","Phase 2","Phase 3"],ans:3,r:"Phase 3 of the SA node action potential is Repolarization, caused by increased K⁺ efflux. There is no Phase 1 and Phase 2 in a pacemaker action potential."},
+  {id:203,sys:'general',c:false,calc:false,stem:"Which of the following phases of the pacemaker action potential accounts for SA node automaticity?",opts:["Phase 0","Phase 2","Phase 3","Phase 4"],ans:3,r:"Phase 4: Slow depolarization caused by inward Na⁺ current called If (funny current). This accounts for automaticity of the SA and AV node."},
+  {id:204,sys:'general',c:false,calc:false,stem:"Which of the following controls secretion and blood flow in the GI tract?",opts:["Vagus nerve","Myenteric plexus","Submucosal plexus","All of the above"],ans:2,r:"Submucosal plexus controls secretion and blood flow in the GI tract. Myenteric plexus controls GI smooth muscle motility."},
+  {id:205,sys:'general',c:false,calc:false,stem:"The following can increase stroke volume, EXCEPT?",opts:["Increased afterload","Increased venous return","Increased preload","None of the above"],ans:0,r:"Increased afterload results in a decrease in stroke volume. The rest of the choices result in an increase in stroke volume."},
+  {id:206,sys:'general',c:false,calc:false,stem:"Accessory sex organs such as the prostate convert testosterone to dihydrotestosterone using what enzyme?",opts:["5 alpha-reductase","Tyrosinase","Phosphodiesterase","None of the above"],ans:0,r:"Accessory sex organs such as the prostate convert testosterone to dihydrotestosterone using 5 alpha-reductase."},
+  {id:207,sys:'general',c:false,calc:false,stem:"Testosterone is produced by what cell?",opts:["Leydig cells","Sertoli cells","Granulosa cells","Spermatogonia"],ans:0,r:"Leydig cells secrete testosterone."},
+  {id:208,sys:'general',c:true,calc:false,stem:"Humoral hypercalcemia of malignancy is caused by:",opts:["PTH-related peptide","Excess vitamin D","Calcitonin","Any of the above"],ans:0,r:"PTH-rp released by certain tumors, such as breast cancers and squamous cell carcinoma of the lung, increases bone resorption leading to hypercalcemia."},
+  {id:209,sys:'general',c:false,calc:false,stem:"Cholecystokinin (CCK) is secreted by which of the following cells?",opts:["S cells","I cells","C cells","K cells"],ans:1,r:"CCK is secreted by I cells and increases secretion of amylase, lipases, and proteases. S cells secrete secretin."},
+  {id:210,sys:'general',c:false,calc:false,stem:"Which of the following substances is absorbed in the ileum and requires Intrinsic factor?",opts:["Iron","Lipids","Calcium","Vitamin B12"],ans:3,r:"Vitamin B12 is absorbed in the ileum and requires intrinsic factor."},
+  {id:211,sys:'general',c:false,calc:false,stem:"The following are transported from the intestinal lumen into cells by using Na-dependent cotransport, EXCEPT?",opts:["Glucose","Galactose","Fructose","None of the above"],ans:2,r:"Fructose is transported through facilitated diffusion (GLUT5). Glucose and galactose are transported using Na-dependent cotransport (SGLT1)."},
+  {id:212,sys:'general',c:false,calc:false,stem:"What is the main regulator of insulin release?",opts:["Glucose","Stomach acid","Amino acids","Vagus nerve"],ans:0,r:"The main regulator of insulin release is glucose."},
+  {id:213,sys:'general',c:false,calc:false,stem:"The following hormones are derived from proopiomelanocortin (POMC), EXCEPT?",opts:["ACTH","MSH","Beta-lipotropin","GHRH"],ans:3,r:"ACTH, MSH, Beta-lipotropin, and Beta-endorphin are derived from POMC. GHRH is not."},
+  {id:214,sys:'general',c:false,calc:false,stem:"Growth hormone secretion is increased by which of the following?",opts:["Somatostatin","Somatomedin","Pregnancy","Hypoglycemia"],ans:3,r:"Secretion of GH is increased by: Sleep, Stress, Puberty hormones, Starvation, Hypoglycemia, and Exercise. It is decreased by: Somatostatin, Somatomedin, Obesity, Hyperglycemia, and Pregnancy."},
+  {id:215,sys:'general',c:false,calc:false,stem:"Increased linear growth which happens during a pubertal growth spurt is due to:",opts:["Insulin-like growth factor","Growth hormone","ACTH","FSH"],ans:0,r:"Increased linear growth which happens during a pubertal growth spurt is due to actions of growth hormone through IGF-1, not a direct action of growth hormone."},
+  {id:216,sys:'general',c:false,calc:false,stem:"Which of the following lung capacities is the sum of tidal volume, IRV and ERV?",opts:["Vital capacity","Functional residual capacity","Inspiratory capacity","Total lung capacity"],ans:0,r:"Vital capacity (VC) is the sum of tidal volume (TV), IRV and ERV. FRC is the volume remaining after a TV is expired. IC is the sum of TV and IRV. TLC is the sum of all 4 lung volumes."},
+  {id:217,sys:'general',c:false,calc:false,stem:"Lung surfactant is made up primarily of:",opts:["Water","Dipalmitoylphosphatidylcholine","Bisphosphoglycerate","None of the above"],ans:1,r:"Lung surfactant is made up primarily of dipalmitoylphosphatidylcholine (DPPC) by type II alveolar cells."},
+  {id:218,sys:'general',c:false,calc:false,stem:"In most organs in the body, hypoxia causes vasodilation. In which organ does hypoxia cause vasoconstriction?",opts:["Heart","Lungs","Kidneys","Liver"],ans:1,r:"Hypoxia causes vasoconstriction of the pulmonary vessels. In most organs in the body, hypoxia causes vasodilation."},
+  {id:219,sys:'general',c:false,calc:false,stem:"Which of the following dilates the afferent arteriole?",opts:["Increased prostaglandins","Decreased prostaglandins","Increased angiotensin II","Decreased angiotensin II"],ans:0,r:"Prostaglandins dilate the afferent arteriole while angiotensin II constricts the efferent arteriole."},
+  {id:220,sys:'general',c:false,calc:false,stem:"The following anterior pituitary hormones are produced by basophils, EXCEPT?",opts:["FSH","ACTH","TSH","GH"],ans:3,r:"GH and prolactin are secreted by acidophils. FSH, LH, TSH, ACTH are secreted by basophils."},
+  {id:221,sys:'general',c:false,calc:false,stem:"Renal blood flow is how many percent of the cardiac output?",opts:["20%","25%","30%","50%"],ans:1,r:"Renal blood flow is 25% of the cardiac output."},
+  {id:222,sys:'general',c:false,calc:false,stem:"Volume of the conducting airways is called:",opts:["Anatomic dead space","Residual volume","Functional residual capacity","None of the above"],ans:0,r:"The volume of the conducting airways is called anatomic dead space."},
+  {id:223,sys:'general',c:false,calc:false,stem:"Excretion of glucose in the urine happens when the plasma glucose reaches what level (in mg/dL)?",opts:["180","250","500","1000"],ans:1,r:"Excretion of glucose in the urine happens when the plasma glucose reaches 250 mg/dL. This is also called the threshold."},
+  {id:224,sys:'general',c:false,calc:false,stem:"Which of the following cells in the late distal tubule secretes K⁺?",opts:["Principal cells","Alpha intercalated cells","Beta intercalated cells","All of the above"],ans:0,r:"Principal cells secrete K⁺ and reabsorb Na⁺. Alpha-intercalated cells reabsorb K⁺."},
+  {id:225,sys:'general',c:true,calc:false,stem:"Components of the Cushing reflex include the following, EXCEPT?",opts:["Hypertension","Bradycardia","Tachycardia","Respiratory depression"],ans:2,r:"The Cushing reflex occurs in patients with increased intracranial pressure. Components include: Hypertension, Bradycardia, and Respiratory depression."},
+  {id:226,sys:'general',c:false,calc:false,stem:"Which of the following will create an osmotic pressure that will drive water flow?",opts:["Reflection coefficient of 1","Urea","Reflection coefficient of 0","Incomplete data"],ans:0,r:"If the reflection coefficient is 1 (such as albumin), the solute does not pass through the membrane, creating an osmotic pressure that drives water flow. If 0, it passes easily and does not create osmotic pressure."},
+  {id:227,sys:'general',c:false,calc:false,stem:"Sphincter muscle contraction in the bladder is a result of stimulation of which of the following?",opts:["α1","α2","β1","β2"],ans:0,r:"Sphincter muscle contraction in the bladder is a result of stimulation of α1 adrenergic receptors."},
+  {id:228,sys:'general',c:true,calc:false,stem:"Nonselective beta blockers can exacerbate reactive airway diseases like asthma due to inhibition of which receptors?",opts:["α1","α2","β1","β2"],ans:3,r:"Stimulation of β2 adrenergic receptors causes bronchodilation. Inhibition of β2 receptors by using beta blockers will result in bronchoconstriction, exacerbating asthma."},
+  {id:229,sys:'general',c:false,calc:false,stem:"The following are characteristics of the parasympathetic nervous system, EXCEPT?",opts:["Long preganglionic nerve axon","Has nicotinic receptors in the ganglion","Has muscarinic receptors in effector organs","None of the above"],ans:3,r:"All choices are correct characteristics of the parasympathetic nervous system."},
+  {id:230,sys:'general',c:false,calc:false,stem:"The origin of preganglionic nerves of the sympathetic nervous system is in the:",opts:["Pelvic splanchnic nerves","Cranial nerve III, VII, IX and X","S2-S4 spinal cord segment","Spinal cord segment T1-T12"],ans:3,r:"The origin of preganglionic nerves of the sympathetic nervous system is in spinal cord segments T1-T12 and L1-L3."},
+  {id:231,sys:'general',c:false,calc:false,stem:"Which of the following is TRUE of the adrenal medulla?",opts:["Innervated by the parasympathetic nervous system","Innervated by preganglionic sympathetic fibers","Innervated by postganglionic sympathetic fibers","None of the above"],ans:1,r:"The adrenal medulla is innervated by preganglionic sympathetic fibers."},
+  {id:232,sys:'general',c:true,calc:false,stem:"Muscarinic antagonists in the bladder promote relaxation of the detrusor muscle. They block which of the following receptors?",opts:["M1","M2","M3","M4"],ans:2,r:"Muscarinic antagonists in the bladder promote relaxation of the detrusor muscle by blocking M3 cholinergic receptors."},
+  {id:233,sys:'general',c:false,calc:false,stem:"Which of the following is absorbed in the ileum?",opts:["Carbohydrates","Fat-soluble vitamins","Iron","Bile acids"],ans:3,r:"The site of absorption of bile acids and Vitamin B12 is in the ileum."},
+  {id:234,sys:'general',c:false,calc:false,stem:"Which of the following transports iron in the blood?",opts:["Transferrin","Hepcidin","Apoferritin","Ferritin"],ans:0,r:"Iron is transported in the blood bound to transferrin. Ferritin is the storage protein."},
+  {id:235,sys:'general',c:false,calc:false,stem:"What is the active form of Vitamin D?",opts:["1,25 dihydroxycholecalciferol","Ergocalciferol","Cholecalciferol","7-dehydrocholesterol"],ans:0,r:"1,25 dihydroxycholecalciferol is the active form of Vitamin D."},
+  {id:236,sys:'general',c:false,calc:false,stem:"Which of the following somatosensory pathways is responsible for sensations of fine touch and vibration?",opts:["Anterior system","Dorsal column system","Lateral system","All of the above"],ans:1,r:"The dorsal column receives fine touch, vibration, pressure, 2-point discrimination, and proprioception. The anterolateral system handles temperature, pain, and light touch."},
+  {id:237,sys:'general',c:false,calc:false,stem:"All of the following increases the secretion of ADH, EXCEPT?",opts:["Decreased serum osmolality","Nicotine","Pain","Nausea"],ans:0,r:"Increased serum osmolality increases ADH secretion, not decreased osmolality. Volume contraction, pain, nausea, hypoglycemia, nicotine, and opiates also increase ADH."},
+  {id:238,sys:'general',c:false,calc:false,stem:"Which of the following is NOT derived from tyrosine?",opts:["Thyroxine","Dopamine","Melanin","None of the above"],ans:3,r:"Thyroxine, dopamine, and melanin are all derived from tyrosine."},
+  {id:239,sys:'general',c:false,calc:false,stem:"The limbic system, which is involved in processing emotions and long-term memory, is composed of the following structures, EXCEPT?",opts:["Hippocampus","Amygdala","Mammillary bodies","None of the above"],ans:3,r:"All are part of the limbic system, which includes the hippocampus, amygdala, mammillary bodies, anterior thalamic nuclei, cingulate gyrus, and entorhinal cortex."},
+  {id:240,sys:'general',c:true,calc:false,stem:"Which of the following dopaminergic pathways is responsible for motor control and is involved in Parkinson disease?",opts:["Mesocortical","Mesolimbic","Nigrostriatal","Tuberoinfundibular"],ans:2,r:"Nigrostriatal: motor control. Mesocortical and mesolimbic: motivation and reward. Tuberoinfundibular: regulates prolactin secretion."},
+  {id:241,sys:'general',c:true,calc:false,stem:"Which of the following prostaglandins is responsible for increasing the set-point temperature in the hypothalamus to produce a fever?",opts:["PGD2","PGE2","PGI2","None of the above"],ans:1,r:"PGE2 is responsible for increasing the set-point temperature in the hypothalamus to produce a fever."},
+  {id:242,sys:'general',c:false,calc:false,stem:"The following prostaglandins are vasodilators, EXCEPT?",opts:["Prostacyclin","E-series prostaglandins","Thromboxane","None of the above"],ans:2,r:"Thromboxane A2 is a vasoconstrictor."},
+  {id:243,sys:'general',c:false,calc:false,stem:"An increased PCO₂ in the cerebral circulation causes:",opts:["Vasoconstriction","Vasodilation","No change in vessel diameter","None of the above"],ans:1,r:"An increased PCO₂ in the cerebral circulation causes vasodilation."},
+  {id:244,sys:'general',c:false,calc:false,stem:"What is the primary ion secreted into the intestinal lumen?",opts:["Potassium","Hydrogen","Chloride","All of the above"],ans:2,r:"The primary ion secreted in the intestinal lumen is chloride."},
+  {id:245,sys:'general',c:false,calc:false,stem:"Calcium is absorbed in the intestine in the presence of:",opts:["PTH","PTH-related peptide","1,25 dihydroxycholecalciferol","24,25 dihydroxycholecalciferol"],ans:2,r:"1,25 dihydroxycholecalciferol is the active form of Vitamin D and is necessary in calcium absorption in the small intestine."},
+  {id:246,sys:'general',c:true,calc:false,stem:"Proton pump inhibitors such as omeprazole inhibit a transport pump that is classified as an example of:",opts:["Primary active transport","Secondary active transport","Osmosis","Diffusion"],ans:0,r:"Proton pump (H⁺/K⁺ ATPase) inhibitors such as omeprazole inhibit a transport pump that is classified as an example of primary active transport."},
+  {id:247,sys:'general',c:false,calc:false,stem:"Which of the following is secreted by G cells that increase gastric acid secretion?",opts:["Gastrin","Somatostatin","CCK","Secretin"],ans:0,r:"Gastrin is secreted by G cells in the stomach antrum and increases gastric acid secretion."},
+  {id:248,sys:'general',c:false,calc:false,stem:"What hypothalamic nucleus is stimulated by ghrelin?",opts:["Lateral nucleus","Ventromedial nucleus","Anterior nucleus","Supraoptic nucleus"],ans:0,r:"Lateral nucleus is stimulated by ghrelin which is responsible for the feeling of hunger. Ventromedial nucleus is stimulated by leptin responsible for satiety."},
+  {id:249,sys:'general',c:true,calc:false,stem:"Patients with thyroid storm are given potassium iodide to decrease the release of thyroid hormones. What is this effect called?",opts:["Wolff Chaikoff effect","Jod Basedow phenomenon","Graves disease","None of the above"],ans:0,r:"Patients with thyroid storm are given potassium iodide to decrease the synthesis of thyroid hormones. This is called the Wolff Chaikoff effect."},
+  {id:250,sys:'general',c:false,calc:false,stem:"What is the primary regulator of PTH release?",opts:["Ionized calcium","Phosphate levels","Vagus nerve","TSH"],ans:0,r:"Ionized calcium is the primary regulator of PTH."},
+  {id:251,sys:'general',c:false,calc:false,stem:"Which of the following is a multiunit smooth muscle?",opts:["Uterus","Ureter","Bladder","Ciliary muscle of the lens"],ans:3,r:"Examples of multiunit smooth muscles: Iris, Ciliary muscle of the lens, Vas deferens. Unitary smooth muscles: Uterus, GI tract, Ureter, Bladder."},
+  {id:252,sys:'general',c:false,calc:false,stem:"Exchange of nutrients, water and gases occur in which of the following?",opts:["Arterioles","Capillaries","Venules","Lymphatics"],ans:1,r:"Exchange of nutrients, water and gases occur in the capillaries."},
+  {id:253,sys:'general',c:false,calc:false,stem:"Which of the following is impermeable to water?",opts:["Proximal tubule","Thick ascending limb","Late distal tubule","Collecting ducts"],ans:1,r:"Of the options, only the thick ascending limb of the loop of Henle is impermeable to water."},
+  {id:254,sys:'general',c:false,calc:false,stem:"Taste sensation on the posterior 1/3 of the tongue is innervated by:",opts:["CN V","CN VII","CN IX","CN XII"],ans:2,r:"CN IX: Taste on posterior 1/3 of the tongue. CN VII: Taste on anterior 2/3 of the tongue."},
+  {id:255,sys:'general',c:false,calc:false,stem:"Gastric emptying is inhibited by:",opts:["CCK","Gastrin","Secretin","All of the above"],ans:0,r:"Presence of fat stimulates the release of CCK which slows gastric emptying. Gastrin increases gastric motility."},
+  {id:256,sys:'general',c:false,calc:false,stem:"Ovulation occurs:",opts:["14 days after menses","14 days before menses","10 days after menses","10 days before menses"],ans:1,r:"Ovulation occurs 14 days before menses."},
+  {id:257,sys:'general',c:false,calc:false,stem:"Ovulation occurs due to:",opts:["Surge of progesterone","Surge of FSH","Surge of LH","Decrease of LH"],ans:2,r:"Ovulation occurs from estrogen-induced surge of LH."},
+  {id:258,sys:'general',c:false,calc:false,stem:"Among the following thyroid hormones, which is the most potent?",opts:["T3","T4","rT3","They have the same potency"],ans:0,r:"T3 is 3-4x more potent than T4. rT3 is inactive."},
+  {id:259,sys:'general',c:false,calc:false,stem:"Antidiuretic hormone (ADH) is synthesized in the:",opts:["Posterior pituitary","Supraoptic nuclei","Anterior pituitary","All of the above"],ans:1,r:"ADH is synthesized in the supraoptic nuclei of the hypothalamus and is stored and released in the posterior pituitary."},
+  {id:260,sys:'general',c:false,calc:false,stem:"Which of the following is NOT a function of aldosterone?",opts:["Sodium reabsorption in the collecting duct","Potassium secretion","Hydrogen secretion","Bicarbonate secretion"],ans:3,r:"Aldosterone promotes Na⁺ reabsorption, K⁺ secretion, and H⁺ secretion in the collecting duct. It does NOT promote bicarbonate secretion."},
+  {id:261,sys:'general',c:false,calc:false,stem:"The following are true about the cardiac cycle, EXCEPT?",opts:["Systole is the period of ventricular contraction","Diastole is the period of ventricular relaxation","The mitral and tricuspid valves open during systole","The aortic and pulmonic valves close at the start of diastole"],ans:2,r:"The mitral and tricuspid valves open during diastole (not systole), allowing ventricular filling. During systole, AV valves are closed and semilunar valves are open."},
+  {id:262,sys:'general',c:false,calc:false,stem:"Which of the following is the primary buffer in the blood?",opts:["Phosphate buffer","Protein buffer","Bicarbonate buffer","Hemoglobin buffer"],ans:2,r:"The bicarbonate-carbonic acid buffer system is the primary extracellular buffer in the blood, although hemoglobin is the most important intracellular buffer."},
+  {id:263,sys:'general',c:true,calc:false,stem:"A patient has decreased urine output, increased serum creatinine, and a BUN:creatinine ratio of 25:1. Which condition is most consistent?",opts:["Intrinsic renal disease","Prerenal azotemia","Postrenal azotemia","Acute tubular necrosis"],ans:1,r:"Prerenal azotemia: BUN:Cr ratio > 20:1 because the kidney reabsorbs more urea (with sodium and water) when perfusion is decreased. Intrinsic disease gives a ratio ~10-15:1."},
+  {id:264,sys:'general',c:false,calc:false,stem:"Which of the following hormones primarily promotes water retention in the kidney?",opts:["Aldosterone","ANP","ADH (vasopressin)","PTH"],ans:2,r:"ADH (vasopressin) acts on V2 receptors in the collecting duct to insert aquaporin-2 channels, promoting water reabsorption."},
+  {id:265,sys:'general',c:false,calc:false,stem:"The functional unit of the kidney is:",opts:["Renal pyramid","Renal column","Nephron","Glomerulus"],ans:2,r:"The nephron is the functional unit of the kidney, consisting of the glomerulus, Bowman's capsule, proximal tubule, loop of Henle, distal tubule, and collecting duct."},
+  {id:266,sys:'general',c:false,calc:false,stem:"What type of epithelium lines the urinary bladder?",opts:["Simple squamous epithelium","Simple columnar epithelium","Transitional epithelium (urothelium)","Pseudostratified columnar epithelium"],ans:2,r:"The urinary bladder is lined by transitional epithelium (urothelium), which can stretch and accommodate changes in volume."},
+  {id:267,sys:'general',c:false,calc:false,stem:"Which of the following is the predominant action of insulin on adipose tissue?",opts:["Stimulation of lipolysis","Inhibition of lipogenesis","Stimulation of lipogenesis and inhibition of lipolysis","No effect on adipose tissue"],ans:2,r:"Insulin stimulates lipogenesis (fatty acid and triglyceride synthesis) and inhibits lipolysis (breakdown of stored fat) in adipose tissue."},
+  {id:268,sys:'general',c:false,calc:false,stem:"In the follicular phase of the menstrual cycle, which cells produce estrogen?",opts:["Granulosa cells only","Theca cells only","Both granulosa and theca cells","Corpus luteum"],ans:2,r:"Estrogen synthesis requires both theca cells (which produce androgens under LH stimulation) and granulosa cells (which convert androgens to estrogens via aromatase under FSH stimulation) — the two-cell theory."},
+  {id:269,sys:'general',c:false,calc:false,stem:"Which of the following is the primary mechanism for CO₂ transport from tissues to the lungs?",opts:["Dissolved in plasma","Bound to hemoglobin as carbaminohemoglobin","As bicarbonate ions in plasma","As carbonic acid"],ans:2,r:"Approximately 70% of CO₂ is transported as bicarbonate ions (HCO₃⁻) in plasma, formed by the action of carbonic anhydrase in red blood cells."},
+  {id:270,sys:'general',c:false,calc:false,stem:"Which of the following best describes the effect of increasing respiratory rate without changing tidal volume?",opts:["Increased alveolar ventilation","Increased dead space ventilation","Both alveolar and dead space ventilation increase proportionally","Decreased arterial CO₂"],ans:1,r:"Increased respiratory rate with unchanged tidal volume increases minute ventilation but also increases dead space ventilation proportionally. Net alveolar ventilation depends on the tidal volume minus dead space."},
+  {id:271,sys:'general',c:true,calc:false,stem:"A patient with a history of kidney stones is found to have hypercalcemia and low phosphate. Which diagnosis is most consistent?",opts:["Hypoparathyroidism","Primary hyperparathyroidism","Vitamin D toxicity","Milk-alkali syndrome"],ans:1,r:"Primary hyperparathyroidism: elevated PTH causes hypercalcemia (increased Ca absorption and bone resorption) and hypophosphatemia (increased urinary phosphate excretion)."},
+  {id:272,sys:'general',c:false,calc:false,stem:"Secretin is released in response to which of the following?",opts:["Fatty acids in the duodenum","Amino acids in the duodenum","Acidic chyme in the duodenum","Distension of the stomach"],ans:2,r:"Secretin is released by S cells in the duodenum in response to acidic chyme (low pH); it stimulates pancreatic bicarbonate secretion to neutralize the acid."},
+  {id:273,sys:'general',c:false,calc:false,stem:"Which of the following is the most abundant protein in plasma?",opts:["Globulin","Albumin","Fibrinogen","Transferrin"],ans:1,r:"Albumin is the most abundant plasma protein, responsible for maintaining oncotic pressure and transporting various substances including bilirubin, drugs, and fatty acids."},
+  {id:274,sys:'general',c:false,calc:false,stem:"Which of the following is a correct statement about the autonomic nervous system?",opts:["The parasympathetic nervous system has short preganglionic and long postganglionic fibers","The sympathetic nervous system has long preganglionic and short postganglionic fibers","Parasympathetic ganglia are located near or within the target organ","All postganglionic sympathetic fibers release norepinephrine"],ans:2,r:"Parasympathetic ganglia are located near or within the target organ (short postganglionic fibers). Sympathetic ganglia are in paravertebral chains (short preganglionic, long postganglionic). Sweat glands are an exception — they receive sympathetic innervation but release ACh."},
+  {id:275,sys:'general',c:false,calc:false,stem:"The process by which the kidney adjusts GFR to maintain stable filtration despite changes in systemic blood pressure is called:",opts:["Tubuloglomerular feedback","Renal autoregulation","Renin-angiotensin system activation","Myogenic response"],ans:1,r:"Renal autoregulation maintains relatively constant GFR and RBF over a range of arterial pressures (80–180 mmHg) through the myogenic response and tubuloglomerular feedback."},
+  {id:276,sys:'general',c:false,calc:false,stem:"Which of the following describes the Fick principle as applied to cardiac output measurement?",opts:["CO = O₂ consumption / (arteriovenous O₂ difference)","CO = MAP / SVR","CO = HR × EDV","CO = (SBP − DBP) × HR"],ans:0,r:"The Fick principle: CO = VO₂ / (CaO₂ − CvO₂), where VO₂ is O₂ consumption and the denominator is the arteriovenous O₂ difference."},
+  {id:277,sys:'general',c:false,calc:false,stem:"Which part of the nephron is responsible for the 'diluting segment'?",opts:["Proximal tubule","Thin descending limb","Thick ascending limb (TAL)","Collecting duct"],ans:2,r:"The thick ascending limb is called the diluting segment because it actively reabsorbs NaCl without water (impermeable to water), generating free water and dilute tubular fluid."},
+  {id:278,sys:'general',c:false,calc:false,stem:"A patient in metabolic acidosis has a pH of 7.28. Which of the following would be a normal compensatory response?",opts:["Increased bicarbonate reabsorption","Decreased respiratory rate","Increased respiratory rate (hyperventilation)","Decreased urinary H⁺ excretion"],ans:2,r:"In metabolic acidosis, the immediate respiratory compensation is hyperventilation to blow off CO₂, raising pH toward normal."},
+  {id:279,sys:'general',c:true,calc:false,stem:"A patient presents with nausea, vomiting, muscle weakness, and an ECG showing peaked T waves. Which electrolyte abnormality is most likely?",opts:["Hyponatremia","Hypokalemia","Hyperkalemia","Hypercalcemia"],ans:2,r:"Hyperkalemia causes peaked T waves on ECG, along with muscle weakness and potential cardiac arrhythmias. Hypokalemia causes flattened T waves and U waves."},
+  {id:280,sys:'general',c:false,calc:false,stem:"Which hormone is secreted by the posterior pituitary?",opts:["ACTH and GH","FSH and LH","ADH and oxytocin","TSH and prolactin"],ans:2,r:"The posterior pituitary (neurohypophysis) releases ADH (vasopressin) and oxytocin, which are actually synthesized in the hypothalamus (supraoptic and paraventricular nuclei) and transported to the posterior pituitary for storage and release."},
+  {id:281,sys:'general',c:false,calc:false,stem:"Which of the following statements about the renin-angiotensin-aldosterone system (RAAS) is correct?",opts:["Renin converts angiotensinogen to angiotensin II","ACE converts angiotensin I to angiotensin II","Aldosterone is released from the adrenal medulla","Angiotensin II decreases aldosterone release"],ans:1,r:"ACE (angiotensin-converting enzyme) converts angiotensin I to angiotensin II. Renin converts angiotensinogen to angiotensin I. Aldosterone is released from the zona glomerulosa of the adrenal cortex in response to angiotensin II."},
+  {id:282,sys:'general',c:false,calc:false,stem:"Which of the following correctly describes the mechanism of action of atrial natriuretic peptide (ANP)?",opts:["Increases Na⁺ reabsorption in the collecting duct","Stimulates aldosterone release","Causes vasodilation and increases GFR","Decreases urinary Na⁺ excretion"],ans:2,r:"ANP is released from cardiac atria in response to increased atrial stretch (volume overload). It causes vasodilation, increases GFR, and inhibits sodium reabsorption, promoting natriuresis and diuresis."},
+  {id:283,sys:'general',c:false,calc:false,stem:"What is the normal resting cardiac output for an average adult?",opts:["2-3 L/min","4-6 L/min","7-9 L/min","10-12 L/min"],ans:1,r:"Normal resting cardiac output is approximately 4–6 L/min (commonly cited as ~5 L/min) for an average adult."},
+  {id:284,sys:'general',c:false,calc:false,stem:"Which of the following accurately describes the structure of the hemoglobin molecule in adults?",opts:["Two alpha and two beta chains","Two alpha and two gamma chains","Four beta chains","Two alpha and two delta chains"],ans:0,r:"Adult hemoglobin A (HbA) consists of two alpha (α) and two beta (β) chains. Fetal hemoglobin (HbF) has two alpha and two gamma chains, giving it a higher O₂ affinity."},
+  {id:285,sys:'general',c:false,calc:false,stem:"Which of the following electrolyte changes occurs in response to aldosterone?",opts:["Increased K⁺ and H⁺ reabsorption","Increased Na⁺ excretion and K⁺ retention","Increased Na⁺ reabsorption and K⁺ excretion","Decreased H⁺ secretion"],ans:2,r:"Aldosterone stimulates Na⁺ reabsorption and K⁺ excretion (and H⁺ secretion) in principal cells of the collecting duct by upregulating ENaC and Na⁺-K⁺ ATPase."},
+  {id:286,sys:'general',c:true,calc:false,stem:"A 65-year-old woman presents with confusion, lethargy, and a serum sodium of 115 mEq/L. She is on thiazide diuretics. Which electrolyte disorder is most likely?",opts:["Hypernatremia","Hyponatremia","Hyperkalemia","Hypokalemia"],ans:1,r:"Thiazide diuretics impair free water excretion by blocking NaCl cotransport in the distal convoluted tubule. This, combined with continued water intake, can cause severe dilutional hyponatremia, especially in elderly patients."},
+  {id:287,sys:'general',c:false,calc:false,stem:"Which of the following correctly describes the role of surfactant in the lungs?",opts:["Increases surface tension in alveoli","Increases the work of breathing","Decreases surface tension, preventing alveolar collapse","Is produced by type I pneumocytes"],ans:2,r:"Surfactant (primarily DPPC) is produced by type II pneumocytes and reduces alveolar surface tension, preventing alveolar collapse at end-expiration and reducing the work of breathing."},
+  {id:288,sys:'general',c:false,calc:false,stem:"Which of the following is the correct pathway of sperm from production to ejaculation?",opts:["Seminiferous tubules → epididymis → vas deferens → ejaculatory duct → urethra","Leydig cells → epididymis → vas deferens → urethra","Seminiferous tubules → vas deferens → epididymis → urethra","Epididymis → seminiferous tubules → vas deferens → urethra"],ans:0,r:"Sperm are produced in the seminiferous tubules, mature in the epididymis, travel through the vas deferens, pass through the ejaculatory duct, and exit through the urethra during ejaculation."},
+  {id:289,sys:'general',c:false,calc:false,stem:"Which of the following correctly describes the phases of the cardiac action potential in ventricular myocytes?",opts:["Phase 0: K⁺ efflux; Phase 2: Ca²⁺ influx; Phase 3: Na⁺ influx","Phase 0: Na⁺ influx (rapid depolarization); Phase 2: Ca²⁺ influx (plateau); Phase 3: K⁺ efflux (repolarization)","Phase 0: Ca²⁺ influx; Phase 2: Na⁺ influx; Phase 3: K⁺ efflux","All phases are mediated by K⁺"],ans:1,r:"Ventricular action potential: Phase 0 = rapid Na⁺ influx (depolarization), Phase 1 = transient K⁺ efflux, Phase 2 = Ca²⁺ influx = plateau (no change in net charge), Phase 3 = K⁺ efflux (repolarization), Phase 4 = resting membrane potential."},
+  {id:290,sys:'general',c:false,calc:false,stem:"Which of the following best describes the concept of 'functional residual capacity' (FRC)?",opts:["Volume of air remaining after maximal expiration","Volume of air in the lungs at the end of a normal quiet expiration","Maximum volume of air that can be inhaled","Volume of air exchanged during normal breathing"],ans:1,r:"FRC is the volume of air remaining in the lungs at the end of a normal quiet expiration (passive equilibrium between lung recoil and chest wall expansion). FRC = ERV + RV."},
+  {id:291,sys:'general',c:false,calc:false,stem:"Which of the following correctly describes the location of the primary auditory cortex?",opts:["Postcentral gyrus","Superior temporal gyrus (Heschl's gyri)","Occipital lobe","Prefrontal cortex"],ans:1,r:"The primary auditory cortex (A1) is located in the superior temporal gyrus (specifically in Heschl's transverse gyri, within the lateral sulcus). The postcentral gyrus is the primary somatosensory cortex."},
+  {id:292,sys:'general',c:false,calc:false,stem:"Which of the following is a correct statement about the countercurrent multiplier system in the kidney?",opts:["It occurs in the cortex","It generates the medullary osmotic gradient","It requires water reabsorption in the ascending limb","It is dependent on ADH"],ans:1,r:"The countercurrent multiplier in the loop of Henle generates the medullary concentration gradient. The ascending limb actively reabsorbs NaCl (impermeable to water), while the descending limb is permeable to water but not NaCl — creating the gradient."},
+  {id:293,sys:'general',c:false,calc:false,stem:"Erythropoietin (EPO) is primarily produced by which organ?",opts:["Liver","Bone marrow","Kidneys","Spleen"],ans:2,r:"In adults, erythropoietin (EPO) is primarily produced by peritubular interstitial cells in the kidneys (cortex and outer medulla) in response to hypoxia. The liver produces a small amount."},
+  {id:294,sys:'general',c:false,calc:false,stem:"Which of the following best describes the first heart sound (S1)?",opts:["Closure of the aortic and pulmonic valves","Closure of the mitral and tricuspid valves","Opening of the mitral and tricuspid valves","Closure of the aortic valve only"],ans:1,r:"S1 is caused by the closure of the mitral (bicuspid) and tricuspid valves at the onset of systole. S2 is caused by the closure of the aortic and pulmonic (semilunar) valves at the onset of diastole."},
+  {id:295,sys:'general',c:false,calc:false,stem:"Which nerve is responsible for the efferent limb of the corneal (blink) reflex?",opts:["CN V (trigeminal)","CN VII (facial)","CN II (optic)","CN III (oculomotor)"],ans:1,r:"The afferent limb of the corneal reflex is CN V1 (ophthalmic branch of trigeminal). The efferent limb is CN VII (facial nerve), which innervates the orbicularis oculi muscle to close the eyelid."},
+  {id:296,sys:'general',c:false,calc:false,stem:"Which of the following correctly describes the mechanism of synaptic transmission at the neuromuscular junction?",opts:["Norepinephrine binds to nicotinic receptors causing muscle contraction","ACh binds to muscarinic receptors in skeletal muscle","ACh binds to nicotinic receptors, causing Na⁺ influx and EPP, leading to muscle action potential","Dopamine causes muscle fiber depolarization"],ans:2,r:"At the NMJ, acetylcholine (ACh) released from motor neurons binds to postsynaptic nicotinic AChRs, causing Na⁺ and K⁺ flux (Na⁺ dominates → depolarization), generating an end-plate potential (EPP) that triggers a muscle action potential."},
+  {id:297,sys:'general',c:false,calc:false,stem:"Which phase of digestion begins when food enters the stomach?",opts:["Cephalic phase","Gastric phase","Intestinal phase","Duodenal phase"],ans:1,r:"The gastric phase begins when food enters the stomach, stimulating gastric distension and protein digestion products, leading to gastrin release and increased acid secretion."},
+  {id:298,sys:'general',c:false,calc:false,stem:"In the GI tract, which cells secrete intrinsic factor?",opts:["Chief cells","Parietal cells","G cells","Mucous neck cells"],ans:1,r:"Parietal cells (oxyntic cells) of the gastric fundus and body secrete both hydrochloric acid (HCl) and intrinsic factor. Intrinsic factor is essential for vitamin B12 absorption in the terminal ileum."},
+  {id:299,sys:'general',c:false,calc:false,stem:"Which of the following is a correct statement about the blood-brain barrier (BBB)?",opts:["It is formed by astrocyte cell bodies","It allows free passage of all water-soluble molecules","It is formed primarily by tight junctions between cerebral capillary endothelial cells","It does not affect drug delivery to the CNS"],ans:2,r:"The BBB is formed primarily by tight junctions between cerebral capillary endothelial cells, with astrocyte foot processes providing support. It restricts passage of most water-soluble and large molecules, protecting the CNS."},
+  {id:300,sys:'general',c:false,calc:false,stem:"Which of the following correctly describes the Hering-Breuer reflex?",opts:["Hypoxia stimulates increased breathing","Stretch of the lungs during inspiration sends signals via the vagus nerve to inhibit further inspiration","Hypercapnia stimulates the chemoreceptors in the carotid body","Pain stimulates breathing"],ans:1,r:"The Hering-Breuer reflex: stretch receptors in the lung parenchyma detect lung inflation and send afferent signals via the vagus nerve to the respiratory center, inhibiting further inspiration — preventing over-inflation of the lungs."}
+];
+
+const SYS_NAMES = {
+  cell: 'Cell Physiology',
+  neuro: 'Neurophysiology',
+  cardio: 'Cardiovascular',
+  resp: 'Respiratory',
+  renal: 'Renal',
+  gi: 'GI Physiology',
+  endo: 'Endocrine',
+  repro: 'Reproductive',
+  muscle: 'Muscle',
+  integrative: 'Integrative',
+  general: 'General Reviewer'
+};
+
+let state = { mode:'exam', answers:{}, revealed:{}, filter:{sys:'all', type:'all'}, page:0, perPage:10 };
+
+function getFiltered() {
+  return Q.filter(q => {
+    if (state.filter.sys !== 'all' && q.sys !== state.filter.sys) return false;
+    if (state.filter.type === 'clinical' && !q.c) return false;
+    if (state.filter.type === 'calc' && !q.calc) return false;
+    if (state.filter.type === 'concept' && (q.c || q.calc)) return false;
+    return true;
+  });
+}
+
+function setMode(m) {
+  state.mode = m;
+  document.querySelectorAll('.tab').forEach((el,i) => el.classList.toggle('active',['exam','review','key'][i]===m));
+  state.page = 0;
+  render();
+}
+
+function applyFilter() {
+  state.filter.sys = document.getElementById('themeFilter').value;
+  state.filter.type = document.getElementById('typeFilter').value;
+  state.page = 0;
+  render();
+}
+
+function changePerPage() {
+  state.perPage = +document.getElementById('perPageSel').value;
+  state.page = 0;
+  render();
+}
+
+function resetAll() {
+  if (!confirm('Reset all answers? This cannot be undone.')) return;
+  state.answers = {}; state.revealed = {};
+  updateStats(); render();
+}
+
+function openScore() {
+  const fq = getFiltered();
+  const answered = fq.filter(x => state.answers[x.id] !== undefined).length;
+  const correct = fq.filter(x => state.answers[x.id] === x.ans).length;
+  const pct = answered > 0 ? Math.round(correct/answered*100) : 0;
+  let color = pct >= 75 ? '#4cad6e' : pct >= 60 ? '#c9a84c' : '#c94c4c';
+  let grade = pct >= 90 ? 'Distinction' : pct >= 75 ? 'Pass' : pct >= 60 ? 'Near Pass' : 'Needs Review';
+  document.getElementById('modalScore').textContent = pct + '%';
+  document.getElementById('modalScore').style.color = color;
+  document.getElementById('modalGrade').textContent = grade;
+  document.getElementById('modalGrade').style.color = color;
+  const selEl = document.getElementById('themeFilter');
+  document.getElementById('modalSub').textContent = `${fq.length} questions · ${selEl.options[selEl.selectedIndex].text}`;
+  document.getElementById('mdAns').textContent = answered;
+  document.getElementById('mdCorr').textContent = correct;
+  document.getElementById('mdWrong').textContent = answered - correct;
+  document.getElementById('scoreModal').classList.add('open');
+}
+
+function closeScore(e) {
+  if (!e || e.target.id === 'scoreModal' || e.target.className === 'btn primary') {
+    document.getElementById('scoreModal').classList.remove('open');
+  }
+}
+
+function updateStats() {
+  const fq = getFiltered();
+  const answered = fq.filter(x => state.answers[x.id] !== undefined).length;
+  const correct = fq.filter(x => state.answers[x.id] === x.ans).length;
+  document.getElementById('sTotal').textContent = fq.length;
+  document.getElementById('sAnswered').textContent = answered;
+  document.getElementById('sCorrect').textContent = correct;
+  document.getElementById('sPct').textContent = answered > 0 ? Math.round(correct/answered*100) + '%' : '—';
+  const pct = Math.round(answered / Math.max(fq.length,1) * 100);
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progLabel').textContent = `${answered} / ${fq.length} answered`;
+  document.getElementById('progPct').textContent = pct + '%';
+}
+
+function selectAnswer(id, idx) {
+  if (state.mode === 'key') return;
+  state.answers[id] = idx;
+  if (state.mode === 'review') state.revealed[id] = true;
+  updateStats();
+  render();
+}
+
+function toggleReveal(id) {
+  state.revealed[id] = !state.revealed[id];
+  render();
+}
+
+function prevPage() { if (state.page > 0) { state.page--; render(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function nextPage() {
+  const total = Math.ceil(getFiltered().length / state.perPage);
+  if (state.page < total - 1) { state.page++; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+
+function render() {
+  const filtered = getFiltered();
+  const total = Math.ceil(filtered.length / Math.max(state.perPage,1));
+  const start = state.page * state.perPage;
+  const visible = filtered.slice(start, start + state.perPage);
+  document.getElementById('pageInfo').textContent = `Page ${state.page+1} of ${Math.max(total,1)} · Items ${start+1}–${Math.min(start+state.perPage, filtered.length)} of ${filtered.length}`;
+
+  let html = '';
+  let lastSys = null;
+
+  visible.forEach(q => {
+    if (q.sys !== lastSys) {
+      if (lastSys !== null) {
+        html += `<div class="theme-divider"><div class="theme-divider-line"></div><div class="theme-divider-label">${SYS_NAMES[q.sys]}</div><div class="theme-divider-line"></div></div>`;
+      }
+      lastSys = q.sys;
+    }
+
+    const userAns = state.answers[q.id];
+    const revealed = state.revealed[q.id] || state.mode === 'key';
+
+    const optHtml = q.opts.map((opt, i) => {
+      let cls = 'opt';
+      if (revealed) {
+        if (i === q.ans) cls += ' correct';
+        else if (userAns === i) cls += ' wrong';
+      } else {
+        if (userAns === i) cls += ' selected';
+      }
+      const click = state.mode !== 'key' ? `onclick="selectAnswer(${q.id},${i})"` : '';
+      return `<button class="${cls}" ${click}><span class="opt-letter">${OPTS[i]}.</span><span>${opt}</span></button>`;
+    }).join('');
+
+    const rationaleHtml = revealed ? `<div class="rationale"><strong>Answer: ${OPTS[q.ans]}</strong> — ${q.r}</div>` : '';
+    const revealBtn = state.mode === 'exam' && userAns !== undefined && !state.revealed[q.id] ?
+      `<button class="reveal-btn" onclick="toggleReveal(${q.id})">Show answer & rationale</button>` : '';
+
+    let badges = `<span class="badge badge-theme">${SYS_NAMES[q.sys]}</span>`;
+    if (q.c) badges += ` <span class="badge badge-clinical">● Clinical</span>`;
+    if (q.calc) badges += ` <span class="badge badge-calc">∑ Calculation</span>`;
+    const src = q.sys === 'general' ? `<span class="badge badge-source">Reviewer</span>` : `<span class="badge badge-source">Verified PDF</span>`;
+    badges += ` ${src}`;
+
+    html += `<div class="q-card">
+      <div class="q-meta">
+        <span class="q-num">Q${q.id}</span>
+        ${badges}
+      </div>
+      <div class="q-stem">${q.stem}</div>
+      <div class="options">${optHtml}</div>
+      ${revealBtn}
+      ${rationaleHtml}
+    </div>`;
+  });
+
+  document.getElementById('qContainer').innerHTML = html;
+  updateStats();
+}
+
+window.addEventListener('scroll', () => {
+  document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 300);
+});
+
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'SELECT') return;
+  if (e.key === 'ArrowRight') nextPage();
+  if (e.key === 'ArrowLeft') prevPage();
+  if (e.key === 'Escape') closeScore();
+});
+
+render();
+</script>
+</body>
+</html>
