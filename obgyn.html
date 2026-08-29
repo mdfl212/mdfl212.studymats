@@ -584,24 +584,24 @@
 <body>
     <div class="wrapper">
         <header class="site-header">
-            <div class="header-eyebrow">馃挆 OB-GYN PLE 2023 + 2019 路 192 Items</div>
+            <div class="header-eyebrow">💗 OB-GYN PLE 2023 + 2019 · 192 Items</div>
             <h1 class="header-title"><em>Obstetrics &amp; Gynecology</em><br />PLE Reviewer</h1>
-            <p class="header-sub">Pregnancy 路 Labor 路 Contraception 路 Infections 路 Oncology 路 Menopause &amp; More</p>
+            <p class="header-sub">Pregnancy · Labor · Contraception · Infections · Oncology · Menopause &amp; More</p>
         </header>
         <div class="stats-bar">
             <div class="stat-card"><span class="stat-val" id="sTotal">192</span><span class="stat-label">Questions</span></div>
             <div class="stat-card"><span class="stat-val" id="sAnswered">0</span><span class="stat-label">Answered</span></div>
             <div class="stat-card"><span class="stat-val" id="sCorrect">0</span><span class="stat-label">Correct</span></div>
-            <div class="stat-card"><span class="stat-val" id="sPct">鈥?/span><span class="stat-label">Score %</span></div>
+            <div class="stat-card"><span class="stat-val" id="sPct">—</span><span class="stat-label">Score %</span></div>
         </div>
         <div class="progress-wrap">
             <div class="progress-meta"><span id="progLabel">0 / 192 answered</span><span id="progPct">0%</span></div>
             <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
         </div>
         <div class="mode-tabs">
-            <button class="tab active" onclick="setMode('exam')">馃摑 Exam Mode</button>
-            <button class="tab" onclick="setMode('review')">馃攳 Review Mode</button>
-            <button class="tab" onclick="setMode('key')">馃棟 Answer Key</button>
+            <button class="tab active" onclick="setMode('exam')">📝 Exam Mode</button>
+            <button class="tab" onclick="setMode('review')">🔍 Review Mode</button>
+            <button class="tab" onclick="setMode('key')">🗝 Answer Key</button>
         </div>
         <div class="controls">
             <label>Section</label>
@@ -658,12 +658,12 @@
             </select>
             <button class="btn primary" onclick="openScore()">Score Me</button>
             <button class="btn danger" onclick="resetAll()">Reset</button>
-            <button class="btn table-toggle" id="tableToggleBtn" onclick="toggleTableView()">馃搳 Table</button>
+            <button class="btn table-toggle" id="tableToggleBtn" onclick="toggleTableView()">📊 Table</button>
         </div>
 
         <div class="table-view-wrap" id="tableViewWrap">
             <div class="table-controls">
-                <label>馃攳 Filter</label>
+                <label>🔍 Filter</label>
                 <input type="text" id="tableSearch" placeholder="Search stem or rationale..." oninput="renderTable()" />
                 <span class="table-count" id="tableCount"></span>
             </div>
@@ -677,9 +677,9 @@
 
         <div id="qContainer"></div>
         <div class="nav">
-            <button class="btn" onclick="prevPage()">鈫?Previous</button>
+            <button class="btn" onclick="prevPage()">← Previous</button>
             <span class="page-info" id="pageInfo"></span>
-            <button class="btn" onclick="nextPage()">Next 鈫?/button>
+            <button class="btn" onclick="nextPage()">Next →</button>
         </div>
     </div>
 
@@ -687,7 +687,7 @@
         <div class="modal">
             <div class="modal-title">Examination Results</div>
             <div class="modal-sub" id="modalSub">OB-GYN PLE Reviewer</div>
-            <div class="score-big" id="modalScore">鈥?/div>
+            <div class="score-big" id="modalScore">—</div>
             <div class="score-grade" id="modalGrade"></div>
             <div class="score-detail">
                 <div class="sd-item"><span class="sd-val" id="mdAns">0</span><span class="sd-lab">Answered</span></div>
@@ -698,7 +698,7 @@
         </div>
     </div>
 
-    <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">鈫?/button>
+    <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
     <script>
         const THEME_NAMES = ['', 'Obstetrics', 'Gynecology'];
@@ -729,11 +729,11 @@
                 tags: ["Diabetes", "Pregnancy"] },
             { id: 6, t: 1, c: false, stem: "An infant delivered at 38 weeks is considered:",
                 opts: ["Previable", "Preterm", "Term", "Postterm"], ans: 2,
-                r: "Term: 37鈥?2 weeks. Previable: 23鈥?4 weeks. Preterm: 24鈥?7 weeks. Postterm: beyond 42 weeks.",
+                r: "Term: 37–42 weeks. Previable: 23–24 weeks. Preterm: 24–37 weeks. Postterm: beyond 42 weeks.",
                 tags: ["Labor"] },
             { id: 7, t: 2, c: false, stem: "A 40-year-old woman smokes 17 cigarettes per day and asks for contraception. Which should NOT be prescribed?",
                 opts: ["Progestin-only pill", "Depo-Provera", "Implanon", "Combined oral contraceptive"], ans: 3,
-                r: "Combined oral contraceptives (COC) contain estrogen 鈫?hypercoagulability. Contraindicated in women >35 who smoke 鈮?5 cigarettes/day. Progesterone-only methods are safe.",
+                r: "Combined oral contraceptives (COC) contain estrogen → hypercoagulability. Contraindicated in women >35 who smoke ≥15 cigarettes/day. Progesterone-only methods are safe.",
                 tags: ["Contraception"] },
             { id: 8, t: 1, c: false, stem: "What is the recommended treatment for a pregnant patient with deep venous thrombosis (DVT)?",
                 opts: ["Enoxaparin", "Warfarin", "Aspirin", "All of the above"], ans: 0,
@@ -833,7 +833,7 @@
                 tags: ["Infertility"] },
             { id: 32, t: 2, c: false, stem: "Which drug used in ovulation induction works by blocking estrogen receptors in the hypothalamus to increase FSH and LH?",
                 opts: ["Letrozole", "Clomiphene", "Tamoxifen", "Any of the above"], ans: 1,
-                r: "Clomiphene is a SERM that blocks estrogen receptors in the hypothalamus, increasing GnRH 鈫?FSH/LH. Letrozole is an aromatase inhibitor.",
+                r: "Clomiphene is a SERM that blocks estrogen receptors in the hypothalamus, increasing GnRH → FSH/LH. Letrozole is an aromatase inhibitor.",
                 tags: ["Infertility"] },
             { id: 33, t: 2, c: false, stem: "The following are contraindications to combined oral contraceptives, EXCEPT?",
                 opts: ["Thromboembolism", "Smokers older than 35", "Unexplained vaginal bleeding", "Ovarian cancer"], ans: 3,
@@ -841,7 +841,7 @@
                 tags: ["Contraception"] },
             { id: 34, t: 2, c: false, stem: "Breastfeeding as contraception suppresses ovulation through:",
                 opts: ["Prolactin-induced inhibition of GnRH", "Oxytocin-induced inhibition of GnRH", "ADH-induced inhibition of GnRH", "All of the above"], ans: 0,
-                r: "Breastfeeding 鈫?increased prolactin 鈫?decreased GnRH 鈫?suppressed ovulation.",
+                r: "Breastfeeding → increased prolactin → decreased GnRH → suppressed ovulation.",
                 tags: ["Contraception"] },
             { id: 35, t: 2, c: false, stem: "A 22-year-old with unilateral ovarian germ cell tumor desires future fertility. Recommended surgery:",
                 opts: ["Unilateral salpingo-oophorectomy", "Bilateral salpingo-oophorectomy", "Total hysterectomy with bilateral salpingo-oophorectomy", "None of the above"], ans: 0,
@@ -949,7 +949,7 @@
                 tags: ["Menopause"] },
             { id: 60, t: 2, c: false, stem: "Which of the following is the last to occur in the pubertal sequence?",
                 opts: ["Menarche", "Pubarche", "Thelarche", "Accelerated growth"], ans: 0,
-                r: "Sequence: accelerated growth 鈫?thelarche 鈫?pubarche 鈫?menarche.",
+                r: "Sequence: accelerated growth → thelarche → pubarche → menarche.",
                 tags: ["Menopause"] },
             { id: 61, t: 2, c: false, stem: "After ovulation, what structure secretes progesterone to maintain the endometrial lining?",
                 opts: ["Corpus albicans", "Corpus luteum", "Primary ovarian follicle", "Any of the above"], ans: 1,
@@ -957,7 +957,7 @@
                 tags: ["Menopause"] },
             { id: 62, t: 2, c: false, stem: "A patient with primary amenorrhea, female external genitalia with testes in labia majora, scant pubic hair, rudimentary vagina, 46 XY. Diagnosis:",
                 opts: ["Androgen insensitivity syndrome", "Kallman syndrome", "Mayer-Rokitansky-Kuster-Hauser syndrome", "Imperforate hymen"], ans: 0,
-                r: "Androgen insensitivity (testicular feminization) 鈥?46 XY, female phenotype, testes, blind vagina. Kallman: hypogonadotropic hypogonadism with anosmia. MRKH: congenital absence of uterus/vagina.",
+                r: "Androgen insensitivity (testicular feminization) – 46 XY, female phenotype, testes, blind vagina. Kallman: hypogonadotropic hypogonadism with anosmia. MRKH: congenital absence of uterus/vagina.",
                 tags: ["Genetics"] },
             { id: 63, t: 2, c: false, stem: "What Tanner stage of breast development is the breast bud stage with elevation of breast and papilla, areolar enlargement?",
                 opts: ["Stage 1", "Stage 2", "Stage 3", "Stage 4"], ans: 1,
@@ -965,7 +965,7 @@
                 tags: ["Menopause"] },
             { id: 64, t: 2, c: false, stem: "A patient with postpartum hemorrhage and failure to lactate, amenorrhea, cold intolerance. Diagnosis:",
                 opts: ["Sheehan syndrome", "Asherman syndrome", "Empty sella syndrome", "Pituitary apoplexy"], ans: 0,
-                r: "Sheehan syndrome: pituitary infarction from postpartum hemorrhage 鈫?panhypopituitarism. Asherman: intrauterine adhesions.",
+                r: "Sheehan syndrome: pituitary infarction from postpartum hemorrhage → panhypopituitarism. Asherman: intrauterine adhesions.",
                 tags: ["Postpartum"] },
             { id: 65, t: 2, c: false, stem: "What is the strongest risk factor for developing ectopic pregnancy?",
                 opts: ["Use of an IUD", "Previous history of ectopic pregnancy", "Endometriosis", "History of PID"], ans: 1,
@@ -977,7 +977,7 @@
                 tags: ["Abortion"] },
             { id: 67, t: 1, c: false, stem: "In patients receiving MgSO4 for seizure prophylaxis, at what serum level (mg/mL) is respiratory depression expected?",
                 opts: ["8", "10", "15", "20"], ans: 2,
-                r: "Therapeutic: 4.8鈥?.4; loss of DTRs: 10; respiratory depression: 15; coma: 17; cardiac arrest: 20鈥?5.",
+                r: "Therapeutic: 4.8–8.4; loss of DTRs: 10; respiratory depression: 15; coma: 17; cardiac arrest: 20–25.",
                 tags: ["Preeclampsia", "Eclampsia"] },
             { id: 68, t: 1, c: false, stem: "What is the most common congenital infection and leading cause of congenital hearing loss?",
                 opts: ["CMV", "Hepatitis B", "Rubella", "Rubeola"], ans: 0,
@@ -1069,7 +1069,7 @@
                 tags: ["Menopause"] },
             { id: 90, t: 2, c: false, stem: "According to POP-Q staging, complete eversion is described as:",
                 opts: ["Stage I", "Stage II", "Stage III", "Stage IV"], ans: 3,
-                r: "Stage IV is complete eversion. Stage 0: no prolapse. Stage I: >1 cm above hymen. Stage II: 鈮? cm above/below. Stage III: >1 cm below.",
+                r: "Stage IV is complete eversion. Stage 0: no prolapse. Stage I: >1 cm above hymen. Stage II: ≤1 cm above/below. Stage III: >1 cm below.",
                 tags: ["Menopause"] },
             { id: 91, t: 2, c: false, stem: "What is the mainstay of conservative management for pelvic organ prolapse?",
                 opts: ["Pelvic floor exercises with biofeedback", "Low-dose vaginal estrogen cream", "Kegel exercises", "Vaginal pessaries"], ans: 3,
@@ -1109,12 +1109,12 @@
                 tags: ["Abruption"] },
             { id: 100, t: 1, c: false, stem: "Using the Nagele rule, what is the EDD for a woman with LMP of January 16, 2020?",
                 opts: ["September 23, 2020", "October 23, 2020", "November 23, 2020", "December 23, 2020"], ans: 1,
-                r: "Nagele rule: subtract 3 months from LMP, add 7 days. January 16 鈫?October 16 + 7 = October 23, 2020.",
+                r: "Nagele rule: subtract 3 months from LMP, add 7 days. January 16 → October 16 + 7 = October 23, 2020.",
                 tags: ["Pregnancy"] },
             // --- New Questions from 2019 Practice Test ---
             { id: 101, t: 2, c: true, stem: "Clomiphene causes ovarian follicular growth through an increase in the secretion of:",
                 opts: ["Inhibiting the enzyme aromatase", "Follicle stimulating hormone", "Estrogen and progesterone", "Luteinizing hormone"], ans: 1,
-                r: "Clomiphene is a SERM that blocks estrogen receptors, increasing GnRH 鈫?FSH/LH. It does not inhibit aromatase (that's letrozole).",
+                r: "Clomiphene is a SERM that blocks estrogen receptors, increasing GnRH → FSH/LH. It does not inhibit aromatase (that's letrozole).",
                 tags: ["Infertility"] },
             { id: 102, t: 2, c: true, stem: "Which of the following statements is CORRECT regarding Meigs syndrome?",
                 opts: ["Patient's symptoms will resolve after chemotherapy", "The symptoms resolve after removal of the tumor", "Patient will require chemotherapy after surgery", "Patient will require radiotherapy after surgery"], ans: 1,
@@ -1551,7 +1551,7 @@
             document.getElementById('modalGrade').textContent = grade;
             document.getElementById('modalGrade').style.color = color;
             document.getElementById('modalSub').textContent =
-                `${fq.length} questions 路 Section: ${document.getElementById('themeFilter').options[document.getElementById('themeFilter').selectedIndex].text}`;
+                `${fq.length} questions · Section: ${document.getElementById('themeFilter').options[document.getElementById('themeFilter').selectedIndex].text}`;
             document.getElementById('mdAns').textContent = answered;
             document.getElementById('mdCorr').textContent = correct;
             document.getElementById('mdWrong').textContent = answered - correct;
@@ -1571,7 +1571,7 @@
             document.getElementById('sTotal').textContent = fq.length;
             document.getElementById('sAnswered').textContent = answered;
             document.getElementById('sCorrect').textContent = correct;
-            document.getElementById('sPct').textContent = answered > 0 ? Math.round(correct / answered * 100) + '%' : '鈥?;
+            document.getElementById('sPct').textContent = answered > 0 ? Math.round(correct / answered * 100) + '%' : '—';
             const pct = Math.round(answered / Math.max(fq.length, 1) * 100);
             document.getElementById('progFill').style.width = pct + '%';
             document.getElementById('progLabel').textContent = `${answered} / ${fq.length} answered`;
@@ -1636,14 +1636,14 @@
             filtered.forEach(q => {
                 const userAns = state.answers[q.id];
                 const reveal = state.revealed[q.id] || state.mode === 'key';
-                let ansDisplay = '鈥?;
+                let ansDisplay = '—';
                 if (reveal || userAns !== undefined) {
                     if (reveal) ansDisplay = OPTS[q.ans];
                     else if (userAns !== undefined) ansDisplay = OPTS[userAns];
                 }
-                const correctMark = (reveal && userAns === q.ans) ? ' 鉁? : '';
-                const wrongMark = (reveal && userAns !== undefined && userAns !== q.ans) ? ' 鉁? : '';
-                const tagStr = q.tags.slice(0, 3).join(', ') + (q.tags.length > 3 ? '鈥? : '');
+                const correctMark = (reveal && userAns === q.ans) ? ' ✓' : '';
+                const wrongMark = (reveal && userAns !== undefined && userAns !== q.ans) ? ' ✗' : '';
+                const tagStr = q.tags.slice(0, 3).join(', ') + (q.tags.length > 3 ? '…' : '');
                 html += `<tr>
                     <td class="qnum-col">Q${q.id}</td>
                     <td class="ans-col">${ansDisplay}${correctMark}${wrongMark}</td>
@@ -1663,7 +1663,7 @@
             const visible = filtered.slice(start, start + state.perPage);
             document.getElementById('sTotal').textContent = filtered.length;
             document.getElementById('pageInfo').textContent =
-                `Page ${state.page+1} of ${Math.max(total,1)} 路 Items ${start+1}鈥?{Math.min(start+state.perPage, filtered.length)} of ${filtered.length}`;
+                `Page ${state.page+1} of ${Math.max(total,1)} · Items ${start+1}–${Math.min(start+state.perPage, filtered.length)} of ${filtered.length}`;
             let html = '';
             let lastTheme = null;
             visible.forEach(q => {
@@ -1694,13 +1694,13 @@
                     return `<button class="${cls}" ${click}><span class="opt-letter">${OPTS[i]}.</span><span>${opt}</span></button>`;
                 }).join('');
                 const rationaleHtml = revealed ?
-                    `<div class="rationale"><strong>Answer: ${OPTS[q.ans]}</strong> 鈥?${q.r}</div>` :
+                    `<div class="rationale"><strong>Answer: ${OPTS[q.ans]}</strong> — ${q.r}</div>` :
                     '';
                 const revealBtn = state.mode === 'exam' && userAns !== undefined && !state.revealed[q.id] ?
                     `<button class="reveal-btn" onclick="toggleReveal(${q.id})">Show answer &amp; rationale</button>` :
                     '';
                 let badges = `<span class="badge badge-theme">${THEME_NAMES[q.t]}</span>`;
-                if (q.c) badges += ` <span class="badge badge-clinical">鈼?Clinical</span>`;
+                if (q.c) badges += ` <span class="badge badge-clinical">● Clinical</span>`;
                 html += `<div class="q-card">
               <div class="q-meta"><span class="q-num">Q${q.id}</span>${badges}</div>
               <div class="tag-group">${tagHtml}</div>
