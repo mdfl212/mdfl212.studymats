@@ -1,4 +1,1559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OB History &amp; PE · Digital Form</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js">
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+        /* ─── DARK THEME (PLE SIGNATURE) ─── */
+        :root {
+            --bg: #0b0b0e;
+            --bg2: #12121a;
+            --bg3: #191923;
+            --bg4: #21212f;
+            --border: rgba(255, 255, 255, 0.07);
+            --border2: rgba(255, 255, 255, 0.12);
+            --text: #e6e2d6;
+            --text2: #9c9880;
+            --text3: #6b6855;
+            --gold: #c9a84c;
+            --gold2: #e8c96a;
+            --gold-dim: rgba(201, 168, 76, 0.12);
+            --radius: 6px;
+            --radius-lg: 10px;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 14.5px;
+            line-height: 1.7;
+            min-height: 100vh;
+            padding: 0 20px 60px;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+        .wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
 
+        /* ─── HEADER ─── */
+        .site-header {
+            border-bottom: 1px solid var(--border2);
+            padding: 32px 0 20px;
+            margin-bottom: 28px;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .site-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background: var(--gold);
+        }
+        .header-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 4px;
+        }
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(24px, 3.6vw, 38px);
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--text);
+        }
+        .header-title em {
+            font-style: italic;
+            color: var(--gold2);
+        }
+        .header-sub {
+            font-size: 13px;
+            color: var(--text2);
+            font-style: italic;
+        }
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        /* ─── BUTTONS ─── */
+        .btn {
+            padding: 8px 18px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border2);
+            background: transparent;
+            color: var(--text2);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.18s;
+            white-space: nowrap;
+        }
+        .btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: var(--gold-dim);
+        }
+        .btn.primary {
+            background: var(--gold-dim);
+            border-color: var(--gold);
+            color: var(--gold2);
+        }
+        .btn.primary:hover {
+            background: rgba(201, 168, 76, 0.25);
+        }
+        .btn.gold {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: #0b0b0e;
+            font-weight: 600;
+        }
+        .btn.gold:hover {
+            background: var(--gold2);
+            border-color: var(--gold2);
+        }
+        .btn.danger:hover {
+            border-color: #c94c4c;
+            color: #c94c4c;
+            background: rgba(201, 76, 76, 0.12);
+        }
+        .btn.small {
+            padding: 3px 10px;
+            font-size: 9px;
+        }
+
+        /* ─── FORM SECTIONS ─── */
+        .form-section {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px 24px 24px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .form-section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gold2);
+            margin-bottom: 14px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-section-title .badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: var(--gold-dim);
+            color: var(--gold);
+            padding: 2px 10px;
+            border-radius: 3px;
+            font-weight: 400;
+        }
+        .howto {
+            margin-top: 12px;
+            padding: 10px 14px;
+            background: var(--bg3);
+            border-left: 3px solid var(--gold);
+            border-radius: var(--radius);
+            font-size: 12.5px;
+            color: var(--text2);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .howto .icon {
+            font-size: 18px;
+            line-height: 1;
+            color: var(--gold);
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .howto strong {
+            color: var(--gold2);
+            font-weight: 600;
+        }
+
+        /* ─── FORM ROWS ─── */
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        .form-row.label-top {
+            align-items: flex-start;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1 0 180px;
+            min-width: 140px;
+            position: relative;
+        }
+        .form-group.full {
+            flex: 1 0 100%;
+        }
+        .form-group.half {
+            flex: 1 0 calc(50% - 12px);
+            min-width: 180px;
+        }
+        .form-group.third {
+            flex: 1 0 calc(33.33% - 14px);
+            min-width: 140px;
+        }
+        .form-group.quarter {
+            flex: 1 0 calc(25% - 15px);
+            min-width: 120px;
+        }
+        .form-group label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9.5px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text3);
+            margin-bottom: 2px;
+        }
+        .form-group .hint {
+            font-size: 10px;
+            color: var(--text3);
+            font-style: italic;
+            margin-top: 1px;
+        }
+        input,
+        select,
+        textarea {
+            background: var(--bg3);
+            border: 1px solid var(--border2);
+            border-radius: var(--radius);
+            color: var(--text);
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 13.5px;
+            padding: 7px 10px;
+            transition: border-color 0.2s;
+            width: 100%;
+            outline: none;
+        }
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--gold);
+        }
+        textarea {
+            resize: vertical;
+            min-height: 44px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        input[type="number"] {
+            width: 90px;
+            flex: 0 0 auto;
+        }
+        .inline-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 14px;
+            align-items: center;
+        }
+        .inline-group .form-group {
+            flex: 0 1 auto;
+            min-width: 70px;
+        }
+
+        /* ─── ICD SEARCH ─── */
+        .icd-search-wrap {
+            position: relative;
+        }
+        #icdSuggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--bg3);
+            border: 1px solid var(--border2);
+            border-top: none;
+            border-radius: 0 0 var(--radius) var(--radius);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 20;
+            display: none;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+        }
+        #icdSuggestions .suggestion-item {
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 12.5px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text2);
+            transition: background 0.1s;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        #icdSuggestions .suggestion-item:hover,
+        #icdSuggestions .suggestion-item.active {
+            background: var(--bg4);
+            color: var(--text);
+        }
+        #icdSuggestions .suggestion-item .code {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 11px;
+        }
+        #icdSuggestions .suggestion-item .desc {
+            flex: 1;
+            text-align: left;
+        }
+        #icdSuggestions .suggestion-item .system {
+            font-size: 9px;
+            color: var(--text3);
+            padding: 2px 6px;
+            border-radius: 3px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+        }
+
+        /* ─── SELECTED CODES ─── */
+        .icd-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg4);
+            border: 1px solid var(--border2);
+            border-radius: 20px;
+            padding: 3px 10px 3px 14px;
+            font-size: 12px;
+            color: var(--text);
+        }
+        .icd-pill .code {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--gold);
+            font-weight: 600;
+        }
+        .icd-pill .remove {
+            background: none;
+            border: none;
+            color: var(--text3);
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+            padding: 0 2px;
+        }
+        .icd-pill .remove:hover {
+            color: #c94c4c;
+        }
+
+        /* ─── OB TABLE ─── */
+        .ob-table-wrap {
+            overflow-x: auto;
+            margin-top: 6px;
+        }
+        .ob-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12.5px;
+        }
+        .ob-table th,
+        .ob-table td {
+            border: 1px solid var(--border2);
+            padding: 4px 6px;
+            text-align: center;
+            vertical-align: middle;
+            min-width: 52px;
+        }
+        .ob-table th {
+            background: var(--bg4);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text3);
+        }
+        .ob-table td input {
+            background: transparent;
+            border: none;
+            text-align: center;
+            font-size: 12px;
+            padding: 2px 4px;
+            width: 100%;
+            min-width: 30px;
+            color: var(--text);
+        }
+        .ob-table td input:focus {
+            background: var(--bg4);
+            border-radius: 3px;
+        }
+        .ob-table .g-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* ─── LAB GRID ─── */
+        .lab-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-top: 4px;
+        }
+        @media (max-width: 700px) {
+            .lab-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .lab-box {
+            background: var(--bg3);
+            border-radius: var(--radius);
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+        }
+        .lab-box h4 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+        .lab-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+        .lab-row .lab-label {
+            color: var(--text2);
+            font-size: 12px;
+        }
+        .lab-row input {
+            background: transparent;
+            border: none;
+            text-align: right;
+            font-size: 13px;
+            width: 80px;
+            padding: 2px 4px;
+            color: var(--text);
+        }
+        .lab-row input:focus {
+            background: var(--bg4);
+            border-radius: 3px;
+        }
+
+        /* ─── TOAST ─── */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg3);
+            border: 1px solid var(--border2);
+            border-radius: var(--radius-lg);
+            padding: 14px 28px;
+            color: var(--text);
+            font-size: 13px;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+        }
+        .toast.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .toast .toast-close {
+            margin-left: 14px;
+            background: none;
+            border: none;
+            color: var(--text3);
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 700px) {
+            .form-group.half {
+                flex: 1 0 100%;
+            }
+            .form-group.third {
+                flex: 1 0 100%;
+            }
+            .form-group.quarter {
+                flex: 1 0 100%;
+            }
+            .form-row {
+                gap: 8px;
+            }
+            .form-section {
+                padding: 14px 14px 18px;
+            }
+            .site-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .inline-group .form-group {
+                flex: 1 0 100%;
+            }
+            .ob-table {
+                font-size: 10px;
+            }
+            .ob-table th,
+            .ob-table td {
+                padding: 2px 3px;
+                min-width: 32px;
+            }
+            .ob-table td input {
+                font-size: 10px;
+                min-width: 20px;
+            }
+            .lab-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ─── SCROLL TOP ─── */
+        .scroll-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 40px;
+            height: 40px;
+            background: var(--bg3);
+            border: 1px solid var(--border2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 50;
+            transition: all 0.2s;
+            color: var(--text3);
+            font-size: 16px;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .scroll-top:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: var(--gold-dim);
+        }
+
+        .mt-8 {
+            margin-top: 8px;
+        }
+        .mb-4 {
+            margin-bottom: 4px;
+        }
+        .flex-center {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .text-gold {
+            color: var(--gold);
+        }
+        .text-muted {
+            color: var(--text3);
+            font-size: 12px;
+        }
+        .gap-4 {
+            gap: 4px;
+        }
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--border2);
+            border-top: 2px solid var(--gold);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .btn.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        #iframe-sandbox {
+            position: absolute;
+            top: -99999px;
+            left: -99999px;
+            width: 816px;
+            height: 1056px;
+            visibility: hidden;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+
+        <!-- HEADER -->
+        <header class="site-header">
+            <div>
+                <div class="header-eyebrow">OB‑GYN · Digital Record</div>
+                <h1 class="header-title"><em>History &amp; Physical</em><br>Examination Form</h1>
+                <p class="header-sub">Problem‑Oriented Medical Record · PLE‑style</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn gold" onclick="generateDocx()">⬇ Generate DOCX</button>
+                <button class="btn danger" onclick="resetForm()">Reset</button>
+            </div>
+        </header>
+
+        <!-- TOAST -->
+        <div class="toast" id="toast">
+            <span id="toastMsg">Ready</span>
+            <button class="toast-close" onclick="hideToast()">✕</button>
+        </div>
+
+        <!-- ===== FORM ===== -->
+        <form id="obForm" autocomplete="off">
+
+            <!-- ─── PATIENT INFO ─── -->
+            <section class="form-section">
+                <div class="form-section-title">Patient Information <span class="badge">Demographics</span></div>
+                <div class="form-row">
+                    <div class="form-group half"><label>Contact No.</label><input id="fContact" placeholder="e.g. 0917-123-4567" /></div>
+                    <div class="form-group half"><label>Hospital #</label><input id="fHosp" placeholder="Chart / MR #" /></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group third"><label>Name</label><input id="fName" placeholder="Full name" /></div>
+                    <div class="form-group third"><label>Date</label><input id="fDate" type="date" /></div>
+                    <div class="form-group third"><label>Age</label><input id="fAge" type="number" placeholder="Years" /></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full"><label>Address</label><input id="fAddress" placeholder="Street, City, Province" /></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group third"><label>Consultant</label><input id="fConsultant" placeholder="Attending physician" /></div>
+                    <div class="form-group third"><label>Residents-in-Charge</label><input id="fResidents" placeholder="Resident(s)" /></div>
+                    <div class="form-group third"><label>LMP</label><input id="fLmp" type="date" /></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group quarter"><label>AOG (weeks)</label><input id="fAog" placeholder="auto" readonly style="background:var(--bg4);cursor:default;" /></div>
+                    <div class="form-group quarter"><label>EDC</label><input id="fEdc" type="date" /></div>
+                    <div class="form-group quarter"><label>Sono Date</label><input id="fSonoDate" type="date" /></div>
+                    <div class="form-group quarter"><label>Sono EGA</label><input id="fSonoEga" placeholder="e.g. 32w4d" /></div>
+                </div>
+                <div class="howto">
+                    <span class="icon">⚡</span>
+                    <div><strong>Auto‑Calculator:</strong> Enter <strong>LMP</strong> → EDC &amp; AOG fill automatically. Enter <strong>Sono Date</strong> + <strong>Sono EGA</strong> (e.g. <code>32w4d</code>) → EDC updates based on ultrasound. Dates are in <code>YYYY‑MM‑DD</code>.</div>
+                </div>
+            </section>
+
+            <!-- ─── CC & HPI ─── -->
+            <section class="form-section">
+                <div class="form-section-title">Chief Complaint &amp; HPI <span class="badge">History</span></div>
+                <div class="form-row"><div class="form-group full"><label>Chief Complaint</label><textarea id="fCc" rows="2" placeholder="Primary reason for consult"></textarea></div></div>
+                <div class="form-row"><div class="form-group full"><label>1<sup>st</sup> Trimester</label><textarea id="fHpi1" rows="2" placeholder="Events, symptoms, complications"></textarea></div></div>
+                <div class="form-row"><div class="form-group full"><label>2<sup>nd</sup> Trimester</label><textarea id="fHpi2" rows="2" placeholder="Events, symptoms, complications"></textarea></div></div>
+                <div class="form-row"><div class="form-group full"><label>3<sup>rd</sup> Trimester</label><textarea id="fHpi3" rows="2" placeholder="Events, symptoms, complications"></textarea></div></div>
+                <div class="howto">
+                    <span class="icon">📋</span>
+                    <div>Document the patient's primary complaint and <strong>each trimester</strong> separately. Include relevant symptoms, events, and any complications.</div>
+                </div>
+            </section>
+
+            <!-- ─── PAST / FAMILY / SOCIAL ─── -->
+            <section class="form-section">
+                <div class="form-section-title">Past &amp; Family &amp; Social <span class="badge">History</span></div>
+                <div class="form-row"><div class="form-group full"><label>Past Medical History</label><textarea id="fPmh" rows="2" placeholder="Medical conditions, surgeries, allergies"></textarea></div></div>
+                <div class="form-row"><div class="form-group full"><label>Family History</label><textarea id="fFh" rows="2" placeholder="Family illnesses, genetic conditions"></textarea></div></div>
+                <div class="form-row"><div class="form-group full"><label>Personal / Social History</label><textarea id="fSh" rows="2" placeholder="Smoking, alcohol, occupation, lifestyle"></textarea></div></div>
+                <div class="howto">
+                    <span class="icon">🧬</span>
+                    <div>Include relevant <strong>chronic conditions, surgeries, allergies</strong>, family history of genetic disorders, and lifestyle factors (smoking, alcohol, occupation).</div>
+                </div>
+            </section>
+
+            <!-- ─── MENSTRUAL / SEXUAL ─── -->
+            <section class="form-section">
+                <div class="form-section-title">Menstrual &amp; Sexual History <span class="badge">Gyne</span></div>
+                <div class="form-row">
+                    <div class="form-group third"><label>Menarche (years)</label><input id="fMenarche" placeholder="e.g. 12" /></div>
+                    <div class="form-group third"><label>Regular / Irregular</label><input id="fRegular" placeholder="Regular / Irregular" /></div>
+                    <div class="form-group third"><label>Duration (days)</label><input id="fDuration" placeholder="e.g. 5" /></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group third"><label>Pads / day</label><input id="fPads" placeholder="e.g. 3" /></div>
+                    <div class="form-group third"><label>Dysmenorrhea</label><input id="fDysmenorrhea" placeholder="Yes / No" /></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group third"><label>1<sup>st</sup> sexual contact (age)</label><input id="fSexFirst" placeholder="e.g. 18" /></div>
+                    <div class="form-group third"><label>Sexual partner(s)</label><input id="fSexPartner" placeholder="Single / Multiple" /></div>
+                    <div class="form-group third"><label>OCP use</label><input id="fOcp" placeholder="Yes / No" /></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group third"><label>STD history</label><input id="fStd" placeholder="Yes / No" /></div>
+                    <div class="form-group third"><label>Dyspareunia</label><input id="fDyspareunia" placeholder="Yes / No" /></div>
+                    <div class="form-group third"><label>PCB (post-coital bleeding)</label><input id="fPcb" placeholder="Yes / No" /></div>
+                </div>
+                <div class="howto">
+                    <span class="icon">🩸</span>
+                    <div>Record <strong>menstrual pattern</strong>, contraceptive use, sexual history, and any symptoms like dysmenorrhea or dyspareunia.</div>
+                </div>
+            </section>
+
+            <!-- ─── OB HISTORY ─── -->
+            <section class="form-section">
+                <div class="form-section-title">Obstetric History <span class="badge">G P</span></div>
+                <div class="form-row">
+                    <div class="form-group half"><label>G (Gravida)</label><input id="fGravida" type="number" placeholder="Total pregnancies" /></div>
+                    <div class="form-group half"><label>P (Para)</label><input id="fPara" type="number" placeholder="Total deliveries" /></div>
+                </div>
+                <div class="form-row"><div class="form-group full"><label>PNCU x ___ at ___ (Prenatal Care Unit)</label>
+                        <div class="inline-group" style="margin-top:4px;">
+                            <input id="fPncCount" type="number" placeholder="visits" style="width:100px;" />
+                            <span style="color:var(--text3);">at</span>
+                            <input id="fPncWhere" placeholder="Clinic / Hospital" style="flex:1;" />
+                        </div>
+                    </div></div>
+
+                <div class="ob-table-wrap mt-8">
+                    <table class="ob-table" id="obTable">
+                        <thead>
+                            <tr><th>G#</th><th>Year</th><th>Sex</th><th>Outcome</th><th>Mode</th><th>Place</th><th>FMC</th></tr>
+                        </thead>
+                        <tbody id="obTableBody"></tbody>
+                    </table>
+                </div>
+                <div class="howto">
+                    <span class="icon">👶</span>
+                    <div>Fill <strong>G (total pregnancies)</strong> and <strong>P (total deliveries)</strong>. Use the table to detail each pregnancy (year, sex, outcome, mode, place, FMC).</div>
+                </div>
+            </section>
+
+            <!-- ─── PHYSICAL EXAM ─── -->
+            <section class="form-section">
+                <div class="form-section-title">Physical Examination <span class="badge">PE</span></div>
+                <div class="form-row">
+                    <div class="form-group third"><label>BP (mmHg)</label><input id="fBp" placeholder="e.g. 120/80" /></div>
+                    <div class="form-group third"><label>HR (bpm)</label><input id="fHr" type="number" placeholder="80" /></div>
+                    <div class="form-group third"><label>RR (cpm)</label><input id="fRr" type="number" placeholder="18" /></div>
+                </div>
+                <div class="form-row"><div class="form-group third"><label>Temp (°C)</label><input id="fTemp" placeholder="37.0" /></div></div>
+                <div class="form-row"><div class="form-group full"><label>SHEENT</label><textarea id="fSheent" rows="2" placeholder="Head, eyes, ears, nose, throat"></textarea></div></div>
+                <div class="form-row"><div class="form-group full"><label>Chest / Lungs</label><textarea id="fChest" rows="2" placeholder="Breath sounds, symmetry"></textarea></div></div>
+                <div class="form-row"><div class="form-group full"><label>Heart</label><textarea id="fHeart" rows="2" placeholder="Rhythm, murmurs, sounds"></textarea></div></div>
+                <div class="form-row"><div class="form-group full"><label>Abdomen</label><textarea id="fAbdomen" rows="2" placeholder="Tenderness, distension, fetal position"></textarea></div></div>
+                <div class="form-row"><div class="form-group full"><label>Speculum</label><textarea id="fSpec" rows="2" placeholder="Cervix, discharge, lesions"></textarea></div></div>
+                <div class="form-row"><div class="form-group full"><label>Internal Exam (IE)</label><textarea id="fIe" rows="2" placeholder="Cervical dilatation, effacement, station"></textarea></div></div>
+                <div class="form-row"><div class="form-group full"><label>Extremities</label><textarea id="fExtrem" rows="2" placeholder="Edema, pulses, DVT signs"></textarea></div></div>
+                <div class="form-row"><div class="form-group full"><label>Others</label><textarea id="fOthers" rows="2" placeholder="Neurologic, skin, etc."></textarea></div></div>
+                <div class="howto">
+                    <span class="icon">🩺</span>
+                    <div>Record <strong>vital signs</strong> and systematic findings. Use <strong>standard units</strong> (mmHg, bpm, °C). Include relevant positives and negatives.</div>
+                </div>
+            </section>
+
+            <!-- ─── LABS ─── -->
+            <section class="form-section">
+                <div class="form-section-title">Laboratory <span class="badge">Results</span></div>
+                <div class="lab-grid">
+                    <div class="lab-box">
+                        <h4>CBC</h4>
+                        <div class="lab-row"><span class="lab-label">Hgb</span><input id="labHgb" placeholder="g/dL" /></div>
+                        <div class="lab-row"><span class="lab-label">Hct</span><input id="labHct" placeholder="%" /></div>
+                        <div class="lab-row"><span class="lab-label">WBC</span><input id="labWbc" placeholder="×10³/µL" /></div>
+                        <div class="lab-row"><span class="lab-label">Plt</span><input id="labPlt" placeholder="×10³/µL" /></div>
+                    </div>
+                    <div class="lab-box">
+                        <h4>Urinalysis</h4>
+                        <div class="lab-row"><span class="lab-label">EC</span><input id="labEc" placeholder="epi cells" /></div>
+                        <div class="lab-row"><span class="lab-label">PC</span><input id="labPc" placeholder="pus cells" /></div>
+                        <div class="lab-row"><span class="lab-label">RBC</span><input id="labRbc" placeholder="red cells" /></div>
+                        <div class="lab-row"><span class="lab-label">Bac</span><input id="labBac" placeholder="bacteria" /></div>
+                    </div>
+                    <div class="lab-box">
+                        <h4>Others</h4>
+                        <div class="lab-row"><span class="lab-label">Blood typing</span><input id="labBlood" placeholder="A/B/AB/O" /></div>
+                        <div class="lab-row"><span class="lab-label">HbsAg</span><input id="labHbsag" placeholder="+ / −" /></div>
+                        <div class="lab-row"><span class="lab-label">VDRL / RPR</span><input id="labVdrl" placeholder="+ / −" /></div>
+                        <div class="lab-row"><span class="lab-label">75g OGTT</span><input id="labOgtt" placeholder="mg/dL" /></div>
+                    </div>
+                </div>
+                <div class="howto">
+                    <span class="icon">🧪</span>
+                    <div>Enter <strong>complete blood count</strong>, <strong>urinalysis</strong> details, and <strong>additional tests</strong> (blood type, HbsAg, VDRL, OGTT). Include units.</div>
+                </div>
+            </section>
+
+            <!-- ─── ICD-10 / ICD-11 CODES ─── -->
+            <section class="form-section">
+                <div class="form-section-title">Diagnosis Codes <span class="badge">ICD‑10 / ICD‑11</span></div>
+                <div class="form-row">
+                    <div class="form-group full icd-search-wrap">
+                        <label>Search for code or description</label>
+                        <input id="icdSearch" placeholder="Type to filter…" autocomplete="off" />
+                        <div id="icdSuggestions"></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full">
+                        <label>Selected Codes</label>
+                        <div id="icdSelectedList" style="display:flex;flex-wrap:wrap;gap:6px;padding:6px 0;min-height:30px;"></div>
+                        <input type="hidden" id="icdCodes" value="" />
+                    </div>
+                </div>
+                <div class="howto">
+                    <span class="icon">🏷️</span>
+                    <div>Start typing a <strong>diagnosis code or description</strong> → a dropdown appears. Click to add the code as a pill. Remove a code by clicking the ✕ on its pill.</div>
+                </div>
+            </section>
+
+            <!-- ─── US / ASSESSMENT / PLAN ─── -->
+            <section class="form-section">
+                <div class="form-section-title">Ultrasound &amp; Assessment &amp; Plan <span class="badge">Final</span></div>
+                <div class="form-row"><div class="form-group full"><label>Ultrasound Findings</label><textarea id="fUs" rows="3" placeholder="Fetal biometry, position, placenta, fluid"></textarea></div></div>
+                <div class="form-row"><div class="form-group full"><label>Assessment</label><textarea id="fAssessment" rows="3" placeholder="Diagnoses, summary"></textarea></div></div>
+                <div class="form-row"><div class="form-group full"><label>Plan</label><textarea id="fPlan" rows="3" placeholder="Management, follow-up, interventions"></textarea></div></div>
+                <div class="howto">
+                    <span class="icon">📝</span>
+                    <div>Summarize <strong>ultrasound findings</strong>, provide a concise <strong>assessment</strong> (diagnoses, differentials), and outline the <strong>management plan</strong>.</div>
+                </div>
+            </section>
+
+        </form>
+
+        <!-- footer -->
+        <div style="text-align:center;padding:28px 0 8px;border-top:1px solid var(--border);margin-top:12px;font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;letter-spacing:0.08em;">
+            OB‑GYN History &amp; Physical · Digital Form · PLE‑style
+        </div>
+    </div>
+
+    <!-- SCROLL TOP -->
+    <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+    <!-- HIDDEN IFRAME FOR CONVERTER -->
+    <iframe id="iframe-sandbox" sandbox="allow-same-origin"></iframe>
+
+    <script>
+        // ─── ICD-10 / ICD-11 CODE DATASET ───
+        const icdCodes = [
+            { code: 'O00.0', desc: 'Abdominal pregnancy', system: 'ICD-10' },
+            { code: 'O00.1', desc: 'Tubal pregnancy', system: 'ICD-10' },
+            { code: 'O00.2', desc: 'Ovarian pregnancy', system: 'ICD-10' },
+            { code: 'O00.9', desc: 'Ectopic pregnancy, unspecified', system: 'ICD-10' },
+            { code: 'O02.0', desc: 'Missed abortion', system: 'ICD-10' },
+            { code: 'O02.1', desc: 'Blighted ovum', system: 'ICD-10' },
+            { code: 'O03.0', desc: 'Spontaneous abortion, incomplete', system: 'ICD-10' },
+            { code: 'O03.1', desc: 'Spontaneous abortion, complete', system: 'ICD-10' },
+            { code: 'O03.9', desc: 'Spontaneous abortion, unspecified', system: 'ICD-10' },
+            { code: 'O04.0', desc: 'Medical abortion, incomplete', system: 'ICD-10' },
+            { code: 'O04.9', desc: 'Medical abortion, unspecified', system: 'ICD-10' },
+            { code: 'O10.0', desc: 'Pre-existing essential hypertension complicating pregnancy', system: 'ICD-10' },
+            { code: 'O10.9', desc: 'Pre-existing hypertension complicating pregnancy, unspecified', system: 'ICD-10' },
+            { code: 'O11', desc: 'Pre-existing hypertension with superimposed pre-eclampsia', system: 'ICD-10' },
+            { code: 'O12.0', desc: 'Gestational edema', system: 'ICD-10' },
+            { code: 'O12.1', desc: 'Gestational proteinuria', system: 'ICD-10' },
+            { code: 'O12.2', desc: 'Gestational edema with proteinuria', system: 'ICD-10' },
+            { code: 'O13', desc: 'Gestational hypertension without significant proteinuria', system: 'ICD-10' },
+            { code: 'O14.0', desc: 'Mild pre-eclampsia', system: 'ICD-10' },
+            { code: 'O14.1', desc: 'Severe pre-eclampsia', system: 'ICD-10' },
+            { code: 'O14.2', desc: 'HELLP syndrome', system: 'ICD-10' },
+            { code: 'O14.9', desc: 'Pre-eclampsia, unspecified', system: 'ICD-10' },
+            { code: 'O15.0', desc: 'Eclampsia during pregnancy', system: 'ICD-10' },
+            { code: 'O15.1', desc: 'Eclampsia during labor', system: 'ICD-10' },
+            { code: 'O15.2', desc: 'Eclampsia during puerperium', system: 'ICD-10' },
+            { code: 'O20.0', desc: 'Threatened abortion', system: 'ICD-10' },
+            { code: 'O20.9', desc: 'Hemorrhage in early pregnancy, unspecified', system: 'ICD-10' },
+            { code: 'O21.0', desc: 'Mild hyperemesis gravidarum', system: 'ICD-10' },
+            { code: 'O21.1', desc: 'Hyperemesis gravidarum with metabolic disturbance', system: 'ICD-10' },
+            { code: 'O21.9', desc: 'Hyperemesis gravidarum, unspecified', system: 'ICD-10' },
+            { code: 'O22.0', desc: 'Varicose veins in pregnancy', system: 'ICD-10' },
+            { code: 'O22.1', desc: 'Genital varices in pregnancy', system: 'ICD-10' },
+            { code: 'O22.2', desc: 'Superficial thrombophlebitis in pregnancy', system: 'ICD-10' },
+            { code: 'O22.3', desc: 'Deep vein thrombosis in pregnancy', system: 'ICD-10' },
+            { code: 'O22.4', desc: 'Hemorrhoids in pregnancy', system: 'ICD-10' },
+            { code: 'O23.0', desc: 'Urinary tract infection in pregnancy', system: 'ICD-10' },
+            { code: 'O23.1', desc: 'Cervicitis in pregnancy', system: 'ICD-10' },
+            { code: 'O23.4', desc: 'Unspecified infection of urinary tract in pregnancy', system: 'ICD-10' },
+            { code: 'O24.0', desc: 'Pre-existing diabetes mellitus, type 1', system: 'ICD-10' },
+            { code: 'O24.1', desc: 'Pre-existing diabetes mellitus, type 2', system: 'ICD-10' },
+            { code: 'O24.4', desc: 'Gestational diabetes mellitus', system: 'ICD-10' },
+            { code: 'O24.9', desc: 'Diabetes mellitus in pregnancy, unspecified', system: 'ICD-10' },
+            { code: 'O26.0', desc: 'Excessive weight gain in pregnancy', system: 'ICD-10' },
+            { code: 'O26.1', desc: 'Low weight gain in pregnancy', system: 'ICD-10' },
+            { code: 'O26.2', desc: 'Pregnancy care of habitual aborter', system: 'ICD-10' },
+            { code: 'O26.3', desc: 'Retained intrauterine contraceptive device in pregnancy', system: 'ICD-10' },
+            { code: 'O26.4', desc: 'Herpes gestationis', system: 'ICD-10' },
+            { code: 'O26.5', desc: 'Maternal hypotension syndrome', system: 'ICD-10' },
+            { code: 'O26.6', desc: 'Pruritus in pregnancy', system: 'ICD-10' },
+            { code: 'O26.8', desc: 'Other specified pregnancy-related conditions', system: 'ICD-10' },
+            { code: 'O26.9', desc: 'Pregnancy-related condition, unspecified', system: 'ICD-10' },
+            { code: 'O28.0', desc: 'Abnormal finding on antenatal screening of mother', system: 'ICD-10' },
+            { code: 'O28.1', desc: 'Abnormal biochemical finding on antenatal screening', system: 'ICD-10' },
+            { code: 'O28.2', desc: 'Abnormal cytological finding on antenatal screening', system: 'ICD-10' },
+            { code: 'O28.3', desc: 'Abnormal ultrasound finding on antenatal screening', system: 'ICD-10' },
+            { code: 'O28.5', desc: 'Abnormal chromosomal finding on antenatal screening', system: 'ICD-10' },
+            { code: 'O29.0', desc: 'Pulmonary complications of anesthesia during pregnancy', system: 'ICD-10' },
+            { code: 'O29.1', desc: 'Cardiac complications of anesthesia during pregnancy', system: 'ICD-10' },
+            { code: 'O29.2', desc: 'CNS complications of anesthesia during pregnancy', system: 'ICD-10' },
+            { code: 'O30.0', desc: 'Twin pregnancy', system: 'ICD-10' },
+            { code: 'O30.1', desc: 'Triplet pregnancy', system: 'ICD-10' },
+            { code: 'O30.2', desc: 'Quadruplet pregnancy', system: 'ICD-10' },
+            { code: 'O30.8', desc: 'Multiple pregnancy, other', system: 'ICD-10' },
+            { code: 'O30.9', desc: 'Multiple pregnancy, unspecified', system: 'ICD-10' },
+            { code: 'O31.0', desc: 'Papyraceous fetus', system: 'ICD-10' },
+            { code: 'O31.1', desc: 'Continuing pregnancy after abortion of one fetus', system: 'ICD-10' },
+            { code: 'O31.2', desc: 'Continuing pregnancy after intrauterine death of one fetus', system: 'ICD-10' },
+            { code: 'O32.0', desc: 'Maternal care for unstable lie', system: 'ICD-10' },
+            { code: 'O32.1', desc: 'Maternal care for breech presentation', system: 'ICD-10' },
+            { code: 'O32.2', desc: 'Maternal care for transverse lie', system: 'ICD-10' },
+            { code: 'O32.3', desc: 'Maternal care for face, brow, and chin presentation', system: 'ICD-10' },
+            { code: 'O32.4', desc: 'Maternal care for high head at term', system: 'ICD-10' },
+            { code: 'O32.5', desc: 'Maternal care for multiple pregnancy with malpresentation', system: 'ICD-10' },
+            { code: 'O32.6', desc: 'Maternal care for compound presentation', system: 'ICD-10' },
+            { code: 'O32.8', desc: 'Maternal care for other malpresentation', system: 'ICD-10' },
+            { code: 'O32.9', desc: 'Maternal care for malpresentation, unspecified', system: 'ICD-10' },
+            { code: 'O33.0', desc: 'Maternal care for disproportion due to contracted pelvis', system: 'ICD-10' },
+            { code: 'O33.1', desc: 'Maternal care for disproportion due to generally contracted pelvis', system: 'ICD-10' },
+            { code: 'O33.2', desc: 'Maternal care for disproportion due to inlet contraction', system: 'ICD-10' },
+            { code: 'O33.3', desc: 'Maternal care for disproportion due to outlet contraction', system: 'ICD-10' },
+            { code: 'O33.4', desc: 'Maternal care for disproportion of mixed maternal and fetal origin', system: 'ICD-10' },
+            { code: 'O33.5', desc: 'Maternal care for disproportion due to unusually large fetus', system: 'ICD-10' },
+            { code: 'O33.9', desc: 'Maternal care for disproportion, unspecified', system: 'ICD-10' },
+            { code: 'O34.0', desc: 'Maternal care for congenital malformation of uterus', system: 'ICD-10' },
+            { code: 'O34.1', desc: 'Maternal care for tumor of corpus uteri', system: 'ICD-10' },
+            { code: 'O34.2', desc: 'Maternal care for cervical incompetence', system: 'ICD-10' },
+            { code: 'O34.3', desc: 'Maternal care for cervical incompetence, unspecified', system: 'ICD-10' },
+            { code: 'O34.4', desc: 'Maternal care for other abnormalities of cervix', system: 'ICD-10' },
+            { code: 'O34.5', desc: 'Maternal care for other abnormalities of gravid uterus', system: 'ICD-10' },
+            { code: 'O34.6', desc: 'Maternal care for abnormality of vagina', system: 'ICD-10' },
+            { code: 'O34.7', desc: 'Maternal care for abnormality of vulva and perineum', system: 'ICD-10' },
+            { code: 'O34.8', desc: 'Maternal care for other maternal pelvic organ abnormalities', system: 'ICD-10' },
+            { code: 'O34.9', desc: 'Maternal care for maternal pelvic organ abnormality, unspecified', system: 'ICD-10' },
+            { code: 'O35.0', desc: 'Maternal care for (suspected) central nervous system malformation in fetus', system: 'ICD-10' },
+            { code: 'O35.1', desc: 'Maternal care for (suspected) chromosomal abnormality in fetus', system: 'ICD-10' },
+            { code: 'O35.2', desc: 'Maternal care for (suspected) hereditary disease in fetus', system: 'ICD-10' },
+            { code: 'O35.3', desc: 'Maternal care for (suspected) damage to fetus from viral disease', system: 'ICD-10' },
+            { code: 'O35.4', desc: 'Maternal care for (suspected) damage to fetus from alcohol', system: 'ICD-10' },
+            { code: 'O35.5', desc: 'Maternal care for (suspected) damage to fetus from drugs', system: 'ICD-10' },
+            { code: 'O35.6', desc: 'Maternal care for (suspected) damage to fetus from radiation', system: 'ICD-10' },
+            { code: 'O35.7', desc: 'Maternal care for (suspected) damage to fetus from other causes', system: 'ICD-10' },
+            { code: 'O35.8', desc: 'Maternal care for other fetal abnormality or damage', system: 'ICD-10' },
+            { code: 'O35.9', desc: 'Maternal care for fetal abnormality or damage, unspecified', system: 'ICD-10' },
+            { code: 'O36.0', desc: 'Maternal care for rhesus isoimmunization', system: 'ICD-10' },
+            { code: 'O36.1', desc: 'Maternal care for other isoimmunization', system: 'ICD-10' },
+            { code: 'O36.2', desc: 'Maternal care for hydrops fetalis', system: 'ICD-10' },
+            { code: 'O36.3', desc: 'Maternal care for signs of fetal hypoxia', system: 'ICD-10' },
+            { code: 'O36.4', desc: 'Maternal care for intrauterine death', system: 'ICD-10' },
+            { code: 'O36.5', desc: 'Maternal care for poor fetal growth', system: 'ICD-10' },
+            { code: 'O36.6', desc: 'Maternal care for excessive fetal growth', system: 'ICD-10' },
+            { code: 'O36.7', desc: 'Maternal care for viable fetus in abdominal pregnancy', system: 'ICD-10' },
+            { code: 'O36.8', desc: 'Maternal care for other specified fetal problems', system: 'ICD-10' },
+            { code: 'O36.9', desc: 'Maternal care for fetal problem, unspecified', system: 'ICD-10' },
+            { code: 'O40', desc: 'Polyhydramnios', system: 'ICD-10' },
+            { code: 'O41.0', desc: 'Oligohydramnios', system: 'ICD-10' },
+            { code: 'O41.1', desc: 'Infection of amniotic sac and membranes', system: 'ICD-10' },
+            { code: 'O41.8', desc: 'Other specified disorders of amniotic fluid and membranes', system: 'ICD-10' },
+            { code: 'O41.9', desc: 'Disorder of amniotic fluid and membranes, unspecified', system: 'ICD-10' },
+            { code: 'O42.0', desc: 'Premature rupture of membranes, onset of labor within 24 hours', system: 'ICD-10' },
+            { code: 'O42.1', desc: 'Premature rupture of membranes, onset of labor after 24 hours', system: 'ICD-10' },
+            { code: 'O42.9', desc: 'Premature rupture of membranes, unspecified', system: 'ICD-10' },
+            { code: 'O43.0', desc: 'Placental transfusion syndrome', system: 'ICD-10' },
+            { code: 'O43.1', desc: 'Malformation of placenta', system: 'ICD-10' },
+            { code: 'O43.2', desc: 'Morbidly adherent placenta', system: 'ICD-10' },
+            { code: 'O43.3', desc: 'Placental infarction', system: 'ICD-10' },
+            { code: 'O43.8', desc: 'Other placental disorders', system: 'ICD-10' },
+            { code: 'O43.9', desc: 'Placental disorder, unspecified', system: 'ICD-10' },
+            { code: 'O44.0', desc: 'Placenta previa specified as without hemorrhage', system: 'ICD-10' },
+            { code: 'O44.1', desc: 'Placenta previa with hemorrhage', system: 'ICD-10' },
+            { code: 'O45.0', desc: 'Premature separation of placenta with coagulation defect', system: 'ICD-10' },
+            { code: 'O45.8', desc: 'Other premature separation of placenta', system: 'ICD-10' },
+            { code: 'O45.9', desc: 'Premature separation of placenta, unspecified', system: 'ICD-10' },
+            { code: 'O46.0', desc: 'Antepartum hemorrhage with coagulation defect', system: 'ICD-10' },
+            { code: 'O46.8', desc: 'Other antepartum hemorrhage', system: 'ICD-10' },
+            { code: 'O46.9', desc: 'Antepartum hemorrhage, unspecified', system: 'ICD-10' },
+            { code: 'O47.0', desc: 'False labor before 37 weeks', system: 'ICD-10' },
+            { code: 'O47.1', desc: 'False labor at term', system: 'ICD-10' },
+            { code: 'O47.9', desc: 'False labor, unspecified', system: 'ICD-10' },
+            { code: 'O48', desc: 'Post-term pregnancy', system: 'ICD-10' },
+            { code: 'O60.0', desc: 'Preterm labor without delivery', system: 'ICD-10' },
+            { code: 'O60.1', desc: 'Preterm labor with delivery', system: 'ICD-10' },
+            { code: 'O60.2', desc: 'Preterm labor with delivery (preterm birth)', system: 'ICD-10' },
+            { code: 'O60.3', desc: 'Preterm labor with delivery (threatened preterm labor)', system: 'ICD-10' },
+            { code: 'O61.0', desc: 'Failed medical induction of labor', system: 'ICD-10' },
+            { code: 'O61.1', desc: 'Failed instrumental induction of labor', system: 'ICD-10' },
+            { code: 'O61.8', desc: 'Other failed induction of labor', system: 'ICD-10' },
+            { code: 'O61.9', desc: 'Failed induction of labor, unspecified', system: 'ICD-10' },
+            { code: 'O62.0', desc: 'Primary uterine inertia', system: 'ICD-10' },
+            { code: 'O62.1', desc: 'Secondary uterine inertia', system: 'ICD-10' },
+            { code: 'O62.2', desc: 'Other uterine inertia', system: 'ICD-10' },
+            { code: 'O62.3', desc: 'Precipitate labor', system: 'ICD-10' },
+            { code: 'O62.4', desc: 'Hypertonic, incoordinate, and prolonged labor', system: 'ICD-10' },
+            { code: 'O62.8', desc: 'Other abnormalities of forces of labor', system: 'ICD-10' },
+            { code: 'O62.9', desc: 'Abnormality of forces of labor, unspecified', system: 'ICD-10' },
+            { code: 'O63.0', desc: 'Prolonged first stage of labor', system: 'ICD-10' },
+            { code: 'O63.1', desc: 'Prolonged second stage of labor', system: 'ICD-10' },
+            { code: 'O63.2', desc: 'Prolonged third stage of labor', system: 'ICD-10' },
+            { code: 'O63.9', desc: 'Prolonged labor, unspecified', system: 'ICD-10' },
+            { code: 'O64.0', desc: 'Obstructed labor due to incomplete rotation of fetal head', system: 'ICD-10' },
+            { code: 'O64.1', desc: 'Obstructed labor due to breech presentation', system: 'ICD-10' },
+            { code: 'O64.2', desc: 'Obstructed labor due to face presentation', system: 'ICD-10' },
+            { code: 'O64.3', desc: 'Obstructed labor due to brow presentation', system: 'ICD-10' },
+            { code: 'O64.4', desc: 'Obstructed labor due to shoulder presentation', system: 'ICD-10' },
+            { code: 'O64.5', desc: 'Obstructed labor due to compound presentation', system: 'ICD-10' },
+            { code: 'O64.8', desc: 'Obstructed labor due to other malposition and malpresentation', system: 'ICD-10' },
+            { code: 'O64.9', desc: 'Obstructed labor due to malposition and malpresentation, unspecified', system: 'ICD-10' },
+            { code: 'O65.0', desc: 'Obstructed labor due to contracted pelvis', system: 'ICD-10' },
+            { code: 'O65.1', desc: 'Obstructed labor due to generally contracted pelvis', system: 'ICD-10' },
+            { code: 'O65.2', desc: 'Obstructed labor due to inlet contraction', system: 'ICD-10' },
+            { code: 'O65.3', desc: 'Obstructed labor due to outlet contraction', system: 'ICD-10' },
+            { code: 'O65.4', desc: 'Obstructed labor due to fetopelvic disproportion, unspecified', system: 'ICD-10' },
+            { code: 'O65.5', desc: 'Obstructed labor due to abnormality of maternal pelvic organs', system: 'ICD-10' },
+            { code: 'O65.8', desc: 'Obstructed labor due to other maternal pelvic abnormality', system: 'ICD-10' },
+            { code: 'O65.9', desc: 'Obstructed labor due to maternal pelvic abnormality, unspecified', system: 'ICD-10' },
+            { code: 'O66.0', desc: 'Obstructed labor due to shoulder dystocia', system: 'ICD-10' },
+            { code: 'O66.1', desc: 'Obstructed labor due to locked twins', system: 'ICD-10' },
+            { code: 'O66.2', desc: 'Obstructed labor due to unusually large fetus', system: 'ICD-10' },
+            { code: 'O66.3', desc: 'Obstructed labor due to other fetal abnormality', system: 'ICD-10' },
+            { code: 'O66.8', desc: 'Obstructed labor due to other specified causes', system: 'ICD-10' },
+            { code: 'O66.9', desc: 'Obstructed labor, unspecified', system: 'ICD-10' },
+            { code: 'O67.0', desc: 'Intrapartum hemorrhage with coagulation defect', system: 'ICD-10' },
+            { code: 'O67.8', desc: 'Other intrapartum hemorrhage', system: 'ICD-10' },
+            { code: 'O67.9', desc: 'Intrapartum hemorrhage, unspecified', system: 'ICD-10' },
+            { code: 'O68.0', desc: 'Labor and delivery complicated by fetal heart rate abnormality', system: 'ICD-10' },
+            { code: 'O68.1', desc: 'Labor and delivery complicated by meconium in amniotic fluid', system: 'ICD-10' },
+            { code: 'O68.2', desc: 'Labor and delivery complicated by fetal acidosis', system: 'ICD-10' },
+            { code: 'O68.3', desc: 'Labor and delivery complicated by fetal distress', system: 'ICD-10' },
+            { code: 'O68.9', desc: 'Labor and delivery complicated by fetal stress, unspecified', system: 'ICD-10' },
+            { code: 'O69.0', desc: 'Labor and delivery complicated by prolapse of cord', system: 'ICD-10' },
+            { code: 'O69.1', desc: 'Labor and delivery complicated by cord around neck', system: 'ICD-10' },
+            { code: 'O69.2', desc: 'Labor and delivery complicated by other cord entanglement', system: 'ICD-10' },
+            { code: 'O69.3', desc: 'Labor and delivery complicated by short cord', system: 'ICD-10' },
+            { code: 'O69.4', desc: 'Labor and delivery complicated by vasa previa', system: 'ICD-10' },
+            { code: 'O69.5', desc: 'Labor and delivery complicated by vascular lesion of cord', system: 'ICD-10' },
+            { code: 'O69.8', desc: 'Labor and delivery complicated by other cord complications', system: 'ICD-10' },
+            { code: 'O69.9', desc: 'Labor and delivery complicated by cord complication, unspecified', system: 'ICD-10' },
+            { code: 'O70.0', desc: 'First-degree perineal laceration during delivery', system: 'ICD-10' },
+            { code: 'O70.1', desc: 'Second-degree perineal laceration during delivery', system: 'ICD-10' },
+            { code: 'O70.2', desc: 'Third-degree perineal laceration during delivery', system: 'ICD-10' },
+            { code: 'O70.3', desc: 'Fourth-degree perineal laceration during delivery', system: 'ICD-10' },
+            { code: 'O70.9', desc: 'Perineal laceration during delivery, unspecified', system: 'ICD-10' },
+            { code: 'O71.0', desc: 'Rupture of uterus before labor', system: 'ICD-10' },
+            { code: 'O71.1', desc: 'Rupture of uterus during labor', system: 'ICD-10' },
+            { code: 'O71.2', desc: 'Postpartum inversion of uterus', system: 'ICD-10' },
+            { code: 'O71.3', desc: 'Obstetric laceration of cervix', system: 'ICD-10' },
+            { code: 'O71.4', desc: 'Obstetric laceration of vagina', system: 'ICD-10' },
+            { code: 'O71.5', desc: 'Obstetric laceration of vulva', system: 'ICD-10' },
+            { code: 'O71.6', desc: 'Obstetric damage to pelvic joints and ligaments', system: 'ICD-10' },
+            { code: 'O71.7', desc: 'Obstetric hematoma of pelvis', system: 'ICD-10' },
+            { code: 'O71.8', desc: 'Other obstetric trauma', system: 'ICD-10' },
+            { code: 'O71.9', desc: 'Obstetric trauma, unspecified', system: 'ICD-10' },
+            { code: 'O72.0', desc: 'Third-stage hemorrhage', system: 'ICD-10' },
+            { code: 'O72.1', desc: 'Other immediate postpartum hemorrhage', system: 'ICD-10' },
+            { code: 'O72.2', desc: 'Delayed postpartum hemorrhage', system: 'ICD-10' },
+            { code: 'O72.3', desc: 'Postpartum hemorrhage with coagulation defect', system: 'ICD-10' },
+            { code: 'O72.9', desc: 'Postpartum hemorrhage, unspecified', system: 'ICD-10' },
+            { code: 'O73.0', desc: 'Retained placenta without hemorrhage', system: 'ICD-10' },
+            { code: 'O73.1', desc: 'Retained placenta with hemorrhage', system: 'ICD-10' },
+            { code: 'O74.0', desc: 'Aspiration pneumonitis due to anesthesia during labor', system: 'ICD-10' },
+            { code: 'O74.1', desc: 'Other pulmonary complications of anesthesia during labor', system: 'ICD-10' },
+            { code: 'O74.2', desc: 'Cardiac complications of anesthesia during labor', system: 'ICD-10' },
+            { code: 'O74.3', desc: 'CNS complications of anesthesia during labor', system: 'ICD-10' },
+            { code: 'O74.8', desc: 'Other complications of anesthesia during labor', system: 'ICD-10' },
+            { code: 'O74.9', desc: 'Complication of anesthesia during labor, unspecified', system: 'ICD-10' },
+            { code: 'O75.0', desc: 'Maternal distress during labor', system: 'ICD-10' },
+            { code: 'O75.1', desc: 'Maternal shock during or after labor', system: 'ICD-10' },
+            { code: 'O75.2', desc: 'Pyrexia during labor', system: 'ICD-10' },
+            { code: 'O75.3', desc: 'Other infection during labor', system: 'ICD-10' },
+            { code: 'O75.4', desc: 'Obstetric procedure-related complication', system: 'ICD-10' },
+            { code: 'O75.5', desc: 'Delayed delivery after artificial rupture of membranes', system: 'ICD-10' },
+            { code: 'O75.6', desc: 'Delayed delivery after spontaneous rupture of membranes', system: 'ICD-10' },
+            { code: 'O75.8', desc: 'Other specified complications of labor and delivery', system: 'ICD-10' },
+            { code: 'O75.9', desc: 'Complication of labor and delivery, unspecified', system: 'ICD-10' },
+            { code: 'O80', desc: 'Single spontaneous delivery', system: 'ICD-10' },
+            { code: 'O81.0', desc: 'Low forceps delivery', system: 'ICD-10' },
+            { code: 'O81.1', desc: 'Mid forceps delivery', system: 'ICD-10' },
+            { code: 'O81.2', desc: 'Mid forceps with rotation', system: 'ICD-10' },
+            { code: 'O81.3', desc: 'High forceps delivery', system: 'ICD-10' },
+            { code: 'O81.4', desc: 'Vacuum extractor delivery', system: 'ICD-10' },
+            { code: 'O81.5', desc: 'Forceps and vacuum extractor combined', system: 'ICD-10' },
+            { code: 'O81.9', desc: 'Instrumental delivery, unspecified', system: 'ICD-10' },
+            { code: 'O82.0', desc: 'Elective cesarean section', system: 'ICD-10' },
+            { code: 'O82.1', desc: 'Emergency cesarean section', system: 'ICD-10' },
+            { code: 'O82.2', desc: 'Cesarean section with hysterectomy', system: 'ICD-10' },
+            { code: 'O82.8', desc: 'Other cesarean section', system: 'ICD-10' },
+            { code: 'O82.9', desc: 'Cesarean section, unspecified', system: 'ICD-10' },
+            { code: 'O85', desc: 'Puerperal sepsis', system: 'ICD-10' },
+            { code: 'O86.0', desc: 'Infection of obstetric surgical wound', system: 'ICD-10' },
+            { code: 'O86.1', desc: 'Other infection of genital tract following delivery', system: 'ICD-10' },
+            { code: 'O86.2', desc: 'Urinary tract infection following delivery', system: 'ICD-10' },
+            { code: 'O86.3', desc: 'Other genitourinary infection following delivery', system: 'ICD-10' },
+            { code: 'O86.4', desc: 'Pyrexia of unknown origin following delivery', system: 'ICD-10' },
+            { code: 'O86.8', desc: 'Other specified puerperal infections', system: 'ICD-10' },
+            { code: 'O86.9', desc: 'Puerperal infection, unspecified', system: 'ICD-10' },
+            { code: 'O87.0', desc: 'Superficial thrombophlebitis in puerperium', system: 'ICD-10' },
+            { code: 'O87.1', desc: 'Deep phlebothrombosis in puerperium', system: 'ICD-10' },
+            { code: 'O87.2', desc: 'Hemorrhoids in puerperium', system: 'ICD-10' },
+            { code: 'O87.3', desc: 'Varicose veins in puerperium', system: 'ICD-10' },
+            { code: 'O87.8', desc: 'Other venous complications in puerperium', system: 'ICD-10' },
+            { code: 'O87.9', desc: 'Venous complication in puerperium, unspecified', system: 'ICD-10' },
+            { code: 'O88.0', desc: 'Obstetric air embolism', system: 'ICD-10' },
+            { code: 'O88.1', desc: 'Amniotic fluid embolism', system: 'ICD-10' },
+            { code: 'O88.2', desc: 'Obstetric blood-clot embolism', system: 'ICD-10' },
+            { code: 'O88.3', desc: 'Obstetric septic embolism', system: 'ICD-10' },
+            { code: 'O88.8', desc: 'Other obstetric embolism', system: 'ICD-10' },
+            { code: 'O88.9', desc: 'Obstetric embolism, unspecified', system: 'ICD-10' },
+            { code: 'O89.0', desc: 'Pulmonary complications of anesthesia during puerperium', system: 'ICD-10' },
+            { code: 'O89.1', desc: 'Cardiac complications of anesthesia during puerperium', system: 'ICD-10' },
+            { code: 'O89.2', desc: 'CNS complications of anesthesia during puerperium', system: 'ICD-10' },
+            { code: 'O89.8', desc: 'Other complications of anesthesia during puerperium', system: 'ICD-10' },
+            { code: 'O89.9', desc: 'Complication of anesthesia during puerperium, unspecified', system: 'ICD-10' },
+            { code: 'O90.0', desc: 'Disruption of cesarean section wound', system: 'ICD-10' },
+            { code: 'O90.1', desc: 'Disruption of perineal obstetric wound', system: 'ICD-10' },
+            { code: 'O90.2', desc: 'Hematoma of obstetric wound', system: 'ICD-10' },
+            { code: 'O90.3', desc: 'Peripartum cardiomyopathy', system: 'ICD-10' },
+            { code: 'O90.4', desc: 'Postpartum acute renal failure', system: 'ICD-10' },
+            { code: 'O90.5', desc: 'Postpartum thyroiditis', system: 'ICD-10' },
+            { code: 'O90.8', desc: 'Other puerperial complications, not elsewhere classified', system: 'ICD-10' },
+            { code: 'O90.9', desc: 'Puerperal complication, unspecified', system: 'ICD-10' },
+            { code: 'O91.0', desc: 'Infection of nipple associated with lactation', system: 'ICD-10' },
+            { code: 'O91.1', desc: 'Abscess of breast associated with lactation', system: 'ICD-10' },
+            { code: 'O91.2', desc: 'Nonpurulent mastitis associated with lactation', system: 'ICD-10' },
+            { code: 'O91.9', desc: 'Disorder of breast associated with lactation, unspecified', system: 'ICD-10' },
+            { code: 'O92.0', desc: 'Retracted nipple associated with lactation', system: 'ICD-10' },
+            { code: 'O92.1', desc: 'Cracked nipple associated with lactation', system: 'ICD-10' },
+            { code: 'O92.2', desc: 'Other and unspecified disorder of breast associated with lactation', system: 'ICD-10' },
+            { code: 'O92.3', desc: 'Agalactia', system: 'ICD-10' },
+            { code: 'O92.4', desc: 'Hypogalactia', system: 'ICD-10' },
+            { code: 'O92.5', desc: 'Suppressed lactation', system: 'ICD-10' },
+            { code: 'O92.6', desc: 'Galactorrhea', system: 'ICD-10' },
+            { code: 'O92.7', desc: 'Other and unspecified disorders of lactation', system: 'ICD-10' },
+            { code: 'O94', desc: 'Sequelae of complications of pregnancy, childbirth, and puerperium', system: 'ICD-10' },
+            { code: 'O95', desc: 'Obstetric death of unspecified cause', system: 'ICD-10' },
+            { code: 'O96', desc: 'Death from any obstetric cause occurring more than 42 days but less than 1 year after delivery', system: 'ICD-10' },
+            { code: 'O97', desc: 'Death from sequelae of obstetric causes', system: 'ICD-10' },
+            { code: 'O98.0', desc: 'Tuberculosis complicating pregnancy, childbirth, and puerperium', system: 'ICD-10' },
+            { code: 'O98.1', desc: 'Syphilis complicating pregnancy, childbirth, and puerperium', system: 'ICD-10' },
+            { code: 'O98.2', desc: 'Gonorrhea complicating pregnancy, childbirth, and puerperium', system: 'ICD-10' },
+            { code: 'O98.3', desc: 'Other infections with a predominantly sexual mode of transmission complicating pregnancy', system: 'ICD-10' },
+            { code: 'O98.4', desc: 'Viral hepatitis complicating pregnancy, childbirth, and puerperium', system: 'ICD-10' },
+            { code: 'O98.5', desc: 'Other viral diseases complicating pregnancy, childbirth, and puerperium', system: 'ICD-10' },
+            { code: 'O98.6', desc: 'Protozoal diseases complicating pregnancy, childbirth, and puerperium', system: 'ICD-10' },
+            { code: 'O98.7', desc: 'Human immunodeficiency virus disease complicating pregnancy, childbirth, and puerperium', system: 'ICD-10' },
+            { code: 'O98.8', desc: 'Other maternal infectious and parasitic diseases complicating pregnancy', system: 'ICD-10' },
+            { code: 'O98.9', desc: 'Maternal infectious and parasitic disease complicating pregnancy, unspecified', system: 'ICD-10' },
+            { code: 'O99.0', desc: 'Anemia complicating pregnancy, childbirth, and puerperium', system: 'ICD-10' },
+            { code: 'O99.1', desc: 'Other diseases of the blood and blood-forming organs complicating pregnancy', system: 'ICD-10' },
+            { code: 'O99.2', desc: 'Endocrine, nutritional and metabolic diseases complicating pregnancy', system: 'ICD-10' },
+            { code: 'O99.3', desc: 'Mental disorders and diseases of the nervous system complicating pregnancy', system: 'ICD-10' },
+            { code: 'O99.4', desc: 'Diseases of the circulatory system complicating pregnancy', system: 'ICD-10' },
+            { code: 'O99.5', desc: 'Diseases of the respiratory system complicating pregnancy', system: 'ICD-10' },
+            { code: 'O99.6', desc: 'Diseases of the digestive system complicating pregnancy', system: 'ICD-10' },
+            { code: 'O99.7', desc: 'Diseases of the skin and subcutaneous tissue complicating pregnancy', system: 'ICD-10' },
+            { code: 'O99.8', desc: 'Other specified diseases and conditions complicating pregnancy', system: 'ICD-10' },
+            { code: 'O99.9', desc: 'Maternal disease or condition complicating pregnancy, unspecified', system: 'ICD-10' },
+            // ICD-11 (a few examples)
+            { code: 'JB40.0', desc: 'Ectopic pregnancy', system: 'ICD-11' },
+            { code: 'JB40.1', desc: 'Tubal pregnancy', system: 'ICD-11' },
+            { code: 'JB40.2', desc: 'Ovarian pregnancy', system: 'ICD-11' },
+            { code: 'JB42.0', desc: 'Spontaneous abortion', system: 'ICD-11' },
+            { code: 'JB42.1', desc: 'Missed abortion', system: 'ICD-11' },
+            { code: 'JB43.0', desc: 'Incomplete abortion', system: 'ICD-11' },
+            { code: 'JB44.0', desc: 'Gestational diabetes mellitus', system: 'ICD-11' },
+            { code: 'JB45.0', desc: 'Pre-eclampsia', system: 'ICD-11' },
+            { code: 'JB45.1', desc: 'Eclampsia', system: 'ICD-11' },
+            { code: 'JB46.0', desc: 'Placenta previa', system: 'ICD-11' },
+            { code: 'JB46.1', desc: 'Placental abruption', system: 'ICD-11' },
+            { code: 'JB47.0', desc: 'Antepartum hemorrhage', system: 'ICD-11' },
+            { code: 'JB48.0', desc: 'Postpartum hemorrhage', system: 'ICD-11' },
+            { code: 'JB49.0', desc: 'Retained placenta', system: 'ICD-11' },
+            { code: 'JB50.0', desc: 'Puerperal sepsis', system: 'ICD-11' },
+            { code: 'JB51.0', desc: 'Obstetric embolism', system: 'ICD-11' },
+            { code: 'JB52.0', desc: 'Obstetric trauma', system: 'ICD-11' },
+            { code: 'JB53.0', desc: 'Uterine rupture', system: 'ICD-11' },
+            { code: 'JB54.0', desc: 'Perineal laceration', system: 'ICD-11' },
+            { code: 'JB55.0', desc: 'Obstructed labor', system: 'ICD-11' },
+            { code: 'JB56.0', desc: 'Prolonged labor', system: 'ICD-11' },
+            { code: 'JB57.0', desc: 'Fetal distress', system: 'ICD-11' },
+            { code: 'JB58.0', desc: 'Meconium aspiration', system: 'ICD-11' },
+            { code: 'JB59.0', desc: 'Neonatal jaundice', system: 'ICD-11' },
+        ];
+
+        // ─── ICD PICKER LOGIC ───
+        const icdSearch = document.getElementById('icdSearch');
+        const icdSuggestions = document.getElementById('icdSuggestions');
+        const icdSelectedList = document.getElementById('icdSelectedList');
+        const icdCodesHidden = document.getElementById('icdCodes');
+
+        let selectedCodes = [];
+
+        function renderSuggestions(filter) {
+            const query = filter.toLowerCase().trim();
+            const suggestions = icdCodes.filter(item =>
+                item.code.toLowerCase().includes(query) ||
+                item.desc.toLowerCase().includes(query)
+            ).slice(0, 12);
+
+            if (suggestions.length === 0 || query.length < 1) {
+                icdSuggestions.style.display = 'none';
+                return;
+            }
+            icdSuggestions.style.display = 'block';
+            icdSuggestions.innerHTML = suggestions.map(item =>
+                `<div class="suggestion-item" data-code="${item.code}" data-desc="${item.desc}" data-system="${item.system}">
+                    <span class="code">${item.code}</span>
+                    <span class="desc">${item.desc}</span>
+                    <span class="system">${item.system}</span>
+                </div>`
+            ).join('');
+
+            icdSuggestions.querySelectorAll('.suggestion-item').forEach(el => {
+                el.addEventListener('click', function() {
+                    const code = this.dataset.code;
+                    const desc = this.dataset.desc;
+                    const system = this.dataset.system;
+                    addCode(code, desc, system);
+                    icdSearch.value = '';
+                    icdSuggestions.style.display = 'none';
+                });
+            });
+        }
+
+        function addCode(code, desc, system) {
+            if (selectedCodes.some(c => c.code === code)) return;
+            selectedCodes.push({ code, desc, system });
+            updateSelectedUI();
+        }
+
+        function removeCode(code) {
+            selectedCodes = selectedCodes.filter(c => c.code !== code);
+            updateSelectedUI();
+        }
+
+        function updateSelectedUI() {
+            icdSelectedList.innerHTML = selectedCodes.map(item =>
+                `<span class="icd-pill">
+                    <span class="code">${item.code}</span>
+                    <span>${item.desc}</span>
+                    <button class="remove" data-code="${item.code}">✕</button>
+                </span>`
+            ).join('');
+            icdSelectedList.querySelectorAll('.remove').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    removeCode(this.dataset.code);
+                });
+            });
+            icdCodesHidden.value = JSON.stringify(selectedCodes);
+        }
+
+        icdSearch.addEventListener('input', function() {
+            renderSuggestions(this.value);
+        });
+        icdSearch.addEventListener('blur', function() {
+            setTimeout(() => { icdSuggestions.style.display = 'none'; }, 200);
+        });
+        icdSearch.addEventListener('focus', function() {
+            if (this.value.trim().length > 0) renderSuggestions(this.value);
+        });
+
+        // ─── POPULATE OB TABLE ───
+        (function buildObTable() {
+            const tbody = document.getElementById('obTableBody');
+            const rows = 10;
+            let html = '';
+            for (let i = 1; i <= rows; i++) {
+                html += `<tr>
+                    <td class="g-label">G${i}</td>
+                    <td><input class="ob-year"   placeholder="yr" /></td>
+                    <td><input class="ob-sex"    placeholder="M/F" /></td>
+                    <td><input class="ob-outcome"placeholder="Outcome" /></td>
+                    <td><input class="ob-mode"   placeholder="Mode" /></td>
+                    <td><input class="ob-place"  placeholder="Place" /></td>
+                    <td><input class="ob-fmc"    placeholder="FMC" /></td>
+                </tr>`;
+            }
+            tbody.innerHTML = html;
+        })();
+
+        // ─── TOAST ───
+        let toastTimer = null;
+
+        function showToast(msg, duration = 4000) {
+            const el = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            el.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => el.classList.remove('show'), duration);
+        }
+
+        function hideToast() {
+            document.getElementById('toast').classList.remove('show');
+            clearTimeout(toastTimer);
+        }
+
+        // ─── RESET ───
+        function resetForm() {
+            if (!confirm('Clear all form fields?')) return;
+            document.querySelectorAll('#obForm input, #obForm textarea').forEach(el => {
+                if (el.type === 'date') el.value = '';
+                else if (el.type === 'number') el.value = '';
+                else if (el.id !== 'icdSearch') el.value = '';
+            });
+            document.querySelectorAll('.ob-table td input').forEach(el => el.value = '');
+            selectedCodes = [];
+            updateSelectedUI();
+            icdSearch.value = '';
+            icdSuggestions.style.display = 'none';
+            showToast('Form reset.');
+        }
+
+        // ─── SCROLL TOP ───
+        window.addEventListener('scroll', () => {
+            document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 400);
+        });
+
+        // ─── BUILT-IN CALCULATOR ───
+        function addDays(date, days) {
+            const result = new Date(date);
+            result.setDate(result.getDate() + days);
+            return result;
+        }
+
+        function formatDate(date) {
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        function parseSonoEga(egaStr) {
+            const match = egaStr.match(/(\d+)\s*w(?:\s*(\d+)\s*d)?/i);
+            if (!match) return null;
+            const weeks = parseInt(match[1], 10);
+            const days = match[2] ? parseInt(match[2], 10) : 0;
+            return { weeks, days };
+        }
+
+        function updateFromLmp() {
+            const lmpVal = document.getElementById('fLmp').value;
+            if (!lmpVal) return;
+            const lmpDate = new Date(lmpVal);
+            if (isNaN(lmpDate)) return;
+
+            const edcDate = addDays(lmpDate, 280);
+            document.getElementById('fEdc').value = formatDate(edcDate);
+
+            const today = new Date();
+            const diffMs = today - lmpDate;
+            const diffDays = diffMs / (1000 * 60 * 60 * 24);
+            if (diffDays >= 0) {
+                const weeks = diffDays / 7;
+                document.getElementById('fAog').value = weeks.toFixed(1) + ' wks';
+            } else {
+                document.getElementById('fAog').value = '';
+            }
+        }
+
+        function updateFromSono() {
+            const sonoDateVal = document.getElementById('fSonoDate').value;
+            const sonoEgaVal = document.getElementById('fSonoEga').value.trim();
+            if (!sonoDateVal || !sonoEgaVal) return;
+
+            const sonoDate = new Date(sonoDateVal);
+            if (isNaN(sonoDate)) return;
+
+            const parsed = parseSonoEga(sonoEgaVal);
+            if (!parsed) return;
+
+            const totalDays = parsed.weeks * 7 + parsed.days;
+            const remaining = 280 - totalDays;
+            if (remaining < 0) return;
+
+            const edcDate = addDays(sonoDate, remaining);
+            document.getElementById('fEdc').value = formatDate(edcDate);
+        }
+
+        document.getElementById('fLmp').addEventListener('input', updateFromLmp);
+        document.getElementById('fSonoDate').addEventListener('input', updateFromSono);
+        document.getElementById('fSonoEga').addEventListener('input', updateFromSono);
+
+        window.addEventListener('DOMContentLoaded', () => {
+            updateFromLmp();
+            updateFromSono();
+        });
+
+        // ─── HTML → DOCX CONVERTER ───
+        function getFormData() {
+            const get = (id) => document.getElementById(id)?.value || '';
+            const getText = (id) => document.getElementById(id)?.value || '';
+
+            // Get OB table data
+            const obRows = [];
+            const tbody = document.getElementById('obTableBody');
+            if (tbody) {
+                const rows = tbody.querySelectorAll('tr');
+                rows.forEach(row => {
+                    const inputs = row.querySelectorAll('input');
+                    if (inputs.length >= 6) {
+                        const year = inputs[0].value || '';
+                        const sex = inputs[1].value || '';
+                        const outcome = inputs[2].value || '';
+                        const mode = inputs[3].value || '';
+                        const place = inputs[4].value || '';
+                        const fmc = inputs[5].value || '';
+                        if (year || sex || outcome || mode || place || fmc) {
+                            obRows.push({ year, sex, outcome, mode, place, fmc });
+                        }
+                    }
+                });
+            }
+
+            // Get ICD codes
+            let icdList = [];
+            try {
+                const icdVal = document.getElementById('icdCodes')?.value || '[]';
+                icdList = JSON.parse(icdVal);
+            } catch (e) { icdList = []; }
+
+            // Get lab values
+            const labData = {
+                hgb: get('labHgb'),
+                hct: get('labHct'),
+                wbc: get('labWbc'),
+                plt: get('labPlt'),
+                ec: get('labEc'),
+                pc: get('labPc'),
+                rbc: get('labRbc'),
+                bac: get('labBac'),
+                blood: get('labBlood'),
+                hbsag: get('labHbsag'),
+                vdrl: get('labVdrl'),
+                ogtt: get('labOgtt')
+            };
+
+            return {
+                contact: get('fContact'),
+                hosp: get('fHosp'),
+                name: get('fName'),
+                date: get('fDate'),
+                age: get('fAge'),
+                address: get('fAddress'),
+                consultant: get('fConsultant'),
+                residents: get('fResidents'),
+                lmp: get('fLmp'),
+                aog: get('fAog'),
+                edc: get('fEdc'),
+                sonoDate: get('fSonoDate'),
+                sonoEga: get('fSonoEga'),
+                cc: getText('fCc'),
+                hpi1: getText('fHpi1'),
+                hpi2: getText('fHpi2'),
+                hpi3: getText('fHpi3'),
+                pmh: getText('fPmh'),
+                fh: getText('fFh'),
+                sh: getText('fSh'),
+                menarche: get('fMenarche'),
+                regular: get('fRegular'),
+                duration: get('fDuration'),
+                pads: get('fPads'),
+                dysmenorrhea: get('fDysmenorrhea'),
+                sexFirst: get('fSexFirst'),
+                sexPartner: get('fSexPartner'),
+                ocp: get('fOcp'),
+                std: get('fStd'),
+                dyspareunia: get('fDyspareunia'),
+                pcb: get('fPcb'),
+                gravida: get('fGravida'),
+                para: get('fPara'),
+                pncCount: get('fPncCount'),
+                pncWhere: get('fPncWhere'),
+                obRows: obRows,
+                bp: get('fBp'),
+                hr: get('fHr'),
+                rr: get('fRr'),
+                temp: get('fTemp'),
+                sheent: getText('fSheent'),
+                chest: getText('fChest'),
+                heart: getText('fHeart'),
+                abdomen: getText('fAbdomen'),
+                spec: getText('fSpec'),
+                ie: getText('fIe'),
+                extrem: getText('fExtrem'),
+                others: getText('fOthers'),
+                lab: labData,
+                icdCodes: icdList,
+                us: getText('fUs'),
+                assessment: getText('fAssessment'),
+                plan: getText('fPlan')
+            };
+        }
+
+        function generateDocx() {
+            const data = getFormData();
+
+            // Simple validation
+            if (!data.name) {
+                showToast('Please enter patient name before generating.', 3000);
+                return;
+            }
+
+            // Build the document content as HTML
+            let htmlContent = `
             <html xmlns:o='urn:schemas-microsoft-com:office:office'
                   xmlns:w='urn:schemas-microsoft-com:office:word'
                   xmlns='http://www.w3.org/TR/REC-html40'>
@@ -135,78 +1690,97 @@
     <!-- Patient Information -->
     <div class="section">
         <div class="section-title">Patient Information</div>
-        <div class="row"><span class="field-label">Name:</span> <span class="field-value">sdfsdfsdfsds</span></div>
-        <div class="row"><span class="field-label">Age:</span> <span class="field-value"></span></div>
-        <div class="row"><span class="field-label">Address:</span> <span class="field-value"></span></div>
-        <div class="row"><span class="field-label">Contact No.:</span> <span class="field-value"></span></div>
-        <div class="row"><span class="field-label">Hospital #:</span> <span class="field-value"></span></div>
-        <div class="row"><span class="field-label">Date:</span> <span class="field-value"></span></div>
-        <div class="row"><span class="field-label">Consultant:</span> <span class="field-value"></span></div>
-        <div class="row"><span class="field-label">Residents-in-Charge:</span> <span class="field-value"></span></div>
-        <div class="row"><span class="field-label">LMP:</span> <span class="field-value"></span></div>
-        <div class="row"><span class="field-label">AOG:</span> <span class="field-value"></span></div>
-        <div class="row"><span class="field-label">EDC:</span> <span class="field-value"></span></div>
-        <div class="row"><span class="field-label">Sono Date:</span> <span class="field-value"></span></div>
-        <div class="row"><span class="field-label">Sono EGA:</span> <span class="field-value"></span></div>
+        <div class="row"><span class="field-label">Name:</span> <span class="field-value">${data.name || ''}</span></div>
+        <div class="row"><span class="field-label">Age:</span> <span class="field-value">${data.age || ''}</span></div>
+        <div class="row"><span class="field-label">Address:</span> <span class="field-value">${data.address || ''}</span></div>
+        <div class="row"><span class="field-label">Contact No.:</span> <span class="field-value">${data.contact || ''}</span></div>
+        <div class="row"><span class="field-label">Hospital #:</span> <span class="field-value">${data.hosp || ''}</span></div>
+        <div class="row"><span class="field-label">Date:</span> <span class="field-value">${data.date || ''}</span></div>
+        <div class="row"><span class="field-label">Consultant:</span> <span class="field-value">${data.consultant || ''}</span></div>
+        <div class="row"><span class="field-label">Residents-in-Charge:</span> <span class="field-value">${data.residents || ''}</span></div>
+        <div class="row"><span class="field-label">LMP:</span> <span class="field-value">${data.lmp || ''}</span></div>
+        <div class="row"><span class="field-label">AOG:</span> <span class="field-value">${data.aog || ''}</span></div>
+        <div class="row"><span class="field-label">EDC:</span> <span class="field-value">${data.edc || ''}</span></div>
+        <div class="row"><span class="field-label">Sono Date:</span> <span class="field-value">${data.sonoDate || ''}</span></div>
+        <div class="row"><span class="field-label">Sono EGA:</span> <span class="field-value">${data.sonoEga || ''}</span></div>
     </div>
 
     <!-- Chief Complaint & HPI -->
     <div class="section">
         <div class="section-title">Chief Complaint &amp; HPI</div>
-        <div class="row"><span class="field-label">Chief Complaint:</span> </div>
-        <div class="row"><span class="field-label">1st Trimester:</span> </div>
-        <div class="row"><span class="field-label">2nd Trimester:</span> </div>
-        <div class="row"><span class="field-label">3rd Trimester:</span> </div>
+        <div class="row"><span class="field-label">Chief Complaint:</span> ${data.cc || ''}</div>
+        <div class="row"><span class="field-label">1st Trimester:</span> ${data.hpi1 || ''}</div>
+        <div class="row"><span class="field-label">2nd Trimester:</span> ${data.hpi2 || ''}</div>
+        <div class="row"><span class="field-label">3rd Trimester:</span> ${data.hpi3 || ''}</div>
     </div>
 
     <!-- Past / Family / Social -->
     <div class="section">
         <div class="section-title">Past &amp; Family &amp; Social History</div>
-        <div class="row"><span class="field-label">Past Medical History:</span> </div>
-        <div class="row"><span class="field-label">Family History:</span> </div>
-        <div class="row"><span class="field-label">Personal / Social:</span> </div>
+        <div class="row"><span class="field-label">Past Medical History:</span> ${data.pmh || ''}</div>
+        <div class="row"><span class="field-label">Family History:</span> ${data.fh || ''}</div>
+        <div class="row"><span class="field-label">Personal / Social:</span> ${data.sh || ''}</div>
     </div>
 
     <!-- Menstrual / Sexual -->
     <div class="section">
         <div class="section-title">Menstrual &amp; Sexual History</div>
-        <div class="row"><span class="field-label">Menarche:</span> </div>
-        <div class="row"><span class="field-label">Regular/Irregular:</span> </div>
-        <div class="row"><span class="field-label">Duration (days):</span> </div>
-        <div class="row"><span class="field-label">Pads/day:</span> </div>
-        <div class="row"><span class="field-label">Dysmenorrhea:</span> </div>
-        <div class="row"><span class="field-label">1st sexual contact (age):</span> </div>
-        <div class="row"><span class="field-label">Sexual partner(s):</span> </div>
-        <div class="row"><span class="field-label">OCP use:</span> </div>
-        <div class="row"><span class="field-label">STD history:</span> </div>
-        <div class="row"><span class="field-label">Dyspareunia:</span> </div>
-        <div class="row"><span class="field-label">PCB:</span> </div>
+        <div class="row"><span class="field-label">Menarche:</span> ${data.menarche || ''}</div>
+        <div class="row"><span class="field-label">Regular/Irregular:</span> ${data.regular || ''}</div>
+        <div class="row"><span class="field-label">Duration (days):</span> ${data.duration || ''}</div>
+        <div class="row"><span class="field-label">Pads/day:</span> ${data.pads || ''}</div>
+        <div class="row"><span class="field-label">Dysmenorrhea:</span> ${data.dysmenorrhea || ''}</div>
+        <div class="row"><span class="field-label">1st sexual contact (age):</span> ${data.sexFirst || ''}</div>
+        <div class="row"><span class="field-label">Sexual partner(s):</span> ${data.sexPartner || ''}</div>
+        <div class="row"><span class="field-label">OCP use:</span> ${data.ocp || ''}</div>
+        <div class="row"><span class="field-label">STD history:</span> ${data.std || ''}</div>
+        <div class="row"><span class="field-label">Dyspareunia:</span> ${data.dyspareunia || ''}</div>
+        <div class="row"><span class="field-label">PCB:</span> ${data.pcb || ''}</div>
     </div>
 
     <!-- Obstetric History -->
     <div class="section">
         <div class="section-title">Obstetric History</div>
-        <div class="row"><span class="field-label">G (Gravida):</span> </div>
-        <div class="row"><span class="field-label">P (Para):</span> </div>
-        <div class="row"><span class="field-label">PNCU:</span>  at </div>
-        
+        <div class="row"><span class="field-label">G (Gravida):</span> ${data.gravida || ''}</div>
+        <div class="row"><span class="field-label">P (Para):</span> ${data.para || ''}</div>
+        <div class="row"><span class="field-label">PNCU:</span> ${data.pncCount || ''} at ${data.pncWhere || ''}</div>
+        ${data.obRows && data.obRows.length > 0 ? `
+        <div class="mt-8">
+            <table class="ob-table">
+                <thead><tr><th>G#</th><th>Year</th><th>Sex</th><th>Outcome</th><th>Mode</th><th>Place</th><th>FMC</th></tr></thead>
+                <tbody>
+                    ${data.obRows.map((row, i) => `
+                        <tr>
+                            <td>G${i+1}</td>
+                            <td>${row.year || ''}</td>
+                            <td>${row.sex || ''}</td>
+                            <td>${row.outcome || ''}</td>
+                            <td>${row.mode || ''}</td>
+                            <td>${row.place || ''}</td>
+                            <td>${row.fmc || ''}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+        ` : ''}
     </div>
 
     <!-- Physical Examination -->
     <div class="section">
         <div class="section-title">Physical Examination</div>
-        <div class="row"><span class="field-label">BP:</span>  mmHg</div>
-        <div class="row"><span class="field-label">HR:</span>  bpm</div>
-        <div class="row"><span class="field-label">RR:</span>  cpm</div>
-        <div class="row"><span class="field-label">Temp:</span>  °C</div>
-        <div class="row"><span class="field-label">SHEENT:</span> </div>
-        <div class="row"><span class="field-label">Chest/Lungs:</span> </div>
-        <div class="row"><span class="field-label">Heart:</span> </div>
-        <div class="row"><span class="field-label">Abdomen:</span> </div>
-        <div class="row"><span class="field-label">Speculum:</span> </div>
-        <div class="row"><span class="field-label">Internal Exam:</span> </div>
-        <div class="row"><span class="field-label">Extremities:</span> </div>
-        <div class="row"><span class="field-label">Others:</span> </div>
+        <div class="row"><span class="field-label">BP:</span> ${data.bp || ''} mmHg</div>
+        <div class="row"><span class="field-label">HR:</span> ${data.hr || ''} bpm</div>
+        <div class="row"><span class="field-label">RR:</span> ${data.rr || ''} cpm</div>
+        <div class="row"><span class="field-label">Temp:</span> ${data.temp || ''} °C</div>
+        <div class="row"><span class="field-label">SHEENT:</span> ${data.sheent || ''}</div>
+        <div class="row"><span class="field-label">Chest/Lungs:</span> ${data.chest || ''}</div>
+        <div class="row"><span class="field-label">Heart:</span> ${data.heart || ''}</div>
+        <div class="row"><span class="field-label">Abdomen:</span> ${data.abdomen || ''}</div>
+        <div class="row"><span class="field-label">Speculum:</span> ${data.spec || ''}</div>
+        <div class="row"><span class="field-label">Internal Exam:</span> ${data.ie || ''}</div>
+        <div class="row"><span class="field-label">Extremities:</span> ${data.extrem || ''}</div>
+        <div class="row"><span class="field-label">Others:</span> ${data.others || ''}</div>
     </div>
 
     <!-- Laboratory -->
@@ -215,24 +1789,24 @@
         <div class="lab-grid">
             <div class="lab-box">
                 <h4>CBC</h4>
-                <div class="lab-row"><span class="label">Hgb</span> </div>
-                <div class="lab-row"><span class="label">Hct</span> </div>
-                <div class="lab-row"><span class="label">WBC</span> </div>
-                <div class="lab-row"><span class="label">Plt</span> </div>
+                <div class="lab-row"><span class="label">Hgb</span> ${data.lab?.hgb || ''}</div>
+                <div class="lab-row"><span class="label">Hct</span> ${data.lab?.hct || ''}</div>
+                <div class="lab-row"><span class="label">WBC</span> ${data.lab?.wbc || ''}</div>
+                <div class="lab-row"><span class="label">Plt</span> ${data.lab?.plt || ''}</div>
             </div>
             <div class="lab-box">
                 <h4>Urinalysis</h4>
-                <div class="lab-row"><span class="label">EC</span> </div>
-                <div class="lab-row"><span class="label">PC</span> </div>
-                <div class="lab-row"><span class="label">RBC</span> </div>
-                <div class="lab-row"><span class="label">Bac</span> </div>
+                <div class="lab-row"><span class="label">EC</span> ${data.lab?.ec || ''}</div>
+                <div class="lab-row"><span class="label">PC</span> ${data.lab?.pc || ''}</div>
+                <div class="lab-row"><span class="label">RBC</span> ${data.lab?.rbc || ''}</div>
+                <div class="lab-row"><span class="label">Bac</span> ${data.lab?.bac || ''}</div>
             </div>
             <div class="lab-box">
                 <h4>Others</h4>
-                <div class="lab-row"><span class="label">Blood typing</span> </div>
-                <div class="lab-row"><span class="label">HbsAg</span> </div>
-                <div class="lab-row"><span class="label">VDRL/RPR</span> </div>
-                <div class="lab-row"><span class="label">75g OGTT</span> </div>
+                <div class="lab-row"><span class="label">Blood typing</span> ${data.lab?.blood || ''}</div>
+                <div class="lab-row"><span class="label">HbsAg</span> ${data.lab?.hbsag || ''}</div>
+                <div class="lab-row"><span class="label">VDRL/RPR</span> ${data.lab?.vdrl || ''}</div>
+                <div class="lab-row"><span class="label">75g OGTT</span> ${data.lab?.ogtt || ''}</div>
             </div>
         </div>
     </div>
@@ -240,15 +1814,21 @@
     <!-- ICD Codes -->
     <div class="section">
         <div class="section-title">Diagnosis Codes</div>
-        <div class="text-muted">No codes selected.</div>
+        ${data.icdCodes && data.icdCodes.length > 0 ? `
+            <div class="icd-list">
+                ${data.icdCodes.map(item => `
+                    <span class="icd-item"><span class="code">${item.code || ''}</span> ${item.desc || ''} <span class="system">${item.system || ''}</span></span>
+                `).join('')}
+            </div>
+        ` : '<div class="text-muted">No codes selected.</div>'}
     </div>
 
     <!-- Ultrasound / Assessment / Plan -->
     <div class="section">
         <div class="section-title">Ultrasound &amp; Assessment &amp; Plan</div>
-        <div class="row"><span class="field-label">Ultrasound Findings:</span> </div>
-        <div class="row"><span class="field-label">Assessment:</span> </div>
-        <div class="row"><span class="field-label">Plan:</span> </div>
+        <div class="row"><span class="field-label">Ultrasound Findings:</span> ${data.us || ''}</div>
+        <div class="row"><span class="field-label">Assessment:</span> ${data.assessment || ''}</div>
+        <div class="row"><span class="field-label">Plan:</span> ${data.plan || ''}</div>
     </div>
 
     <hr>
@@ -256,5 +1836,36 @@
         OB-GYN History &amp; Physical · Digital Form
     </div>
 
+</body>
+</html>`;
+
+// Create the Word document
+try {
+    // Create a Blob with the HTML content
+    const blob = new Blob([htmlContent], {
+        type: 'application/msword'
+    });
+
+    // Create download link
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `OB_History_PE_${data.name || 'patient'}_${new Date().toISOString().slice(0,10)}.doc`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
+
+    showToast('DOCX generated successfully!');
+} catch (error) {
+    console.error('Error generating DOCX:', error);
+    showToast('Error generating DOCX. Please try again.', 4000);
+}
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+// Initialize the ICD picker
+updateSelectedUI();
+});
+</script>
 </body>
 </html>
