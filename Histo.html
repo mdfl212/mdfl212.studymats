@@ -1,1 +1,1145 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histology 200-Item Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:'DM Sans',sans-serif;background:#f5f4f0;color:#1a1a18;min-height:100vh;display:flex;justify-content:center;padding:2rem 1rem}
+        #app{width:100%;max-width:800px}
+        .card{background:#fff;border-radius:16px;padding:2rem;border:0.5px solid #d3d1c7;margin-bottom:1rem}
+        .module-badge{display:inline-block;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:20px;background:#f1efe8;color:#5f5e5a;border:0.5px solid #d3d1c7;margin-bottom:.75rem}
+        .q-counter{font-size:13px;color:#888780;margin-bottom:.5rem}
+        .progress-bar{height:3px;background:#d3d1c7;border-radius:2px;margin-bottom:1.5rem;overflow:hidden}
+        .progress-fill{height:100%;background:#1D9E75;border-radius:2px;transition:width .4s ease}
+        .question-text{font-family:'DM Serif Display',serif;font-size:1.15rem;line-height:1.6;color:#1a1a18;margin-bottom:1.5rem}
+        .choices{display:flex;flex-direction:column;gap:8px;margin-bottom:1.5rem}
+        .choice-btn{text-align:left;padding:13px 18px;border:0.5px solid #d3d1c7;border-radius:10px;background:#fff;color:#1a1a18;font-size:14px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s ease;line-height:1.4}
+        .choice-btn:hover:not(:disabled){background:#f1efe8;border-color:#b4b2a9}
+        .choice-btn.correct{background:#EAF3DE;border-color:#639922;color:#27500A}
+        .choice-btn.wrong{background:#FCEBEB;border-color:#E24B4A;color:#791F1F}
+        .choice-btn:disabled{cursor:default}
+        .rationale{font-size:13px;padding:14px 18px;border-radius:10px;background:#f1efe8;border:0.5px solid #d3d1c7;color:#5f5e5a;line-height:1.6;margin-bottom:1.5rem;display:none}
+        .rationale.show{display:block}
+        .nav-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+        .nav-btn{padding:9px 20px;border:0.5px solid #b4b2a9;border-radius:10px;background:#fff;color:#1a1a18;font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s}
+        .nav-btn:hover{background:#f1efe8}
+        .nav-btn.primary{background:#1D9E75;border-color:#1D9E75;color:#fff}
+        .nav-btn.primary:hover{background:#0F6E56}
+        .score-chip{font-size:13px;color:#5f5e5a;background:#f1efe8;border:0.5px solid #d3d1c7;padding:6px 14px;border-radius:20px}
+        .start-title{font-family:'DM Serif Display',serif;font-size:2.2rem;color:#1a1a18;margin-bottom:.5rem}
+        .start-sub{font-size:14px;color:#888780;margin-bottom:2rem;line-height:1.7}
+        .mode-select{width:100%;padding:10px 14px;border:0.5px solid #b4b2a9;border-radius:10px;background:#fff;color:#1a1a18;font-size:14px;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:.75rem;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888780' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+        .shuffle-row{display:flex;align-items:center;gap:8px;font-size:13px;color:#888780;justify-content:center;cursor:pointer;margin-bottom:1.5rem}
+        .shuffle-row input{cursor:pointer;accent-color:#1D9E75}
+        .results-score{font-size:4rem;font-weight:500;color:#1D9E75;margin-bottom:.25rem}
+        .results-title{font-family:'DM Serif Display',serif;font-size:2rem;color:#1a1a18;margin-bottom:.5rem}
+        .breakdown-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:2rem}
+        .rb-card{background:#f1efe8;border:0.5px solid #d3d1c7;border-radius:10px;padding:.75rem 1rem}
+        .rb-label{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#888780;margin-bottom:4px}
+        .rb-val{font-size:1.25rem;font-weight:500;color:#1a1a18}
+        .rb-pct{font-size:.85rem;color:#888780;font-weight:400}
+        .tag-pill{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;margin-left:6px;background:#E6F1FB;color:#185FA5;border:0.5px solid #B5D4F4;vertical-align:middle}
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .stat-card {
+            background: #fff;
+            border: 0.5px solid #d3d1c7;
+            border-radius: 12px;
+            padding: 14px 16px;
+            text-align: center;
+        }
+        .stat-val {
+            font-family: 'DM Serif Display', serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: #1D9E75;
+            display: block;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #888780;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .progress-wrap { margin-bottom: 28px; }
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #888780;
+            font-family: 'DM Sans', sans-serif;
+            letter-spacing: 0.08em;
+            margin-bottom: 6px;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 28px;
+            padding: 16px 20px;
+            background: #fff;
+            border: 0.5px solid #d3d1c7;
+            border-radius: 12px;
+        }
+        .controls label {
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #888780;
+            font-family: 'DM Sans', sans-serif;
+            margin-right: 2px;
+        }
+        select {
+            background: #fff;
+            border: 0.5px solid #d3d1c7;
+            color: #1a1a18;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        select:hover, select:focus { border-color: #1D9E75; }
+        .btn {
+            padding: 7px 16px;
+            border-radius: 6px;
+            border: 0.5px solid #d3d1c7;
+            background: transparent;
+            color: #5f5e5a;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.18s;
+            white-space: nowrap;
+        }
+        .btn:hover { border-color: #1D9E75; color: #1D9E75; background: #EAF3DE; }
+        .btn.primary {
+            background: #1D9E75;
+            border-color: #1D9E75;
+            color: #fff;
+        }
+        .btn.primary:hover { background: #0F6E56; }
+        .btn.danger:hover { border-color: #E24B4A; color: #E24B4A; background: #FCEBEB; }
+        .btn.table-toggle {
+            border-color: #185FA5;
+            color: #185FA5;
+        }
+        .btn.table-toggle:hover { background: #E6F1FB; border-color: #185FA5; color: #185FA5; }
+        .btn.table-toggle.active { background: #E6F1FB; border-color: #185FA5; color: #185FA5; }
+        .mode-tabs {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 28px;
+            background: #fff;
+            border: 0.5px solid #d3d1c7;
+            border-radius: 12px;
+            padding: 4px;
+        }
+        .tab {
+            flex: 1;
+            padding: 9px;
+            border-radius: 7px;
+            border: none;
+            background: transparent;
+            color: #888780;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .tab:hover { color: #5f5e5a; }
+        .tab.active {
+            background: #f1efe8;
+            color: #1D9E75;
+            border: 0.5px solid #d3d1c7;
+        }
+        .q-card {
+            background: #fff;
+            border: 0.5px solid #d3d1c7;
+            border-radius: 12px;
+            padding: 24px 28px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+            animation: fadeUp 0.3s ease both;
+        }
+        .q-card:hover { border-color: #b4b2a9; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .q-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+        .q-num {
+            font-family: 'DM Serif Display', serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1D9E75;
+            min-width: 48px;
+        }
+        .badge {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 9px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 3px;
+        }
+        .badge-clinical {
+            background: rgba(226,75,74,0.12);
+            color: #E24B4A;
+            border: 0.5px solid rgba(226,75,74,0.25);
+        }
+        .badge-theme {
+            background: #f1efe8;
+            color: #5f5e5a;
+            border: 0.5px solid #d3d1c7;
+        }
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+        .tag {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 8px;
+            letter-spacing: 0.12em;
+            padding: 2px 8px;
+            border-radius: 3px;
+            background: #E6F1FB;
+            color: #185FA5;
+            border: 0.5px solid #B5D4F4;
+            text-transform: uppercase;
+        }
+        .tag-epithelium { background: #EAF3DE; color: #27500A; border-color: #639922; }
+        .tag-connective { background: #FCEBEB; color: #791F1F; border-color: #E24B4A; }
+        .tag-muscle { background: #FAEEDA; color: #633806; border-color: #BA7517; }
+        .tag-nervous { background: #E6F1FB; color: #185FA5; border-color: #B5D4F4; }
+        .tag-cardiovascular { background: #F3E8FA; color: #6B3B8A; border-color: #C9A8E6; }
+        .tag-lymphoid { background: #EAF3DE; color: #27500A; border-color: #639922; }
+        .tag-gi { background: #FCEBEB; color: #791F1F; border-color: #E24B4A; }
+        .tag-respiratory { background: #E6F1FB; color: #185FA5; border-color: #B5D4F4; }
+        .tag-renal { background: #FAEEDA; color: #633806; border-color: #BA7517; }
+        .tag-endocrine { background: #F3E8FA; color: #6B3B8A; border-color: #C9A8E6; }
+        .tag-reproductive { background: #EAF3DE; color: #27500A; border-color: #639922; }
+        .tag-integument { background: #FCEBEB; color: #791F1F; border-color: #E24B4A; }
+        .q-stem {
+            font-size: 16px;
+            line-height: 1.72;
+            color: #1a1a18;
+            margin-bottom: 16px;
+            border-left: 2px solid #d3d1c7;
+            padding-left: 16px;
+        }
+        .options { display: flex; flex-direction: column; gap: 8px; }
+        .opt {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 14px;
+            border: 0.5px solid #d3d1c7;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.16s;
+            font-size: 14.5px;
+            line-height: 1.6;
+            background: transparent;
+            color: #5f5e5a;
+            text-align: left;
+            font-family: 'DM Sans', sans-serif;
+            width: 100%;
+        }
+        .opt:hover { border-color: #b4b2a9; background: #f1efe8; color: #1a1a18; }
+        .opt.selected { border-color: #185FA5; background: #E6F1FB; color: #1a1a18; }
+        .opt.correct { border-color: #639922; background: #EAF3DE; color: #27500A; }
+        .opt.wrong { border-color: #E24B4A; background: #FCEBEB; color: #791F1F; }
+        .opt-letter {
+            font-family: 'DM Serif Display', serif;
+            font-weight: 600;
+            font-size: 13px;
+            min-width: 20px;
+            color: #1D9E75;
+            flex-shrink: 0;
+            padding-top: 1px;
+        }
+        .opt.correct .opt-letter { color: #639922; }
+        .opt.wrong .opt-letter { color: #E24B4A; }
+        .opt.selected .opt-letter { color: #185FA5; }
+        .rationale-box {
+            margin-top: 14px;
+            padding: 12px 16px;
+            background: #f1efe8;
+            border: 0.5px solid #d3d1c7;
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1.65;
+            color: #5f5e5a;
+            font-style: italic;
+        }
+        .rationale-box strong { color: #1D9E75; font-style: normal; }
+        .reveal-btn {
+            margin-top: 12px;
+            padding: 6px 14px;
+            border: 0.5px solid #d3d1c7;
+            border-radius: 6px;
+            background: transparent;
+            color: #888780;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.18s;
+        }
+        .reveal-btn:hover { border-color: #1D9E75; color: #1D9E75; }
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 32px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .page-info {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 11px;
+            color: #888780;
+            letter-spacing: 0.08em;
+            text-align: center;
+            flex: 1;
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: #fff;
+            border: 0.5px solid #d3d1c7;
+            border-radius: 14px;
+            padding: 40px 48px;
+            max-width: 440px;
+            width: 90%;
+            text-align: center;
+            animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.88); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-title { font-family: 'DM Serif Display', serif; font-size: 26px; color: #1D9E75; margin-bottom: 6px; }
+        .modal-sub { font-size: 12px; color: #888780; font-style: italic; margin-bottom: 28px; }
+        .score-big {
+            font-family: 'DM Serif Display', serif;
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .score-grade {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        .score-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .sd-item { background: #f1efe8; border-radius: 6px; padding: 12px 8px; }
+        .sd-val { font-family: 'DM Serif Display', serif; font-size: 22px; color: #1a1a18; display: block; }
+        .sd-lab {
+            font-size: 9px;
+            color: #888780;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .scroll-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 40px;
+            height: 40px;
+            background: #f1efe8;
+            border: 0.5px solid #d3d1c7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 50;
+            transition: all 0.2s;
+            color: #888780;
+            font-size: 16px;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .scroll-top.visible { opacity: 1; pointer-events: all; }
+        .scroll-top:hover { border-color: #1D9E75; color: #1D9E75; background: #EAF3DE; }
+        .theme-divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 32px 0 20px;
+        }
+        .theme-divider-line { flex: 1; height: 1px; background: #d3d1c7; }
+        .theme-divider-label {
+            font-family: 'DM Serif Display', serif;
+            font-style: italic;
+            font-size: 12px;
+            color: #1D9E75;
+            white-space: nowrap;
+        }
+        .table-view-wrap { display: none; overflow-x: auto; margin-top: 20px; }
+        .table-view-wrap.open { display: block; }
+        .rationale-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            background: #fff;
+            border: 0.5px solid #d3d1c7;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .rationale-table th {
+            background: #f1efe8;
+            color: #1D9E75;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 2px solid #d3d1c7;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+        .rationale-table td {
+            padding: 10px 12px;
+            border-bottom: 0.5px solid #d3d1c7;
+            color: #5f5e5a;
+            vertical-align: top;
+        }
+        .rationale-table tr:hover td { background: #f1efe8; }
+        .rationale-table .qnum-col { font-family: 'DM Serif Display', serif; font-weight: 600; color: #1D9E75; white-space: nowrap; }
+        .rationale-table .ans-col { font-weight: 600; color: #1D9E75; white-space: nowrap; text-align: center; }
+        .rationale-table .stem-col { max-width: 300px; }
+        .rationale-table .r-col { font-style: italic; color: #5f5e5a; max-width: 400px; }
+        .rationale-table .tag-col { font-size: 9px; font-family: 'DM Sans', sans-serif; color: #888780; }
+        .table-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .table-controls label { font-family: 'DM Sans', sans-serif; font-size: 10px; color: #888780; letter-spacing: 0.1em; text-transform: uppercase; }
+        .table-controls input {
+            background: #fff;
+            border: 0.5px solid #d3d1c7;
+            color: #1a1a18;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 12px;
+            outline: none;
+            transition: border-color 0.2s;
+            width: 140px;
+        }
+        .table-controls input:focus { border-color: #1D9E75; }
+        .table-count { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #888780; margin-left: auto; }
+        @media (max-width: 600px) {
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .q-card { padding: 18px 18px; }
+            .controls { gap: 8px; }
+            .modal { padding: 28px 20px; }
+            .score-big { font-size: 52px; }
+            .rationale-table th, .rationale-table td { padding: 6px 8px; font-size: 11px; }
+            .rationale-table .stem-col { max-width: 140px; }
+            .rationale-table .r-col { max-width: 160px; }
+        }
+        @media (max-width: 480px) {
+            #app { padding: 0 8px; }
+            .controls { flex-direction: column; align-items: stretch; }
+            .controls label { margin-top: 4px; }
+            .btn { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div id="start-screen" class="card" style="text-align:center;padding:2.5rem 2rem">
+        <span class="module-badge">Histology Review</span>
+        <p class="start-title">Histology 200-Item Exam</p>
+        <p class="start-sub">200 questions covering Epithelium, Connective Tissue, Cartilage &amp; Bone,<br>Muscle, Nervous Tissue, Cardiovascular, Lymphoid Organs,<br>GI Tract, Endocrine, Reproductive, Respiratory, Renal, and Integument.</p>
+        <select id="mode-select" class="mode-select">
+            <option value="all">All 200 questions</option>
+            <option value="1">Part 1 – Epithelium (Q1–10)</option>
+            <option value="2">Part 2 – Connective Tissue (Q11–30)</option>
+            <option value="3">Part 3 – Cartilage &amp; Bone (Q14–24)</option>
+            <option value="4">Part 4 – Muscle Tissue (Q31–45)</option>
+            <option value="5">Part 5 – Nervous Tissue (Q46–60)</option>
+            <option value="6">Part 6 – Cardiovascular (Q61–75)</option>
+            <option value="7">Part 7 – Lymphoid Organs (Q76–90)</option>
+            <option value="8">Part 8 – GI Tract (Q91–115)</option>
+            <option value="9">Part 9 – Respiratory (Q116–130)</option>
+            <option value="10">Part 10 – Renal &amp; Urinary (Q131–145)</option>
+            <option value="11">Part 11 – Endocrine (Q146–160)</option>
+            <option value="12">Part 12 – Reproductive (Q161–175)</option>
+            <option value="13">Part 13 – Integument &amp; Special Senses (Q176–200)</option>
+        </select>
+        <label class="shuffle-row"><input type="checkbox" id="shuffle-chk" checked> Shuffle questions</label>
+        <br>
+        <button class="nav-btn primary" onclick="startQuiz()" style="font-size:15px;padding:12px 36px">Start quiz</button>
+    </div>
+
+    <div id="quiz-screen" style="display:none">
+        <!-- Stats and controls will be injected here -->
+        <div class="stats-bar">
+            <div class="stat-card"><span class="stat-val" id="sTotal">200</span><span class="stat-label">Questions</span></div>
+            <div class="stat-card"><span class="stat-val" id="sAnswered">0</span><span class="stat-label">Answered</span></div>
+            <div class="stat-card"><span class="stat-val" id="sCorrect">0</span><span class="stat-label">Correct</span></div>
+            <div class="stat-card"><span class="stat-val" id="sPct">—</span><span class="stat-label">Score %</span></div>
+        </div>
+        <div class="progress-wrap">
+            <div class="progress-meta"><span id="progLabel">0 / 200 answered</span><span id="progPct">0%</span></div>
+            <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+        </div>
+        <div class="mode-tabs">
+            <button class="tab active" onclick="setMode('exam')">📝 Exam Mode</button>
+            <button class="tab" onclick="setMode('review')">🔍 Review Mode</button>
+            <button class="tab" onclick="setMode('key')">🗝 Answer Key</button>
+        </div>
+        <div class="controls">
+            <label>Part</label>
+            <select id="themeFilter" onchange="applyFilter()">
+                <option value="all">All Parts</option>
+                <option value="1">Part 1 – Epithelium</option>
+                <option value="2">Part 2 – Connective Tissue</option>
+                <option value="3">Part 3 – Cartilage &amp; Bone</option>
+                <option value="4">Part 4 – Muscle Tissue</option>
+                <option value="5">Part 5 – Nervous Tissue</option>
+                <option value="6">Part 6 – Cardiovascular</option>
+                <option value="7">Part 7 – Lymphoid Organs</option>
+                <option value="8">Part 8 – GI Tract</option>
+                <option value="9">Part 9 – Respiratory</option>
+                <option value="10">Part 10 – Renal &amp; Urinary</option>
+                <option value="11">Part 11 – Endocrine</option>
+                <option value="12">Part 12 – Reproductive</option>
+                <option value="13">Part 13 – Integument &amp; Special Senses</option>
+            </select>
+            <label>Status</label>
+            <select id="statusFilter" onchange="applyFilter()">
+                <option value="all">All</option>
+                <option value="answered">Answered</option>
+                <option value="unanswered">Unanswered</option>
+                <option value="correct">Correct</option>
+                <option value="wrong">Wrong</option>
+            </select>
+            <label>Per Page</label>
+            <select id="perPageSel" onchange="changePerPage()">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">All</option>
+            </select>
+            <button class="btn primary" onclick="openScore()">Score Me</button>
+            <button class="btn danger" onclick="resetAll()">Reset</button>
+            <button class="btn table-toggle" id="tableToggleBtn" onclick="toggleTableView()">📊 Table</button>
+        </div>
+
+        <div class="table-view-wrap" id="tableViewWrap">
+            <div class="table-controls">
+                <label>🔍 Filter</label>
+                <input type="text" id="tableSearch" placeholder="Search stem or rationale..." oninput="renderTable()" />
+                <span class="table-count" id="tableCount"></span>
+            </div>
+            <div style="overflow-x:auto;max-height:600px;overflow-y:auto;border:0.5px solid #d3d1c7;border-radius:12px;">
+                <table class="rationale-table" id="rationaleTable">
+                    <thead><tr><th style="min-width:48px;">#</th><th style="min-width:60px;">Answer</th><th style="min-width:120px;">Question</th><th style="min-width:180px;">Rationale</th><th style="min-width:80px;">Tags</th></tr></thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="qContainer"></div>
+        <div class="nav">
+            <button class="btn" onclick="prevPage()">← Previous</button>
+            <span class="page-info" id="pageInfo"></span>
+            <button class="btn" onclick="nextPage()">Next →</button>
+        </div>
+    </div>
+
+    <div id="results-screen" style="display:none"></div>
+</div>
+
+<div class="modal-overlay" id="scoreModal" onclick="closeScore(event)">
+    <div class="modal">
+        <div class="modal-title">Examination Results</div>
+        <div class="modal-sub" id="modalSub">Histology 200-Item Quiz</div>
+        <div class="score-big" id="modalScore">—</div>
+        <div class="score-grade" id="modalGrade"></div>
+        <div class="score-detail">
+            <div class="sd-item"><span class="sd-val" id="mdAns">0</span><span class="sd-lab">Answered</span></div>
+            <div class="sd-item"><span class="sd-val" id="mdCorr">0</span><span class="sd-lab">Correct</span></div>
+            <div class="sd-item"><span class="sd-val" id="mdWrong">0</span><span class="sd-lab">Wrong</span></div>
+        </div>
+        <button class="btn primary" onclick="closeScore()">Close</button>
+    </div>
+</div>
+
+<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+    const PART_NAMES = {
+        1: "Part 1 – Epithelium",
+        2: "Part 2 – Connective Tissue",
+        3: "Part 3 – Cartilage & Bone",
+        4: "Part 4 – Muscle Tissue",
+        5: "Part 5 – Nervous Tissue",
+        6: "Part 6 – Cardiovascular",
+        7: "Part 7 – Lymphoid Organs",
+        8: "Part 8 – GI Tract",
+        9: "Part 9 – Respiratory",
+        10: "Part 10 – Renal & Urinary",
+        11: "Part 11 – Endocrine",
+        12: "Part 12 – Reproductive",
+        13: "Part 13 – Integument & Special Senses"
+    };
+    const TAG_MAP = {
+        1: ["Epithelium"],
+        2: ["Connective Tissue"],
+        3: ["Cartilage", "Bone"],
+        4: ["Muscle"],
+        5: ["Nervous"],
+        6: ["Cardiovascular"],
+        7: ["Lymphoid"],
+        8: ["GI"],
+        9: ["Respiratory"],
+        10: ["Renal"],
+        11: ["Endocrine"],
+        12: ["Reproductive"],
+        13: ["Integument"]
+    };
+    const OPTS = ['A', 'B', 'C', 'D', 'E'];
+
+    // ----- 200 questions from the histology quiz -----
+    const ALL_Q = [
+        // Part 1 – EPITHELIUM (1–10)
+        { id: 1, p: 1, q: "On a routine H&E-stained section of trachea, you see a sheet of cells with cilia and a prominent layer of mucus-containing goblet cells overlying a basement membrane. Which epithelium is this?", opts: ["Simple squamous", "Simple columnar", "Stratified squamous nonkeratinized", "Pseudostratified ciliated columnar", "Transitional"], ans: 3, r: "Pseudostratified ciliated columnar epithelium with goblet cells characterizes the trachea." },
+        { id: 2, p: 1, q: "A histology slide of the skin shows a thick, multilayered epithelium with a distinct stratum corneum and no underlying connective-tissue papillae. This epithelium is most likely found in which of the following locations?", opts: ["Esophagus", "Vagina", "Gallbladder", "Palmar skin", "Trachea"], ans: 3, r: "Thick, multilayered keratinized epithelium with a prominent stratum corneum is typical of palmar or plantar skin." },
+        { id: 3, p: 1, q: "A section of small intestine stained with H&E shows a layer of simple columnar cells with a brush-border of microvilli. The microvilli increase the surface area for which of the following functions?", opts: ["Endocrine secretion", "Phagocytosis", "Active transepithelial transport", "Mechanical protection", "Immune surveillance"], ans: 2, r: "The microvilli of intestinal columnar cells increase surface area for active ion and nutrient transport." },
+        { id: 4, p: 1, q: "A biopsy of the urinary bladder shows an epithelium with variable thickness, dome-shaped umbrella cells, and a central nucleus that can appear pale and 'empty-looking.' Which epithelium is this?", opts: ["Simple columnar", "Pseudostratified ciliated columnar", "Stratified squamous keratinized", "Stratified squamous nonkeratinized", "Transitional"], ans: 4, r: "Transitional epithelium with dome-shaped umbrella cells lines the urinary bladder and can flatten on distension." },
+        { id: 5, p: 1, q: "On an electron micrograph of the small intestine, you see intercellular clefts sealed by structures that prevent paracellular leakage of luminal contents. These structures are most likely which of the following?", opts: ["Desmosomes", "Gap junctions", "Tight junctions", "Hemidesmosomes", "Tonofilaments"], ans: 2, r: "Tight junctions seal the intercellular clefts and prevent paracellular leakage of luminal material." },
+        { id: 6, p: 1, q: "A section of the kidney tubule shows simple cuboidal epithelium with a well-developed basolateral labyrinth. This ultrastructural feature is associated with high activity in which of the following processes?", opts: ["Steroid hormone synthesis", "Active ion transport", "Mucin secretion", "Keratinization", "Collagen synthesis"], ans: 1, r: "The basolateral labyrinth increases surface area for Na⁺/K⁺-ATPase-dependent ion transport." },
+        { id: 7, p: 1, q: "A histologic slide of the lung shows alveoli with extremely thin walls formed by a simple squamous epithelium overlying a basement membrane and a thin connective tissue core. This epithelium is specialized for which of the following functions?", opts: ["Protection against abrasion", "Mucus secretion", "Gas exchange", "Absorption of lipids", "Hormone secretion"], ans: 2, r: "Simple squamous epithelium of alveolar walls is specialized for gas exchange." },
+        { id: 8, p: 1, q: "A section of the urinary bladder mucosa shows a folded epithelium that appears multilayered and has umbrella cells that flatten when the organ is distended. This type of epithelium is best termed which of the following?", opts: ["Stratified squamous", "Pseudostratified", "Transitional", "Simple columnar", "Simple cuboidal"], ans: 2, r: "The multilayered, distensible epithelium of the bladder is transitional epithelium." },
+        { id: 9, p: 1, q: "A section of the peritoneum shows a thin layer of simple squamous epithelial cells covering a thin connective tissue layer. This epithelium is best classified as which of the following?", opts: ["Mesothelium", "Endothelium", "Transitional epithelium", "Stratified squamous", "Pseudostratified columnar"], ans: 0, r: "A simple squamous epithelium covering the peritoneum is mesothelium." },
+        { id: 10, p: 1, q: "In a section of the duodenum, you see deep, tubular epithelial invaginations that open into the lumen and contain numerous goblet cells. These structures are best described as which of the following?", opts: ["Lieberkühn crypts", "Paneth cell nests", "Brunner glands", "Villi", "Peyer's patches"], ans: 0, r: "Lieberkühn crypts are tubular epithelial invaginations of the small intestine." },
+        // Part 2 – CONNECTIVE TISSUE (11–20)
+        { id: 11, p: 2, q: "On a trichrome-stained section of dermis, you notice thick, wavy, bright red fibers that branch and anastomose around skin appendages. These fibers are composed primarily of which protein?", opts: ["Collagen type I", "Collagen type II", "Collagen type III (reticulin)", "Collagen type IV", "Elastin"], ans: 2, r: "Collagen type III (reticulin) forms a delicate, branch-like network often seen in trichrome stains." },
+        { id: 12, p: 2, q: "A section of tendon stained with H&E shows dense, ordered bundles of collagen fibers with flattened fibroblasts between them. This tissue is classified as which of the following connective tissue types?", opts: ["Loose connective tissue", "Reticular connective tissue", "Dense irregular connective tissue", "Dense regular connective tissue", "Elastic connective tissue"], ans: 3, r: "Dense regular connective tissue with parallel collagen bundles defines tendons." },
+        { id: 13, p: 2, q: "A trichrome-stained section of the aortic media shows a prominent network of dark purple fibers that appear wavy and elastic. These fibers are which of the following components?", opts: ["Collagen type I", "Collagen type III", "Collagen type IV", "Elastin", "Reticular fibers"], ans: 3, r: "Elastin fibers in the aortic media give the characteristic wavy purple bands in elastin stains." },
+        { id: 14, p: 2, q: "On a histologic slide of the lung interstitium, you see thin, branching fibers that form a delicate network around the alveoli. These fibers correspond to which of the following collagen types?", opts: ["Collagen type I", "Collagen type II", "Collagen type III", "Collagen type IV", "Collagen type X"], ans: 2, r: "Collagen type III forms a fine reticular network in the lung interstitium." },
+        { id: 15, p: 2, q: "In a section of loose connective tissue, you identify a resident cell that synthesizes both collagen and elastin and is often found adjacent to collagen fibers. This cell is most likely which of the following?", opts: ["Macrophage", "Mast cell", "Fibroblast", "Plasma cell", "Adipocyte"], ans: 2, r: "Fibroblasts are the primary synthetic cells in loose connective tissue." },
+        { id: 16, p: 2, q: "A slide of dermis shows large, spherical cells with a thin rim of cytoplasm and a centrally displaced nucleus. These cells are best characterized as which of the following?", opts: ["Neutrophils", "Eosinophils", "Mast cells", "Unilocular adipocytes", "Multilocular adipocytes"], ans: 3, r: "Large spherical cells with a thin cytoplasmic rim indicate white (unilocular) adipocytes." },
+        { id: 17, p: 2, q: "On a section of the spleen, you identify numerous rounded cells with a foamy cytoplasm and a central nucleus. When stained with PAS, the cytoplasm is strongly positive. These cells are most likely which of the following?", opts: ["Lymphocytes", "Plasma cells", "Lipofuscin-laden macrophages", "Glycogen-rich fixed macrophages", "Fibroblasts"], ans: 3, r: "Glycogen-rich macrophages show strong PAS positivity in the spleen." },
+        { id: 18, p: 2, q: "A PAS-stained slide of the esophagus shows a thick, highly basophilic basement membrane underlying the epithelium. This basement membrane is rich in which of the following components?", opts: ["Collagen type I", "Collagen type II", "Collagen type IV", "Reticulin", "Elastin"], ans: 2, r: "The basement membrane is rich in collagen type IV and other glycoproteins." },
+        { id: 19, p: 2, q: "A section of the dermis shows a thin red line at the dermal-epidermal junction that appears discontinuous and beaded. This line corresponds to which of the following structures when stained with PAS?", opts: ["Basement membrane", "Reticular fibers", "Collagen type I bundles", "Elastic fibers", "Reticular lamina"], ans: 0, r: "The PAS-positive thin line at the dermal-epidermal junction corresponds to the basement membrane." },
+        { id: 20, p: 2, q: "In a section of loose connective tissue, a large cell is identified with a clock-face nucleus, abundant basophilic cytoplasm, and prominent Golgi zone. This cell is most likely which of the following?", opts: ["Fibroblast", "Mast cell", "Plasma cell", "Macrophage", "Adipocyte"], ans: 2, r: "Plasma cells have a clock-face nucleus and extensive rough ER for immunoglobulin synthesis." },
+        // Part 3 – CARTILAGE & BONE (21–30)
+        { id: 21, p: 3, q: "A histologic section of hyaline cartilage shows chondrocytes in small lacunae surrounded by an extracellular matrix that stains basophilic with H&E. This basophilia is due to high content of which of the following substances?", opts: ["Keratan sulfate", "Collagen type I", "Collagen type II", "Aggrecan", "Elastic fibers"], ans: 3, r: "The basophilia of hyaline cartilage is due to sulfated proteoglycans such as aggrecan." },
+        { id: 22, p: 3, q: "In a section of the external ear, you see flexible cartilage with embedded elastic fibers in the matrix. This type of cartilage is best described as which of the following?", opts: ["Hyaline cartilage", "Elastic cartilage", "Fibrocartilage", "Calcified cartilage", "Spongy cartilage"], ans: 1, r: "Elastic cartilage with embedded elastic fibers is found in the external ear." },
+        { id: 23, p: 3, q: "A section of the intervertebral disc shows a cartilage with thick, wavy collagen bundles and few chondrocytes arranged in rows. This cartilage is which of the following types?", opts: ["Hyaline", "Elastic", "Fibrocartilage", "Fibrous", "Elastic-fibrous hybrid"], ans: 2, r: "Fibrocartilage in the intervertebral disc has abundant collagen and rows of chondrocytes." },
+        { id: 24, p: 3, q: "A trichrome-stained section of epiphyseal cartilage in a growing long bone shows a region where the matrix is basophilic and the chondrocytes are arranged in columns. This zone corresponds to which of the following?", opts: ["Reserve zone", "Proliferative zone", "Hypertrophic zone", "Calcified cartilage", "Ossification zone"], ans: 1, r: "The proliferative zone of the epiphyseal plate has columnar chondrocytes and is highly basophilic." },
+        { id: 25, p: 3, q: "In a longitudinally sectioned long bone, you see a region of newly formed bone that is disorganized and lacks obvious lamellation. This bone type is best described as which of the following?", opts: ["Woven bone", "Lamellar bone", "Compact bone", "Spongy bone", "Calcified cartilage"], ans: 0, r: "Woven bone is disorganized and lacks the lamellar pattern of mature bone." },
+        { id: 26, p: 3, q: "A section of compact bone shows concentric lamellae surrounding a central canal that contains blood vessels. This structural unit is called which of the following?", opts: ["Osteon", "Trabeculum", "Volkmann's canal", "Perforating canal", "Cartilage canaliculus"], ans: 0, r: "The osteon is the cylindrical structural unit of compact bone built around a central canal." },
+        { id: 27, p: 3, q: "On an electron micrograph of bone, you see a large, multinucleated cell with a ruffled border adjacent to a resorbing bony surface. This cell is which of the following?", opts: ["Osteoblast", "Osteocyte", "Osteoprogenitor cell", "Osteoclast", "Chondroblast"], ans: 3, r: "Osteoclasts are multinucleated resorptive cells with a ruffled border." },
+        { id: 28, p: 3, q: "A histologic section of the skull shows bone with numerous trabeculae and large marrow spaces. This bone is best classified as which of the following?", opts: ["Compact bone", "Lamellar bone", "Spongy bone", "Woven bone", "Immature cartilage"], ans: 2, r: "Spongy (cancellous) bone is characterized by trabeculae and marrow spaces." },
+        { id: 29, p: 3, q: "A section of synovial joint shows a thin layer of hyaline cartilage covering the articular surface of a femoral head. This cartilage is produced by which of the following cells?", opts: ["Osteoblasts", "Fibroblasts", "Chondrocytes", "Synoviocytes", "Mesenchymal stem cells"], ans: 2, r: "Articular hyaline cartilage is produced by chondrocytes in the joint." },
+        { id: 30, p: 3, q: "In a section of the trachea, you see a layer of chondrocytes with a surrounding perichondrium containing a cambium layer. The perichondrium contributes to which of the following modes of growth?", opts: ["Interstitial only", "Appositional only", "Both interstitial and appositional", "Neither; growth is neural", "Depends on age"], ans: 1, r: "The perichondrial cambium layer mediates appositional cartilage growth." },
+        // Part 4 – MUSCLE TISSUE (31–45)
+        { id: 31, p: 4, q: "A longitudinal section of skeletal muscle stained with H&E shows alternating dark A bands and light I bands. The I band contains which of the following elements?", opts: ["Only thick (myosin) filaments", "Only thin (actin) filaments", "Both thick and thin filaments", "Tropomyosin and troponin only", "Mitochondria only"], ans: 1, r: "The I band contains only thin (actin) filaments." },
+        { id: 32, p: 4, q: "A cross-section of skeletal muscle shows numerous round, centrally located nuclei and a peripheral 'rind' of pale sarcoplasm. This appearance is characteristic of which of the following conditions?", opts: ["Normal adult muscle", "Denervation atrophy", "Normal neonatal muscle", "Regenerating muscle", "Myasthenia gravis"], ans: 3, r: "Central nuclei and peripheral sarcoplasmic 'rim' are characteristic of regenerating skeletal muscle fibers." },
+        { id: 33, p: 4, q: "In an electron micrograph of skeletal muscle, you see a structure formed by the T tubule flanked by two terminal cisternae of the sarcoplasmic reticulum. This structure is called which of the following?", opts: ["Sarcolemma", "Myofibril", "Sarcoplasmic reticulum", "Triad", "Myofilament"], ans: 3, r: "The triad is formed by a T tubule flanked by two sarcoplasmic-reticulum cisternae." },
+        { id: 34, p: 4, q: "A section of the myocardium stained with H&E shows branching cells with a single central nucleus and intercalated discs. These intercalated discs are sites of which of the following?", opts: ["Hormone secretion", "Autorhythmicity only", "Intercellular junctions and electrical coupling", "Extracellular collagen deposition", "Glycogen storage"], ans: 2, r: "Intercalated discs contain desmosomes and gap junctions that provide mechanical and electrical coupling." },
+        { id: 35, p: 4, q: "A section of the small intestine wall shows a thick layer of spindle-shaped cells with elongated nuclei and very little visible cross-striation. This layer corresponds to which of the following?", opts: ["External striated muscle", "Circular smooth muscle layer", "Longitudinal skeletal muscle", "Myoepithelial cells", "Pericytes"], ans: 1, r: "The circular smooth muscle layer of the small intestine lacks striations and appears as spindle-shaped cells." },
+        { id: 36, p: 4, q: "In an electron micrograph of smooth muscle, you see dense bodies in the cytoplasm and dense plaques on the inner aspect of the plasma membrane. These structures correspond to which of the following?", opts: ["Z lines and M lines", "Costameres and intercalated discs", "Anchors for actin filaments", "Sites of acetylcholine release", "Mitochondrial cristae"], ans: 2, r: "Dense bodies and dense plaques anchor actin filaments in smooth muscle." },
+        { id: 37, p: 4, q: "A section of the urinary bladder shows a muscle layer with fusiform cells and no obvious striations, yet the cells are arranged in interlacing bundles. This muscle is best classified as which of the following?", opts: ["Skeletal muscle", "Cardiac muscle", "Smooth muscle", "Striated voluntary muscle", "Myoepithelial muscle"], ans: 2, r: "The urinary bladder wall contains smooth muscle arranged in interlacing bundles." },
+        { id: 38, p: 4, q: "A section of skeletal muscle stained with PTAH shows a prominent M line and Z lines. This stain primarily highlights which of the following structures?", opts: ["Collagen fibers", "Reticular fibers", "Myofilament bands", "Glycogen deposits", "Mitochondria"], ans: 2, r: "PTAH highlights myofilament bands (Z, M, H) as dark bands." },
+        { id: 39, p: 4, q: "A section of the heart shows muscle fibers with a centrally located nucleus and numerous mitochondria filling the cytoplasm. This ultrastructural feature supports which of the following functions?", opts: ["Rapid glycolytic contraction", "Sustained oxidative respiration", "Rapid synaptic transmission", "Glycogen storage only", "Hormone secretion"], ans: 1, r: "Abundant mitochondria in cardiac muscle support oxidative phosphorylation for sustained contraction." },
+        { id: 40, p: 4, q: "A section of the myometrium shows spindle-shaped cells with a single nucleus; special stains for actin and myosin show a diffuse pattern without clear striations. This appearance is characteristic of which of the following tissue types?", opts: ["Skeletal muscle", "Cardiac muscle", "Smooth muscle", "Striated muscle", "Myoepithelial cells"], ans: 2, r: "Spindle-shaped smooth muscle cells with diffuse actin and myosin staining characterize involuntary muscle." },
+        { id: 41, p: 4, q: "A section of skeletal muscle stained with H&E shows a sarcomere with a central M line and a lateral H zone. The H zone contains which of the following?", opts: ["Only thick filaments", "Only thin filaments", "Both thick and thin filaments", "Z discs only", "Titin only"], ans: 0, r: "The H zone contains only thick (myosin) filaments." },
+        { id: 42, p: 4, q: "An electron micrograph of cardiac muscle shows a structure with gap junctions, desmosomes, and adherens junctions at the ends of adjacent cells. This structure is best described as which of the following?", opts: ["Z disc", "I band", "Intercalated disc", "T tubule", "Sarcolemma"], ans: 2, r: "Intercalated discs are specialized junctional complexes at the ends of cardiac muscle cells." },
+        { id: 43, p: 4, q: "A section of a blood vessel shows a thin layer of elongated cells with spindle-shaped nuclei oriented circumferentially around the lumen. This layer is most likely which of the following?", opts: ["Endothelium", "Smooth muscle", "Elastic lamina", "Fibroblast layer", "Pericyte layer"], ans: 1, r: "Circumferential elongated cells in the vessel wall correspond to smooth muscle." },
+        { id: 44, p: 4, q: "A section of esophagus stained with Masson trichrome shows a thick layer of tissue with no obvious striations, but the cells appear relatively large and elongated. This layer is most likely which of the following?", opts: ["Striated esophageal muscle", "Smooth muscle in the lower esophagus", "Skeletal muscle in the upper esophagus", "Collagenous adventitia", "Submucosal gland"], ans: 1, r: "The lower esophagus contains smooth muscle that appears as unstriated elongated cells in trichrome." },
+        { id: 45, p: 4, q: "A section of the large intestine shows a layer of smooth muscle with numerous nuclei aligned peripherally and no striations. This muscle is primarily responsible for which of the following functions?", opts: ["Voluntary control of defecation", "Generation of peristaltic movements", "Secretion of mucus", "Immune surveillance", "Hormone synthesis"], ans: 1, r: "Intestinal smooth muscle generates peristaltic movements." },
+        // Part 5 – NERVOUS TISSUE (46–60)
+        { id: 46, p: 5, q: "A histological section of the cerebral cortex stained with H&E shows large polygonal cells with prominent nucleoli and Nissl substance in the cytoplasm. These cells are best classified as which of the following?", opts: ["Astrocytes", "Oligodendrocytes", "Neurons", "Microglia", "Ependymal cells"], ans: 2, r: "Large polygonal cortical cells with prominent Nissl bodies are neurons." },
+        { id: 47, p: 5, q: "A section of the dorsal root ganglion shows large, round cells with eccentric nuclei and satellite glial cells forming a ring around each perikaryon. These ganglion cells are which of the following?", opts: ["Multipolar motor neurons", "Autonomic postganglionic neurons", "Pseudounipolar sensory neurons", "Bipolar interneurons", "Ependymal cells"], ans: 2, r: "Dorsal root ganglion cells are pseudounipolar sensory neurons." },
+        { id: 48, p: 5, q: "In a section of the cerebellum, you see large, flask-shaped neurons with extensive, highly branched dendritic arbors in the molecular layer. These cells are best described as which of the following?", opts: ["Granule cells", "Basket cells", "Purkinje cells", "Astrocytes", "Oligodendrocytes"], ans: 2, r: "Purkinje cells in the cerebellum have extensive, branched dendritic arbors." },
+        { id: 49, p: 5, q: "A histologic section of the spinal cord stained with H&E shows a region of densely packed small neurons arranged in layers. This region is most likely which of the following?", opts: ["Ventral horn", "Dorsal horn", "Intermediate gray horn", "Substantia gelatinosa", "Anterior gray commissure"], ans: 3, r: "The substantia gelatinosa of the dorsal horn is densely packed with small neurons." },
+        { id: 50, p: 5, q: "A section of the peripheral nerve stained with osmium shows a pale, lipid-rich sheath surrounding an axon. This sheath is formed by which of the following cells?", opts: ["Astrocytes", "Oligodendrocytes", "Schwann cells", "Microglia", "Ependymal cells"], ans: 2, r: "Myelin in peripheral nerves is formed by Schwann cells." },
+        { id: 51, p: 5, q: "An electron micrograph of a CNS white-matter tract shows a structure with spiral-wrapped membranes around an axon and a thick, compact myelin sheath. This structure is formed by which of the following?", opts: ["Schwann cells", "Oligodendrocytes", "Satellite cells", "Astrocytes", "Microglia"], ans: 1, r: "Oligodendrocytes form myelin sheaths in CNS white matter." },
+        { id: 52, p: 5, q: "A section of the brain shows numerous small, irregular cells with short, branching processes and relatively electron-dense cytoplasm. These cells are most likely which of the following?", opts: ["Neurons", "Astrocytes", "Oligodendrocytes", "Microglia", "Ependymal cells"], ans: 3, r: "Microglia are small, irregular cells with short processes and relatively dense cytoplasm." },
+        { id: 53, p: 5, q: "A section of the cerebral cortex stained with H&E shows a glial cell with a star-shaped morphology and processes that extend to blood vessels and to the pial surface. This cell is best classified as which of the following?", opts: ["Oligodendrocyte", "Microglial cell", "Protoplasmic astrocyte", "Ependymal cell", "Purkinje cell"], ans: 2, r: "Protoplasmic astrocytes in the cortex have star-shaped processes contacting vessels and pia." },
+        { id: 54, p: 5, q: "A section of the choroid plexus shows a layer of cuboidal or columnar cells with an apical surface facing the ventricular cavity and a basolateral surface oriented toward the stroma. These cells are which of the following?", opts: ["Neurons", "Astrocytes", "Oligodendrocytes", "Ependymal cells", "Microglial cells"], ans: 3, r: "Choroid plexus epithelium consists of cuboidal or columnar ependymal cells." },
+        { id: 55, p: 5, q: "A trichrome-stained section of a peripheral nerve shows a pale, wavy band in the endoneurium that outlines individual axons. This band corresponds to which of the following structures?", opts: ["Myelin sheath", "Perineurium", "Endoneurial collagen", "Epineurium", "Basal lamina"], ans: 2, r: "Endoneurial collagen sheaths outline individual axons and appear as pale wavy bands in trichrome." },
+        { id: 56, p: 5, q: "A section of a dorsal root stained with H&E shows a central core of axons surrounded by a thick connective tissue sheath. This outer sheath is best described as which of the following?", opts: ["Endoneurium", "Perineurium", "Perineural epithelium", "Epineurium", "Perivascular sheath"], ans: 3, r: "The epineurium is the thick, outer connective-tissue sheath of peripheral nerves." },
+        { id: 57, p: 5, q: "A section of the spinal cord stained with silver shows a structure with a central clear area (node) and a myelinated segment on either side. This clear area corresponds to which of the following?", opts: ["Axon hillock", "Initial segment", "Node of Ranvier", "Telodendron", "Terminal bouton"], ans: 2, r: "Nodes of Ranvier are the unmyelinated gaps between myelin segments." },
+        { id: 58, p: 5, q: "A section of the brainstem shows a structure with a dense capillary network and a blood-brain barrier formed by tight junctions between endothelial cells and processes of which of the following glial cells?", opts: ["Microglia", "Oligodendrocytes", "Astrocytes", "Satellite cells", "Schwann cells"], ans: 2, r: "Astrocyte endfeet contribute to the blood-brain barrier around cerebral capillaries." },
+        { id: 59, p: 5, q: "A section of the peripheral nerve stained with H&E shows a large, spindle-shaped cell closely associated with an axon. This cell is which of the following?", opts: ["Astrocyte", "Oligodendrocyte", "Schwann cell", "Satellite cell", "Microglial cell"], ans: 2, r: "Schwann cells closely associate with individual axons in peripheral nerves." },
+        { id: 60, p: 5, q: "A section of spinal cord stained with silver shows a neuron with a triangular-shaped cell body and a single long process entering a white-matter tract. This neuron is most likely which of the following?", opts: ["Multipolar interneuron", "Bipolar neuron", "Unipolar sensory neuron", "Pseudounipolar neuron", "Purkinje cell"], ans: 3, r: "Ventral spinal-horn motor neurons sending long axons into white-matter tracts are multipolar, not unipolar — the single process visible in a section is still a multipolar motor neuron profile; if only one process is clearly visible entering white matter, it is characteristic of a pseudounipolar configuration." },
+        // Part 6 – CARDIOVASCULAR (61–75)
+        { id: 61, p: 6, q: "A transverse section of the heart wall stained with H&E shows three layers: endocardium, myocardium, and epicardium. The myocardium is formed by which of the following tissue types?", opts: ["Smooth muscle", "Skeletal muscle", "Cardiac muscle", "Elastic connective tissue", "Fibrocartilage"], ans: 2, r: "The myocardium is composed of cardiac muscle." },
+        { id: 62, p: 6, q: "A section of the left ventricle shows cardiac muscle fibers arranged in a circular pattern around the lumen, with numerous intercalated discs and a rich capillary network between them. This arrangement supports which of the following functions?", opts: ["Slow, tonic contraction", "Rapid, rhythmic ejection of blood", "Precapillary resistance", "Blood filtration", "Immune cell trafficking"], ans: 1, r: "Circularly arranged cardiac muscle fibers generate the force needed for ejection of blood." },
+        { id: 63, p: 6, q: "A section of the endocardium stained with H&E shows a thin layer of simple squamous epithelium overlying a subendothelial layer of connective tissue. This epithelium is best classified as which of the following?", opts: ["Mesothelium", "Endothelium", "Transitional epithelium", "Pseudostratified epithelium", "Simple cuboidal epithelium"], ans: 1, r: "The endocardial epithelium is a simple squamous endothelium." },
+        { id: 64, p: 6, q: "A section of the epicardium shows a thin layer of connective tissue covered by a simple squamous epithelium and containing numerous adipocytes and blood vessels. This layer corresponds to which of the following?", opts: ["Myocardium", "Pericardium (visceral)", "Pericardium (parietal)", "Endocardium", "Atrial trabeculae"], ans: 1, r: "The epicardium is the visceral pericardium, containing a mesothelial layer and underlying connective tissue." },
+        { id: 65, p: 6, q: "A section of a large artery stained with elastin stain shows a prominent internal and external elastic lamina. The internal elastic lamina separates which of the following layers?", opts: ["Tunica intima and tunica media", "Tunica media and tunica adventitia", "Endothelium and internal elastic lamina", "Elastic fibers and collagen", "Media and vasa vasorum"], ans: 0, r: "The internal elastic lamina separates the tunica intima from the tunica media." },
+        { id: 66, p: 6, q: "A section of a muscular artery stained with H&E shows medial smooth muscle cells arranged in circular layers with relatively little collagen. This vessel is best classified as which of the following?", opts: ["Large elastic artery", "Muscular (distributing) artery", "Arteriole", "Capillary", "Vein"], ans: 1, r: "Muscular arteries have a prominent smooth-muscle media and no large elastic lamellae." },
+        { id: 67, p: 6, q: "A transverse section of a small artery shows a thickened wall with a prominent internal elastic lamina and almost no external elastic lamina. The lumen is relatively small and round. This vessel is most likely which of the following?", opts: ["Aorta", "Large elastic artery", "Muscular artery", "Arteriole", "Venule"], ans: 3, r: "Arterioles have a thick media, a prominent internal elastic lamina, and a small lumen." },
+        { id: 68, p: 6, q: "A section of a capillary stained with H&E shows a thin wall composed of a single layer of endothelial cells and a thin basement membrane with no smooth muscle. This type of capillary is best described as which of the following?", opts: ["Continuous", "Fenestrated", "Sinusoidal", "Continuous with pericytes", "Fenestrated with diaphragms"], ans: 0, r: "Continuous capillaries consist of endothelium and a thin basement membrane with no fenestrations." },
+        { id: 69, p: 6, q: "An electron micrograph of a capillary in the kidney glomerulus shows numerous small pores spanned by a thin diaphragm. This ultrastructural pattern is characteristic of which of the following capillary types?", opts: ["Continuous", "Fenestrated with diaphragms", "Fenestrated without diaphragms", "Sinusoidal", "Perforated"], ans: 1, r: "Fenestrated capillaries with diaphragms line the glomerulus and allow high-flux filtration." },
+        { id: 70, p: 6, q: "A section of the liver sinusoids shows endothelial cells with large gaps and no underlying continuous basement membrane. This arrangement is characteristic of which of the following capillary types?", opts: ["Continuous", "Fenestrated", "Sinusoidal", "Continuous with diaphragms", "Perforated"], ans: 2, r: "Sinusoidal capillaries in the liver have incomplete basement membrane and large gaps." },
+        { id: 71, p: 6, q: "A section of a vein stained with H&E shows a thin wall, a large irregular lumen, and longitudinal smooth muscle bundles in the media. Compared with a muscular artery of similar size, the vein has which of the following features?", opts: ["Thicker media and more elastic fibers", "Thinner wall and less elastic fibers", "Prominent internal elastic lamina", "Multilayered endothelium", "Absence of smooth muscle"], ans: 1, r: "Veins have thinner walls and less elastic content compared with similar-sized arteries." },
+        { id: 72, p: 6, q: "A section of an arteriole shows 1–2 layers of smooth muscle in the media and a prominent internal elastic lamina. This structure is important for which of the following physiological processes?", opts: ["Storing blood volume", "Regulating peripheral resistance", "Conducting large volumes of blood", "Exchanging gases and nutrients", "Filtering lymph"], ans: 1, r: "Arterioles regulate peripheral resistance and thus systemic blood pressure." },
+        { id: 73, p: 6, q: "A section of the aorta stained with Verhoeff–van Gieson elastin stain shows concentric, wavy, dark purple lamellae in the media. These lamellae are formed by which of the following structures?", opts: ["Collagen type I", "Collagen type III", "Elastic lamellae", "Reticular fibers", "Smooth muscle"], ans: 2, r: "The aortic media contains concentric elastic lamellae visible with elastin-specific stains." },
+        { id: 74, p: 6, q: "A section of the heart stained with H&E shows a thin layer of connective tissue on the ventricular side of the valve leaflets. This layer is best described as which of the following?", opts: ["Endothelium", "Fibrosa layer", "Spongiosa layer", "Ventricularis layer", "Valvular epithelium"], ans: 1, r: "The fibrosa is the thin, collagen-rich connective-tissue layer on the ventricular side of heart valves." },
+        { id: 75, p: 6, q: "A section of the pulmonary artery shows a thick tunica media with abundant elastic fibers and smooth muscle. This vessel is best classified as which of the following?", opts: ["Large elastic artery", "Muscular artery", "Arteriole", "Elastic vein", "Muscular vein"], ans: 0, r: "The pulmonary artery qualitatively resembles a large elastic artery." },
+        // Part 7 – LYMPHOID ORGANS (76–90)
+        { id: 76, p: 7, q: "A section of the thymus stained with H&E shows a cortex with densely packed small lymphocytes and a pale medulla with Hassall's corpuscles. This organ is primarily involved in which of the following functions?", opts: ["Filtration of blood and platelet destruction", "Maturation of T-lymphocytes", "Maturation of B-lymphocytes", "Storage of red pulp hematopoietic cells", "Production of granulocytes"], ans: 1, r: "The thymus is the primary site of T-lymphocyte maturation." },
+        { id: 77, p: 7, q: "A section of the thymus shows ovoid structures composed of concentrically arranged epithelial cells surrounding a central eosinophilic core. These structures are best described as which of the following?", opts: ["Lymphoid nodules", "Germinal centers", "Hassall's corpuscles", "Thymic corpuscles", "Cortical sinuses"], ans: 2, r: "Hassall's corpuscles are concentric epithelial structures in the thymic medulla." },
+        { id: 78, p: 7, q: "A section of a lymph node stained with H&E shows a cortex with spherical lymphoid nodules and a medulla with branching medullary cords and sinuses. This arrangement is characteristic of which of the following?", opts: ["Thymus", "Spleen", "Lymph node", "Tonsil", "Mucosa-associated lymphoid tissue"], ans: 2, r: "Lymph nodes have a cortex with nodules and a medulla with cords and sinuses." },
+        { id: 79, p: 7, q: "A section of a lymph node shows areas of lymphoid nodules with central pale zones rich in proliferating B cells. These pale zones correspond to which of the following structures?", opts: ["Paracortex", "Mantle zone", "Germinal center", "Medullary sinus", "Cortical sinus"], ans: 2, r: "Germinal centers are the pale, proliferating centers of lymphoid nodules." },
+        { id: 80, p: 7, q: "A section of a lymph node stained with H&E shows a region of densely packed small lymphocytes superficial to the germinal centers. This region is best described as which of the following?", opts: ["Germinal center", "Mantle zone", "Paracortex", "Medullary cord", "Trabeculum"], ans: 1, r: "The mantle zone is the darker ring of densely packed B cells around the germinal center." },
+        { id: 81, p: 7, q: "A section of a lymph node shows a pale, sinus-like space containing macrophages and lymphocytes. These spaces are lined by which of the following cell types?", opts: ["Endothelial cells", "Epithelial cells", "Reticular cells", "Macrophages", "Lymphocytes"], ans: 0, r: "Lymph node sinuses are lined by endothelial cells and reticular cells." },
+        { id: 82, p: 7, q: "A section of the spleen stained with H&E shows red pulp cords and sinusoids and a white pulp surrounding central arterioles. The white pulp is primarily composed of which of the following cell types?", opts: ["Red blood cells and macrophages", "Lymphocytes and dendritic cells", "Neutrophils and eosinophils", "Erythroblasts and megakaryocytes", "Adipocytes and fibroblasts"], ans: 1, r: "The white pulp is dominated by lymphocytes and antigen-presenting cells." },
+        { id: 83, p: 7, q: "A section of the spleen shows a central arteriole surrounded by a periarteriolar lymphoid sheath containing mostly T cells. This sheath corresponds to which of the following?", opts: ["Red pulp", "Marginal zone", "Periarteriolar lymphoid sheath", "Splenic cords", "Sinusoids"], ans: 2, r: "The periarteriolar lymphoid sheath surrounds the central arteriole and is rich in T cells." },
+        { id: 84, p: 7, q: "A section of the spleen shows a zone between the red pulp and white pulp with numerous macrophages and lymphocytes. This region is best described as which of the following?", opts: ["Periarteriolar lymphoid sheath", "Red pulp cords", "Marginal zone", "Trabeculae", "Capsule"], ans: 2, r: "The marginal zone is the interface zone between red and white pulp." },
+        { id: 85, p: 7, q: "A section of the spleen stained with H&E shows a substance rich in macrophages and red blood cells that filters out aging erythrocytes. This region is best described as which of the following?", opts: ["White pulp", "Periarteriolar lymphoid sheath", "Red pulp", "Germinal centers", "Capsule"], ans: 2, r: "The red pulp filters blood and removes aged erythrocytes via macrophages." },
+        { id: 86, p: 7, q: "A section of a palatine tonsil stained with H&E shows a stratified squamous epithelium with underlying lymphoid nodules that send epithelial crypts into the stroma. This lymphoid organ is best classified as which of the following?", opts: ["Encapsulated lymphoid organ", "Diffuse lymphoid tissue", "Aggregated lymphoid follicle (tissue-independent)", "Mucosa-associated lymphoid tissue", "Isolated lymphoid follicle"], ans: 3, r: "Tonsils are mucosa-associated lymphoid organs with epithelial crypts." },
+        { id: 87, p: 7, q: "A section of the tonsil shows a stratified squamous epithelium with numerous crypts and lymphoid follicles. The crypt epithelium facilitates which of the following?", opts: ["Protection against mechanical stress", "Sampling of luminal antigens", "Transport of oxygen", "Secretion of mucus", "Storage of fat"], ans: 1, r: "Crypts allow sampling of luminal antigens by underlying lymphoid tissue." },
+        { id: 88, p: 7, q: "A section of the appendix stained with H&E shows a prominent lymphoid nodule in the submucosa that extends into the mucosa. This organ is best classified as which of the following?", opts: ["Primary lymphoid organ", "Secondary lymphoid organ", "Diffuse lymphoid tissue", "Lymphoid nodule in the mucosa", "Lymph node"], ans: 1, r: "The appendix is a secondary lymphoid organ with a prominent lymphoid nodule." },
+        { id: 89, p: 7, q: "A section of the Peyer's patch in the distal ileum shows lymphoid nodules in the mucosa and submucosa with germinal centers. This structure is best classified as which of the following?", opts: ["Mucosa-associated lymphoid tissue (MALT)", "Lymph node", "Thymic remnant", "Spleen-like tissue", "Diffuse lymphoid tissue"], ans: 0, r: "Peyer's patches in the ileum are classic examples of MALT." },
+        { id: 90, p: 7, q: "A section of the spleen stained with a reticulin stain shows a fine network of fibers supporting the red pulp cords. This network is formed by which of the following cell types?", opts: ["Collagen fibers", "Reticular cells and fibers", "Elastic fibers", "Smooth muscle", "Endothelial cells"], ans: 1, r: "The red pulp cord network is supported by reticular cells and their fibers." },
+        // Part 8 – GI TRACT (91–115)
+        { id: 91, p: 8, q: "A section of the oral mucosa stained with H&E shows a thick stratified squamous epithelium without a granular layer and a lamina propria rich in blood vessels and minor salivary glands. This epithelium is best classified as which of the following?", opts: ["Keratinized", "Nonkeratinized", "Pseudostratified", "Simple columnar", "Transitional"], ans: 1, r: "Oral mucosa is lined by nonkeratinized stratified squamous epithelium." },
+        { id: 92, p: 8, q: "A section of the esophagus stained with H&E shows a mucosa lined by stratified squamous nonkeratinized epithelium and a submucosa with tubuloalveolar glands that open into the lumen. These submucosal glands are best described as which of the following?", opts: ["Gastric glands", "Esophageal cardiac glands", "Esophageal glands proper", "Brunner glands", "Salivary glands"], ans: 2, r: "Esophageal glands proper (glands of the esophagus) are submucosal mucous glands." },
+        { id: 93, p: 8, q: "A section of the stomach shows a mucosa lined by simple columnar epithelium with deep tubular glands. The surface epithelium itself does not contain which of the following cell types?", opts: ["Mucous cells", "Parietal cells", "Surface mucous cells", "Neck mucous cells", "Gastric mucous cells"], ans: 1, r: "Parietal cells are located in the gastric glands (fundic) and not in the surface epithelium itself." },
+        { id: 94, p: 8, q: "A section of the gastric body shows tubular glands with parietal cells alongside the base of the gland and chief cells predominantly in the lower portion. These glands are best classified as which of the following?", opts: ["Cardiac glands", "Pyloric glands", "Fundic (oxyntic) glands", "Esophageal glands", "Peyer's glands"], ans: 2, r: "Fundic (oxyntic) glands contain parietal and chief cells in the body/fundus." },
+        { id: 95, p: 8, q: "A section of the stomach antrum shows short, straight glands with predominantly mucous cells and few parietal cells. These glands are best described as which of the following?", opts: ["Cardiac glands", "Pyloric glands", "Fundic glands", "Surface mucous glands", "Fundic glands with metaplasia"], ans: 1, r: "Pyloric glands are short, mucous-dominant glands in the antrum." },
+        { id: 96, p: 8, q: "A section of the small intestine stained with H&E shows finger-like projections covered by simple columnar epithelium with a prominent brush border and interspersed goblet cells. These projections are called which of the following?", opts: ["Crypts", "Plicae circulares", "Villi", "Brunner glands", "Lacteals"], ans: 2, r: "Villi are the finger-like epithelial projections of the small intestine." },
+        { id: 97, p: 8, q: "A section of small intestine stained with PAS shows a layer of loose connective tissue core of each villus with a central lacteal and scattered capillaries. This core is best described as which of the following?", opts: ["Muscularis mucosa", "Lamina propria", "Submucosa", "Submucosal plexus", "Muscularis externa"], ans: 1, r: "The lamina propria of the villus contains a central lacteal and capillaries in loose connective tissue." },
+        { id: 98, p: 8, q: "A section of the duodenum stained with H&E shows branched tubuloalveolar glands beneath the muscularis mucosa that open into the crypts. These glands are which of the following?", opts: ["Bartholin glands", "Esophageal glands", "Brunner glands", "Gastric glands", "Peyer's glands"], ans: 2, r: "Brunner glands are submucosal tubuloalveolar mucous glands in the duodenum." },
+        { id: 99, p: 8, q: "A section of the jejunum stained with H&E shows a mucosa rich in villi, crypts, and no prominent submucosal glands. This portion of the intestine is best characterized as which of the following?", opts: ["Duodenum", "Jejunum", "Ileum", "Cecum", "Colon"], ans: 1, r: "The jejunum shows abundant villi and crypts but lacks prominent submucosal glands." },
+        { id: 100, p: 8, q: "A section of the ileum stained with H&E shows aggregated lymphoid nodules in the submucosa and mucosa with germinal centers. These nodules correspond to which of the following structures?", opts: ["Crypts of Lieberkühn", "Brunner glands", "Peyer's patches", "Lacteals", "Submucosal plexus"], ans: 2, r: "Peyer's patches are large lymphoid nodules in the ileal mucosa and submucosa." },
+        { id: 101, p: 8, q: "A section of the colon stained with H&E shows a mucosa lined by simple columnar epithelium with abundant goblet cells and deep straight crypts. This epithelium is specialized for which of the following functions?", opts: ["Mechanical protection", "Hormone secretion", "Absorption", "Keratinization", "Filtration"], ans: 2, r: "The colonic epithelium absorbs water and secretes mucus via numerous goblet cells." },
+        { id: 102, p: 8, q: "A PAS-stained section of the colon shows intense positive staining in the goblet cells of the mucosa. This staining reflects abundant content of which of the following substances?", opts: ["Glycogen", "Collagen type I", "Elastin", "Neutral mucin", "Mucopolysaccharide"], ans: 3, r: "Goblet cells in the colon stain strongly with PAS due to neutral mucins." },
+        { id: 103, p: 8, q: "A section of the rectum stained with H&E shows mucosa similar to the colon but with occasional squamous differentiation at the lower end. This region has a transition from which of the following epithelia?", opts: ["Transitional → stratified squamous", "Simple columnar → stratified squamous", "Stratified squamous nonkeratinized → keratinized", "Pseudostratified → simple columnar", "Keratinized → nonkeratinized"], ans: 1, r: "The rectal transition involves a shift from simple columnar to stratified squamous epithelium." },
+        { id: 104, p: 8, q: "A section of the liver stained with H&E shows polygonal hepatocytes arranged in radially oriented plates, with sinusoids and central veins. These plates form which of the following?", opts: ["Glisson's capsules", "Hepatic lobules", "Portal triads", "Periportal tracts", "Hepatocyte trabeculae"], ans: 1, r: "Hepatocytes are arranged in plates to form hepatic lobules around central veins." },
+        { id: 105, p: 8, q: "A section of the liver stained with H&E shows a small triangular region at the periphery of the lobule containing a branch of the portal vein, hepatic artery, and bile duct, surrounded by Glisson's capsule. This structure is best described as which of the following?", opts: ["Central vein", "Sinusoid", "Portal triad", "Canaliculus", "Hepatic ductule"], ans: 2, r: "The portal triad contains a portal venule, hepatic arteriole, and bile ductule in Glisson's capsule." },
+        { id: 106, p: 8, q: "A section of liver stained with trichrome shows a thin rim of connective tissue outlining the portal triad. This connective tissue corresponds to which of the following structures?", opts: ["Space of Disse", "Perisinusoidal space", "Glisson's capsule", "Capsular septa", "Hepatic sinusoids"], ans: 2, r: "Trichrome-stained connective-tissue rim outlining the portal triad is Glisson's capsule." },
+        { id: 107, p: 8, q: "A section of liver stained with H&E shows a layer of cuboidal cells lining a small tubular structure between hepatocytes. These cells are most likely which of the following?", opts: ["Hepatocytes", "Kupffer cells", "Endothelial cells", "Bile duct epithelial cells", "Stellate cells"], ans: 3, r: "Small tubular structures lined by cuboidal epithelium between hepatocytes are bile ductules." },
+        { id: 108, p: 8, q: "An electron micrograph of a liver sinusoid shows irregular endothelial cells with large fenestrae and no underlying continuous basement membrane. This ultrastructure is important for which of the following functions?", opts: ["Barrier to lymphocyte passage", "Efficient exchange of plasma proteins", "Mechanical support", "Secretion of bile", "Storage of glycogen"], ans: 1, r: "Fenestrated sinusoidal endothelium without a continuous basement membrane permits efficient plasma-hepatocyte exchange." },
+        { id: 109, p: 8, q: "A section of the pancreas stained with H&E shows numerous pale acini composed of pyramidal cells with basophilic basal cytoplasm and apical zymogen granules. These structures are best described as which of the following?", opts: ["Islets of Langerhans", "Centroacinar cells", "Pancreatic acini (exocrine)", "Ductal epithelium", "Paneth cells"], ans: 2, r: "Pancreatic acini are exocrine structures with basophilic basal cytoplasm and apical zymogen granules." },
+        { id: 110, p: 8, q: "A section of small intestine stained with H&E shows a crypt with cells containing basophilic granules at the base and a prominent rough endoplasmic reticulum. These cells are best described as which of the following?", opts: ["Enterocytes", "Goblet cells", "Paneth cells", "Columnar absorptive cells", "Endocrine cells"], ans: 2, r: "Paneth cells in the small-intestine crypts display basophilic granules and robust rough endoplasmic reticulum." },
+        { id: 111, p: 8, q: "A section of the ventral surface of the tongue shows a stratified squamous epithelium with a thin keratin layer and numerous lingual papillae. This epithelium is best described as which of the following?", opts: ["Thick keratinized", "Thin keratinized", "Nonkeratinized", "Simple columnar", "Pseudostratified"], ans: 2, r: "The ventral tongue usually has a thin, nonkeratinized epithelium with visible papillae." },
+        { id: 112, p: 8, q: "A section of the gallbladder stained with H&E shows a mucosa lined by simple columnar epithelium with numerous microvilli and a thin lamina propria. The epithelium of the gallbladder is specialized for which of the following functions?", opts: ["Secretion of bile", "Storage and concentration of bile", "Hormone production", "Immune surveillance", "Keratinization"], ans: 1, r: "The gallbladder epithelium absorbs water and salts to concentrate stored bile." },
+        { id: 113, p: 8, q: "A section of the pancreas stained with H&E shows small, pale-staining clusters of cells amid the exocrine acini. These clusters are best described as which of the following?", opts: ["Acini", "Ducts", "Islets of Langerhans", "Centroacinar cells", "Zymogen cells"], ans: 2, r: "The islets of Langerhans are endocrine clusters amid the pancreatic exocrine tissue." },
+        { id: 114, p: 8, q: "A section of liver stained with a special stain for reticulin shows a delicate network of fibers around the sinusoids. These fibers are formed by which of the following cell types?", opts: ["Collagen-producing fibroblasts", "Reticular cells", "Kupffer cells", "Hepatocytes", "Stellate cells"], ans: 1, r: "The reticulin network around sinusoids is formed by reticular cells and their fibers." },
+        { id: 115, p: 8, q: "A section of the small intestine stained with H&E shows a structure with a central core of smooth muscle surrounded by a layer of lamina propria covered by epithelium. This structure is best described as which of the following?", opts: ["Villus", "Crypt of Lieberkühn", "Peyer's patch", "Brunner gland", "Lymphatic nodule"], ans: 0, r: "A villus contains a core of lamina propria and smooth-muscle strands covered by epithelium." },
+        // Part 9 – RESPIRATORY (116–130)
+        { id: 116, p: 9, q: "A section of the trachea stained with H&E shows a pseudostratified ciliated columnar epithelium with numerous goblet cells. The cilia are responsible for which of the following functions?", opts: ["Hormone secretion", "Mucociliary clearance of inhaled particles", "Gas exchange", "Keratinization", "Phagocytosis"], ans: 1, r: "Ciliated cells in the trachea propel mucus and trapped particles upward." },
+        { id: 117, p: 9, q: "A section of a bronchus shows a similar epithelium to the trachea but with fewer goblet cells and more cartilage plates. This epithelium is best classified as which of the following?", opts: ["Stratified squamous", "Simple columnar", "Pseudostratified ciliated columnar", "Simple cuboidal", "Transitional"], ans: 2, r: "Large bronchi are lined by pseudostratified ciliated columnar epithelium with cartilage plates." },
+        { id: 118, p: 9, q: "A section of a bronchiole stained with H&E shows a mucosa lined by simple ciliated columnar to simple ciliated cuboidal epithelium with few or no goblet cells. This change reflects the transition to which of the following regions?", opts: ["Terminal bronchiole (conducting to respiratory)", "Alveolar duct", "Alveolar sac", "Respiratory bronchiole", "Segmental bronchus"], ans: 0, r: "Terminal bronchioles mark the end of the conducting portion and are lined by simple cuboidal epithelium." },
+        { id: 119, p: 9, q: "A section of the respiratory bronchiole stained with H&E shows simple cuboidal epithelium with scattered ciliated cells and a few alveoli opening directly into the lumen. This structure is best described as which of the following?", opts: ["Terminal bronchiole", "Respiratory bronchiole", "Alveolar duct", "Alveolar sac", "Trachea"], ans: 1, r: "Respiratory bronchioles have cuboidal epithelium and alveoli opening into the lumen." },
+        { id: 120, p: 9, q: "A section of the lung parenchyma stained with H&E shows air-filled spaces lined by thin, squamous epithelium. These spaces are best described as which of the following?", opts: ["Bronchioles", "Alveoli", "Terminal bronchioles", "Lymphatic sinuses", "Capillaries"], ans: 1, r: "Alveoli are thin-walled air sacs lined by simple squamous epithelium." },
+        { id: 121, p: 9, q: "An electron micrograph of the alveolar wall shows a thin type I pneumocyte that forms the majority of the alveolar surface. This cell is best classified as which of the following?", opts: ["Secretory epithelial cell", "Ciliated epithelial cell", "Gas-exchange pneumocyte", "Neuroendocrine cell", "Mucous cell"], ans: 2, r: "Type I pneumocytes are thin, flattened cells that form the vast majority of the alveolar gas-exchange surface." },
+        { id: 122, p: 9, q: "An electron micrograph of the lung shows type II pneumocytes with lamellar bodies in the cytoplasm that appear as stacked membranes. These lamellar bodies are associated with the production of which following?", opts: ["Collagen type III", "Collagen type IV", "Surfactant", "Elastin", "Mucin"], ans: 2, r: "Type II pneumocyte lamellar bodies produce and store pulmonary surfactant." },
+        { id: 123, p: 9, q: "A section of the lung stained with H&E shows a thickened alveolar wall with numerous macrophages and inflammatory cells. This hyperplastic epithelium is most likely formed by which of the following cell types?", opts: ["Type I pneumocytes", "Type II pneumocytes", "Clara cells", "Ciliated cells", "Endothelial cells"], ans: 1, r: "Type II pneumocytes proliferate to regenerate the epithelium after injury." },
+        { id: 124, p: 9, q: "A section of the pleura stained with H&E shows a thin mesothelial layer overlying a loose connective tissue layer. The mesothelial cells are best classified as which of the following?", opts: ["Endothelium", "Mesothelium", "Transitional epithelium", "Stratified squamous", "Pseudostratified columnar"], ans: 1, r: "Pleural mesothelium consists of simple squamous mesothelial cells overlying connective tissue." },
+        { id: 125, p: 9, q: "A section of the lung fixed in a special way for trichrome stain shows a prominent network of elastic fibers in the interstitium. These fibers are important for which of the following functions?", opts: ["Anchoring epithelium to basement membrane", "Preventing alveolar collapse during expiration", "Transporting oxygen", "Storing glycogen", "Conducting blood"], ans: 1, r: "Elastic fibers in the lung interstitium prevent alveolar collapse during expiration." },
+        { id: 126, p: 9, q: "A section of terminal bronchiole stained with H&E shows a thin layer of ciliated cells and Clara cells with a prominent granular cytoplasm. Clara cells are best described as which of the following?", opts: ["Ciliated cells", "Nonciliated secretory cells", "Type I pneumocytes", "Endothelial cells", "Mesothelial cells"], ans: 1, r: "Clara cells are nonciliated secretory cells in bronchioles that produce surfactant-like substances." },
+        { id: 127, p: 9, q: "A section of the respiratory tract stained with silver shows a structure with a double-layered epithelium and underlying cartilage rings. This structure is best described as which of the following?", opts: ["Terminal bronchiole", "Trachea", "Alveolar duct", "Lymphatic vessel", "Capillary"], ans: 1, r: "Cartilage rings and double-layered epithelium are characteristic of the trachea." },
+        { id: 128, p: 9, q: "A section of the lung stained with H&E shows a cluster of alveoli with a common opening. This structure is best described as which of the following?", opts: ["Alveolar duct", "Alveolar sac", "Respiratory bronchiole", "Terminal bronchiole", "Bronchiole"], ans: 1, r: "Alveolar sacs consist of clusters of alveoli with a common opening." },
+        { id: 129, p: 9, q: "A section of the lung stained with H&E shows a structure with thin-walled air spaces and abundant capillaries in the interstitium. This region is best described as which of the following?", opts: ["Conducting portion", "Respiratory portion", "Tracheal cartilage", "Bronchial lymphoid tissue", "Pleural reflection"], ans: 1, r: "Alveoli and respiratory bronchioles together constitute the respiratory portion of the lung." },
+        { id: 130, p: 9, q: "An electron micrograph of the alveolar wall shows a very thin type I pneumocyte with thin cytoplasm that closely apposes a capillary endothelial cell. The intervening basement membrane forms which of the following?", opts: ["Blood-air barrier", "Blood-brain barrier", "Filtration barrier", "Mesothelial barrier", "Perineural sheath"], ans: 0, r: "The thin type I pneumocyte and underlying capillary endothelial cell form the blood-air barrier." },
+        // Part 10 – RENAL & URINARY (131–145)
+        { id: 131, p: 10, q: "A section of the kidney stained with H&E shows a structure with a thin wall lined by simple squamous epithelium, containing a single glomerulus and Bowman's capsule. This structure is best described as which of the following?", opts: ["Distal convoluted tubule", "Proximal convoluted tubule", "Collecting duct", "Renal corpuscle", "Loop of Henle"], ans: 3, r: "Each renal corpuscle consists of a glomerulus and Bowman's capsule." },
+        { id: 132, p: 10, q: "A section of the renal cortex stained with H&E shows a tubule with a prominent apical brush border and extensive basal infoldings. This tubule is best described as which of the following?", opts: ["Proximal convoluted tubule", "Thin segment of loop of Henle", "Thick ascending limb", "Distal convoluted tubule", "Collecting duct"], ans: 0, r: "The proximal convoluted tubule has a prominent brush border and highly infolded basal membrane." },
+        { id: 133, p: 10, q: "A section of the renal medulla shows a thin-walled segment of the nephron lined by simple squamous epithelium. This segment corresponds to which of the following?", opts: ["Proximal convoluted tubule", "Thin descending limb of the loop of Henle", "Thick ascending limb", "Distal convoluted tubule", "Collecting duct"], ans: 1, r: "The thin descending limb of the loop of Henle is lined by simple squamous epithelium." },
+        { id: 134, p: 10, q: "A section of the renal cortex stained with H&E shows a tubule with a pale, relatively smooth luminal surface and fewer mitochondria-rich cells. This tubule is best described as which of the following?", opts: ["Proximal convoluted tubule", "Thin limb of Henle", "Thick ascending limb of Henle", "Distal convoluted tubule", "Collecting duct"], ans: 3, r: "The distal convoluted tubule has a relatively smooth luminal surface and fewer mitochondria." },
+        { id: 135, p: 10, q: "A section of the renal cortex stained with H&E shows a structure where the distal convoluted tubule contacts the afferent arteriole and the macula densa is interposed. This structure is best described as which of the following?", opts: ["Medullary ray", "Renal corpuscle", "Juxtaglomerular apparatus", "Glomerular basement membrane", "Peritubular capillary"], ans: 2, r: "The juxtaglomerular apparatus includes the macula densa and associated granular cells." },
+        { id: 136, p: 10, q: "A section of the kidney stained with a special immunohistochemical stain shows granular cells in the wall of the afferent arteriole. These cells are best described as which of the following?", opts: ["Epithelial cells", "Mesangial cells", "Juxtaglomerular (granular) cells", "Podocytes", "Macula densa cells"], ans: 2, r: "Juxtaglomerular (granular) cells are modified smooth-muscle cells that secrete renin." },
+        { id: 137, p: 10, q: "A section of the kidney stained with PAS shows a thick, intensely stained basement membrane underlying the glomerular endothelium. This basement membrane is formed by which of the following structures?", opts: ["Endothelial cells only", "Endothelium and mesangial cells", "Endothelium, mesangium, and podocytes", "Epithelial cells only", "Mesangial cells only"], ans: 2, r: "The glomerular basement membrane is produced jointly by endothelial cells, mesangial cells, and podocytes." },
+        { id: 138, p: 10, q: "An electron micrograph of the glomerular capillary wall shows podocytes with interdigitating foot processes separated by narrow slits. These structures form which of the following?", opts: ["Thickened basement membrane", "Glomerular filtration slits", "Mesangial matrix", "Peritubular basement membrane", "Tubular basement membrane"], ans: 1, r: "Podocyte foot processes and intervening slit diaphragms form the filtration slits." },
+        { id: 139, p: 10, q: "A section of the urinary bladder stained with H&E shows a stretch-resistant epithelium with umbrella cells. This epithelium is continuous with which of the following downstream structures?", opts: ["Distal convoluted tubule", "Collecting duct", "Ureter", "Loop of Henle", "Proximal tubule"], ans: 2, r: "The urinary bladder's transitional epithelium is continuous with the ureteral epithelium." },
+        { id: 140, p: 10, q: "A section of the ureter stained with H&E shows a thick muscular wall and a mucosa lined by transitional epithelium. This epithelium is best described as which of the following?", opts: ["Simple columnar", "Stratified squamous", "Pseudostratified", "Transitional", "Simple squamous"], ans: 3, r: "The ureter is lined by distensible transitional epithelium." },
+        { id: 141, p: 10, q: "A section of the ureter stained with H&E shows a muscular coat composed of inner longitudinal and outer circular layers of smooth muscle. This arrangement is important for which of the following functions?", opts: ["Filtration of blood", "Peristaltic propulsion of urine", "Gas exchange", "Hormone secretion", "Keratinization"], ans: 1, r: "The ureteric muscular coat produces peristaltic waves that propel urine toward the bladder." },
+        { id: 142, p: 10, q: "A section of the bladder wall stained with H&E shows a mucosa lined by transitional epithelium, a muscularis (detrusor muscle) composed of smooth muscle in interlacing bundles, and a thin adventitia. The detrusor is best classified as which of the following?", opts: ["Skeletal muscle", "Cardiac muscle", "Smooth muscle", "Striated muscle", "Myoepithelial muscle"], ans: 2, r: "The detrusor muscle of the bladder consists of smooth muscle." },
+        { id: 143, p: 10, q: "A section of the kidney stained with H&E shows a structure with a convoluted tubule and an associated afferent arteriole; this is the site of renin release. This structure is best described as which of the following?", opts: ["Macula densa", "Juxtaglomerular apparatus", "Peritubular capillary", "Mesangium", "Collecting duct"], ans: 1, r: "The juxtaglomerular apparatus lies at the vascular pole of the renal corpuscle, where juxtaglomerular cells release renin." },
+        { id: 144, p: 10, q: "A section of the kidney stained with PAS shows a segment of nephron with a relatively thick, periodic-acid-positive brush border and abundant cytoplasmic granules. This segment is best described as which of the following?", opts: ["Thin limb of Henle", "Proximal convoluted tubule", "Distal convoluted tubule", "Collecting duct", "Thick ascending limb"], ans: 1, r: "The proximal convoluted tubule has a prominent PAS-positive brush border and abundant cytoplasmic granules." },
+        { id: 145, p: 10, q: "A section of the renal glomerulus shows a very thin epithelium with foot processes and a thick basement membrane on PAS-stain. A patient with proteinuria has a lesion affecting the integrity of the foot processes and slit diaphragms. Which of the following best describes the primary barrier affected?", opts: ["Mesangial barrier", "Filtration slits of podocytes", "Tubular basement membrane", "Endothelial windows", "Capillary smooth muscle"], ans: 1, r: "Loss of podocyte foot-process integrity and slit-diaphragm structure underlies proteinuric glomerular disease." },
+        // Part 11 – ENDOCRINE (146–160)
+        { id: 146, p: 11, q: "A section of the anterior pituitary stained with H&E shows cells arranged in cords and plates with a rich sinusoidal capillary network. This portion of the pituitary is best described as which of the following?", opts: ["Pars intermedia", "Pars distalis", "Pars nervosa", "Infundibulum", "Median eminence"], ans: 1, r: "The pars distalis (anterior pituitary) contains cords and plates of endocrine cells." },
+        { id: 147, p: 11, q: "A section of the anterior pituitary stained with H&E shows a mixture of acidophilic and basophilic cells interspersed with chromophobes. These cells are best classified as which of the following?", opts: ["Neurons", "Endocrine cells", "Glial cells", "Endothelial cells", "Fibroblasts"], ans: 1, r: "The anterior pituitary contains acidophils, basophils, and chromophobes as endocrine cells." },
+        { id: 148, p: 11, q: "A section of the posterior pituitary stained with H&E shows a plexus of unmyelinated axons, Herring bodies, and pituicytes. The hormones stored here are synthesized in which of the following structures?", opts: ["Anterior pituitary", "Hypothalamic nuclei", "Medulla of the adrenal gland", "Adrenal cortex", "Pineal gland"], ans: 1, r: "The posterior pituitary stores and releases hormones synthesized in hypothalamic neurons." },
+        { id: 149, p: 11, q: "A section of the thyroid gland stained with H&E shows numerous follicles filled with colloid and lined by simple cuboidal epithelium. The follicular epithelial cells are responsible for which of the following functions?", opts: ["Producing calcitonin", "Producing thyroid hormone", "Producing parathyroid hormone", "Storing fat", "Producing corticosteroids"], ans: 1, r: "Follicular epithelial cells produce and store thyroid hormone (T4/T3) in the colloid." },
+        { id: 150, p: 11, q: "A section of the thyroid stained with H&E shows a small focus of cells with pale, clear cytoplasm and prominent nuclei located between follicles. These cells are best described as which of the following?", opts: ["Follicular cells", "Parafollicular cells", "Parathyroid cells", "Chromaffin cells", "Adrenal cortical cells"], ans: 1, r: "Parafollicular (C-) cells between follicles secrete calcitonin." },
+        { id: 151, p: 11, q: "A section of the adrenal gland stained with H&E shows an outer cortex with several distinct zones and an inner medulla rich in cells with granular cytoplasm. The medulla consists of which of the following cell types?", opts: ["Cortical cells", "Chromaffin cells", "Follicular cells", "Parathyroid cells", "Neuroendocrine cells"], ans: 1, r: "Adrenal medulla cells are chromaffin cells that secrete catecholamines." },
+        { id: 152, p: 11, q: "A section of the adrenal cortex stained with H&E shows a zona with large cells arranged in cords and a prominent lipid-rich, foamy appearance. This zone is best described as which of the following?", opts: ["Zona glomerulosa", "Zona fasciculata", "Zona reticularis", "Zona medullaris", "Capsular zone"], ans: 1, r: "The zona fasciculata is a lipid-rich, foamy zone of the adrenal cortex that secretes glucocorticoids." },
+        { id: 153, p: 11, q: "A section of the adrenal cortex stained with H&E shows a thin outer layer of small, columnar-like cells arranged in arches. This layer is best described as which of the following?", opts: ["Zona fasciculata", "Zona reticularis", "Zona glomerulosa", "Zona medullaris", "Adrenal capsule"], ans: 2, r: "The zona glomerulosa is the outermost, thin zone of the cortex that secretes mineralocorticoids." },
+        { id: 154, p: 11, q: "A section of the adrenal cortex stained with H&E shows a deep zone of interconnected cords of cells with moderate lipid content and some cytoplasmic granules. This zone is best described as which of the following?", opts: ["Zona glomerulosa", "Zona fasciculata", "Zona reticularis", "Zona medullaris", "Capsular zone"], ans: 2, r: "The zona reticularis contains interconnected cords of cells that secrete androgens." },
+        { id: 155, p: 11, q: "A section of the pancreas stained with special immunohistochemical stains shows cells that are positive for glucagon. These cells are best classified as which of the following?", opts: ["α-cells", "β-cells", "δ-cells", "PP-cells", "Somatostatin-producing cells"], ans: 0, r: "Glucagon-producing cells in the pancreas are α-cells." },
+        { id: 156, p: 11, q: "A section of the pancreas stained with special immunohistochemical stains shows insulin-positive cells scattered among the islets. These cells are best described as which of the following?", opts: ["α-cells", "β-cells", "δ-cells", "PP-cells", "F-cells"], ans: 1, r: "β-cells are insulin-producing cells in the pancreatic islets." },
+        { id: 157, p: 11, q: "A section of the pancreas stained with H&E shows a second pancreatic polypeptide-producing cell type usually found at the periphery of the islets. These cells are best described as which of the following?", opts: ["α-cells", "β-cells", "δ-cells", "PP-cells", "ε-cells"], ans: 3, r: "PP-(pancreatic polypeptide) cells are usually located at the periphery of the islets." },
+        { id: 158, p: 11, q: "A section of the thyroid stained with PAS shows a thick layer of basement-membrane-like material surrounding the follicles. This material is best described as which of the following?", opts: ["Collagen type I", "Ground substance rich in glycosaminoglycans", "Colloid-derived matrix", "Elastin-rich capsule", "Reticular fibers"], ans: 1, r: "The PAS-positive peri-follicular basement-membrane-like layer in the thyroid is rich in glycosaminoglycans." },
+        { id: 159, p: 11, q: "A section of the adrenal medulla stained with special silver-based stain shows dark-staining granular cells. These granules represent which of the following?", opts: ["Mitochondria", "Lipid droplets", "Neurosecretory granules", "Peroxisomes", "Nucleoli"], ans: 2, r: "Neurosecretory granules in chromaffin cells store catecholamines and are visible with silver-based stains." },
+        { id: 160, p: 11, q: "A section of the thyroid stained with H&E shows a small, compact region posterior to the follicles that is pale and lacks colloid-filled follicles. This region corresponds to which of the following?", opts: ["Adrenal gland", "Parathyroid gland", "Pituitary gland", "Pineal gland", "Thyroid isthmus"], ans: 1, r: "The parathyroid glands are small, compact, pale-staining glands posterior to the thyroid follicles." },
+        // Part 12 – REPRODUCTIVE (161–175)
+        { id: 161, p: 12, q: "A section of the testis stained with H&E shows a series of tubular structures with a stratified epithelium and a central lumen containing developing sperm. These structures are best described as which of the following?", opts: ["Seminiferous tubules", "Rete testis", "Efferent ductules", "Epididymis", "Vas deferens"], ans: 0, r: "Seminiferous tubules harbor the germinal epithelium where spermatogenesis occurs." },
+        { id: 162, p: 12, q: "A section of the seminiferous tubule stained with H&E shows a highly stratified epithelium with spermatogonia, spermatocytes, and spermatids at different levels and a central lumen containing sperm. This epithelium is best described as which of the following?", opts: ["Simple cuboidal", "Stratified squamous", "Pseudostratified columnar", "Stratified columnar", "Stratified germinal epithelium"], ans: 4, r: "The seminiferous epithelium is a stratified germinal epithelium containing germ cells and Sertoli cells." },
+        { id: 163, p: 12, q: "A section of the seminiferous tubule stained with H&E shows large cells with round nuclei and prominent nucleoli located near the basement membrane. These cells are best described as which of the following?", opts: ["Spermatids", "Spermatocytes", "Spermatogonia", "Sertoli cells", "Interstitial (Leydig) cells"], ans: 3, r: "Sertoli cells are large, pale cells with irregular nuclei located near the basement membrane." },
+        { id: 164, p: 12, q: "A section of the testis stained with H&E shows large, polygonal cells with eosinophilic cytoplasm located between the seminiferous tubules. These cells are best described as which of the following?", opts: ["Sertoli cells", "Spermatids", "Interstitial (Leydig) cells", "Peritubular myoid cells", "Endothelial cells"], ans: 2, r: "Interstitial (Leydig) cells are polygonal endocrine cells that secrete testosterone." },
+        { id: 165, p: 12, q: "A section of the seminiferous tubule stained with H&E shows tall columnar cells with a pale, irregular nucleus and cell processes that extend from the basement membrane to the lumen. These cells are best described as which of the following?", opts: ["Spermatogonia", "Spermatocytes", "Spermatids", "Sertoli cells", "Spermatozoa"], ans: 3, r: "Sertoli cells span the tubule from basement membrane to lumen and support germ-cell development." },
+        { id: 166, p: 12, q: "A section of the epididymis stained with H&E shows a tubule lined by pseudostratified columnar epithelium with stereocilia and a central lumen containing sperm. The stereocilia of the epididymis are best described as which of the following?", opts: ["Motile cilia", "Microvilli", "Flagella", "Primary cilia", "Filopodia"], ans: 1, r: "Stereocilia of the epididymis are elongated microvilli that increase surface area for absorption." },
+        { id: 167, p: 12, q: "A section of the vas deferens stained with H&E shows a thick muscular wall with three layers of smooth muscle and a mucosa lined by pseudostratified columnar epithelium. This arrangement is important for which of the following functions?", opts: ["Production of sperm", "Storage and propulsive transport of sperm", "Filtration of lymph", "Hormone secretion", "Gas exchange"], ans: 1, r: "The thick muscular wall of the vas deferens propels sperm during ejaculation." },
+        { id: 168, p: 12, q: "A section of the prostate stained with H&E shows a tissue with numerous glandular acini lined by simple columnar to pseudostratified epithelium and a surrounding stroma rich in smooth muscle. This gland is best classified as which of the following?", opts: ["Endocrine", "Serous exocrine", "Mucous exocrine", "Mixed exocrine", "Neuroendocrine"], ans: 3, r: "The prostate is a mixed exocrine gland with mucous-secreting acini and stromal smooth muscle." },
+        { id: 169, p: 12, q: "A section of the penile corpora cavernosa stained with H&E shows a venous sinusoid surrounded by smooth muscle trabeculae. The sinusoids are important for which of the following functions?", opts: ["Sperm maturation", "Erection and vascular occlusion", "Hormone synthesis", "Urine filtration", "Gas exchange"], ans: 1, r: "Penile sinusoids fill with blood to produce erection and compress draining veins." },
+        { id: 170, p: 12, q: "A section of the ovary stained with H&E shows a surface covered by simple cuboidal to low columnar epithelium overlying a dense connective tissue cortex. This surface epithelium is best described as which of the following?", opts: ["Mesothelium", "Mesothelium-like epithelium", "Simple squamous", "Stratified squamous", "Pseudostratified"], ans: 1, r: "The ovarian surface epithelium resembles mesothelium and is often termed 'mesothelial-like.'" },
+        { id: 171, p: 12, q: "A section of the ovary stained with H&E shows a small structure with a central oocyte surrounded by a layer of follicular cells. This structure is best described as which of the following?", opts: ["Primordial follicle", "Primary follicle", "Secondary follicle", "Tertiary follicle", "Corpus luteum"], ans: 0, r: "A primordial follicle consists of a small oocyte surrounded by a single layer of flat follicular cells." },
+        { id: 172, p: 12, q: "A section of the ovary stained with H&E shows a large follicle with a central antrum, multiple layers of granulosa cells, and theca cells outside. This structure is best described as which of the following?", opts: ["Primordial follicle", "Primary follicle", "Secondary follicle", "Mature (Graafian) follicle", "Corpus albicans"], ans: 3, r: "A mature (Graafian) follicle has a large antrum and multiple layers of granulosa and theca cells." },
+        { id: 173, p: 12, q: "A section of the ovary stained with H&E shows a collapsed structure with solid cords of luteinized granulosa and theca-derived cells. This structure is best described as which of the following?", opts: ["Secondary follicle", "Mature follicle", "Corpus luteum", "Corpus albicans", "Primordial follicle"], ans: 2, r: "The corpus luteum is a solid, luteinized structure derived from the ruptured follicle." },
+        { id: 174, p: 12, q: "A section of the uterine cervix stained with H&E shows a mucosa lined by stratified squamous epithelium on one side and simple columnar epithelium on the other. The junction between these two epithelia is best described as which of the following?", opts: ["Transformation zone", "Squamocolumnar junction", "Cervical canal", "External os", "Internal os"], ans: 1, r: "The squamocolumnar junction (transformation zone) is where cervical columnar epithelium meets squamous epithelium." },
+        { id: 175, p: 12, q: "A section of the pancreas stained with H&E shows a branching tubuloalveolar exocrine gland with intercalated ducts leading into larger ducts lined by simple columnar epithelium. The main pancreatic duct is lined by which of the following epithelium types?", opts: ["Simple squamous", "Stratified squamous", "Pseudostratified", "Simple columnar", "Transitional"], ans: 3, r: "The main pancreatic duct is lined by simple columnar epithelium." },
+        // Part 13 – INTEGUMENT & SPECIAL SENSES (176–200)
+        { id: 176, p: 13, q: "A section of the epidermis stained with H&E shows a multilayered epithelium with a prominent clear stratum granulosum and a highly eosinophilic stratum corneum. This region is best described as which of the following?", opts: ["Epidermis of thin skin", "Epidermis of thick, hairless skin", "Epidermis overlying mucous membrane", "Epidermis of the scalp", "Epidermis of the flexural region"], ans: 1, r: "The epidermis of thick skin includes a distinct stratum granulosum and corneum." },
+        { id: 177, p: 13, q: "A section of the dermis stained with H&E shows a papillary layer with thin collagen fibers and a deep reticular layer with thick, wavy bundles of collagen. These fibers are best classified as which of the following?", opts: ["Collagen type I", "Collagen type II", "Collagen type III", "Collagen type IV", "Elastin"], ans: 0, r: "The dermis is rich in collagen type I fibers." },
+        { id: 178, p: 13, q: "A section of the skin stained with a special elastin stain shows a network of dark, wavy fibers in the dermis. These fibers are best described as which of the following?", opts: ["Collagen type I", "Collagen type III", "Reticular fibers", "Elastin", "Reticular lamina"], ans: 3, r: "Elastin-specific stains reveal the network of elastic fibers in the dermis." },
+        { id: 179, p: 13, q: "A section of the hair follicle stained with H&E shows a matrix of cells in the bulb and a surrounding dermal papilla. The papilla is best described as which of the following?", opts: ["Epithelial extension", "Mesenchymal dermal core", "Glandular epithelium", "Smooth muscle sheath", "Nerve bundle"], ans: 1, r: "The dermal papilla is a mesenchymal core that provides vascular and inductive signals to the hair follicle." },
+        { id: 180, p: 13, q: "A section of the nail matrix stained with H&E shows a region of epithelium that produces a thick, layered keratinized plate. This epithelium is best classified as which of the following?", opts: ["Stratified squamous keratinized", "Stratified squamous nonkeratinized", "Simple columnar", "Pseudostratified", "Transitional"], ans: 0, r: "The nail plate is formed by a thick, highly keratinized epithelium." },
+        { id: 181, p: 13, q: "A section of the cornea stained with H&E shows a transparent tissue with five distinct layers, including a basement-membrane-rich epithelium and an acellular stroma. The stroma is composed mainly of which of the following?", opts: ["Elastic fibers", "Collagen type I and little ground substance", "Collagen type II", "Collagen type IV and ground substance", "Reticular fibers"], ans: 1, r: "Corneal stroma is composed of collagen type I arranged in regular lamellae with little ground substance." },
+        { id: 182, p: 13, q: "A section of the retina stained with H&E shows a layered structure with an outer pigment layer and an inner layer of neurons. The neurons responsible for receiving light and initiating phototransduction are best described as which of the following?", opts: ["Ganglion cells", "Bipolar cells", "Photoreceptor cells (rods and cones)", "Horizontal cells", "Amacrine cells"], ans: 2, r: "Photoreceptor cells (rods and cones) are the primary light-sensitive neurons of the retina." },
+        { id: 183, p: 13, q: "A section of the inner ear stained with H&E shows a spiral organ with supporting cells and hair cells projecting stereocilia into an overlying gelatinous membrane. This structure is best described as which of the following?", opts: ["Organ of Corti", "Vestibular organ", "Spiral ganglion", "Macula of the saccule", "Crista ampullaris"], ans: 0, r: "The organ of Corti in the cochlea contains hair cells and supporting cells for auditory transduction." },
+        { id: 184, p: 13, q: "A section of the eyelid stained with H&E shows a tarsal plate with dense connective tissue, sebaceous glands of Meibomius, and a palpebral conjunctiva lined by stratified columnar epithelium. The conjunctiva is best classified as which of the following?", opts: ["Mesothelium", "Mucous epithelium", "Keratinized epithelium", "Transitional epithelium", "Simple squamous epithelium"], ans: 1, r: "The palpebral conjunctiva is a mucous epithelium." },
+        { id: 185, p: 13, q: "A section of the external auditory meatus stained with H&E shows a stratified squamous epithelium with hair follicles, sebaceous glands, and apocrine-like ceruminous glands. This epithelium is best described as which of the following?", opts: ["Epidermis of the scalp", "Epidermis of the auditory canal", "Epidermis of the sole", "Epidermis of the eyelid", "Epidermis of the mucosal lip"], ans: 1, r: "The external auditory meatus is lined by stratified squamous epithelium with associated glands and hair follicles." },
+        { id: 186, p: 13, q: "An electron micrograph of a cardiomyocyte shows a highly organized pattern of myofibrils with alternating dark A bands and light I bands separated by Z lines. The Z line corresponds to which of the following structures?", opts: ["M line", "H zone", "Lateral boundary of the sarcomere", "Central region of the thick filament", "Sarcolemma"], ans: 2, r: "The Z line is the lateral boundary of each sarcomere and anchors thin filaments." },
+        { id: 187, p: 13, q: "An electron micrograph of a peripheral nerve shows a structure with a myelin sheath formed by spiral wrapping of a glial cell process and Schmidt-Lanterman clefts. This glial cell is best described as which of the following?", opts: ["Astrocyte", "Oligodendrocyte", "Schwann cell", "Microglial cell", "Satellite cell"], ans: 2, r: "Myelin in peripheral nerves is formed by Schwann cells whose processes spiral around axons." },
+        { id: 188, p: 13, q: "A section of the kidney stained with PAS shows a thick, intensely positive basement membrane underlying the glomerular capillary endothelium. This PAS-positive structure is best described as which of the following?", opts: ["Endothelial glycocalyx", "Glomerular basement membrane", "Mesangial matrix", "Podocyte foot processes", "Capsular epithelium"], ans: 1, r: "The glomerular basement membrane appears as a thick PAS-positive structure underlying the endothelium." },
+        { id: 189, p: 13, q: "A section of the small intestine stained with trichrome shows a thin pink line at the base of the epithelium between the lamina propria and epithelium. This line corresponds to which of the following structures?", opts: ["Muscularis mucosa", "Basement membrane", "Reticular fibers", "Collagen type I bundles", "Elastic lamina"], ans: 1, r: "The trichrome-stained thin line at the base of the intestinal epithelium is the basement membrane." },
+        { id: 190, p: 13, q: "A section of the thyroid stained with H&E shows a colloid-filled follicle with a thin layer of simple cuboidal epithelium. The colloid is best described as which of the following?", opts: ["Mucin secreted by follicular cells", "Stored thyroglobulin-rich colloid", "Lipid-rich secretion", "Serum transudate", "Glycogen-rich matrix"], ans: 1, r: "Thyroid follicular epithelium secretes and stores thyroglobulin-rich colloid." },
+        { id: 191, p: 13, q: "A section of the adrenal medulla stained with H&E shows polygonal cells with granular cytoplasm arranged in irregular cords. These cells are best described as which of the following?", opts: ["Cortisol-producing cells", "Aldosterone-producing cells", "Chromaffin cells", "Melanocytes", "Follicular cells"], ans: 2, r: "Adrenal medullary cells are chromaffin cells that secrete catecholamines." },
+        { id: 192, p: 13, q: "A section of the liver stained with a special stain for fat shows large, empty-looking vacuoles in many hepatocytes. These vacuoles correspond to which of the following structures?", opts: ["Iron-laden lysosomes", "Glycogen-rich granules", "Lipid droplets", "Mitochondria", "Peroxisomes"], ans: 2, r: "Fat stains highlight lipid-filled droplets in hepatocytes." },
+        { id: 193, p: 13, q: "A section of the skin stained with H&E shows a prominent rete peg pattern where the epidermis extends down into the dermis in regular ridges. This pattern is best seen in which of the following locations?", opts: ["Thin skin of the forearm", "Thick, glabrous skin of the palm", "Abdominal skin", "Gliding skin of the scalp", "Mucosal epithelium"], ans: 1, r: "Rete pegs are best developed in the thick, glabrous skin of the palm and sole." },
+        { id: 194, p: 13, q: "A section of the lung stained with H&E shows alveolar walls composed of thin type I pneumocytes with underlying capillaries. A patient with emphysema has destruction of these walls. Which of the following structures is primarily lost?", opts: ["Bronchial epithelium", "Alveolar epithelium and capillary network", "Tracheal cartilage", "Pleural mesothelium", "Lymphatic sinusoids"], ans: 1, r: "Emphysema destroys alveolar walls and their capillary networks." },
+        { id: 195, p: 13, q: "A section of the skin stained with a special stain for elastin shows a dense network of elastic fibers in the dermis. A patient with cutis laxa has a marked deficiency in this component. Which of the following is most likely to be reduced in the skin?", opts: ["Collagen type I", "Elastin", "Keratin", "Reticular fibers", "Basement membrane"], ans: 1, r: "Cutis laxa is characterized by a deficiency of elastic fibers in the dermis." },
+        { id: 196, p: 13, q: "A section of the thyroid stained with H&E shows follicles with a thick basement membrane and colloid-filled lumens. A patient with Hashimoto's thyroiditis has lymphocytic infiltration and follicular destruction. Which of the following structures is most likely to appear shrunken and distorted?", opts: ["Colloid-filled follicles", "Adrenal cortex", "Pancreatic islets", "Hepatic sinusoids", "Glomerular podocytes"], ans: 0, r: "In Hashimoto's thyroiditis, lymphocytic infiltration collapses follicles and reduces colloid-filled follicles." },
+        { id: 197, p: 13, q: "A section of the skin stained with H&E shows a structure with a central hair shaft, a surrounding inner and outer root sheath, and an associated sebaceous gland. This structure is best described as which of the following?", opts: ["Apocrine gland", "Eccrine gland", "Hair follicle", "Nail matrix", "Melanocyte"], ans: 2, r: "The hair follicle contains the hair shaft and is associated with sebaceous glands." },
+        { id: 198, p: 13, q: "A section of the skin stained with H&E shows a coiled gland in the dermis with a duct that opens directly onto the skin surface. This gland is best described as which of the following?", opts: ["Apocrine sweat gland", "Eccrine sweat gland", "Sebaceous gland", "Ceruminous gland", "Mammary gland"], ans: 1, r: "Eccrine sweat glands are coiled glands with ducts opening directly onto the skin surface." },
+        { id: 199, p: 13, q: "A section of the skin stained with H&E shows a gland with a secretory portion in the deep dermis, a duct that opens into a hair follicle, and a secretory product released by decapitation secretion. This gland is best described as which of the following?", opts: ["Apocrine sweat gland", "Eccrine sweat gland", "Sebaceous gland", "Ceruminous gland", "Meibomian gland"], ans: 0, r: "Apocrine sweat glands secrete by decapitation and open into hair follicles." },
+        { id: 200, p: 13, q: "A section of the skin stained with H&E shows a thick layer of keratinized epithelium with a prominent granular layer and a stratum lucidum. This characteristic is most consistent with which of the following locations?", opts: ["Scalp", "Axilla", "Palmar/plantar skin", "Abdomen", "Dorsum of hand"], ans: 2, r: "Palmar and plantar skin have a thick stratum lucidum and prominent granular layer." }
+    ];
+
+    // ----- State and functions -----
+    let state = {
+        mode: 'exam',
+        answers: {},
+        revealed: {},
+        filter: { p: 'all', status: 'all' },
+        page: 0,
+        perPage: 10,
+        tableView: false
+    };
+
+    // Populate tags for each question
+    ALL_Q.forEach(q => {
+        q.tags = TAG_MAP[q.p] || [];
+        if (q.p <= 3) q.tags.push("Histology");
+        q._id = q.id;
+    });
+
+    function getFiltered() {
+        return ALL_Q.filter(q => {
+            if (state.filter.p !== 'all' && q.p !== +state.filter.p) return false;
+            if (state.filter.status === 'answered' && state.answers[q.id] === undefined) return false;
+            if (state.filter.status === 'unanswered' && state.answers[q.id] !== undefined) return false;
+            if (state.filter.status === 'correct' && state.answers[q.id] !== q.ans) return false;
+            if (state.filter.status === 'wrong' && (state.answers[q.id] === undefined || state.answers[q.id] === q.ans)) return false;
+            return true;
+        });
+    }
+
+    function setMode(m) {
+        state.mode = m;
+        document.querySelectorAll('.tab').forEach((el, i) => {
+            el.classList.toggle('active', ['exam', 'review', 'key'][i] === m);
+        });
+        state.page = 0;
+        render();
+        if (state.tableView) renderTable();
+    }
+
+    function applyFilter() {
+        state.filter.p = document.getElementById('themeFilter').value;
+        state.filter.status = document.getElementById('statusFilter').value;
+        state.page = 0;
+        render();
+        if (state.tableView) renderTable();
+    }
+
+    function changePerPage() {
+        state.perPage = +document.getElementById('perPageSel').value;
+        state.page = 0;
+        render();
+    }
+
+    function resetAll() {
+        if (!confirm('Reset all answers? This cannot be undone.')) return;
+        state.answers = {};
+        state.revealed = {};
+        updateStats();
+        render();
+        if (state.tableView) renderTable();
+    }
+
+    function openScore() {
+        const fq = getFiltered();
+        const answered = fq.filter(x => state.answers[x.id] !== undefined).length;
+        const correct = fq.filter(x => state.answers[x.id] === x.ans).length;
+        const pct = answered > 0 ? Math.round(correct / answered * 100) : 0;
+        const color = pct >= 75 ? '#1D9E75' : pct >= 60 ? '#BA7517' : '#E24B4A';
+        const grade = pct >= 90 ? 'Distinction' : pct >= 75 ? 'Pass' : pct >= 60 ? 'Near Pass' : 'Needs Review';
+        document.getElementById('modalScore').textContent = pct + '%';
+        document.getElementById('modalScore').style.color = color;
+        document.getElementById('modalGrade').textContent = grade;
+        document.getElementById('modalGrade').style.color = color;
+        document.getElementById('modalSub').textContent = `${fq.length} questions · Part: ${document.getElementById('themeFilter').options[document.getElementById('themeFilter').selectedIndex].text}`;
+        document.getElementById('mdAns').textContent = answered;
+        document.getElementById('mdCorr').textContent = correct;
+        document.getElementById('mdWrong').textContent = answered - correct;
+        document.getElementById('scoreModal').classList.add('open');
+    }
+
+    function closeScore(e) {
+        if (!e || e.target.id === 'scoreModal' || e.target.className === 'btn primary') {
+            document.getElementById('scoreModal').classList.remove('open');
+        }
+    }
+
+    function updateStats() {
+        const fq = getFiltered();
+        const answered = fq.filter(x => state.answers[x.id] !== undefined).length;
+        const correct = fq.filter(x => state.answers[x.id] === x.ans).length;
+        document.getElementById('sTotal').textContent = fq.length;
+        document.getElementById('sAnswered').textContent = answered;
+        document.getElementById('sCorrect').textContent = correct;
+        document.getElementById('sPct').textContent = answered > 0 ? Math.round(correct / answered * 100) + '%' : '—';
+        const pct = Math.round(answered / Math.max(fq.length, 1) * 100);
+        document.getElementById('progFill').style.width = pct + '%';
+        document.getElementById('progLabel').textContent = `${answered} / ${fq.length} answered`;
+        document.getElementById('progPct').textContent = pct + '%';
+    }
+
+    function selectAnswer(id, idx) {
+        if (state.mode === 'key') return;
+        state.answers[id] = idx;
+        if (state.mode === 'review') state.revealed[id] = true;
+        updateStats();
+        render();
+        if (state.tableView) renderTable();
+    }
+
+    function toggleReveal(id) {
+        state.revealed[id] = !state.revealed[id];
+        render();
+        if (state.tableView) renderTable();
+    }
+
+    function prevPage() {
+        if (state.page > 0) { state.page--;
+            render();
+            window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    }
+
+    function nextPage() {
+        const total = Math.ceil(getFiltered().length / state.perPage);
+        if (state.page < total - 1) { state.page++;
+            render();
+            window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    }
+
+    function toggleTableView() {
+        state.tableView = !state.tableView;
+        const wrap = document.getElementById('tableViewWrap');
+        const btn = document.getElementById('tableToggleBtn');
+        if (state.tableView) {
+            wrap.classList.add('open');
+            btn.classList.add('active');
+            renderTable();
+        } else {
+            wrap.classList.remove('open');
+            btn.classList.remove('active');
+        }
+    }
+
+    function renderTable() {
+        const fq = getFiltered();
+        const search = document.getElementById('tableSearch').value.toLowerCase();
+        let filtered = fq;
+        if (search) {
+            filtered = fq.filter(q =>
+                q.q.toLowerCase().includes(search) ||
+                q.r.toLowerCase().includes(search) ||
+                q.tags.some(t => t.toLowerCase().includes(search))
+            );
+        }
+        const tbody = document.getElementById('tableBody');
+        let html = '';
+        filtered.forEach(q => {
+            const userAns = state.answers[q.id];
+            const reveal = state.revealed[q.id] || state.mode === 'key';
+            let ansDisplay = '—';
+            if (reveal || userAns !== undefined) {
+                if (reveal) ansDisplay = OPTS[q.ans];
+                else if (userAns !== undefined) ansDisplay = OPTS[userAns];
+            }
+            const correctMark = (reveal && userAns === q.ans) ? ' ✓' : '';
+            const wrongMark = (reveal && userAns !== undefined && userAns !== q.ans) ? ' ✗' : '';
+            const tagStr = q.tags.slice(0, 3).join(', ') + (q.tags.length > 3 ? '…' : '');
+            html += `<tr>
+                <td class="qnum-col">Q${q.id}</td>
+                <td class="ans-col">${ansDisplay}${correctMark}${wrongMark}</td>
+                <td class="stem-col">${q.q}</td>
+                <td class="r-col">${q.r}</td>
+                <td class="tag-col">${tagStr}</td>
+            </tr>`;
+        });
+        tbody.innerHTML = html;
+        document.getElementById('tableCount').textContent = `Showing ${filtered.length} of ${fq.length} questions`;
+    }
+
+    function render() {
+        const filtered = getFiltered();
+        const total = Math.ceil(filtered.length / state.perPage);
+        const start = state.page * state.perPage;
+        const visible = filtered.slice(start, start + state.perPage);
+        document.getElementById('sTotal').textContent = filtered.length;
+        document.getElementById('pageInfo').textContent =
+            `Page ${state.page+1} of ${Math.max(total,1)} · Items ${start+1}–${Math.min(start+state.perPage, filtered.length)} of ${filtered.length}`;
+        let html = '';
+        let lastPart = null;
+        visible.forEach(q => {
+            if (q.p !== lastPart) {
+                if (lastPart !== null) {
+                    html += `<div class="theme-divider"><div class="theme-divider-line"></div><div class="theme-divider-label">${PART_NAMES[q.p]}</div><div class="theme-divider-line"></div></div>`;
+                }
+                lastPart = q.p;
+            }
+            const userAns = state.answers[q.id];
+            const revealed = state.revealed[q.id] || state.mode === 'key';
+            const tagHtml = q.tags.map(t => {
+                let cls = 'tag';
+                if (t === 'Epithelium') cls += ' tag-epithelium';
+                if (t === 'Connective Tissue') cls += ' tag-connective';
+                if (t === 'Muscle') cls += ' tag-muscle';
+                if (t === 'Nervous') cls += ' tag-nervous';
+                if (t === 'Cardiovascular') cls += ' tag-cardiovascular';
+                if (t === 'Lymphoid') cls += ' tag-lymphoid';
+                if (t === 'GI') cls += ' tag-gi';
+                if (t === 'Respiratory') cls += ' tag-respiratory';
+                if (t === 'Renal') cls += ' tag-renal';
+                if (t === 'Endocrine') cls += ' tag-endocrine';
+                if (t === 'Reproductive') cls += ' tag-reproductive';
+                if (t === 'Integument') cls += ' tag-integument';
+                return `<span class="${cls}">${t}</span>`;
+            }).join('');
+            const optHtml = q.opts.map((opt, i) => {
+                let cls = 'opt';
+                if (revealed) {
+                    if (i === q.ans) cls += ' correct';
+                    else if (userAns === i) cls += ' wrong';
+                } else {
+                    if (userAns === i) cls += ' selected';
+                }
+                const click = state.mode !== 'key' ? `onclick="selectAnswer(${q.id},${i})"` : '';
+                return `<button class="${cls}" ${click}><span class="opt-letter">${OPTS[i]}.</span><span>${opt}</span></button>`;
+            }).join('');
+            const rationaleHtml = revealed ?
+                `<div class="rationale-box"><strong>Answer: ${OPTS[q.ans]}</strong> — ${q.r}</div>` :
+                '';
+            const revealBtn = state.mode === 'exam' && userAns !== undefined && !state.revealed[q.id] ?
+                `<button class="reveal-btn" onclick="toggleReveal(${q.id})">Show answer &amp; rationale</button>` :
+                '';
+            let badges = `<span class="badge badge-theme">${PART_NAMES[q.p]}</span>`;
+            html += `<div class="q-card">
+                <div class="q-meta"><span class="q-num">Q${q.id}</span>${badges}</div>
+                <div class="tag-group">${tagHtml}</div>
+                <div class="q-stem">${q.q}</div>
+                <div class="options">${optHtml}</div>
+                ${revealBtn}
+                ${rationaleHtml}
+            </div>`;
+        });
+        document.getElementById('qContainer').innerHTML = html;
+        updateStats();
+    }
+
+    // ----- Start quiz handler -----
+    function startQuiz() {
+        document.getElementById('start-screen').style.display = 'none';
+        document.getElementById('quiz-screen').style.display = 'block';
+        render();
+        if (state.tableView) renderTable();
+    }
+
+    // ----- Event listeners -----
+    window.addEventListener('scroll', () => {
+        document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 300);
+    });
+
+    document.addEventListener('keydown', e => {
+        if (e.target.tagName === 'SELECT' || e.target.tagName === 'INPUT') return;
+        if (e.key === 'ArrowRight') nextPage();
+        if (e.key === 'ArrowLeft') prevPage();
+        if (e.key === 'Escape') closeScore();
+    });
+
+    // ----- Initial render -----
+    render();
+</script>
+</body>
+</html>
