@@ -23,7 +23,6 @@
             --shadow-card: 0 4px 12px rgba(0,0,0,0.02);
         }
 
-        /* System dark mode */
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg: #121212;
@@ -50,7 +49,6 @@
 
         .wrapper { max-width: 1024px; margin: 0 auto; }
 
-        /* header */
         .site-header {
             border-bottom: 2px solid var(--border);
             padding: 44px 0 32px;
@@ -88,7 +86,6 @@
             font-style: italic;
         }
 
-        /* section titles */
         .section-title {
             font-family: 'Playfair Display', serif;
             font-size: 1.8rem;
@@ -112,14 +109,12 @@
             margin-left: 8px;
         }
 
-        /* grid */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 20px;
         }
 
-        /* cards */
         .subject-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -168,12 +163,7 @@
             align-items: center;
             margin-top: 6px;
         }
-        .badge-pending {
-            color: var(--text-sub);
-            background: rgba(128, 128, 128, 0.12);
-        }
 
-        /* special "additional" card style */
         .card-additional {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -193,7 +183,6 @@
             box-shadow: 0 12px 28px rgba(0,0,0,0.07);
         }
 
-        /* responsiveness */
         @media (max-width: 600px) {
             .grid { grid-template-columns: 1fr 1fr; }
             .subject-card { padding: 18px 14px; }
@@ -203,12 +192,6 @@
             .grid { grid-template-columns: 1fr; }
         }
 
-        hr { 
-            margin: 48px 0 12px; 
-            border: none; 
-            border-top: 1px solid var(--border); 
-            opacity: 0.5;
-        }
         .footer-note {
             font-size: 13px;
             color: var(--text-sub);
@@ -232,34 +215,22 @@
     <!-- ============ YL1 ============ -->
     <h2 class="section-title">YL1 <span>foundations</span></h2>
     <div class="grid">
-        <!-- Biochem -->
-        <a href="#" class="subject-card">
-            <div>
-                <div class="card-icon">🧬</div>
-                <div class="card-title">Biochemistry</div>
-                <div class="card-desc">Metabolism, enzymes, molecular biology, and clinical correlations.</div>
-            </div>
-            <div class="card-meta"><span>bank</span><span>→</span></div>
-        </a>
-        <!-- Embryology & Anatomy (combined) -->
         <a href="#" class="subject-card">
             <div>
                 <div class="card-icon">🧠</div>
-                <div class="card-title">Embryology &amp; Anatomy</div>
-                <div class="card-desc">Human development, gross anatomy, and structural relations.</div>
+                <div class="card-title">Embryology &amp; Human Anatomy</div>
+                <div class="card-desc">Gross and systemic anatomy, embryological development.</div>
             </div>
             <div class="card-meta"><span>bank</span><span>→</span></div>
         </a>
-        <!-- Histology (integrated with Anatomy) -->
         <a href="#" class="subject-card">
             <div>
                 <div class="card-icon">🔬</div>
                 <div class="card-title">Histology</div>
-                <div class="card-desc">Microscopic anatomy, tissues, and organ systems.</div>
+                <div class="card-desc">Microscopic anatomy of tissues and organs.</div>
             </div>
             <div class="card-meta"><span>bank</span><span>→</span></div>
         </a>
-        <!-- Physiology -->
         <a href="#" class="subject-card">
             <div>
                 <div class="card-icon">⚡</div>
@@ -268,126 +239,250 @@
             </div>
             <div class="card-meta"><span>bank</span><span>→</span></div>
         </a>
-        <!-- Research -->
         <a href="#" class="subject-card">
             <div>
-                <div class="card-icon">📊</div>
-                <div class="card-title">Research</div>
-                <div class="card-desc">Epidemiology, biostatistics, study design, and evidence-based practice.</div>
+                <div class="card-icon">🧬</div>
+                <div class="card-title">Biochemistry &amp; Nutrition</div>
+                <div class="card-desc">Metabolism, enzymes, molecular biology, and nutritional principles.</div>
             </div>
             <div class="card-meta"><span>bank</span><span>→</span></div>
         </a>
-        <!-- Family & Community Medicine -->
         <a href="#" class="subject-card">
             <div>
                 <div class="card-icon">🏥</div>
-                <div class="card-title">Family &amp; Community Med</div>
-                <div class="card-desc">Community health, family dynamics, and preventive care.</div>
+                <div class="card-title">Family &amp; Community Health I</div>
+                <div class="card-desc">Community medicine, public health, and preventive care.</div>
+            </div>
+            <div class="card-meta"><span>bank</span><span>→</span></div>
+        </a>
+        <a href="#" class="subject-card">
+            <div>
+                <div class="card-icon">📊</div>
+                <div class="card-title">Intro to Research &amp; Methods</div>
+                <div class="card-desc">Biostatistics, study design, evidence-based practice.</div>
+            </div>
+            <div class="card-meta"><span>bank</span><span>→</span></div>
+        </a>
+        <a href="#" class="subject-card">
+            <div>
+                <div class="card-icon">⚕️</div>
+                <div class="card-title">Five‑Star Physician I</div>
+                <div class="card-desc">Medical ethics, professionalism, and doctoring skills.</div>
+            </div>
+            <div class="card-meta"><span>bank</span><span>→</span></div>
+        </a>
+        <a href="#" class="subject-card">
+            <div>
+                <div class="card-icon">🧘</div>
+                <div class="card-title">Self Enhancement I</div>
+                <div class="card-desc">Student wellness, mentoring, and personal development.</div>
             </div>
             <div class="card-meta"><span>bank</span><span>→</span></div>
         </a>
     </div>
 
     <!-- ============ YL2 ============ -->
-    <h2 class="section-title">YL2 <span>core clinical</span></h2>
+    <h2 class="section-title">YL2 <span>pre‑clinical</span></h2>
     <div class="grid">
-        <!-- Family & Community Medicine 2 -->
         <a href="#" class="subject-card">
             <div>
-                <div class="card-icon">🏥</div>
-                <div class="card-title">Family &amp; Community Med 2</div>
-                <div class="card-desc">Advanced community health, epidemiology, and population-based care.</div>
+                <div class="card-icon">⚕️</div>
+                <div class="card-title">Five‑Star Physician II</div>
+                <div class="card-desc">Advanced ethics, communication, and clinical reasoning.</div>
             </div>
             <div class="card-meta"><span>bank</span><span>→</span></div>
         </a>
-        <!-- Pediatrics -->
         <a href="#" class="subject-card">
             <div>
-                <div class="card-icon">👶</div>
-                <div class="card-title">Pediatrics</div>
-                <div class="card-desc">Growth, development, neonatology, and pediatric infectious diseases.</div>
+                <div class="card-icon">🏥</div>
+                <div class="card-title">Family &amp; Community Health II</div>
+                <div class="card-desc">Community diagnostics, epidemiology, and health programs.</div>
             </div>
-            <div class="card-meta"><span>questionnaire</span><span>→</span></div>
+            <div class="card-meta"><span>bank</span><span>→</span></div>
         </a>
-        <!-- Pharmacology -->
-        <a href="#" class="subject-card">
-            <div>
-                <div class="card-icon">💊</div>
-                <div class="card-title">Pharmacology</div>
-                <div class="card-desc">Pharmacokinetics, autonomic drugs, antimicrobials, and toxicology.</div>
-            </div>
-            <div class="card-meta"><span>200 items</span><span>→</span></div>
-        </a>
-        <!-- Pathology -->
-        <a href="#" class="subject-card">
-            <div>
-                <div class="card-icon">🩸</div>
-                <div class="card-title">Pathology</div>
-                <div class="card-desc">General &amp; systemic pathology, inflammation, neoplasia, and cellular adaptation.</div>
-            </div>
-            <div class="card-meta"><span>200 items</span><span>→</span></div>
-        </a>
-        <!-- Microbiology & Parasitology -->
         <a href="#" class="subject-card">
             <div>
                 <div class="card-icon">🧫</div>
                 <div class="card-title">Microbiology &amp; Parasitology</div>
-                <div class="card-desc">Bacteria, viruses, fungi, parasites, and infectious disease mechanisms.</div>
+                <div class="card-desc">Bacteria, viruses, fungi, parasites – infectious disease agents.</div>
             </div>
             <div class="card-meta"><span>bank</span><span>→</span></div>
         </a>
-        <!-- Ob-Gyne -->
+        <a href="#" class="subject-card">
+            <div>
+                <div class="card-icon">👶</div>
+                <div class="card-title">Child Growth &amp; Development</div>
+                <div class="card-desc">Pediatric pre‑clinical: growth milestones and early pathologies.</div>
+            </div>
+            <div class="card-meta"><span>questionnaire</span><span>→</span></div>
+        </a>
         <a href="#" class="subject-card">
             <div>
                 <div class="card-icon">🪻</div>
-                <div class="card-title">Obstetrics &amp; Gynecology</div>
-                <div class="card-desc">Pregnancy, labor, gynecologic oncology, and reproductive endocrinology.</div>
+                <div class="card-title">Women's Health &amp; OB</div>
+                <div class="card-desc">Pregnancy, labor, and gynecologic pre‑clinical foundations.</div>
             </div>
             <div class="card-meta"><span>192 items</span><span>→</span></div>
+        </a>
+        <a href="#" class="subject-card">
+            <div>
+                <div class="card-icon">🩸</div>
+                <div class="card-title">Health, Illness &amp; Disease I</div>
+                <div class="card-desc">Pathophysiology and immunology of adult diseases.</div>
+            </div>
+            <div class="card-meta"><span>bank</span><span>→</span></div>
+        </a>
+        <a href="#" class="subject-card">
+            <div>
+                <div class="card-icon">💊</div>
+                <div class="card-title">Clinical Pharmacology &amp; Toxicology</div>
+                <div class="card-desc">Pharmacokinetics, pharmacodynamics, toxicology, and therapeutics.</div>
+            </div>
+            <div class="card-meta"><span>200 items</span><span>→</span></div>
+        </a>
+        <a href="#" class="subject-card">
+            <div>
+                <div class="card-icon">🧘</div>
+                <div class="card-title">Self Enhancement II</div>
+                <div class="card-desc">Wellness, resilience, and professional growth.</div>
+            </div>
+            <div class="card-meta"><span>bank</span><span>→</span></div>
         </a>
     </div>
 
     <!-- ============ YL3 ============ -->
-    <h2 class="section-title">YL3 <span>clinical clerkship</span></h2>
+    <h2 class="section-title">YL3 <span>clinical transition</span></h2>
     <div class="grid">
         <a href="#" class="subject-card">
             <div>
+                <div class="card-icon">⚕️</div>
+                <div class="card-title">Five‑Star Physician III</div>
+                <div class="card-desc">Clinical ethics, patient safety, and team communication.</div>
+            </div>
+            <div class="card-meta"><span>bank</span><span>→</span></div>
+        </a>
+        <a href="#" class="subject-card">
+            <div>
+                <div class="card-icon">🏥</div>
+                <div class="card-title">Family &amp; Community Health III</div>
+                <div class="card-desc">Advanced community diagnosis and health program management.</div>
+            </div>
+            <div class="card-meta"><span>bank</span><span>→</span></div>
+        </a>
+        <a href="#" class="subject-card">
+            <div>
+                <div class="card-icon">🔪</div>
+                <div class="card-title">Applied Clinical Anatomy</div>
+                <div class="card-desc">Surgical anatomy and clinical correlations.</div>
+            </div>
+            <div class="card-meta"><span>bank</span><span>→</span></div>
+        </a>
+        <a href="#" class="subject-card">
+            <div>
+                <div class="card-icon">🔬</div>
+                <div class="card-title">Anatomic Pathology</div>
+                <div class="card-desc">Histopathology and tissue diagnosis.</div>
+            </div>
+            <div class="card-meta"><span>200 items</span><span>→</span></div>
+        </a>
+        <a href="#" class="subject-card">
+            <div>
+                <div class="card-icon">🚑</div>
+                <div class="card-title">Emergency to Critical Care</div>
+                <div class="card-desc">Acute care, trauma, and emergency medicine principles.</div>
+            </div>
+            <div class="card-meta"><span>bank</span><span>→</span></div>
+        </a>
+        <a href="#" class="subject-card">
+            <div>
                 <div class="card-icon">🫀</div>
-                <div class="card-title">Internal Medicine</div>
-                <div class="card-desc">Cardiology, pulmonology, nephrology, endocrinology, and more.</div>
+                <div class="card-title">Health, Illness &amp; Disease II</div>
+                <div class="card-desc">Internal medicine – clinical management of adult diseases.</div>
             </div>
             <div class="card-meta"><span>bank</span><span>→</span></div>
         </a>
         <a href="#" class="subject-card">
             <div>
-                <div class="card-icon">🧠</div>
-                <div class="card-title">Psychiatry &amp; Behavioral Science</div>
-                <div class="card-desc">Mental health, psychopharmacology, and behavioral disorders.</div>
+                <div class="card-icon">🧘</div>
+                <div class="card-title">Self Enhancement III</div>
+                <div class="card-desc">Wellness, reflection, and professional identity.</div>
             </div>
             <div class="card-meta"><span>bank</span><span>→</span></div>
         </a>
+    </div>
+
+    <!-- ============ YL4 ============ -->
+    <h2 class="section-title">YL4 <span>clerkship</span></h2>
+    <div class="grid">
         <a href="#" class="subject-card">
             <div>
-                <div class="card-icon">🦴</div>
-                <div class="card-title">Surgery</div>
-                <div class="card-desc">General surgery, trauma, orthopedics, and surgical subspecialties.</div>
+                <div class="card-icon">🏥</div>
+                <div class="card-title">Family &amp; Community Health IV</div>
+                <div class="card-desc">Family medicine and community rotation.</div>
             </div>
-            <div class="card-meta"><span>bank</span><span>→</span></div>
+            <div class="card-meta"><span>rotation</span><span>→</span></div>
+        </a>
+        <a href="#" class="subject-card">
+            <div>
+                <div class="card-icon">🫀</div>
+                <div class="card-title">Internal Medicine &amp; Critical Care</div>
+                <div class="card-desc">IM clerkship with ICU and acute care exposure.</div>
+            </div>
+            <div class="card-meta"><span>rotation</span><span>→</span></div>
+        </a>
+        <a href="#" class="subject-card">
+            <div>
+                <div class="card-icon">🔪</div>
+                <div class="card-title">Surgery &amp; Anesthesia</div>
+                <div class="card-desc">Surgical principles, perioperative care, and anesthesiology.</div>
+            </div>
+            <div class="card-meta"><span>rotation</span><span>→</span></div>
+        </a>
+        <a href="#" class="subject-card">
+            <div>
+                <div class="card-icon">🪻</div>
+                <div class="card-title">Obstetrics &amp; Gynecology</div>
+                <div class="card-desc">OB‑GYN clerkship – labor, delivery, and women’s health.</div>
+            </div>
+            <div class="card-meta"><span>rotation</span><span>→</span></div>
+        </a>
+        <a href="#" class="subject-card">
+            <div>
+                <div class="card-icon">👶</div>
+                <div class="card-title">Pediatrics</div>
+                <div class="card-desc">Pediatric clerkship – child health and development.</div>
+            </div>
+            <div class="card-meta"><span>rotation</span><span>→</span></div>
         </a>
         <a href="#" class="subject-card">
             <div>
                 <div class="card-icon">👁️</div>
-                <div class="card-title">Ophthalmology &amp; ENT</div>
-                <div class="card-desc">Eye, ear, nose, throat disorders and clinical management.</div>
+                <div class="card-title">Minor Departments</div>
+                <div class="card-desc">ENT, Ophtha, Ortho, Derma – ambulatory rotations.</div>
+            </div>
+            <div class="card-meta"><span>rotation</span><span>→</span></div>
+        </a>
+        <a href="#" class="subject-card">
+            <div>
+                <div class="card-icon">🧘</div>
+                <div class="card-title">Self Enhancement IV</div>
+                <div class="card-desc">Wellness, career planning, and mentorship.</div>
             </div>
             <div class="card-meta"><span>bank</span><span>→</span></div>
+        </a>
+        <a href="#" class="subject-card">
+            <div>
+                <div class="card-icon">📋</div>
+                <div class="card-title">Selectives / Electives</div>
+                <div class="card-desc">Elective rotations in chosen specialties.</div>
+            </div>
+            <div class="card-meta"><span>elective</span><span>→</span></div>
         </a>
     </div>
 
     <!-- ============ ADDITIONAL RESOURCES ============ -->
     <h2 class="section-title" style="margin-top: 3rem;">📁 Additional Resources</h2>
     <div class="grid">
-        <!-- Maternal History Form -->
         <a href="#" class="card-additional">
             <div>
                 <div class="card-icon">📋</div>
@@ -396,16 +491,14 @@
             </div>
             <div class="card-meta"><span>PDF</span><span>↗</span></div>
         </a>
-        <!-- PE Form -->
         <a href="#" class="card-additional">
             <div>
                 <div class="card-icon">🩺</div>
                 <div class="card-title">Physical Exam (PE) Form</div>
-                <div class="card-desc">Complete head-to-toe examination template with rationales.</div>
+                <div class="card-desc">Complete head‑to‑toe examination template with rationales.</div>
             </div>
             <div class="card-meta"><span>PDF</span><span>↗</span></div>
         </a>
-        <!-- Clinical Reference Cards -->
         <a href="#" class="card-additional">
             <div>
                 <div class="card-icon">📇</div>
@@ -414,7 +507,6 @@
             </div>
             <div class="card-meta"><span>cheatsheet</span><span>↗</span></div>
         </a>
-        <!-- Lab Values & Diagnostics -->
         <a href="#" class="card-additional">
             <div>
                 <div class="card-icon">🧾</div>
@@ -425,7 +517,7 @@
         </a>
     </div>
 
-    <!-- footer note -->
+    <!-- footer -->
     <div class="footer-note">
         🧠 All resources are for personal study · rationales &amp; question banks in progress
     </div>
