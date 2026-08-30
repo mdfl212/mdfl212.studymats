@@ -38,6 +38,7 @@
             --shadow-card: 0 4px 12px rgba(0,0,0,0.4);
             --header-border: #444;
         }
+
         body {
             background-color: var(--bg);
             color: var(--text-main);
@@ -52,8 +53,36 @@
             margin: 0 auto;
         }
 
+        /* Theme Toggle */
+        .theme-toggle-wrapper {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 12px;
+        }
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 8px 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .theme-toggle:hover {
+            border-color: var(--gold-primary);
+            transform: scale(1.02);
+        }
+        .theme-toggle .icon {
+            font-size: 16px;
+        }
+
         .site-header {
-            border-bottom: 2px solid var(--border);
+            border-bottom: 2px solid var(--header-border);
             padding: 44px 0 32px;
             margin-bottom: 40px;
             position: relative;
@@ -105,7 +134,7 @@
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;  /* left aligned */
             gap: 10px;
             cursor: pointer;
             user-select: none;
@@ -128,7 +157,7 @@
             font-size: 1.2rem;
             transition: transform 0.3s ease;
             display: inline-block;
-            margin-left: 8px;
+            margin-left: auto; /* push to the right */
         }
         .section-toggle.collapsed .toggle-icon {
             transform: rotate(-90deg);
@@ -257,6 +286,14 @@
 <body>
 <div class="wrapper">
 
+    <!-- Theme Toggle -->
+    <div class="theme-toggle-wrapper">
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <span class="icon" id="themeIcon">🌙</span>
+            <span id="themeLabel">Dark Mode</span>
+        </button>
+    </div>
+
     <!-- HEADER -->
     <header class="site-header">
         <div class="header-eyebrow">🇵🇭 My DIY PLE Resources</div>
@@ -266,11 +303,11 @@
 
     <!-- ============ YL1 ============ -->
     <div class="section-wrapper">
-        <div class="section-toggle" onclick="toggleSection(this)">
-            YL1 WIP<span>foundations</span>
+        <div class="section-toggle collapsed" onclick="toggleSection(this)">
+            YL1 <span>foundations</span>
             <span class="toggle-icon">▼</span>
         </div>
-        <div class="section-content">
+        <div class="section-content hidden">
             <div class="grid">
                 <a href="Anatomy.html" class="subject-card">
                     <div>
@@ -334,11 +371,11 @@
 
     <!-- ============ YL2 ============ -->
     <div class="section-wrapper">
-        <div class="section-toggle" onclick="toggleSection(this)">
+        <div class="section-toggle collapsed" onclick="toggleSection(this)">
             YL2 <span>pre‑clinical</span>
             <span class="toggle-icon">▼</span>
         </div>
-        <div class="section-content">
+        <div class="section-content hidden">
             <div class="grid">
                 <a href="#" class="subject-card">
                     <div>
@@ -359,7 +396,7 @@
                 <a href="micro.html" class="subject-card">
                     <div>
                         <div class="card-icon">🧫</div>
-                        <div class="card-title">Microbiologmicroy &amp; Parasitology</div>
+                        <div class="card-title">Microbiology &amp; Parasitology</div>
                         <div class="card-desc">Bacteria, viruses, fungi, parasites – infectious disease agents.</div>
                     </div>
                     <div class="card-meta"><span>280 items</span><span>→</span></div>
@@ -386,7 +423,7 @@
                         <div class="card-title">Health, Illness &amp; Disease I</div>
                         <div class="card-desc">Pathophysiology and immunology of adult diseases.</div>
                     </div>
-                    <div class="card-meta"><span>200i items</span><span>→</span></div>
+                    <div class="card-meta"><span>200 items</span><span>→</span></div>
                 </a>
                 <a href="pharma.html" class="subject-card">
                     <div>
@@ -402,11 +439,11 @@
 
     <!-- ============ YL3 ============ -->
     <div class="section-wrapper">
-        <div class="section-toggle" onclick="toggleSection(this)">
-            YL3 (WIP) <span>clinical transition</span>
+        <div class="section-toggle collapsed" onclick="toggleSection(this)">
+            YL3 <span>clinical transition</span>
             <span class="toggle-icon">▼</span>
         </div>
-        <div class="section-content">
+        <div class="section-content hidden">
             <div class="grid">
                 <a href="#" class="subject-card">
                     <div>
@@ -470,11 +507,11 @@
 
     <!-- ============ YL4 ============ -->
     <div class="section-wrapper">
-        <div class="section-toggle" onclick="toggleSection(this)">
-            YL4 (WIP) <span>clerkship</span>
+        <div class="section-toggle collapsed" onclick="toggleSection(this)">
+            YL4 <span>clerkship</span>
             <span class="toggle-icon">▼</span>
         </div>
-        <div class="section-content">
+        <div class="section-content hidden">
             <div class="grid">
                 <a href="#" class="subject-card">
                     <div>
@@ -546,11 +583,11 @@
 
     <!-- ============ ADDITIONAL RESOURCES ============ -->
     <div class="section-wrapper" style="margin-top: 3rem;">
-        <div class="section-toggle" onclick="toggleSection(this)">
-            📁 Additional Resources (WIP)
+        <div class="section-toggle collapsed" onclick="toggleSection(this)">
+            📁 Additional Resources
             <span class="toggle-icon">▼</span>
         </div>
-        <div class="section-content">
+        <div class="section-content hidden">
             <div class="grid">
                 <a href="OBGYNE_DIGITAL_HistoryPE.html" class="card-additional">
                     <div>
@@ -560,7 +597,7 @@
                     </div>
                     <div class="card-meta"><span>W/ Built-in Export to Docx</span><span>↗</span></div>
                 </a>
-                   <a href="mht2html.html" class="card-additional">
+                <a href="mht2html.html" class="card-additional">
                     <div>
                         <div class="card-icon">🩺</div>
                         <div class="card-title">Mht to Html Converter</div>
@@ -612,6 +649,26 @@
 </div>
 
 <script>
+    let currentTheme = 'light';
+
+    function toggleTheme() {
+        const html = document.documentElement;
+        const icon = document.getElementById('themeIcon');
+        const label = document.getElementById('themeLabel');
+
+        if (currentTheme === 'light') {
+            html.setAttribute('data-theme', 'dark');
+            icon.textContent = '☀️';
+            label.textContent = 'Light Mode';
+            currentTheme = 'dark';
+        } else {
+            html.removeAttribute('data-theme');
+            icon.textContent = '🌙';
+            label.textContent = 'Dark Mode';
+            currentTheme = 'light';
+        }
+    }
+
     function toggleSection(toggleEl) {
         const wrapper = toggleEl.closest('.section-wrapper');
         const content = wrapper.querySelector('.section-content');
@@ -619,18 +676,15 @@
         content.classList.toggle('hidden', isCollapsed);
     }
 
-    // Optional: start with YL1 expanded, others collapsed (default: all expanded)
-    // To collapse YL2, YL3, YL4 by default, uncomment below:
+    // Default: all sections collapsed
     document.addEventListener('DOMContentLoaded', function() {
-        // Collapse YL2, YL3, YL4, and Additional Resources on load
         const wrappers = document.querySelectorAll('.section-wrapper');
-        wrappers.forEach((wrapper, index) => {
-            if (index >= 1) { // skip YL1 (index 0)
-                const toggle = wrapper.querySelector('.section-toggle');
-                const content = wrapper.querySelector('.section-content');
-                toggle.classList.add('collapsed');
-                content.classList.add('hidden');
-            }
+        wrappers.forEach((wrapper) => {
+            const toggle = wrapper.querySelector('.section-toggle');
+            const content = wrapper.querySelector('.section-content');
+            // Ensure they start collapsed
+            toggle.classList.add('collapsed');
+            content.classList.add('hidden');
         });
     });
 </script>
