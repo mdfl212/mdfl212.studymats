@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comprehensive Report: Tests for Neurodevelopmental & Behavioral Disorders</title>
+    <style>
+        /* ── Reset & base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #ffffff;
+            color: #1e2a2e;
+            padding: 48px 24px;
+            line-height: 1.6;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* ── Headings ── */
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #0a2a1a;
+            text-align: center;
+            border-bottom: 4px solid #b8860b;
+            padding-bottom: 18px;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        .subhead {
+            text-align: center;
+            font-size: 18px;
+            color: #3a5a4a;
+            margin-bottom: 36px;
+            font-style: italic;
+        }
+        h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0a2a1a;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            border-left: 6px solid #b8860b;
+            padding-left: 16px;
+        }
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a3a2a;
+            margin-top: 28px;
+            margin-bottom: 12px;
+        }
+        h4 {
+            font-size: 17px;
+            font-weight: 600;
+            color: #2a4a3a;
+            margin-top: 20px;
+            margin-bottom: 8px;
+        }
+
+        /* ── Paragraphs & lists ── */
+        p {
+            margin-bottom: 14px;
+        }
+        ul,
+        ol {
+            margin: 10px 0 16px 28px;
+        }
+        li {
+            margin-bottom: 4px;
+        }
+
+        /* ── Block quotes / notes ── */
+        .highlight-box {
+            background: #f6f3ee;
+            border-left: 6px solid #b8860b;
+            padding: 16px 22px;
+            margin: 20px 0 24px 0;
+            border-radius: 4px 8px 8px 4px;
+            font-size: 15px;
+        }
+        .highlight-box strong {
+            color: #0a2a1a;
+        }
+
+        /* ── Tables ── */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0 24px 0;
+            font-size: 15px;
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        }
+        th {
+            background: #1a3a2a;
+            color: #ffffff;
+            font-weight: 600;
+            padding: 12px 14px;
+            text-align: left;
+            border: 1px solid #1a3a2a;
+        }
+        td {
+            padding: 10px 14px;
+            border: 1px solid #d0d8d0;
+            vertical-align: top;
+            background: #fcfcfa;
+        }
+        tr:nth-child(even) td {
+            background: #f6f8f4;
+        }
+        .table-caption {
+            font-size: 14px;
+            font-style: italic;
+            color: #4a5a4a;
+            margin-top: -10px;
+            margin-bottom: 16px;
+            text-align: right;
+        }
+
+        /* ── Inline tags ── */
+        .tag {
+            display: inline-block;
+            background: #e8eee8;
+            padding: 0 10px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a3a2a;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .tag-gold {
+            background: #f5eddd;
+            color: #8a6a1a;
+        }
+
+        /* ── Algorithm container ── */
+        .algorithm-wrapper {
+            background: #faf8f5;
+            border: 2px solid #d0d8c8;
+            border-radius: 16px;
+            padding: 24px 20px 20px 20px;
+            margin: 28px 0 32px 0;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+        .algorithm-wrapper h3 {
+            margin-top: 0;
+            text-align: center;
+            border-bottom: 2px solid #b8860b;
+            padding-bottom: 10px;
+            margin-bottom: 16px;
+        }
+
+        /* ── References ── */
+        .ref-list {
+            list-style: none;
+            margin-left: 0;
+            padding-left: 0;
+        }
+        .ref-list li {
+            padding: 4px 0 4px 32px;
+            text-indent: -32px;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        /* ── Footer ── */
+        .footer-note {
+            margin-top: 44px;
+            padding-top: 20px;
+            border-top: 2px solid #d0d8c8;
+            text-align: center;
+            font-size: 14px;
+            color: #4a5a4a;
+            font-style: italic;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 700px) {
+            body {
+                padding: 20px 14px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            table {
+                font-size: 13px;
+            }
+            th,
+            td {
+                padding: 8px 10px;
+            }
+            .algorithm-wrapper {
+                padding: 16px 10px;
+            }
+        }
+
+        /* ── Print / DOCX friendly ── */
+        @media print {
+            body {
+                max-width: 100%;
+                padding: 36px 20px;
+                font-size: 11.5pt;
+            }
+            .algorithm-wrapper {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            table {
+                break-inside: auto;
+            }
+            tr {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+        }
+
+        /* ── Inline code / small labels ── */
+        .small-meta {
+            font-size: 13px;
+            color: #5a6a5a;
+        }
+        .divider {
+            height: 2px;
+            background: linear-gradient(to right, transparent, #b8860b, transparent);
+            margin: 32px 0 28px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!--  TITLE                                            -->
+    <!-- ════════════════════════════════════════════════ -->
+    <h1>Comprehensive Report: Tests for Common Neurodevelopmental and Behavioral Disorders</h1>
+    <div class="subhead"><strong>Group 5 Reporting</strong> &nbsp;|&nbsp; <em>Based on Nelson Textbook of Pediatrics, 22nd Edition</em></div>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!--  I. INTRODUCTION                                 -->
+    <!-- ════════════════════════════════════════════════ -->
+    <h2>I. Introduction</h2>
+
+    <p>Neurodevelopmental and behavioral disorders represent a significant proportion of childhood morbidity, affecting approximately <strong>15–20% of children and adolescents</strong>. These conditions encompass a wide spectrum—from specific learning disabilities and ADHD to autism spectrum disorder (ASD), intellectual disability, and sleep disorders that masquerade as behavioral problems.</p>
+
+    <p>The <strong>cornerstone of pediatric practice</strong> is developmental surveillance and screening. As emphasized in <em>Nelson's Textbook of Pediatrics</em> (22nd ed.), <q>Developmental surveillance is a flexible, longitudinal, continuous process of gathering and synthesizing information about a child's development</q>. The AAP recommends <strong>general developmental screening</strong> using validated tools at <strong>9, 18, and 30 months</strong> of age, with <strong>ASD-specific screening at 18 and 24 months</strong>.</p>
+
+    <p>This report outlines the essential screening tests for common neurodevelopmental and behavioral disorders, structured according to the <strong>Philippine Clinical Practice Guidelines</strong> aligned with DOH recommendations.</p>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!--  II. SCREENING TOOLS BY DISORDER                 -->
+    <!-- ════════════════════════════════════════════════ -->
+    <h2>II. Screening Tools by Disorder</h2>
+
+    <!-- ─── A. ADHD ─── -->
+    <h3>A. Attention-Deficit/Hyperactivity Disorder (ADHD)</h3>
+
+    <p><strong>When to Screen:</strong> Children ≥4 years with concerns regarding inattention, hyperactivity, or impulsivity persisting ≥6 months, present in ≥2 settings, and causing functional impairment.</p>
+
+    <p><strong>Recommended Screening Instruments (Nelson 22nd ed.):</strong></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tool</th>
+                <th>Age Range</th>
+                <th>Description</th>
+                <th>Administration</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Vanderbilt ADHD Diagnostic Parent Rating Scale (VADPRS)</strong></td>
+                <td>4–17 years</td>
+                <td>55 items assessing DSM-5 criteria, performance, and comorbidities</td>
+                <td>Parent-completed, 10 min</td>
+            </tr>
+            <tr>
+                <td><strong>Vanderbilt ADHD Diagnostic Teacher Rating Scale (VADTRS)</strong></td>
+                <td>4–17 years</td>
+                <td>Parallel teacher version</td>
+                <td>Teacher-completed</td>
+            </tr>
+            <tr>
+                <td><strong>Conners Comprehensive Behavior Rating Scales</strong></td>
+                <td>6–18 years</td>
+                <td>Multi-informant assessment of ADHD and comorbidities</td>
+                <td>Parent/Teacher/Self</td>
+            </tr>
+            <tr>
+                <td><strong>SNAP-IV Rating Scale</strong></td>
+                <td>6–18 years</td>
+                <td>26 items based on DSM criteria</td>
+                <td>Parent/Teacher</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="highlight-box">
+        <strong>Note:</strong> A <strong>validated Filipino translation of the Vanderbilt ADHD Parent Rating Scale</strong> is available and has demonstrated 100% sensitivity and specificity comparable to the English version.
+    </div>
+
+    <p><strong>Diagnostic Criteria (DSM-5) per Nelson:</strong></p>
+    <ul>
+        <li>≥6 symptoms of inattention <strong>OR</strong> ≥6 symptoms of hyperactivity/impulsivity</li>
+        <li>Symptoms present for ≥6 months</li>
+        <li>Several symptoms present before age 12</li>
+        <li>Symptoms present in ≥2 settings</li>
+        <li>Clear evidence of functional impairment</li>
+    </ul>
+
+    <!-- ─── B. ASD ─── -->
+    <h3>B. Autism Spectrum Disorder (ASD)</h3>
+
+    <p><strong>When to Screen:</strong> Universal screening at 18 and 24 months; earlier screening if concerns arise.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tool</th>
+                <th>Age Range</th>
+                <th>Description</th>
+                <th>Administration</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>M-CHAT-R/F</strong> (Modified Checklist for Autism in Toddlers, Revised with Follow-Up)</td>
+                <td>16–30 months</td>
+                <td>20-item parent questionnaire; gold standard first-line screener</td>
+                <td>Parent-completed, 5–10 min</td>
+            </tr>
+            <tr>
+                <td><strong>ASQ:SE-2</strong> (Ages &amp; Stages Questionnaires: Social-Emotional)</td>
+                <td>1–72 months</td>
+                <td>Screens social-emotional development including ASD risk</td>
+                <td>Parent-completed</td>
+            </tr>
+            <tr>
+                <td><strong>PDDST-II</strong> (Pervasive Developmental Disorders Screening Test-II)</td>
+                <td>12–48 months</td>
+                <td>Stage 1 for primary care screening</td>
+                <td>Parent-completed</td>
+            </tr>
+            <tr>
+                <td><strong>CSBS</strong> (Communication and Symbolic Behavior Scales)</td>
+                <td>6–24 months</td>
+                <td>Infant-toddler checklist for communication and symbolic behavior</td>
+                <td>Parent-completed</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><strong>Red Flags for ASD (Nelson 22nd ed.):</strong></p>
+    <ul>
+        <li>No babbling by 12 months</li>
+        <li>No gesturing (pointing, waving) by 12 months</li>
+        <li>No single words by 16 months</li>
+        <li>No two-word phrases by 24 months</li>
+        <li>Loss of previously acquired language or social skills</li>
+        <li>Poor eye contact, lack of shared interest</li>
+    </ul>
+
+    <!-- ─── C. Developmental Delay ─── -->
+    <h3>C. Developmental Delay / Intellectual Disability</h3>
+
+    <p><strong>When to Screen:</strong> Universal screening at 9, 18, and 30 months; whenever developmental concerns are raised.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tool</th>
+                <th>Age Range</th>
+                <th>Description</th>
+                <th>Administration</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>ASQ-3</strong> (Ages &amp; Stages Questionnaire, 3rd Edition)</td>
+                <td>1–66 months</td>
+                <td>21 questionnaires covering 5 domains: communication, gross motor, fine motor, problem-solving, personal-social</td>
+                <td>Parent-completed, 10–15 min</td>
+            </tr>
+            <tr>
+                <td><strong>MMDST</strong> (Metro Manila Developmental Screening Test)</td>
+                <td>0–6.5 years</td>
+                <td>Philippine-adapted version of Denver II; assesses personal-social, fine motor, language, gross motor</td>
+                <td>Direct administration</td>
+            </tr>
+            <tr>
+                <td><strong>Brigance Screens</strong></td>
+                <td>0–90 months</td>
+                <td>Brief screening of developmental and academic skills</td>
+                <td>Direct/observation</td>
+            </tr>
+            <tr>
+                <td><strong>Bayley Scales of Infant Development (BSID-IV)</strong></td>
+                <td>1–42 months</td>
+                <td>Comprehensive diagnostic assessment (not screening)</td>
+                <td>Direct administration</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ─── D. Specific Learning Disorders ─── -->
+    <h3>D. Specific Learning Disorders</h3>
+
+    <p><strong>When to Screen:</strong> School-aged children with academic difficulties despite adequate instruction.</p>
+
+    <p><strong>Screening Approach:</strong></p>
+    <ul>
+        <li><strong>Academic screening:</strong> PHIL-IRI (Philippine Informal Reading Inventory), standardized math/numeracy assessments</li>
+        <li><strong>Cognitive screening:</strong> WISC-V (Wechsler Intelligence Scale for Children) for diagnostic purposes</li>
+        <li><strong>Behavioral screening:</strong> Conners 3 or BASC-3 to rule out ADHD/emotional factors</li>
+    </ul>
+
+    <!-- ─── E. Sleep Disorders ─── -->
+    <h3>E. Sleep Disorders (Behavioral Insomnia of Childhood)</h3>
+
+    <p><strong>When to Screen:</strong> Children with daytime sleepiness, inattention, irritability, or academic decline with suspected sleep disruption.</p>
+
+    <p><strong>Screening Instruments:</strong></p>
+    <ul>
+        <li><strong>BEARS Sleep Screening Tool:</strong> Bedtime, Excessive sleepiness, Awakenings, Regularity, Snoring (5-item brief screen)</li>
+        <li><strong>Childhood Sleep Habits Questionnaire (CSHQ):</strong> Parent-completed, 33 items</li>
+        <li><strong>Sleep Diary:</strong> 2-week prospective log of sleep-wake patterns</li>
+    </ul>
+
+    <p><strong>Key Red Flags (Nelson 22nd ed., Chapter 31 – Sleep Medicine):</strong></p>
+    <ul>
+        <li>Snoring ≥3 nights/week + daytime sleepiness → evaluate for OSA</li>
+        <li>Prolonged sleep latency (&gt;30 min) with resistance → behavioral insomnia</li>
+        <li>Circadian rhythm disruption from electronic device use</li>
+    </ul>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!--  III. PHILIPPINE CONTEXT                         -->
+    <!-- ════════════════════════════════════════════════ -->
+    <h2>III. Philippine Context: Local Adaptations and Guidelines</h2>
+
+    <h3>DOH-Adapted Screening Schedule</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Age</th>
+                <th>Screening Tool</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Newborn</strong></td>
+                <td>Newborn Screening (RA 9288)</td>
+            </tr>
+            <tr>
+                <td><strong>9 months</strong></td>
+                <td>MMDST or ASQ-3</td>
+            </tr>
+            <tr>
+                <td><strong>18 months</strong></td>
+                <td>MMDST or ASQ-3 + M-CHAT-R/F</td>
+            </tr>
+            <tr>
+                <td><strong>24 months</strong></td>
+                <td>M-CHAT-R/F (ASD-specific)</td>
+            </tr>
+            <tr>
+                <td><strong>30 months</strong></td>
+                <td>MMDST or ASQ-3</td>
+            </tr>
+            <tr>
+                <td><strong>Annual (≥3 years)</strong></td>
+                <td>Developmental surveillance + behavioral screening</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Validated Filipino Tools</h3>
+    <ul>
+        <li><strong>Vanderbilt ADHD Parent Rating Scale (Filipino version)</strong> – Validated with 100% sensitivity/specificity</li>
+        <li><strong>MMDST</strong> – Philippine adaptation of Denver Developmental Screening Test</li>
+        <li><strong>ASQ-3</strong> – Available in Filipino/Tagalog translation</li>
+    </ul>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!--  IV. ALGORITHM (embedded)                        -->
+    <!-- ════════════════════════════════════════════════ -->
+    <h2>IV. Algorithm: Approach to the Child with Suspected ADHD</h2>
+    <p style="font-size:15px;color:#4a5a4a;margin-top:-10px;margin-bottom:20px;"><em>Based on First Aid for the USMLE Step 2 CK algorithmic approach</em></p>
+
+    <div class="algorithm-wrapper">
+        <!-- ── The algorithm HTML from the prompt (slightly cleaned) ── -->
+        <style>
+            /* algorithm-specific styles */
+            .algo-container {
+                font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+                max-width: 100%;
+                margin: 0 auto;
+            }
+            .algo-container h3 {
+                text-align: center;
+                font-size: 22px;
+                color: #1a3a2a;
+                border-bottom: 2px solid #b8860b;
+                padding-bottom: 12px;
+                margin-bottom: 20px;
+                font-family: 'Georgia', serif;
+            }
+            .algo {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 6px;
+            }
+            .algo .node {
+                padding: 14px 24px;
+                border-radius: 10px;
+                text-align: center;
+                font-size: 15px;
+                font-weight: 500;
+                min-width: 200px;
+                max-width: 700px;
+                width: 100%;
+                border: 2px solid #2d4a2d;
+                background: #faf8f5;
+                position: relative;
+            }
+            .algo .node-start {
+                background: #1a3a2a;
+                color: #fff;
+                border-color: #1a3a2a;
+                font-size: 18px;
+                font-weight: 700;
+                border-radius: 30px;
+            }
+            .algo .node-question {
+                background: #e8f0e8;
+                border-color: #3d6b3d;
+                font-weight: 600;
+            }
+            .algo .node-action {
+                background: #f0e8d8;
+                border-color: #b8860b;
+            }
+            .algo .node-diagnosis {
+                background: #d4e8d4;
+                border-color: #1a6b1a;
+                font-weight: 600;
+            }
+            .algo .node-refer {
+                background: #fce8e8;
+                border-color: #b33;
+                font-weight: 600;
+            }
+            .algo .node-management {
+                background: #e0e8f5;
+                border-color: #2a5a8a;
+            }
+            .algo .arrow {
+                font-size: 28px;
+                color: #6b8a6b;
+                line-height: 1;
+            }
+            .algo .branch-container {
+                display: flex;
+                justify-content: center;
+                gap: 40px;
+                flex-wrap: wrap;
+                width: 100%;
+            }
+            .algo .branch {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 6px;
+                flex: 1;
+                min-width: 200px;
+            }
+            .algo .branch-label {
+                font-size: 13px;
+                font-weight: 700;
+                color: #6b8a6b;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                padding: 4px 12px;
+                background: #eef5ee;
+                border-radius: 20px;
+            }
+            .algo .note-box {
+                font-size: 14px;
+                color: #3a4a3a;
+                background: #f5f0eb;
+                padding: 14px 20px;
+                border-radius: 8px;
+                margin-top: 16px;
+                border-left: 4px solid #b8860b;
+                width: 100%;
+                font-family: 'Segoe UI', Arial, sans-serif;
+            }
+            .algo .note-box strong {
+                color: #1a3a2a;
+            }
+            .algo .footnote {
+                font-size: 12px;
+                color: #888;
+                text-align: center;
+                margin-top: 18px;
+                border-top: 1px solid #ddd;
+                padding-top: 14px;
+                font-family: 'Segoe UI', Arial, sans-serif;
+            }
+            .algo .sub-branch-container {
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+                flex-wrap: wrap;
+                width: 100%;
+            }
+            .algo .alt-list {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+                width: 100%;
+            }
+            .algo .alt-list .node {
+                background: #f5f0eb;
+                border-color: #999;
+                font-weight: 400;
+                font-size: 14px;
+                padding: 10px 18px;
+            }
+            @media (max-width: 700px) {
+                .algo .branch-container {
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 16px;
+                }
+                .algo .sub-branch-container {
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 12px;
+                }
+                .algo .node {
+                    font-size: 13px;
+                    padding: 12px 16px;
+                    min-width: unset;
+                }
+                .algo .alt-list .node {
+                    font-size: 13px;
+                }
+            }
+        </style>
+
+        <div class="algo-container">
+            <h3>🔍 Approach to Suspected ADHD in Children</h3>
+            <p style="text-align:center;color:#5a5a5a;margin-bottom:18px;font-style:italic;font-family:'Segoe UI',Arial,sans-serif;">
+                Based on First Aid for the USMLE Step 2 CK &bull; Nelson Textbook of Pediatrics, 22nd ed.
+            </p>
+
+            <div class="algo">
+
+                <!-- START -->
+                <div class="node node-start">CHILD PRESENTS WITH INATTENTION, HYPERACTIVITY, OR IMPULSIVITY</div>
+                <div class="arrow">↓</div>
+
+                <!-- Step 1: History -->
+                <div class="node node-question">
+                    <strong>Step 1: Comprehensive History</strong><br />
+                    • Symptoms present ≥6 months? • Onset before age 12?<br />
+                    • Present in ≥2 settings (home, school, social)?<br />
+                    • Functional impairment (academic, social, family)?
+                </div>
+                <div class="arrow">↓</div>
+
+                <!-- Branch: Criteria Met? -->
+                <div class="branch-container">
+                    <div class="branch">
+                        <span class="branch-label">✅ YES — All criteria met</span>
+                        <div class="arrow">↓</div>
+                        <div class="node node-action">
+                            <strong>Step 2: Standardized Rating Scales</strong><br />
+                            • Vanderbilt Parent &amp; Teacher Scales<br />
+                            • SNAP-IV or Conners
+                        </div>
+                        <div class="arrow">↓</div>
+                        <div class="node node-question">
+                            <strong>Consider Comorbidities:</strong><br />
+                            • Learning disorders • Anxiety/Depression<br />
+                            • ODD/CD • Tic disorders • Sleep disorders
+                        </div>
+                        <div class="arrow">↓</div>
+
+                        <!-- Sub-branch: Comorbidities? -->
+                        <div class="sub-branch-container">
+                            <div class="branch">
+                                <span class="branch-label">🔹 Comorbidities present</span>
+                                <div class="arrow">↓</div>
+                                <div class="node node-refer">
+                                    <strong>Refer for Multidisciplinary Evaluation</strong><br />
+                                    Child Psychiatry · Developmental Pedia · Psychology
+                                </div>
+                            </div>
+                            <div class="branch">
+                                <span class="branch-label">🔹 No comorbidities</span>
+                                <div class="arrow">↓</div>
+                                <div class="node node-diagnosis">
+                                    <strong>DIAGNOSIS: ADHD</strong><br />
+                                    (Inattentive / Hyperactive-Impulsive / Combined)
+                                </div>
+                                <div class="arrow">↓</div>
+                                <div class="node node-management">
+                                    <strong>INITIAL MANAGEMENT</strong><br />
+                                    • Parent/Teacher education<br />
+                                    • Behavioral therapy (first-line for &lt;6 yrs)<br />
+                                    • Stimulant medication (≥6 yrs) ± behavioral therapy<br />
+                                    • 504 Plan / IEP coordination with school<br />
+                                    • Follow-up q1-3 months
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="branch">
+                        <span class="branch-label">❌ NO — Criteria NOT fully met</span>
+                        <div class="arrow">↓</div>
+                        <div class="node node-action">
+                            <strong>Consider Alternative Diagnoses</strong>
+                        </div>
+                        <div class="arrow">↓</div>
+
+                        <div class="alt-list">
+                            <div class="node">🛏️ <strong>Sleep disorder</strong> — OSA, behavioral insomnia, circadian disruption</div>
+                            <div class="node">😰 <strong>Anxiety / Depression</strong> — Internalizing disorders mimicking inattention</div>
+                            <div class="node">📚 <strong>Specific Learning Disorder</strong> — Academic frustration → behavioral symptoms</div>
+                            <div class="node">👂 <strong>Hearing / Vision impairment</strong> — Sensory deficits → inattention</div>
+                            <div class="node">🧠 <strong>Other neurodevelopmental</strong> — ASD, intellectual disability, seizure disorder</div>
+                        </div>
+                        <div class="arrow">↓</div>
+                        <div class="node node-refer">
+                            <strong>Refer for Further Evaluation</strong><br />
+                            Address underlying cause first
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notes -->
+                <div class="note-box">
+                    <strong>📌 Key Points (Nelson 22nd ed. &amp; First Aid Step 2 CK):</strong><br />
+                    • ADHD diagnosis is <strong>clinical</strong> — no lab test or imaging confirms it.<br />
+                    • DSM-5 criteria: ≥6 symptoms (≥5 for ≥17 yrs) in either domain, present ≥6 months, onset &lt;12 yrs.<br />
+                    • <strong>First-line pharmacotherapy:</strong> Stimulants (methylphenidate, amphetamines) — 70–80% response rate.<br />
+                    • <strong>Non-pharmacologic:</strong> Parent training, behavioral classroom interventions, organizational skills training.<br />
+                    • Always assess for <strong>sleep disorders</strong> — they can mimic or exacerbate ADHD symptoms.<br />
+                    • <strong>Filipino context:</strong> Validated Filipino Vanderbilt scales are available for screening.
+                </div>
+
+                <div class="footnote">
+                    Based on: Nelson Textbook of Pediatrics, 22nd Edition (Kliegman et al., 2024) &bull; First Aid for the USMLE Step 2 CK &bull; DOH / PPS Guidelines
+                </div>
+            </div>
+        </div>
+        <!-- ── end algorithm ── -->
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!--  V. SUMMARY TABLE                               -->
+    <!-- ════════════════════════════════════════════════ -->
+    <h2>V. Summary: Comparison of Screening Tools</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Disorder</th>
+                <th>Primary Screening Tool(s)</th>
+                <th>Age Range</th>
+                <th>Key Features</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>ADHD</strong></td>
+                <td>Vanderbilt Scales (Parent/Teacher), SNAP-IV, Conners</td>
+                <td>≥4 years</td>
+                <td>Multi-informant; Filipino version validated</td>
+            </tr>
+            <tr>
+                <td><strong>ASD</strong></td>
+                <td>M-CHAT-R/F, ASQ:SE-2</td>
+                <td>16–30 months</td>
+                <td>Universal screening at 18 &amp; 24 months</td>
+            </tr>
+            <tr>
+                <td><strong>Developmental Delay</strong></td>
+                <td>ASQ-3, MMDST</td>
+                <td>0–5.5 years</td>
+                <td>Universal at 9, 18, 30 months</td>
+            </tr>
+            <tr>
+                <td><strong>Specific Learning Disorder</strong></td>
+                <td>Academic assessments, WISC-V</td>
+                <td>School-age</td>
+                <td>Rule out ADHD/emotional causes first</td>
+            </tr>
+            <tr>
+                <td><strong>Sleep Disorders</strong></td>
+                <td>BEARS, CSHQ, Sleep Diary</td>
+                <td>All ages</td>
+                <td>Essential differential for inattention</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!--  VI. REFERENCES                                 -->
+    <!-- ════════════════════════════════════════════════ -->
+    <h2>VI. References</h2>
+
+    <ol class="ref-list">
+        <li>Kliegman RM, St. Geme JW, Blum NJ, et al., eds. <em>Nelson Textbook of Pediatrics</em>. 22nd ed. Philadelphia, PA: Elsevier; 2024.</li>
+        <li>American Academy of Pediatrics. Developmental Surveillance and Screening. <em>AAP Publications</em>. 2025.</li>
+        <li>Philippine Clinical Practice Guidelines for Periodic Health Examination: Screening for Congenital and Developmental Disorders. <em>Acta Medica Philippina</em>. 2026.</li>
+        <li>Validation of the Filipino Translation of the Vanderbilt ADHD Parent Rating Scale. <em>GreenPrints DLSU</em>. 2026.</li>
+        <li><em>First Aid for the USMLE Step 2 CK</em>. 11th ed. 2023.</li>
+    </ol>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!--  FOOTER                                         -->
+    <!-- ════════════════════════════════════════════════ -->
+    <div class="footer-note">
+        <em>Report prepared for Group 5 Reporting &nbsp;|&nbsp; Tests for Common Neurodevelopmental and Behavioral Disorders</em>
+    </div>
+
+</body>
+</html>
