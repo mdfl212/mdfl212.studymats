@@ -1,0 +1,12 @@
+[
+  {
+    "id": "PATH-INFLAMMATION-001",
+    "subject": "Pathology",
+    "topic": "Inflammation",
+    "question": "Which leukocyte is most associated with acute bacterial inflammation?",
+    "questionImage": null,
+    "options": ["Neutrophil", "Eosinophil", "Plasma cell", "Mast cell"],
+    "correctAnswer": 0,
+    "rationale": { "text": "Neutrophils are the predominant early responders in acute bacterial inflammation.", "images": [] }
+  }
+]
