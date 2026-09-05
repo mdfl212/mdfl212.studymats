@@ -20,9 +20,31 @@ An interactive, responsive HTML/JS questionnaire application designed to review 
 
 ```text
 .
-├── index.html          # Main HTML layout and UI components
-├── styles.css          # Core CSS variables and layout styles
-├── app.js              # State management, filter logic, rendering engine
-└── data/
-    └── obgyn.js        # Question dataset (192 items)
-
+├── index.html                       # Main landing page and year-level navigation
+├── app.js                           # Shared UI behavior (theme toggles, section filters)
+├── README.md                        # Project overview and usage notes
+├── _config.yml                      # Jekyll config for GitHub Pages
+├── tools/
+│   ├── Html2Word.html               # HTML-to-Word conversion utility
+│   └── mht2html.html                # MHT to HTML conversion utility
+├── subjects/
+│   ├── yl1/
+│   │   ├── anatomy/Anatomy.html
+│   │   ├── biochemistry/harper.html
+│   │   ├── family-community-health/FMC1.html
+│   │   ├── histology/Histo.html
+│   │   ├── physiology/Physio.html
+│   │   └── research/Research.html
+│   ├── yl2/
+│   │   ├── microbiology/micro.html
+│   │   ├── obgyn/obgyn.html
+│   │   ├── obgyn/OBGYNE_DIGITAL_HistoryPE.html
+│   │   ├── pathology/Pathotoya.html
+│   │   ├── pediatrics/pedia.html
+│   │   ├── pediatrics/pediasgdkael.html
+│   │   └── pharmacology/pharma.html
+│   ├── yl3/
+│   │   └── internal-medicine/IM.html
+│   └── yl4/
+│       └── (reserved for future clerkship modules)
+```
