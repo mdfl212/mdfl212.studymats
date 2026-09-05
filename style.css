@@ -6162,24 +6162,13 @@ body[data-course="quiz"] .btn:disabled { cursor: not-allowed; opacity: .45; }
 .q-stem { margin-bottom: 18px; font-size: 19px; line-height: 1.55; }
 .question-image, .rationale-image { display: block; max-width: 100%; max-height: 280px; margin: 10px auto 18px; border-radius: 6px; }
 .options { display: grid; gap: 8px; }
-@keyframes quizCardIn {
+@keyframes fadeUp {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes answerPulse {
-  0% { opacity: 0; transform: translateY(5px) scale(.995); }
-  60% { opacity: 1; transform: translateY(-1px) scale(1.004); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes rationaleReveal {
-  0% { opacity: 0; transform: translateY(10px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
 .q-card {
-  animation: quizCardIn .28s ease both;
+  animation: fadeUp .3s ease both;
   transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
 }
 
@@ -6190,26 +6179,27 @@ body[data-course="quiz"] .btn:disabled { cursor: not-allowed; opacity: .45; }
   padding: 12px 14px; border: 1px solid var(--quiz-border); border-radius: 6px;
   background: transparent; color: var(--quiz-text); cursor: pointer; text-align: left;
   font: 15px/1.4 'Source Serif 4', serif;
-  transition: all .18s cubic-bezier(.22, 1, .36, 1);
+  transition: all .16s ease;
 }
 .opt:hover { border-color: var(--accent); background: var(--accent-soft); transform: translateY(-1px); }
 .opt.selected {
   border-color: var(--accent); background: var(--accent-soft);
-  transform: translateX(2px);
+  transform: translateY(-1px);
   box-shadow: 0 6px 18px rgba(42, 117, 181, .08);
+  animation: fadeUp .22s ease both;
 }
-.opt.correct { border-color: #388b62; background: rgba(56, 139, 98, .14); animation: answerPulse .28s cubic-bezier(.22, 1, .36, 1); }
-.opt.wrong { border-color: #b84a4a; background: rgba(184, 74, 74, .12); animation: answerPulse .28s cubic-bezier(.22, 1, .36, 1); }
+.opt.correct { border-color: #388b62; background: rgba(56, 139, 98, .14); animation: fadeUp .22s ease both; }
+.opt.wrong { border-color: #b84a4a; background: rgba(184, 74, 74, .12); animation: fadeUp .22s ease both; }
 .opt-letter { min-width: 20px; color: var(--accent); font: 600 12px 'JetBrains Mono', monospace; }
 .reveal-btn {
   margin-top: 14px; border: 0; background: none; color: var(--accent); cursor: pointer;
-  font: 11px 'JetBrains Mono', monospace; transition: all .18s cubic-bezier(.22, 1, .36, 1);
+  font: 11px 'JetBrains Mono', monospace; transition: all .18s ease;
 }
 .reveal-btn:hover { opacity: 1; transform: translateY(-1px); }
 .rationale {
   margin-top: 18px; padding: 16px; border-left: 3px solid var(--accent);
   background: var(--accent-soft); line-height: 1.55;
-  animation: rationaleReveal .28s ease both;
+  animation: fadeUp .24s ease both;
 }
 .nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 18px; }
 .page-info { color: var(--quiz-muted); font: 10px 'JetBrains Mono', monospace; }
