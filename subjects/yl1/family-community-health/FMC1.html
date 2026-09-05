@@ -1,125 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-course="family-community-health" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MD 102 + Family Medicine — 200-Item Comprehensive Exam</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #0d0f0d;
-    --bg2: #131a14;
-    --bg3: #1a241b;
-    --bg4: #222f23;
-    --border: rgba(255,255,255,0.07);
-    --border2: rgba(255,255,255,0.13);
-    --text: #e4e8e0;
-    --text2: #8c9880;
-    --text3: #586855;
-    --accent: #4cad6e;
-    --accent2: #6aca8a;
-    --accent-dim: rgba(76,173,110,0.12);
-    --red: #c94c4c;
-    --red-dim: rgba(201,76,76,0.12);
-    --correct: #4cad6e;
-    --correct-dim: rgba(76,173,110,0.12);
-    --blue: #5b8fcf;
-    --blue-dim: rgba(91,143,207,0.12);
-    --radius: 6px;
-    --radius-lg: 10px;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Source Serif 4', Georgia, serif;
-    font-size: 15px;
-    line-height: 1.7;
-    min-height: 100vh;
-  }
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
-  }
-  .wrapper { max-width: 860px; margin: 0 auto; padding: 0 24px 80px; position: relative; z-index: 1; }
-  .site-header { border-bottom: 1px solid var(--border2); padding: 48px 0 36px; margin-bottom: 40px; position: relative; }
-  .site-header::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 80px; height: 2px; background: var(--accent); }
-  .header-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
-  .header-title { font-family: 'Playfair Display', serif; font-size: clamp(26px, 4vw, 40px); font-weight: 700; line-height: 1.15; color: var(--text); margin-bottom: 10px; }
-  .header-title em { font-style: italic; color: var(--accent2); }
-  .header-sub { font-size: 13px; color: var(--text2); font-style: italic; }
-  .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
-  .stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px 16px; text-align: center; }
-  .stat-val { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; color: var(--accent2); display: block; line-height: 1; margin-bottom: 4px; }
-  .stat-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); font-family: 'JetBrains Mono', monospace; }
-  .progress-wrap { margin-bottom: 28px; }
-  .progress-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.08em; margin-bottom: 6px; }
-  .progress-track { height: 3px; background: var(--bg4); border-radius: 2px; overflow: hidden; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
-  .mode-tabs { display: flex; gap: 2px; margin-bottom: 28px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 4px; }
-  .tab { flex: 1; padding: 9px; border-radius: 7px; border: none; background: transparent; color: var(--text3); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-align: center; }
-  .tab:hover { color: var(--text2); }
-  .tab.active { background: var(--bg4); color: var(--accent2); border: 1px solid var(--border2); }
-  .controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 28px; padding: 16px 20px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); }
-  .controls label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); font-family: 'JetBrains Mono', monospace; margin-right: 2px; }
-  select { background: var(--bg3); border: 1px solid var(--border2); color: var(--text); font-family: 'Source Serif 4', serif; font-size: 12px; padding: 6px 10px; border-radius: var(--radius); cursor: pointer; outline: none; transition: border-color 0.2s; }
-  select:hover, select:focus { border-color: var(--accent); }
-  .btn { padding: 7px 16px; border-radius: var(--radius); border: 1px solid var(--border2); background: transparent; color: var(--text2); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
-  .btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
-  .btn.primary { background: var(--accent-dim); border-color: var(--accent); color: var(--accent2); }
-  .btn.primary:hover { background: rgba(76,173,110,0.22); }
-  .btn.danger:hover { border-color: var(--red); color: var(--red); background: var(--red-dim); }
-  .q-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 28px; margin-bottom: 16px; transition: border-color 0.2s; animation: fadeUp 0.3s ease both; }
-  .q-card:hover { border-color: var(--border2); }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  .q-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
-  .q-num { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; color: var(--accent); min-width: 42px; }
-  .badge { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; }
-  .badge-topic { background: var(--bg4); color: var(--text3); border: 1px solid var(--border); }
-  .badge-clinical { background: rgba(201,76,76,0.15); color: #e87070; border: 1px solid rgba(201,76,76,0.3); }
-  .badge-concept { background: rgba(91,143,207,0.15); color: #90b8e8; border: 1px solid rgba(91,143,207,0.3); }
-  .badge-formula { background: rgba(76,173,110,0.15); color: #82c9a0; border: 1px solid rgba(76,173,110,0.25); }
-  .q-stem { font-size: 16px; line-height: 1.72; color: var(--text); margin-bottom: 18px; border-left: 2px solid var(--border2); padding-left: 16px; }
-  .options { display: flex; flex-direction: column; gap: 8px; }
-  .opt { display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; transition: all 0.16s; font-size: 14.5px; line-height: 1.6; background: transparent; color: var(--text2); text-align: left; font-family: 'Source Serif 4', serif; width: 100%; }
-  .opt:hover { border-color: var(--border2); background: var(--bg3); color: var(--text); }
-  .opt.selected { border-color: var(--blue); background: var(--blue-dim); color: var(--text); }
-  .opt.correct { border-color: var(--correct); background: var(--correct-dim); color: #a8e8c0; }
-  .opt.wrong { border-color: var(--red); background: var(--red-dim); color: #e8a0a0; }
-  .opt-letter { font-family: 'Playfair Display', serif; font-weight: 600; font-size: 13px; min-width: 20px; color: var(--accent); flex-shrink: 0; margin-top: 2px; }
-  .rationale { margin-top: 16px; padding: 14px 18px; background: rgba(76,173,110,0.06); border: 1px solid rgba(76,173,110,0.18); border-radius: var(--radius); font-size: 13.5px; color: var(--text2); line-height: 1.7; }
-  .rationale strong { color: var(--accent2); }
-  .reveal-btn { margin-top: 14px; display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); background: transparent; border: 1px dashed var(--border2); border-radius: var(--radius); padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
-  .reveal-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
-  .section-divider { display: flex; align-items: center; gap: 14px; margin: 32px 0 20px; }
-  .section-divider-line { flex: 1; height: 1px; background: var(--border); }
-  .section-divider-label { font-family: 'Playfair Display', serif; font-style: italic; font-size: 13px; color: var(--text3); white-space: nowrap; }
-  .nav { display: flex; align-items: center; justify-content: space-between; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
-  .page-info { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.06em; text-align: center; }
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
-  .modal-overlay.open { display: flex; }
-  .modal { background: var(--bg2); border: 1px solid var(--border2); border-radius: 14px; padding: 40px 44px; max-width: 420px; width: 90%; text-align: center; }
-  .modal-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; margin-bottom: 6px; }
-  .modal-sub { font-size: 12px; color: var(--text3); margin-bottom: 28px; font-style: italic; }
-  .score-big { font-family: 'Playfair Display', serif; font-size: 72px; font-weight: 700; line-height: 1; margin-bottom: 8px; }
-  .score-grade { font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 28px; }
-  .score-detail { display: flex; gap: 20px; justify-content: center; margin-bottom: 28px; }
-  .sd-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-  .sd-val { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 600; color: var(--text); }
-  .sd-lab { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); }
-  .scroll-top { position: fixed; bottom: 28px; right: 28px; width: 40px; height: 40px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--border2); color: var(--accent); font-size: 16px; cursor: pointer; display: none; align-items: center; justify-content: center; transition: all 0.2s; z-index: 50; }
-  .scroll-top.visible { display: flex; }
-  .scroll-top:hover { background: var(--accent-dim); border-color: var(--accent); }
-  @media (max-width: 600px) { .stats-bar { grid-template-columns: repeat(2, 1fr); } .q-card { padding: 18px 16px; } .modal { padding: 28px 20px; } .score-big { font-size: 52px; } }
-</style>
+
+    <link rel="stylesheet" href="../../../style.css" />
+    <script src="../../../theme.js"></script>
 </head>
-<body>
+<body data-course="family-community-health" data-theme="dark">
 <div class="wrapper">
   <header class="site-header">
     <div class="header-eyebrow">MD 102 + Family Medicine · 200 Items · Comprehensive Edition · SY 2024–2025</div>

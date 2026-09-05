@@ -15,13 +15,16 @@ An interactive, responsive HTML/JS questionnaire application designed to review 
 - **Summary & Scoring:** Interactive score card modal with instant grade calculations.
 - **Tabular View:** Searchable summary table containing stems, answers, and rationales for fast revision.
 - **Responsive UI:** Custom design system built with CSS variables, accessible on desktop and mobile.
+- **Centralized theming:** Every page loads `style.css` and declares its palette with `data-course` and `data-theme` (`light` or `dark`). The shared `theme.js` controller provides the theme toggle and remembers the user's preference.
 
 ## Project Structure
 
 ```text
 .
 ├── index.html                       # Main landing page and year-level navigation
-├── app.js                           # Shared UI behavior (theme toggles, section filters)
+├── style.css                        # Centralized responsive styles and course themes
+├── theme.js                         # Shared light/dark theme controller
+├── app.js                           # Shared UI behavior (filters and scoring)
 ├── README.md                        # Project overview and usage notes
 ├── _config.yml                      # Jekyll config for GitHub Pages
 ├── tools/

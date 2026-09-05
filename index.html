@@ -1,296 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-course="hub" data-theme="light">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MD Vibecoded · Medschool Resource Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* Light Mode: Dark Green + Gold + White */
-        :root {
-            --bg: #FFFFFF;
-            --bg-card: #FAF8F5;
-            --border: #D4C9B8;
-            --border-hover: #B8860B;
-            --text-main: #1A2E1A;
-            --text-sub: #3D5A3D;
-            --gold-primary: #B8860B;
-            --gold-accent: #D4AF37;
-            --gold-light: rgba(184, 134, 11, 0.12);
-            --radius: 14px;
-            --shadow-card: 0 4px 12px rgba(0,0,0,0.06);
-            --header-border: #2D4A2D;
-        }
-
-        /* Dark Mode */
-        [data-theme="dark"] {
-            --bg: #121212;
-            --bg-card: #1E1E1E;
-            --border: #333333;
-            --border-hover: #D4AF37;
-            --text-main: #F0F0F0;
-            --text-sub: #A8A8A8;
-            --gold-primary: #E5C158;
-            --gold-accent: #F3E5AB;
-            --gold-light: rgba(229, 193, 88, 0.15);
-            --shadow-card: 0 4px 12px rgba(0,0,0,0.4);
-            --header-border: #444;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            font-family: 'Source Serif 4', Georgia, serif;
-            min-height: 100vh;
-            padding: 0 24px 60px;
-            transition: background-color 0.2s, color 0.2s;
-        }
-
-        .wrapper {
-            max-width: 1024px;
-            margin: 0 auto;
-        }
-
-        /* Theme Toggle */
-        .theme-toggle-wrapper {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 12px;
-        }
-        .theme-toggle {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 30px;
-            padding: 8px 16px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            color: var(--text-main);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .theme-toggle:hover {
-            border-color: var(--gold-primary);
-            transform: scale(1.02);
-        }
-        .theme-toggle .icon {
-            font-size: 16px;
-        }
-
-        .site-header {
-            border-bottom: 2px solid var(--header-border);
-            padding: 44px 0 32px;
-            margin-bottom: 40px;
-            position: relative;
-            text-align: center;
-        }
-        .site-header::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90px;
-            height: 3px;
-            background: var(--gold-primary);
-        }
-        .header-eyebrow {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--gold-primary);
-            margin-bottom: 10px;
-        }
-        .header-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(30px, 4.5vw, 48px);
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 8px;
-        }
-        .header-title em { font-style: italic; color: var(--gold-primary); }
-        .header-sub {
-            font-size: 15px;
-            color: var(--text-sub);
-            font-style: italic;
-        }
-
-        /* ---- Collapsible Section ---- */
-        .section-wrapper {
-            margin: 2.4rem 0 1.2rem;
-        }
-
-        .section-toggle {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--text-main);
-            padding-bottom: 6px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;  /* left aligned */
-            gap: 10px;
-            cursor: pointer;
-            user-select: none;
-            transition: color 0.2s;
-        }
-        .section-toggle:hover {
-            color: var(--gold-primary);
-        }
-        .section-toggle span {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            background: var(--gold-light);
-            color: var(--gold-primary);
-            padding: 2px 12px;
-            border-radius: 30px;
-            letter-spacing: 0.04em;
-            margin-left: 8px;
-        }
-        .toggle-icon {
-            font-size: 1.2rem;
-            transition: transform 0.3s ease;
-            display: inline-block;
-            margin-left: auto; /* push to the right */
-        }
-        .section-toggle.collapsed .toggle-icon {
-            transform: rotate(-90deg);
-        }
-
-        .section-content {
-            overflow: hidden;
-            transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
-            max-height: 5000px;
-            opacity: 1;
-            margin-top: 1.2rem;
-        }
-        .section-content.hidden {
-            max-height: 0;
-            opacity: 0;
-            margin-top: 0;
-            pointer-events: none;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            max-width: 1024px;
-            margin: 0 auto;
-        }
-
-        .subject-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 22px 18px 18px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: var(--shadow-card);
-        }
-        .subject-card:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 28px rgba(0,0,0,0.07);
-        }
-        .card-icon { font-size: 26px; margin-bottom: 10px; }
-        .card-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--gold-primary);
-            margin-bottom: 4px;
-            line-height: 1.2;
-        }
-        .card-desc {
-            font-size: 13px;
-            color: var(--text-sub);
-            line-height: 1.45;
-            margin-bottom: 16px;
-            flex: 1;
-        }
-        .card-meta {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--gold-primary);
-            background: var(--gold-light);
-            padding: 6px 12px;
-            border-radius: 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 6px;
-        }
-
-        .card-additional {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 22px 18px 18px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: var(--shadow-card);
-        }
-        .card-additional:hover {
-            border-color: var(--gold-accent);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 28px rgba(0,0,0,0.07);
-        }
-
-        @media (max-width: 992px) {
-            .grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .subject-card { padding: 18px 14px; }
-            .card-title { font-size: 16px; }
-        }
-
-        @media (max-width: 480px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .footer-note {
-            font-size: 13px;
-            color: var(--text-sub);
-            text-align: center;
-            margin-top: 48px;
-            border-top: 1px solid var(--border);
-            padding-top: 28px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css" />
+    <script src="theme.js"></script>
 </head>
-<body>
+<body data-course="hub" data-theme="light">
 <div class="wrapper">
 
     <!-- Theme Toggle -->
     <div class="theme-toggle-wrapper">
         <button class="theme-toggle" onclick="toggleTheme()">
-            <span class="icon" id="themeIcon">🌙</span>
-            <span id="themeLabel">Dark Mode</span>
+            <span class="icon" id="themeIcon" data-theme-icon>🌙</span>
+            <span id="themeLabel" data-theme-label>Dark Mode</span>
         </button>
     </div>
 
@@ -440,7 +166,7 @@
     <!-- ============ YL3 ============ -->
     <div class="section-wrapper">
         <div class="section-toggle collapsed" onclick="toggleSection(this)">
-            YL3 <span>clinical transition</span>
+            YL3 <span>clinical transition "NOT AVAILABLE YET"</span>
             <span class="toggle-icon">▼</span>
         </div>
         <div class="section-content hidden">
@@ -508,7 +234,7 @@
     <!-- ============ YL4 ============ -->
     <div class="section-wrapper">
         <div class="section-toggle collapsed" onclick="toggleSection(this)">
-            YL4 <span>clerkship</span>
+            YL4 <span>clerkship "NOT AVAILABLE YET"</span>
             <span class="toggle-icon">▼</span>
         </div>
         <div class="section-content hidden">
@@ -582,7 +308,7 @@
     </div>
 
     <!-- ============ ADDITIONAL RESOURCES ============ -->
-    <div class="section-wrapper" style="margin-top: 3rem;">
+    <div class="section-wrapper central-inline-25175">
         <div class="section-toggle collapsed" onclick="toggleSection(this)">
             📁 Additional Resources
             <span class="toggle-icon">▼</span>
@@ -649,24 +375,17 @@
 </div>
 
 <script>
-    let currentTheme = 'light';
-
     function toggleTheme() {
-        const html = document.documentElement;
-        const icon = document.getElementById('themeIcon');
-        const label = document.getElementById('themeLabel');
-
-        if (currentTheme === 'light') {
-            html.setAttribute('data-theme', 'dark');
-            icon.textContent = '☀️';
-            label.textContent = 'Light Mode';
-            currentTheme = 'dark';
-        } else {
-            html.removeAttribute('data-theme');
-            icon.textContent = '🌙';
-            label.textContent = 'Dark Mode';
-            currentTheme = 'light';
-        }
+        const nextTheme = document.documentElement.getAttribute('data-theme') === 'dark'
+            ? 'light'
+            : 'dark';
+        document.documentElement.setAttribute('data-theme', nextTheme);
+        document.body.setAttribute('data-theme', nextTheme);
+        document.getElementById('themeIcon').textContent = nextTheme === 'dark' ? '☀️' : '🌙';
+        document.getElementById('themeLabel').textContent = nextTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
+        document.querySelector('.theme-toggle').setAttribute('aria-pressed', String(nextTheme === 'dark'));
+        document.querySelector('.theme-toggle').setAttribute('aria-label', nextTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+        try { localStorage.setItem('studymats-theme', nextTheme); } catch (error) {}
     }
 
     function toggleSection(toggleEl) {
